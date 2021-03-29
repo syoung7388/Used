@@ -21,7 +21,7 @@ public class certificationService {
 		params.put("to", phoneNumber);
 		params.put("from", "01083747388");
 		params.put("type", "SMS");
-		params.put("text", "Usedì˜ íœ´ëŒ€í° ì¸ì¦ë²ˆí˜¸:"+"["+cerNum+"]"+"ì…ë‹ˆë‹¤.");
+		params.put("text", "[Used]ÀÎÁõ¹øÈ£:"+"["+cerNum+"]"+"ÀÔ´Ï´Ù");
 		params.put("app_version", "test app 1.2");
 		
 		

@@ -29,8 +29,9 @@
                         required
                         hint="타인에게 공유하지 마세요!"
                         class="mt-3"
+                        v-model="certinum"
                         >
-                        </v-text-field><v-btn class="ma-5 primary" small>인증번호확인</v-btn>
+                        </v-text-field><v-btn class="ma-5 primary" small @click="certification({certinum})">인증번호확인</v-btn>
                     </div>
                 </v-col>
             </v-row>
@@ -41,20 +42,20 @@
 
 <script>
 
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default{
     
     data() {
         return{
-            show: false,
             phone: null,
+            certinum: null,
         }
     },
+    computed: {
+        ...mapState (["show"])
+    },
     methods: {
-        certify(){
-    
-        },
-        ...mapActions(['sms'])
+        ...mapActions(['sms','certification'])
     },
 
 }

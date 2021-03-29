@@ -2,6 +2,7 @@ package com.used.example.config;
 
 
 import org.springframework.context.annotation.Bean;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -15,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
 	   @Override
 	    public void addCorsMappings(CorsRegistry registry) {
 	        registry.addMapping("/**")
-	            .allowedOrigins("http://localhost:8080") // vue 서버의 도메인, 포트로 수정
+	            .allowedOrigins("http://localhost:8080") 
 	            .allowedMethods("*")
 	        	.exposedHeaders("jwt-token");
 	    }
