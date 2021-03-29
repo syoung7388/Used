@@ -1,7 +1,53 @@
 spring:
+  profiles:
+    active:
+    - local
+
+---
+
+
+spring:
+  profiles:
+  - local
+         
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/used?characterEncoding=UTF-8&&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/test?characterEncoding=UTF-8&serverTimezone=UTC
     username: root
-    password: 1234
-    driver-class-name: com.mysql.cj.jdbc.Driver  session:    jdbc:      initialize-schema: always
+    password: 4848
+    driver-class-name: com.mysql.cj.jdbc.Driver
+ 
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      log-condition-evaluation-delta: false
+  
+  servlet:
+      multipart:
+        max-file-size: 1000MB
+        max-request-size: 1000MB        
+        enabled: true      
+   
       
+server:
+ port: 9200
+ tomcat:
+    file-encoding: UTF-8
+    
+ servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+       
+    session: 
+      timeout: 7200
+ error:
+      whitelabel:
+        enabled: false
+
+
+mybatis:
+  type-aliases-package: com.lcomputerstudy.example.domain
+  mapper-locations: mapper/**/*.xml
+ 
