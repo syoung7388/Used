@@ -1,31 +1,39 @@
 <template>
-<div>
-    <!-- <v-btn @click="showAPI">클릭</v-btn> -->
-    <vue-daum-postcode />
-</div>
+<v-app>
+    <DaumPostcode
+      :on-complete= handleAddress
+      :auto-close= true
+    />
+<v-app>
 
 </template>
+ 
 <script>
-
-export default{
-    data(){
-        return {
-            height: 500
-        }
-    },
-    methods: {
-
-            // new daum.Postcode({
-            //     oncomplete: function(data) {
-            // }
-            // }).open();
+import DaumPostcode from 'vuejs-daum-postcode'
+ 
+var handleAddress = (data) => {
+  let fullAddress = data.address
+  let extraAddress = ''
+  if (data.addressType === 'R') {
+    if (data.bname !== '') {
+      extraAddress += data.bname
     }
+    if (data.buildingName !== '') {
+      extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName)
+    }
+    fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '')
+  }
+ 
+  console.log(fullAddress) // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
 }
-
-
+ 
+export default {
+  name: 'App',
+  components: {
+    DaumPostcode
+  },
+  methods: {
+    handleAddress
+  }
+}
 </script>
-
-<style>
-
-
-</style>

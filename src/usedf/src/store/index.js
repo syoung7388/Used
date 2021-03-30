@@ -41,12 +41,14 @@ export default new Vuex.Store({
       })
     },
     certification({state, commit}, payload){
+      
       console.log(state.certi)
       console.log(payload)
 
       if(payload.certinum = state.certi){
         alert("인증완료")
         commit('Address')
+
       } else{
         alert("인증번호가 틀립니다.")
       }
