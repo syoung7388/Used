@@ -1,15 +1,14 @@
 <template>
-<v-app>
     <DaumPostcode
       :on-complete= handleAddress
-      :auto-close= true
-    />
-<v-app>
+      ></DaumPostcode>
+
 
 </template>
  
 <script>
 import DaumPostcode from 'vuejs-daum-postcode'
+
  
 var handleAddress = (data) => {
   let fullAddress = data.address
@@ -25,9 +24,22 @@ var handleAddress = (data) => {
   }
  
   console.log(fullAddress) // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+  this.$emit('address', fullAddress)
 }
+
  
 export default {
+  data() {
+    return{
+      fullAddress: null,
+      extraAddress: null,
+      bname: null,
+      buildingName: null,
+      address: {}
+
+
+    }
+  },
   name: 'App',
   components: {
     DaumPostcode
@@ -35,5 +47,10 @@ export default {
   methods: {
     handleAddress
   }
+
 }
+
+
+
+
 </script>

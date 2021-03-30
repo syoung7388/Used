@@ -11,6 +11,7 @@ export default new Vuex.Store({
     pshow: false,
     certi: null,
     ashow:false,
+    
 
 
   },
@@ -52,9 +53,7 @@ export default new Vuex.Store({
       } else{
         alert("인증번호가 틀립니다.")
       }
-    }
-    
-    
+    },
   },
   modules: {
 

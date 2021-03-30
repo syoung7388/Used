@@ -39,7 +39,7 @@
         </v-container>
         </div>
         <div v-show="ashow === true" >
-            <Address/>
+           <Address @address= Address></Address>
         </div>
      
     
@@ -66,8 +66,8 @@ export default{
         ...mapState (["pshow", "certi", "ashow"])
     },
     methods: {
-        ...mapActions(['sms', 'certification']),
-
+        ...mapActions(['sms', 'certification','Address']),
+   
     },
 
 }
