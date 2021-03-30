@@ -33,20 +33,19 @@ public class AuthTokenFilter extends  OncePerRequestFilter{
 //	private UserService userService;
 	
 	
-	//filter -> servelet ½ÇÇà Àü ½ÇÇà dofilter ½ÇÇà½Ã ÃÖÁ¾ÀûÀ¸·Î  dofilterInternal À» ½ÇÇà doFilter´Â ÀüÈÄÃ³¸®
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 //		try {
-//			//parseJwt ¸Þ¼Òµå »ç¿ë
+//			//parseJwt ï¿½Þ¼Òµï¿½ ï¿½ï¿½ï¿½
 //			String jwt = parseJwt(request);
 //			
-//			//jwt ÅäÅ«ÀÌ null ÀÌ ¾Æ´Ï°í À¯È¿ÇÑ ÅäÅ«ÀÏ¶§
+//			//jwt ï¿½ï¿½Å«ï¿½ï¿½ null ï¿½ï¿½ ï¿½Æ´Ï°ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ ï¿½ï¿½Å«ï¿½Ï¶ï¿½
 //			if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-//				//jwt¸¦ ÅëÇÑ È¸¿ø ¾ÆÀÌµð ÃßÃâ
+//				//jwtï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½
 //				String username = jwtUtils.getUserNameFromJwtToken(jwt);
 //				
-//				//security¸¦ ÅëÇÑ ÀÎÁõ ·ÎÁ÷
+//				//securityï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //				UserDetails userDetails = userService.loadUserByUsername(username);
 //				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 //						userDetails, null, userDetails.getAuthorities());
@@ -64,10 +63,10 @@ public class AuthTokenFilter extends  OncePerRequestFilter{
 
 
 	private String parseJwt(HttpServletRequest request) {
-		//header Áß¿¡¼­ Authorization keyÀÇ value °ªÀ» °¡Á®¿È
+		//header ï¿½ß¿ï¿½ï¿½ï¿½ Authorization keyï¿½ï¿½ value ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String headerAuth = request.getHeader("Authorization");
 		
-		//jwt °¡Á®¿È
+		//jwt ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
 			return headerAuth.substring(7, headerAuth.length());
 		}

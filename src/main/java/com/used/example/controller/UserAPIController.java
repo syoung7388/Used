@@ -40,9 +40,9 @@ public class UserAPIController{
 			numStr += ran;
 		}
 		
-		System.out.println("폰넘버"+ phoneNumber);
-		System.out.println("인증넘버"+numStr);
-		certificationService.certifiedPhoneNumber(phoneNumber, numStr);
+		System.out.println("폰번호:"+ phoneNumber);
+		System.out.println("인증번호:"+numStr);
+//		certificationService.certifiedPhoneNumber(phoneNumber, numStr);
 		
 		return new ResponseEntity<>(numStr, HttpStatus.OK);
 	}

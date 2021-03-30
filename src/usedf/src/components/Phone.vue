@@ -1,5 +1,6 @@
 <template>
     <v-app>
+        <div v-show="ashow === false">
         <v-container class="text-center">
             <v-row align="center" class="pa-11">
                 <v-col>
@@ -9,7 +10,7 @@
                      hint="예시)01011112222"
                      v-model="phone"
                     ></v-text-field>
-                    <div v-show="show === false">
+                    <div v-show="pshow === false">
                    <v-btn 
                      class="mt-5 primary"
                      small 
@@ -17,14 +18,14 @@
                      
                      >인증문자받기</v-btn>
                     </div>
-                    <div v-show="show === true">
+                    <div v-show="pshow === true">
                      <v-btn 
                      class="mt-5"
                      disabled
                      small
                      >인증문자받기</v-btn>
                     </div>
-                    <div v-show="show === true">
+                    <div v-show="pshow === true">
                         <v-text-field
                         required
                         hint="타인에게 공유하지 마세요!"
@@ -36,6 +37,11 @@
                 </v-col>
             </v-row>
         </v-container>
+        </div>
+        <div v-show="ashow === true" >
+            <Address/>
+        </div>
+     
     
     </v-app>
 </template>
@@ -43,19 +49,25 @@
 <script>
 
 import { mapActions, mapState } from 'vuex'
+import Address from './Address.vue'
+
+
 export default{
+  components: { Address },
     
-    data() {
+  
+   data() {
         return{
             phone: null,
             certinum: null,
         }
     },
     computed: {
-        ...mapState (["show"])
+        ...mapState (["pshow", "certi", "ashow"])
     },
     methods: {
-        ...mapActions(['sms','certification'])
+        ...mapActions(['sms', 'certification']),
+
     },
 
 }

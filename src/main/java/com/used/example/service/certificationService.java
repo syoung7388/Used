@@ -21,7 +21,7 @@ public class certificationService {
 		params.put("to", phoneNumber);
 		params.put("from", "01083747388");
 		params.put("type", "SMS");
-		params.put("text", "[Used]������ȣ:"+"["+cerNum+"]"+"�Դϴ�");
+		params.put("text", "[Used]인증문자는"+"["+cerNum+"]"+"입니다");
 		params.put("app_version", "test app 1.2");
 		
 		
@@ -29,8 +29,8 @@ public class certificationService {
 			JSONObject obj= (JSONObject)coolsms.send(params);
 			System.out.println(obj.toString());
 		}catch (CoolsmsException e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getCode());
+            System.out.println("문자인증오류:"+e.getMessage());
+            System.out.println("문자인증오류:"+e.getCode());
 		}
 		
 	}
