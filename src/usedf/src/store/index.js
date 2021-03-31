@@ -9,9 +9,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     Pshow: false,
-    certi: null,
     Sshow:false,
-    phone: null
+    Ashow: 0,
+    
+    
+    certi: null,
+    phone: null,
+    email: null,
+    password: null,
   
   },
   mutations: {
@@ -57,7 +62,7 @@ export default new Vuex.Store({
         alert("인증번호가 틀립니다.")
       }
     },
-    signup({state,commit}, payload){ //회원가입 정보 백엔드로 보내는 함수
+    signup({state}, payload){ //회원가입 정보 백엔드로 보내는 함수
 
       console.log(payload)
       axios
@@ -65,11 +70,32 @@ export default new Vuex.Store({
       .then( Sres => {
         if(Sres.data === "success"){
           console.log("성공")
+          state.Ashow = 0
+
         }
       })
       .catch(()=> {
         alert("오류")
       })
+    },
+
+    Alogin({state}){ //App.vue에서 login페이지 전환
+      state.Ashow =1
+    },
+    Asignup({state}){ //App.vue에서 signup페이지 전환
+      state.Ashow =2
+    },
+    login({dispatch}, payload){ //Login.vue에서 login요청하는 함수
+      axios
+      .post('http://localhost:9200/api/user/login', payload)
+      .then(Lres =>{
+
+      })
+      .catch(()=>
+        alert("오류")
+      )
+
+
     }
 
 

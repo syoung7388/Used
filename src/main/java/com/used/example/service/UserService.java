@@ -7,5 +7,6 @@ public interface UserService extends UserDetailsService {
 	
 	public void certifiedPhoneNumber(String phoneNumber, String cerNum);
 	public void createUser(User user);
+	public void createAuthority(User user);
 
 }

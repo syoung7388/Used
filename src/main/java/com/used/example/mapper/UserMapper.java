@@ -9,4 +9,6 @@ public interface UserMapper {
 
 	public void createUser(User user);
 
+	public void createAuthority(User user);
+
 }

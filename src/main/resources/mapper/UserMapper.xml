@@ -25,6 +25,20 @@
 
 		)
 	</insert>
+	<insert id= "createAuthority"  parameterType= "com.used.example.domain.User">
+		insert into auth(
+			u_email,
+			u_auth
+		
+		) values
+				<foreach item="authority" index="index" collection="authorities" separator=",">
+						(#{email}, #{authority.role})
+				</foreach>
+				
+				ON DUPLICATE KEY
+							UPDATE
+								u_email = #email}
+	</insert>
 
 
 

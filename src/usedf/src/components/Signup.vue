@@ -1,18 +1,19 @@
 <template>
-        <v-form>
-        <v-container v-show="Ashow=== false" class="pt-15 pr-5 pl-5">
-            <v-row>
+        <v-form id="form">
+        <v-container v-show="Ashow=== false" class="pt-15 pr-5 pl-10" >
+            <v-row align="center">
                 <v-col>
                     <h1 style="font-size: 20px; text-align: center">입력한 정보가 맞다면</h1>
                     <h1 style="font-size: 20px; text-align: center">아래의 확인 버튼을 눌러주세요.</h1>
                     <v-text-field
                      v-model="email"
-                     class="mt-8"
+                     height=90
                      required
                      :rules="emailRules"
                      label="e-mail"
                     ></v-text-field>
                     <v-text-field
+                     height=40
                      v-model="password"
                      required
                      :rules= "passwordRules"
@@ -23,6 +24,7 @@
                      maxlength="16"
                     ></v-text-field>
                     <v-text-field
+                     height=40
                      v-model="username"
                      required
                      :rules="nameRules"
@@ -33,22 +35,27 @@
             </v-row>
             <v-row>
                 <v-text-field
+                    height=40
                     required
                     label="주소"
                     class="ml-3"
                     v-model="address"
                 ></v-text-field>
-                <v-btn @click="Asearch" class="mt-5 ml-2 mr-3" small>검색하기</v-btn>    
+                <v-btn @click="Asearch" class=" ml-2 mr-3 mt-7" small>검색하기</v-btn>    
             </v-row>
-            <v-row>
+            <div class="text-center pt-15 pr-5 pl-1">
                 <v-btn @click="signup({
                     address,
                     email,
                     username,
                     password,
-                    phone   
-                })">확인</v-btn>
-            </v-row>
+                    phone  
+                })"
+                block
+                x-large
+                class="primary"
+                >확인</v-btn>
+            </div>
         </v-container>
         <v-container v-show="Ashow=== true">
             <Address @Address= "Faddress"></Address>
@@ -105,7 +112,13 @@ export default{
 
 
 }
-
-
-
 </script>
+<style>
+
+.form{
+    width: 100%;
+    height: 100%;
+
+}
+
+</style>

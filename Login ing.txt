@@ -1,0 +1,37 @@
+<foreach collection="List_Array" item="aliasName" open="(" close=")" separator="," index="index">
+
+
+1.
+collection = 전달 받은 인자값. List 나 Array 형태만 가능
+
+item = 전달받은 인자값을 alias 명으로 대체 // 이이름으로 받겠다
+
+open = 구문이 시작될때 삽일할 문자열
+
+close = 구문이 끝 날때 삽일할 문자열
+
+separator = 반복 되는 사이에 출력할 문자열
+
+index = 반복되는 구분 번호.0 부터 순차적으로 증가
+
+<foreach item="authority" index="index" collection="authorities" separator=",">
+   			(#{username}, #{authority.role})
+   		</foreach>
+
+->두개의 권한을 줄수있움 ㅇㅇ
+
+
+
+2.({ dispatch},  ) /// 사용 dispatch.~
+
+3.토큰 저장? localStorage.setItem("access_token", token)
+
+
+localStorage.getItem("access_token")
+
+cofig = {
+저장 해서 보냄
+}
+
+
+primary--tex

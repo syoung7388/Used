@@ -59,7 +59,7 @@ export default{
   components: { Signup },
     
   
-   data() {
+    data() {
         return{
             phone: null,
             certinum: null,
