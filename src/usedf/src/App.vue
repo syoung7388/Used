@@ -24,9 +24,12 @@
 </template>
 
 <script>
+
 import Login from "@/components/Login.vue"
 import Phone from "@/components/Phone.vue"
+
 export default ({
+
   components: {
     Login,
     Phone
@@ -43,6 +46,7 @@ export default ({
     signup(){
       this.show = 2
     },
+
   }
   
 })
