@@ -1,14 +1,19 @@
 package com.used.example.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.used.example.domain.User;
+import com.used.example.domain.UserInfo;
 import com.used.example.mapper.UserMapper;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
+
 import org.json.simple.JSONObject;
 
 import net.nurigo.java_sdk.api.Message;
@@ -55,13 +60,38 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return null;
+		System.out.println(username);
+		User user =  userMapper.readUser(username);
+		user.setAuthorities(getAuthorities(username));
+		
+		return user;
+	}
+	
+	
+	@Override
+	public Collection<GrantedAuthority> getAuthorities(String username){
+		List <GrantedAuthority> authorities= userMapper.readAuthorities(username);
+		return authorities;
 	}
 
 
 	@Override
 	public void createAuthority(User user) {
 		userMapper.createAuthority(user);
+	}
+
+
+	@Override
+	public UserInfo readUser_token(String username) {
+		return userMapper.readUser_token(username);
+		
+	}
+
+
+	@Override
+	public Collection<? extends GrantedAuthority> readAuthorities_token(String username) {
+		
+		return userMapper.readAuthorities_token(username);
 	}
 
 

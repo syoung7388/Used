@@ -3,20 +3,20 @@
 <mapper namespace="com.used.example.mapper.UserMapper">
 	<insert id= "createUser" parameterType= "com.used.example.domain.User">
 		insert into user(
-			u_username,
+			u_name,
 			u_password,
 			u_phone,
-			u_email,
+			u_username,
 			u_address,
 			u_isAccountNonLocked,
 			u_isAccountNonExpired,
 			u_isCredentialsNonExpired,
 			u_isEnabled
 		) values(
-			#{username},
+			#{name},
 			#{password},
 			#{phone},
-			#{email},
+			#{username},
 			#{address},
 			#{isAccountNonLocked},
 			#{isAccountNonExpired},
@@ -27,18 +27,54 @@
 	</insert>
 	<insert id= "createAuthority"  parameterType= "com.used.example.domain.User">
 		insert into auth(
-			u_email,
+			u_username,
 			u_auth
 		
 		) values
 				<foreach item="authority" index="index" collection="authorities" separator=",">
-						(#{email}, #{authority.role})
+						(#{username}, #{authority.role})
 				</foreach>
 				
 				ON DUPLICATE KEY
 							UPDATE
-								u_email = #email}
+								u_username = #{username}
 	</insert>
+	
+	<select id= "readAuthorities" parameterType= "String" resultType= "org.springframework.security.core.authority.SimpleGrantedAuthority">
+		select u_auth
+		from auth
+		where u_username= #{username}
+	</select>
+	
+	<select id="readUser" parameterType= "String" resultType= "com.used.example.domain.User">
+	
+		select  u_username				as		username,
+				u_password				as		password,
+				u_phone					as		phone,
+				u_name					as		name,
+				u_isAccountNonLocked	as		isAccountNonLocked,
+				u_isAccountNonExpired   as      isAccountNonExpired,
+				u_isCredentialsNonExpired as	isCredentialsNonExpired,
+				u_isEnabled             as      isEnabled
+		from	user
+		where	u_username = #{username}	
+	</select>
+	
+	<select id= "readUser_token" parameterType="String" resultType="com.used.example.domain.UserInfo">
+		select  u_username				as		username,
+				u_phone					as		phone,
+				u_name					as		name
+		from    user
+		where   u_username = #{username}		
+	</select>
+	
+	<select id= "readAuthorities_token" parameterType= "String" resultType="com.used.example.domain.UserInfo">
+		select  u_auth					as		auth 
+		from 	auth
+		where	u_username= #{username}
+	
+	
+	</select>
 
 
 

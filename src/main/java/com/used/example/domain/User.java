@@ -11,11 +11,11 @@ public class User implements UserDetails{
 	
 	private static final long serialVersionUID = 1L;
 
-	private String username;
+	private String username;//email
 	private String password;
 	private String phone;
 	private String numStr;
-	private String email;
+	private String name;//별명
 	private String address;
 	private Collection<? extends GrantedAuthority> authorities;
 	private boolean isAccountNonExpired;
@@ -51,12 +51,12 @@ public class User implements UserDetails{
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getEmail() {
-		return email;
+	public String getName() {
+		return name;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getAddress() {
@@ -117,22 +117,21 @@ public class User implements UserDetails{
 		this.numStr = numStr;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", password=" + password + ", phone=" + phone + ", email=" + email
-				+ ", address=" + address + ", authorities=" + authorities + ", isAccountNonExpired="
+		return "User [username=" + username + ", password=" + password + ", phone=" + phone + ", numStr=" + numStr
+				+ ", name=" + name + ", address=" + address + ", authorities=" + authorities + ", isAccountNonExpired="
 				+ isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired="
 				+ isCredentialsNonExpired + ", isEnabled=" + isEnabled + "]";
 	}
+	
+	
+	
+}
 
-
-
-}	
+	
+	
+	
+	
+	
+	

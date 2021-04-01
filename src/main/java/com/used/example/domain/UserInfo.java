@@ -8,8 +8,8 @@ import org.springframework.security.core.authority.AuthorityUtils;
 public class UserInfo {
 	
 	private static final long serialVersionUID =1L;
-	private String username;
-	private String password;
+	private String username;//이메일
+	private String name;
 	private String phone;
 	private Collection<? extends GrantedAuthority> authorities;
 	private String auth;
@@ -21,12 +21,7 @@ public class UserInfo {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+
 	public String getPhone() {
 		return phone;
 	}
@@ -48,16 +43,22 @@ public class UserInfo {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	
 	
 	
 	@Override
 	public String toString() {
-		return "UserInfo [username=" + username + ", password=" + password + ", phone=" + phone + ", authorities="
+		return "UserInfo [username=" + username + ", name=" + name + ", phone=" + phone + ", authorities="
 				+ authorities + ", auth=" + auth + "]";
 	}
+	
 	
 	
 	

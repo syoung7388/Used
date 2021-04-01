@@ -1,16 +1,17 @@
 <template>
         <v-form id="form">
-        <v-container v-show="Ashow=== false" class="pt-15 pr-5 pl-10" >
+        <v-container v-show="Ashow=== false" class="pt-15 pr-5 pl-5" >
             <v-row align="center">
                 <v-col>
                     <h1 style="font-size: 20px; text-align: center">입력한 정보가 맞다면</h1>
                     <h1 style="font-size: 20px; text-align: center">아래의 확인 버튼을 눌러주세요.</h1>
                     <v-text-field
-                     v-model="email"
-                     height=90
+                     v-model="username"
+                     height=40
                      required
                      :rules="emailRules"
                      label="e-mail"
+                     class="mt-10"
                     ></v-text-field>
                     <v-text-field
                      height=40
@@ -25,7 +26,7 @@
                     ></v-text-field>
                     <v-text-field
                      height=40
-                     v-model="username"
+                     v-model="name"
                      required
                      :rules="nameRules"
                      label="닉네임" 
@@ -43,11 +44,11 @@
                 ></v-text-field>
                 <v-btn @click="Asearch" class=" ml-2 mr-3 mt-7" small>검색하기</v-btn>    
             </v-row>
-            <div class="text-center pt-15 pr-5 pl-1">
+            <div class="text-center pt-10 pr-5 pl-5">
                 <v-btn @click="signup({
                     address,
-                    email,
                     username,
+                    name,
                     password,
                     phone  
                 })"
@@ -74,10 +75,8 @@ export default{
             address: null,
             password: null,
             username: null,
-            email: null,
+            name: null,
             Ashow: false,
-            email: '',
-            name: '',
             p: 'Password',
             nameRules:[
                 v => !!v || "필수입력란"

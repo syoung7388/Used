@@ -11,12 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 //import org.springframework.security.core.context.SecurityContextHolder;
 //import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.used.example.service.UserService;
+
 //import com.used.example.service.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -26,51 +33,56 @@ public class AuthTokenFilter extends  OncePerRequestFilter{
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-//	@Autowired
-//	private JwtUtils jwtUtils;
-//	
-//	@Autowired
-//	private UserService userService;
+	
+	@Autowired
+	private JwtUtils jwtUtils;
+	
+	@Autowired
+	private UserService userService;
+	
+	//request의 헤더에서 Authorization 가져오고 가공한다. //아래에서 사용함
+	private String parseJwt(HttpServletRequest request) {
+		
+		String headerAuth = request.getHeader("Authorization");
+		
+		if(StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer")){
+			return headerAuth.substring(7, headerAuth.length());
+		}
+		
+		return null;
+	}
 	
 	
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
-//		try {
-//			//parseJwt �޼ҵ� ���
-//			String jwt = parseJwt(request);
-//			
-//			//jwt ��ū�� null �� �ƴϰ� ��ȿ�� ��ū�϶�
-//			if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-//				//jwt�� ���� ȸ�� ���̵� ����
-//				String username = jwtUtils.getUserNameFromJwtToken(jwt);
-//				
-//				//security�� ���� ���� ����
-//				UserDetails userDetails = userService.loadUserByUsername(username);
-//				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-//						userDetails, null, userDetails.getAuthorities());
-//				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//
-//				SecurityContextHolder.getContext().setAuthentication(authentication);
-//			}
-//		} catch (Exception e) {
-//			logger.error("Cannot set user authentication: {}", e);
-//		}
-
-		filterChain.doFilter(request, response);
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain )
+									throws ServletException, IOException{
 		
-	}
-
-
-	private String parseJwt(HttpServletRequest request) {
-		//header �߿��� Authorization key�� value ���� ������
-		String headerAuth = request.getHeader("Authorization");
-		
-		//jwt ������
-		if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-			return headerAuth.substring(7, headerAuth.length());
+		try {
+			
+			String jwt = parseJwt(request);
+			
+			if(jwt != null && jwtUtils.validateJwtToken(jwt)) {
+				
+				String username= jwtUtils.getUserNameFromJwtToken(jwt);
+				
+				UserDetails userDetails= userService.loadUserByUsername(username);
+				
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+							userDetails, null, userDetails.getAuthorities());
+				
+				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				
+				SecurityContextHolder.getContext().setAuthentication(authentication);///???
+				
+			}
+		} catch (Exception e) {
+			logger.error("사용자의 authentication을 설정할수 없습니다: {}", e);
 		}
-
-		return null;
+		
+		filterChain.doFilter(request, response);
 	}
+	
+
+
+
 }

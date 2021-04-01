@@ -24,17 +24,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtUtils {
 
-	private static final String jwtSecret = "lcomputerstudyexample"; //¿øÇÏ´Â ½ÃÅ©¸´Å°·Î ¼öÁ¤
+	private static final String jwtSecret = "lcomputerstudyexample"; //jwtë¹„ë°€í‚¤ ìƒì„±
 	
-	private static final int jwtExpirationMs = 864000;
+	private static final int jwtExpirationMs = 864000;//ë§Œë£Œ ì‹œê°„
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	//jwt »ı¼º ¸Ş¼Òµå
+    
+	//í† í° ë§Œë“œëŠ” ê³¼ì •
 	public String generateJwtToken(Authentication authentication) {
 
-		User user = (User) authentication.getPrincipal();
-		//builder ÆĞÅÏÀ» ÀÌ¿ëÇÏ¿© jwt»ı¼º
+		User user = (User) authentication.getPrincipal(); // í˜„ì¬ ì´ìš©ì¤‘ì¸ ì‚¬ìš©ì ì •ë³´ë¥¼ ê°€ì ¸ì˜¤ëŠ” ë°©ë²•
+
 		return Jwts.builder()
 				.setSubject((user.getUsername()))
 				.setIssuedAt(new Date())
@@ -43,16 +44,20 @@ public class JwtUtils {
 				.compact();
 	}
 	
-	//ÅäÅ«À» ÀÌ¿ëÇÏ¿© À¯Àú ¾ÆÀÌµğ ºÒ·¯¿À´Â ¸Ş¼Òµå
+	//í† í°ìœ¼ë¡œ ë¶€í„° username ë¹¼ë‚´ê¸°
 	public String getUserNameFromJwtToken(String token) {
 		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}
+	 
 	
+	//í† í°ìœ¼ë¡œ ë¶€í„° payload ì¦‰ Bodyêº¼ë‚´ê¸°
 	 private static Claims getClaimsFormToken(String token) {
         return (Claims) Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(jwtSecret))
         		.parseClaimsJws(token).getBody();
     }
 	 
+	 
+	 //ìœ„ì˜ 2ê°œ í´ë˜ìŠ¤ë¥¼ ì´ìš©í•˜ì—¬ usernameêº¼ë‚´ê¸°
 	 public static String getUserEmailFromToken(String token) {
 	        Claims claims = getClaimsFormToken(token);
 	        Map<String, Object> map = new HashMap<>(claims);
@@ -60,8 +65,8 @@ public class JwtUtils {
 	        
 	        return username;
 	    }
-	
-	//jwt À¯È¿¼º °Ë»ç ¸Ş¼Òµå
+	 
+	 //ì´í† í° ê´œì°®ì€ê±° ë§ì•„??!!!
 	public boolean validateJwtToken(String authToken) {
 		try {
 			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);

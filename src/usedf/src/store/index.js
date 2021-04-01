@@ -15,38 +15,71 @@ export default new Vuex.Store({
     
     certi: null,
     phone: null,
-    email: null,
+    username: null,
     password: null,
+
+
+    isLoginError: false,
+    phoneError:false,
+    certiError: false,
+
+    userInfo: null,
+
+
   
   },
   mutations: {
-    certiSuccess(state, payload){
+    phoneSuccess(state, payload){
       state.Pshow= true;
       state.certi= payload.numStr;
       state.phone= payload.phone;
-      alert(state.certi)
+      console.log(state.certi)
     },
-    Address(state){
+    
+    phoneFaile(){
+      state.phoneError= true
+    },
+    
+    certiSuccess(state){
       state.Sshow= true
+    },
+    certiFaile(state){
+      state.certiError= true
+
     },
     setPhone(state, payload){
       state.phone = payload
       console.log(state.phone)
+    },
+    LoginSuccess(state, payload){
+      state.userInfo= payload
+      state.isLoginError= false
+
+    },
+
+    LoginFaile(state){
+      state.isLoginError=true
     }
 
   
 
   },
   actions: {
+
+    Alogin({state}){ //App.vue에서 login페이지 전환
+      state.Ashow =1
+    },
+    Asignup({state}){ //App.vue에서 signup페이지 전환
+      state.Ashow =2
+    },
     sms({commit}, payload){//인증문자
       axios
       .post('http://localhost:9200/api/user/sendSMS', payload)
       .then(res => {
-        alert("전송완료")
-        commit('certiSuccess', res.data)
+        commit('phoneSuccess', res.data)
       })
       .catch(()=>{
-        alert("오류")
+        commit('phoneFaile')
       })
     },
     certification({state, commit}, payload){//인증번호 (payload-user가 적음) = /!=  인증번호 (백에서 가져온거)   
@@ -55,11 +88,10 @@ export default new Vuex.Store({
       console.log(payload)
 
       if(payload.certinum === state.certi){
-        alert("인증완료")
-        commit('Address')
+        commit('certiSuccess')
 
       } else{
-        alert("인증번호가 틀립니다.")
+        commit('certiFaile')
       }
     },
     signup({state}, payload){ //회원가입 정보 백엔드로 보내는 함수
@@ -78,25 +110,42 @@ export default new Vuex.Store({
         alert("오류")
       })
     },
-
-    Alogin({state}){ //App.vue에서 login페이지 전환
-      state.Ashow =1
-    },
-    Asignup({state}){ //App.vue에서 signup페이지 전환
-      state.Ashow =2
-    },
-    login({dispatch}, payload){ //Login.vue에서 login요청하는 함수
+    login({dispatch, commit , state}, payload){ //Login.vue에서 login요청하는 함수
       axios
       .post('http://localhost:9200/api/user/login', payload)
       .then(Lres =>{
-
+        console.log("로그인 완료")
+        let token = Lres.data.token
+        console.log(token)
+        localStorage.setItem("access_token", token)
+        dispatch('getUserInfo')
+        state.Ashow= 3 //다끝나고 홈으로 가라 !
       })
       .catch(()=>
-        alert("오류")
+        commit('LoginFaile')
       )
-
-
+    },
+    getUserInfo({commit}){ //토큰 이용해서 유저정보 얻어오기
+      let token= localStorage.getItem("access_token")
+      let config= {
+        headers: {
+          access_token: token
+        }
+      }
+      axios
+      .get('http://localhost:9200/api/user/unpackToken', config)
+      .then( Ires =>{
+        console.log(Ires.data)
+        let userInfo={
+          username: Ires.data.username,
+          name: Ires.data.name,
+          phone: Ires.data.phone,
+        }
+        commit('loginSuccess', userInfo)
+      
+      })
     }
+
 
 
   },
@@ -105,3 +154,6 @@ export default new Vuex.Store({
 
   }
 })
+
+
+

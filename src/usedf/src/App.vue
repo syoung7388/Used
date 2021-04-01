@@ -11,16 +11,21 @@
               <v-btn @click="Alogin" class="ml-2">로그인</v-btn>
               <v-btn @click="Asignup" class="ml-2"> 회원가입</v-btn> 
             </div>
+            <div v-show="Ashow=== 1">
+              <Login></Login>
+            </div>
+            <div v-show="Ashow=== 2">
+              <Phone></Phone>
+            </div>
+            <div v-show= "Ashow=== 3">
+              <Home></Home>
+            </div>
+
           </v-col>
         </v-row> 
       </v-container>
-   
-    <div v-show="Ashow=== 1">
-      <Login></Login>
-    </div>
-    <div v-show="Ashow=== 2">
-      <Phone></Phone>
-    </div>
+
+
   </v-app>
 </template>
 
@@ -28,6 +33,7 @@
 
 import Login from "@/components/Login.vue"
 import Phone from "@/components/Phone.vue"
+import Home from "@/components/Home.vue"
 import {mapActions, mapState} from 'vuex'
 
 
@@ -35,7 +41,8 @@ export default {
 
   components: {
     Login,
-    Phone
+    Phone,
+    Home
   },
 
   methods: {
@@ -52,12 +59,7 @@ export default {
    width: 100%;
    height: 100%;
 }
-.row{
 
-   width: 100%;
-   height: 100%;
-
-}
 
 </style>
 

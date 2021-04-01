@@ -2,8 +2,26 @@
     <v-app>
         <div v-show="Sshow === false">
         <v-container class="text-center">
-            <v-row align="center" class="pa-11">
+            <v-row align="center" class="pa-5">
                 <v-col>
+                    <v-alert
+                        dense
+                        text
+                        type="error"
+                        x-small
+                        :value="certiError"
+                    >
+                      인증번호가 틀립니다!
+                    </v-alert>
+                    <v-alert
+                        dense
+                        text
+                        type="error"
+                        x-small
+                        :value="phoneError"
+                    >
+                     휴대폰 번호를 확인해주세요
+                    </v-alert>
                     <h1 style="font-size: 20px; text-align: center" class="mb-4">전화번호를 인증해주세요</h1>
                     <v-text-field
                      required
@@ -37,6 +55,7 @@
                 </v-col>
             </v-row>
         </v-container>
+
         </div>
         
         <div v-show="Sshow === true" >
@@ -67,7 +86,7 @@ export default{
         }
     },
     computed: {
-        ...mapState (["Pshow", "certi", "Sshow"])
+        ...mapState (["Pshow", "certi", "Sshow",'phoneError','certiError'])
     },
     methods: {
         ...mapActions(['sms', 'certification']),
