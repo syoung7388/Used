@@ -1,3 +1,4 @@
+  
 <template>
     <v-app>
         <div v-show="Sshow === false">
@@ -69,11 +70,8 @@
 </template>
 
 <script>
-
 import { mapActions, mapState } from 'vuex'
 import Signup from './Signup.vue'
-
-
 export default{
   components: { Signup },
     
@@ -90,9 +88,6 @@ export default{
     },
     methods: {
         ...mapActions(['sms', 'certification']),
-
-
     },
-
 }
 </script>

@@ -93,7 +93,7 @@ public class UserController{
 		return new ResponseEntity<>("success", HttpStatus.OK);
 		
 	}
-	
+	//로그인
 	@PostMapping("/login")
 	public ResponseEntity<?> Login(@RequestBody User user){
 		logger.info("??" +user);
@@ -117,6 +117,7 @@ public class UserController{
 													user.getName(),
 													roles));
 	}
+	//로그인으로 받은 토큰으로 정보 빼오기
 	@GetMapping("/unpackToken")
 	public ResponseEntity<?> unpackToken(HttpServletRequest request){
 		

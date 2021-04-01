@@ -12,7 +12,7 @@ export default new Vuetify({
         secondary: '#9E9E9E', 
         error: '#F00000', 
         green: '#31C923',
-        grey: '#E0E0E0'
+        grey: '#bebebe'
       },
     },
   },

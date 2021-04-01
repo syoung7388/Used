@@ -1,3 +1,4 @@
+  
 <template>
    <v-app>
       <v-container  id="container">
@@ -43,38 +44,30 @@
 </template>
 <script>
 import { mapActions, mapState } from 'vuex'
-
 export default {
-
    data(){
       return{
          username: null,
          password: null,
       }
    },
-
-
    methods: {
       ...mapActions(['login'])
    },
    computed: {
       ...mapState(['isLoginError'])
    }
-
 }
 </script>
 
 
 
 <style>
-
 .container{
    width: 100%;
    height: 100%;
 }
 .row{
    height: 100%;
-
 }
-
 </style>

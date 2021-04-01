@@ -67,7 +67,6 @@
 <script>
 import Address from './Address.vue'
 import { mapActions, mapState } from 'vuex'
-
 export default{
     components: { Address },
     data() {
@@ -103,21 +102,15 @@ export default{
         },
         ...mapActions(['signup']),
         
-
     },
     computed: {
         ...mapState(['phone'])
     }
-
-
 }
 </script>
 <style>
-
 .form{
     width: 100%;
     height: 100%;
-
 }
-
 </style>
