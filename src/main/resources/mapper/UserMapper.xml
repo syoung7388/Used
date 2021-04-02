@@ -63,7 +63,8 @@
 	<select id= "readUser_token" parameterType="String" resultType="com.used.example.domain.UserInfo">
 		select  u_username				as		username,
 				u_phone					as		phone,
-				u_name					as		name
+				u_name					as		name,
+				u_address               as      address
 		from    user
 		where   u_username = #{username}		
 	</select>

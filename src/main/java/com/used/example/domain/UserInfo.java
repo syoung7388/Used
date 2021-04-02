@@ -11,8 +11,10 @@ public class UserInfo {
 	private String username;//이메일
 	private String name;
 	private String phone;
+	private String address;
 	private Collection<? extends GrantedAuthority> authorities;
 	private String auth;
+	
 	
 	
 	public String getUsername() {
@@ -52,11 +54,17 @@ public class UserInfo {
 	
 	
 	
-	
+
 	@Override
 	public String toString() {
-		return "UserInfo [username=" + username + ", name=" + name + ", phone=" + phone + ", authorities="
-				+ authorities + ", auth=" + auth + "]";
+		return "UserInfo [username=" + username + ", name=" + name + ", phone=" + phone + ", address=" + address
+				+ ", authorities=" + authorities + ", auth=" + auth + "]";
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 	

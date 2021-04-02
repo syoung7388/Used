@@ -133,6 +133,7 @@ public class UserController{
 		UserInfo user= userService.readUser_token(username);
 		
 		user.setAuthorities(userService.readAuthorities_token(username));
+		logger.info("!!!!"+user);
 		
 		return new ResponseEntity<>( user, HttpStatus.OK);
 		

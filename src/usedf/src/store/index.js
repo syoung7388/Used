@@ -11,6 +11,7 @@ export default new Vuex.Store({
     Pshow: false,
     Sshow:false,
     Ashow: 0,
+    removeBar: false,
     
     
     certi: null,
@@ -72,6 +73,13 @@ export default new Vuex.Store({
     Asignup({state}){ //App.vue에서 signup페이지 전환
       state.Ashow =2
     },
+    RemoveBar({state}){
+      state.removeBar= true
+    },
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////페이지 전환 함수 & 페이지 요소 조정 함수
+
     sms({commit}, payload){//인증문자
       axios
       .post('http://localhost:9200/api/user/sendSMS', payload)
@@ -119,7 +127,7 @@ export default new Vuex.Store({
         console.log(token)
         localStorage.setItem("access_token", token)
         dispatch('getUserInfo')
-        state.Ashow= 3 //다끝나고 홈으로 가라 !
+        state.Ashow= 3 //다끝나고 Main으로 가라 !
       })
       .catch(()=>
         commit('LoginFaile')
@@ -140,8 +148,9 @@ export default new Vuex.Store({
           username: Ires.data.username,
           name: Ires.data.name,
           phone: Ires.data.phone,
+          address: Ires.data.address
         }
-        commit('loginSuccess', userInfo)
+        commit('LoginSuccess', userInfo)
       
       })
     }

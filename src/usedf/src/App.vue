@@ -20,8 +20,8 @@
         <div v-show="Ashow=== 2">
           <Phone></Phone>
         </div>
-        <div v-show= "Ashow=== 3">
-          <Home></Home>
+        <div v-show="Ashow=== 3">
+          <Main></Main>
         </div>
   </v-app>
 </template>
@@ -32,7 +32,7 @@
 
 import Login from "@/components/Login.vue"
 import Phone from "@/components/Phone.vue"
-import Home from "@/components/Home.vue"
+import Main from "@/Main.vue"
 import {mapActions, mapState} from 'vuex'
 
 
@@ -41,7 +41,7 @@ export default {
   components: {
     Login,
     Phone,
-    Home
+    Main
   },
 
   methods: {
