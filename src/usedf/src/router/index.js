@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import UserEdit from '@/views/UserEdit.vue'
+import MyPage from '@/views/MyPage.vue'
 
 Vue.use(VueRouter)
 
@@ -28,8 +30,15 @@ const routes = [
   {
     path: '/mypage',
     name: 'MyPage',
-    component: () => import(/* webpackChunkName: "mypage" */'@/views/MyPage.vue')
-
+    component: MyPage,
+    children: [
+        {
+          path: '/edit',
+          name: 'UserEdit',
+          component: UserEdit,
+  
+          }
+    ]
   }
 
 

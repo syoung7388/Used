@@ -24,7 +24,7 @@ export default new Vuex.Store({
     phoneError:false,
     certiError: false,
 
-    userInfo: null,
+    userInfo: {},
 
 
   
@@ -53,7 +53,15 @@ export default new Vuex.Store({
       console.log(state.phone)
     },
     LoginSuccess(state, payload){
-      state.userInfo= payload
+      state.userInfo= {
+        name: payload.name,
+        username: payload.username,
+        password: payload.password,
+        phone: payload.phone,
+        address: payload.address
+
+      }
+    
       state.isLoginError= false
 
     },
@@ -153,11 +161,13 @@ export default new Vuex.Store({
         commit('LoginSuccess', userInfo)
       
       })
-    }
+    },
+
 
 
 
   },
+
 
   modules: {
 

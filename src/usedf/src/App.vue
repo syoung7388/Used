@@ -1,7 +1,7 @@
 <template>
   <v-app>
       <v-container id="container" v-show="Ashow === 0">
-        <v-row align="center" id="row">
+        <v-row align="center" class="Arow">
           <v-col>
             <div class="text-center">                   
               <h2 class="primary--text" style="font-size: 70px; text-align: center" > 
@@ -56,6 +56,9 @@ export default {
 <style>
 .container{
   width: 100%;
+  height: 100%;
+}
+.Arow{
   height: 100%;
 }
 </style>

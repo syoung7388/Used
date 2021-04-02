@@ -1,0 +1,118 @@
+                    <v-text-field
+                    label="E-mail"
+                    auto-grow
+                    rows="1"
+                    height=40
+                    width=20
+                    v-model="username"
+                    ></v-text-field>
+                
+                    <v-text-field
+                    label="password"
+                    auto-grow
+                    rows="1"
+                    height=40
+                    v-model="password"
+                    :type="p"
+                    ></v-text-field>
+                    <v-text-field
+                    label="username"
+                    auto-grow
+                    rows="1"
+                    height=40
+                    v-model="username"
+                    ></v-text-field>
+                    <v-text-field
+                    label="phone"
+                    rows="1"
+                    height=40
+                    v-model="phone"
+                    ></v-text-field>
+                    <v-text-field
+                    label="address"
+                    auto-grow
+                    rows="1"
+                    height=40
+                    v-model="address"
+                    ></v-text-field>
+                    <v-btn>주소 검색</v-btn>
+
+
+
+
+
+
+
+
+
+       <v-row v-show="Edit === true">
+                 <h1 style="font-size: 15px" class="mr-2 mt-7">e-mail</h1>
+                <v-text-field
+                    rows="1"
+                    height=30
+                    v-model="username"
+                    :prepend ="l"
+                    style="font-size: 13px"
+                    class="mr-2"
+                    >
+                    <template v-slot:append>
+                        <v-btn
+                        text
+                        color="primary"
+                        medium
+                        >
+                         OK
+                        </v-btn>
+
+                    </template>
+                    </v-text-field>
+
+            </v-row>
+
+
+
+
+\==========================
+import { mapState } from 'vuex'
+
+
+export default{
+
+
+
+    data(){
+        return{
+            name: null,
+            username: null,
+            password: null,
+            phone: null,
+            address: null,
+            p: 'Password',
+
+            Edit: false,
+            l:'확인'
+
+
+        }
+    },
+   computed: mapState({
+        userInfo: 'userInfo'
+    }),
+    created(){
+        this.name= this.userInfo.name,
+        this.username= this.userInfo.username,
+        this.password= this.userInfo.password,
+        this.phone=this.userInfo.phone,
+        this.address= this.userInfo.address
+    },
+    methods: {
+        edit(){
+            this.Edit= true
+
+        }
+    }
+
+
+
+
+}

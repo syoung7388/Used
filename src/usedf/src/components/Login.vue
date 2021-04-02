@@ -2,7 +2,7 @@
 <template>
    <v-app>
       <v-container  id="container">
-         <v-row  align="center" id="row">
+         <v-row  align="center" class="lrow">
             <v-col>
                <div v-show="isLoginError === true">
                   <v-alert
@@ -67,7 +67,7 @@ export default {
    width: 100%;
    height: 100%;
 }
-.row{
+.lrow{
    height: 100%;
 }
 </style>
