@@ -12,6 +12,7 @@ export default new Vuex.Store({
     Sshow:false,
     Ashow: 0,
     removeBar: false,
+    EPshow: false,
     
     
     certi: null,
@@ -32,6 +33,7 @@ export default new Vuex.Store({
   mutations: {
     phoneSuccess(state, payload){
       state.Pshow= true;
+      state.EPshow= true;
       state.certi= payload.numStr;
       state.phone= payload.phone;
       console.log(state.certi)
@@ -162,6 +164,13 @@ export default new Vuex.Store({
       
       })
     },
+    EditOK({dispatch}, payload){
+      axios
+      .post('http://localhost:9200/api/user/edit',payload)
+
+      console.log(payload)
+
+    }
 
 
 

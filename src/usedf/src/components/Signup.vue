@@ -59,7 +59,7 @@
             </div>
         </v-container>
         <v-container v-show="Ashow=== true">
-            <Address @Address= "Faddress"></Address>
+            <Address @Address="Aresult"></Address>
         </v-container>
     </v-form>
 
@@ -96,7 +96,7 @@ export default{
         Asearch(){
             this.Ashow = !this.Ashow
         },
-        Faddress(address){
+        Aresult(address){
             this.address = address
             this.Ashow= !this.Ashow
         },

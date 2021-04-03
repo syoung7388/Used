@@ -21,7 +21,11 @@
                     <v-btn icon>
                         <i class="far fa-bell" style="font-size: x-large;"></i>            
                     </v-btn>
-                    <v-btn icon router :to="{name:'MyPage'}" @click="RemoveBar"> 
+                    <v-btn 
+                     icon 
+                     @click="RemoveBar" 
+                     
+                   > 
                         <i class="far fa-user" style="font-size: x-large;"></i>            
                     </v-btn>
                     <template v-slot:extension>
@@ -45,7 +49,7 @@
     
 </template>
 <script>
-import { mapActions} from 'vuex'
+
 
 export default{
     data(){
@@ -54,7 +58,11 @@ export default{
         }
     },
     methods: {
-        ...mapActions(['RemoveBar'])
+        RemoveBar(){
+            this.$store.state.removeBar= true
+            this.$router.push({name: 'MyPage'})
+        }
     }
+
 }
 </script>

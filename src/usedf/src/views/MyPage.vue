@@ -1,90 +1,97 @@
 <template>
-    <v-app class="pa-3 ">
-        <v-container v-show="edit===false">
-            <v-row justify='end'>
-                <v-btn
-                text
-                color="primary"
-                medium
-                @click="Edit"
-                router :to="{name: 'UserEdit'}"
-                
-    
-            >
-            <i class="far fa-edit"  style="font-size: x-large;"></i>      
-            </v-btn>
-
-            </v-row>
-            <v-row  align="center">
-                <v-col>
-                    <h1 class="mb-10 mt-5" style="font-size: 20px; text-align: center">
-                    {{ userInfo.name }}님 안녕하세요
-                    </h1>
-                </v-col>
-            </v-row>
-            <v-row align="center">
-                <v-col> 
-                    <h1 style="font-size: 15px" class="mr-5 mb-3 primary--text" >이메일</h1>
-                    <v-banner two-line width=320  height="70" style="font-size: 15px">
-                        {{ userInfo.username }}
-                    </v-banner>
-                </v-col>
-            </v-row>
-            <v-row align="center" class="mb-5"> 
-                    <v-col>
-                    <h1 style="font-size: 15px" class="mr-5 primary--text">주소</h1>
-                    <v-banner two-line width=320   height="70" style="font-size: 15px">
-                        {{ userInfo.address }}
-                    </v-banner>
-                    </v-col>
-            </v-row>
-            <v-row align="center">
-                <v-col>  
-                <h1 style="font-size: 15px" class="mr-5 primary--text">전화번호</h1>
-                <v-banner two-line width=320   height="70" style="font-size: 15px">
-                    {{ userInfo.phone }}
-                </v-banner>
-                </v-col>
-            </v-row>
+<v-app>
+        <v-container v-show="Eshow===false">
+            <h1 class="mb-10 mt-5" style="font-size: 20px; text-align: center">{{userInfo.name}}님 안녕하세요</h1>
+            <v-list two-line>
+            <v-list-item @click="Edit" router :to="{name: 'EmailEdit'}" >
+                <v-list-item-content>
+                <v-list-item-title class="primary--text mb-3">e-mail</v-list-item-title> 
+                <v-list-item-subtitle>{{userInfo.username}}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-icon>
+                    <i class="fas fa-chevron-right"  style="font-size: large;"></i> 
+                </v-list-item-icon>       
+            </v-list-item>
+            <v-divider></v-divider>
+            </v-list>
+            <v-list two-line>
+            <v-list-item @click="Edit" router :to="{name: 'PasswordEdit'}">
+                <v-list-item-content>
+                <v-list-item-title class="primary--text mb-3">password</v-list-item-title> 
+                <v-list-item-subtitle>●●●●●●</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-icon>
+                    <i class="fas fa-chevron-right"  style="font-size: large;"></i> 
+                </v-list-item-icon>       
+            </v-list-item>
+            <v-divider></v-divider>
+            </v-list>
+            <v-list two-line>
+            <v-list-item @click="Edit" router :to="{name: 'NameEdit'}">
+                <v-list-item-content>
+                <v-list-item-title class="primary--text mb-3">닉네임</v-list-item-title> 
+                <v-list-item-subtitle>{{userInfo.username}}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-icon>
+                    <i class="fas fa-chevron-right"  style="font-size: large;"></i> 
+                </v-list-item-icon>       
+            </v-list-item>
+            <v-divider></v-divider>
+        </v-list>
+        <v-list two-line>
+            <v-list-item @click="Edit" router :to="{name: 'PhonEdit'}">
+                <v-list-item-content>
+                <v-list-item-title class="primary--text mb-3">전화번호</v-list-item-title> 
+                <v-list-item-subtitle>{{userInfo.phone}}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-icon>
+                    <i class="fas fa-chevron-right"  style="font-size: large;"></i> 
+                </v-list-item-icon>       
+            </v-list-item>
+            <v-divider></v-divider>
+        </v-list>
+        <v-list two-line>
+            <v-list-item @click="Edit" router :to="{name: 'AddressEdit'}">
+                <v-list-item-content>
+                <v-list-item-title class="primary--text mb-3">주소</v-list-item-title> 
+                <v-list-item-subtitle>{{userInfo.address}}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-icon>
+                    <i class="fas fa-chevron-right"  style="font-size: large;"></i> 
+                </v-list-item-icon>       
+            </v-list-item>
+            <v-divider></v-divider>
+        </v-list>
         </v-container>
-        <v-container v-show="edit ===true">
+        <v-container v-show="Eshow === true">
             <router-view></router-view>
         </v-container>
-    
-
-
-
-
-
-    </v-app>   
+</v-app>
 </template>
 <script>
-import { mapState } from 'vuex'
-
-
-
-export default{
-
+import {mapActions, mapState} from 'vuex'
+export default {
     data(){
         return{
-            edit: false,
-        
-
-
+            Eshow: false
         }
     },
-   computed: {
-       ...mapState(['userInfo'])
-   },
-   methods: {
-       Edit(){
-           this.edit= true
-       }
-   }
 
+
+    computed: {
+        ...mapState(['userInfo'])
+    },
+
+
+    methods:{
+        Edit(){
+            this.Eshow =true
+            this.$store.state.removeBar= true
+
+        }
+
+
+
+    }
 }
 </script>
-<style>
-
-</style>
-
