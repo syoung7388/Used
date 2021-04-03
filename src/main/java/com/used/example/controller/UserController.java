@@ -2,6 +2,7 @@ package com.used.example.controller;
 
 import java.util.ArrayList;
 
+
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -78,7 +80,6 @@ public class UserController{
 	public ResponseEntity<?> Signup(@RequestBody User user){
 		
 		String encodedPassword= new BCryptPasswordEncoder().encode(user.getPassword());
-		//Q joinrequest란?
 		user.setPassword(encodedPassword);
 		user.setisAccountNonExpired(true);
 		user.setisAccountNonLocked(true);
@@ -136,6 +137,28 @@ public class UserController{
 		logger.info("!!!!"+user);
 		
 		return new ResponseEntity<>( user, HttpStatus.OK);
+		
+	}
+	@PostMapping("/edit")
+	public ResponseEntity<?> UserEdit(@RequestBody User user){
+		logger.info("비밀번호 가즈아:"+ user.getName());
+		
+
+		String encodedPassword= new BCryptPasswordEncoder().encode(user.getPassword());
+		user.setPassword(encodedPassword);	
+		userService.UserEidt(user);
+		
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+	@ResponseBody
+	@DeleteMapping("/delete")
+	public ResponseEntity<?> UserDelete(@RequestBody User user){
+		String username= user.getUsername();
+		logger.info("username:"+ username);
+		
+		userService.UserDelete(username);
+		
+		return new ResponseEntity<>("success", HttpStatus.OK);
 		
 	}
 	

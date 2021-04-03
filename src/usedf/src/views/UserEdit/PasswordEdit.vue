@@ -16,9 +16,7 @@
             <v-btn  
             class="primary mt-5"
             block
-            @click="EditOK({ 
-                password
-            })"
+            @click="Edit"
             >확인</v-btn>
         </v-col>
     </v-row>
@@ -39,8 +37,12 @@ export default {
     computed: {
         ...mapState(['userInfo'])
     },
-    methods: {
-        ...mapActions(['EditOK'])
+    methods: {    
+        
+        Edit(){
+            this.userInfo.password = this.password
+            this.$store.dispatch('EditOK')
+        },
     }
 
 }

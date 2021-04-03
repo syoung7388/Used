@@ -13,22 +13,30 @@
             class="primary mt-5"
             block
             x-large
-            @click="EditOK({  name})"
+            @click="Edit"
             >확인</v-btn>
         </v-col>
     </v-row>
 </v-app>
 </template>
 <script>
-import { mapActions } from "vuex";
+import {  mapState} from "vuex";
 export default {
     data(){
         return{
             name: null,
         }
     },
-    methods: {
-        ...mapActions(['EditOK'])    
+    computed: {
+        ...mapState(['userInfo'])
+    },
+    methods: { 
+        Edit(){
+            this.userInfo.name = this.name
+            this.$store.dispatch('EditOK')
+
+        }
+            
     }
 }
 </script>

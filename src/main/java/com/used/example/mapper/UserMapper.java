@@ -26,6 +26,10 @@ public interface UserMapper {
 	public UserInfo readUser_token(String username);
 
 	public Collection<? extends GrantedAuthority> readAuthorities_token(String username);
+
+	public void UserEdit(User user);
+
+	public void UserDelete(String username);
 	
 
 }

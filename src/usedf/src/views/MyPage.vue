@@ -30,7 +30,7 @@
             <v-list-item @click="Edit" router :to="{name: 'NameEdit'}">
                 <v-list-item-content>
                 <v-list-item-title class="primary--text mb-3">닉네임</v-list-item-title> 
-                <v-list-item-subtitle>{{userInfo.username}}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{userInfo.name}}</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-icon>
                     <i class="fas fa-chevron-right"  style="font-size: large;"></i> 
@@ -60,7 +60,10 @@
                     <i class="fas fa-chevron-right"  style="font-size: large;"></i> 
                 </v-list-item-icon>       
             </v-list-item>
-            <v-divider></v-divider>
+            <v-divider class="mb-5"></v-divider>
+            <v-btn text @click="Edit" router :to="{name: 'UserDelete'}">
+                <p style="font-size:8px;" class="grey--text" >계정삭제를 원하시면 클릭해주세요</p>
+            </v-btn>
         </v-list>
         </v-container>
         <v-container v-show="Eshow === true">

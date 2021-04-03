@@ -17,6 +17,8 @@ public class User implements UserDetails{
 	private String numStr;
 	private String name;//별명
 	private String address;
+	private String newusername;
+	private int u_num;
 	private Collection<? extends GrantedAuthority> authorities;
 	private boolean isAccountNonExpired;
 	private boolean isAccountNonLocked;
@@ -117,13 +119,32 @@ public class User implements UserDetails{
 		this.numStr = numStr;
 	}
 
+	public String getNewusername() {
+		return newusername;
+	}
+
+	public void setNewusername(String newusername) {
+		this.newusername = newusername;
+	}
+
+	public int getU_num() {
+		return u_num;
+	}
+
+	public void setU_num(int u_num) {
+		this.u_num = u_num;
+	}
+
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password + ", phone=" + phone + ", numStr=" + numStr
-				+ ", name=" + name + ", address=" + address + ", authorities=" + authorities + ", isAccountNonExpired="
-				+ isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired="
-				+ isCredentialsNonExpired + ", isEnabled=" + isEnabled + "]";
+				+ ", name=" + name + ", address=" + address + ", newusername=" + newusername + ", u_num=" + u_num
+				+ ", authorities=" + authorities + ", isAccountNonExpired=" + isAccountNonExpired
+				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
+				+ ", isEnabled=" + isEnabled + "]";
 	}
+	
+	
 	
 	
 	

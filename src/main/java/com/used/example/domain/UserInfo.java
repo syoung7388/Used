@@ -14,7 +14,8 @@ public class UserInfo {
 	private String address;
 	private Collection<? extends GrantedAuthority> authorities;
 	private String auth;
-	
+	private int u_num;
+	private String password;
 	
 	
 	public String getUsername() {
@@ -53,18 +54,29 @@ public class UserInfo {
 	}
 	
 	
-	
-
-	@Override
-	public String toString() {
-		return "UserInfo [username=" + username + ", name=" + name + ", phone=" + phone + ", address=" + address
-				+ ", authorities=" + authorities + ", auth=" + auth + "]";
-	}
 	public String getAddress() {
 		return address;
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public int getU_num() {
+		return u_num;
+	}
+	public void setU_num(int u_num) {
+		this.u_num = u_num;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	@Override
+	public String toString() {
+		return "UserInfo [username=" + username + ", name=" + name + ", phone=" + phone + ", address=" + address
+				+ ", authorities=" + authorities + ", auth=" + auth + ", u_num=" + u_num + ", password=" + password
+				+ "]";
 	}
 	
 	

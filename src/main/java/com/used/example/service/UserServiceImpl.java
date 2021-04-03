@@ -95,4 +95,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 
+	@Override
+	public void UserEidt(User user) {
+		userMapper.UserEdit(user);
+		
+	}
+
+
+	@Override
+	public void UserDelete(String username) {
+		userMapper.UserDelete(username);
+		
+	}
+
+
+
+
+
 }

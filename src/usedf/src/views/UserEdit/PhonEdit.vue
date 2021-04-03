@@ -53,9 +53,7 @@
             <v-btn  
                 class="primary mt-5"
                 block
-                @click="EditOK({ 
-                    phone
-                })"
+                @click="Edit"
             >저장</v-btn>
             </div>
         </v-col>
@@ -76,11 +74,17 @@ export default {
         
     },
     methods: {
-        ...mapActions(['EditOK','sms', 'certification'])
+        ...mapActions(['sms', 'certification']),
+        Edit(){
+            this.userInfo.phone = this.phone
+            this.$store.dispatch('EditOK')
+
+        }
     },
     computed: {
-        ...mapState(["Pshow", "certi",'phoneError','certiError'])
+        ...mapState(["Pshow", "certi",'phoneError','certiError','userInfo'])
     }
 
 }
 </script>
+

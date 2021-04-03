@@ -21,9 +21,7 @@
             class="primary mt-5"
             block
             x-large
-            @click="EditOK({ 
-                address
-            })"
+            @click="Edit"
             >확인</v-btn>
         </v-row>
     </v-container>
@@ -33,7 +31,7 @@
 </v-app>
 </template>
 <script>
-import { mapActions, mapState} from 'vuex'
+import { mapState} from 'vuex'
 import Address from '@/components/Address.vue'
 
 export default{
@@ -45,8 +43,14 @@ export default{
         }
 
     },
+    computed: {
+        ...mapState(['userInfo'])
+    },
     methods: {
-        ...mapActions(['EditOK']),
+        Edit(){
+        this.userInfo.address = this.address
+        this.$store.dispatch('EditOK')
+        },
 
 //////////////////////////////////////////////////////-주소Components
         GoAddress(){

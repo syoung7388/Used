@@ -61,6 +61,12 @@ const routes = [
           component: () => import(/* webpackChunkName: "addressedit" */'@/views/UserEdit/AddressEdit.vue')
       
         },
+        {
+          path:'/delete',
+          name: 'UserDelete',
+          component: () => import(/* webpackChunkName: "delete" */'@/views/UserDelete.vue')
+
+        }
 
     ]
   }

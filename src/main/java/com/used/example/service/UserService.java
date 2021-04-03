@@ -21,4 +21,9 @@ public interface UserService extends UserDetailsService {
 
 	public Collection<? extends GrantedAuthority> readAuthorities_token(String username);
 
+	public void UserEidt(User user);
+
+
+	public void UserDelete(String username);
+
 }

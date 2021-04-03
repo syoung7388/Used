@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { createLogger } from 'vuex'
 import axios from 'axios'
 import router from '../router'
 import colors from 'vuetify/lib/util/colors'
@@ -60,9 +60,11 @@ export default new Vuex.Store({
         username: payload.username,
         password: payload.password,
         phone: payload.phone,
-        address: payload.address
+        address: payload.address,
+        u_num: payload.u_num
 
       }
+      console.log(state.userInfo)
     
       state.isLoginError= false
 
@@ -154,31 +156,56 @@ export default new Vuex.Store({
       .get('http://localhost:9200/api/user/unpackToken', config)
       .then( Ires =>{
         console.log(Ires.data)
-        let userInfo={
-          username: Ires.data.username,
-          name: Ires.data.name,
-          phone: Ires.data.phone,
-          address: Ires.data.address
-        }
-        commit('LoginSuccess', userInfo)
+        // let userInfo={
+        //   username: Ires.data.username,
+        //   name: Ires.data.name,
+        //   phone: Ires.data.phone,
+        //   address: Ires.data.address,
+        //   password: Ires.data.password,
+        //   u_num: Ires.data.u_num
+        // }
+        commit('LoginSuccess', Ires.data)
       
       })
     },
-    EditOK({dispatch}, payload){
+    EditOK({state, commit}){///UserEdit마무리 
+      let userInfo= state.userInfo
+      
+      console.log(userInfo)
       axios
-      .post('http://localhost:9200/api/user/edit',payload)
+      .post('http://localhost:9200/api/user/edit', userInfo)
+      .then(Eres =>{
+        console.log("수정완료")
+        console.log(Eres.data)
+        //commit('EditSuccess', Eres.data)
+      })
+      .catch(() => {
+        console.log("실패")
+      })
 
-      console.log(payload)
-
+    },
+    deleteOK({state}){
+      let userIn= state.userInfo
+      
+      console.log(userIn)
+      
+      axios
+      .delete('http://localhost:9200/api/user/delete', userIn)
+      .then(Dres =>{
+        if(Dres.data === "success"){
+          alert("삭제 성공")
+        }
+      })
+      .catch(() => {
+        console.log("실패")
+      })
+      
     }
 
 
 
 
-  },
 
-
-  modules: {
 
   }
 })

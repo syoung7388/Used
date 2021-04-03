@@ -64,7 +64,9 @@
 		select  u_username				as		username,
 				u_phone					as		phone,
 				u_name					as		name,
-				u_address               as      address
+				u_address               as      address,
+				u_num           		as		u_num,
+				u_password				as 		password
 		from    user
 		where   u_username = #{username}		
 	</select>
@@ -76,6 +78,27 @@
 	
 	
 	</select>
+	
+	<update id="UserEdit" parameterType="com.used.example.domain.User">
+		update user a inner join auth b
+		on a.u_username= b.u_username
+		set		a.u_username = #{username},
+				a.u_password = #{password},
+				a.u_phone = #{phone},
+				a.u_address = #{address},
+				a.u_name =#{name},
+				b.u_username= #{username}
+		where   a.u_num = #{u_num}
+		
+	</update>
+	<delete id= "UserDelete" parameterType="String">
+		DELETE a,b
+		FROM user a
+		INNER JOIN auth b ON a.u_username= b.u_username
+		WHERE a.u_username= #{username}
+		
+		
+	</delete>
 
 
 
