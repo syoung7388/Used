@@ -24,6 +24,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -151,9 +152,9 @@ public class UserController{
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	@ResponseBody
-	@DeleteMapping("/delete")
-	public ResponseEntity<?> UserDelete(@RequestBody User user){
-		String username= user.getUsername();
+	@DeleteMapping("/delete/{username}")
+	public ResponseEntity<?> UserDelete(@PathVariable("username") String username){
+		
 		logger.info("username:"+ username);
 		
 		userService.UserDelete(username);

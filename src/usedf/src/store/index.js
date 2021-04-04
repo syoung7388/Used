@@ -185,12 +185,11 @@ export default new Vuex.Store({
 
     },
     deleteOK({state}){
-      let userIn= state.userInfo
-      
-      console.log(userIn)
+      let username= state.userInfo.username
+      console.log(username)
       
       axios
-      .delete('http://localhost:9200/api/user/delete', userIn)
+      .delete(`http://localhost:9200/api/user/delete/${username}`)
       .then(Dres =>{
         if(Dres.data === "success"){
           alert("삭제 성공")
