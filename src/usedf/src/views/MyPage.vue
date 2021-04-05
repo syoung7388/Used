@@ -1,7 +1,10 @@
 <template>
 <v-app>
         <v-container v-show="Eshow===false">
-            <h1 class="mb-10 mt-5" style="font-size: 20px; text-align: center">{{userInfo.name}}님 안녕하세요</h1>
+            <v-btn icon @click="Homeback">
+                <i class="fas fa-angle-double-left" style="font-size: large;"></i>
+            </v-btn>
+            <h1 class="mb-10 mt-2" style="font-size: 20px; text-align: center">{{userInfo.name}}님 안녕하세요</h1>
             <v-list two-line>
             <v-list-item @click="Edit" router :to="{name: 'EmailEdit'}" >
                 <v-list-item-content>
@@ -90,8 +93,8 @@ export default {
         Edit(){
             this.$store.state.Eshow = true
             this.$store.state.removeBar= true
-
-        }
+        },
+        ...mapActions(['Homeback'])
 
 
 

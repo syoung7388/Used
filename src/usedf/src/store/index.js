@@ -83,7 +83,14 @@ export default new Vuex.Store({
         address: payload.address,
         u_num: payload.u_num
       }
-      state.Eshow= true
+      state.Eshow= false
+      router.push({name: 'MyPage'})
+
+    },
+    DeleteSuccess(state){
+
+      state.Ashow = 0
+      router.push({name: 'App'})
 
     }
 
@@ -198,7 +205,7 @@ export default new Vuex.Store({
       })
 
     },
-    deleteOK({state}){
+    deleteOK({state,commit}){
       let username= state.userInfo.username
       console.log(username)
       
@@ -207,12 +214,23 @@ export default new Vuex.Store({
       .then(Dres =>{
         if(Dres.data === "success"){
           alert("삭제 성공")
+          commit('DeleteSuccess')
+
         }
       })
       .catch(() => {
         console.log("실패")
       })
       
+    },
+    Editback({state}) {
+      state.Eshow= false
+      router.back()
+
+    },
+    Homeback({state}){
+      state.removeBar=false
+      router.back()
     }
 
 

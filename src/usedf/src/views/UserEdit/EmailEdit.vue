@@ -1,8 +1,11 @@
 <template>
-<v-app class="pa-5">
+<v-app class="pa-0">
     <v-row>
         <v-col>
-            <h1  class="mt-5 " style="font-size: 20px; text-align: center">변경하실 email을 입력하세요</h1>
+            <v-btn icon @click="Editback">
+                <i class="fas fa-angle-double-left" style="font-size: large;"></i>
+            </v-btn>
+            <h1  class="mt-5 " style="font-size: 17px; text-align: center">변경하실 email을 입력해 주세요.</h1>
             <v-text-field
             v-model="username"
             height=40
@@ -14,7 +17,6 @@
             <v-btn  
             class="primary mt-5"
             block
-            x-large
             @click="Edit"
             >확인</v-btn>
         </v-col>
@@ -42,8 +44,8 @@ export default {
         Edit(){
             this.userInfo.username = this.username
             this.$store.dispatch('EditOK')
-
-        }
+        },
+        ...mapActions(['Editback'])
     }
 
 }

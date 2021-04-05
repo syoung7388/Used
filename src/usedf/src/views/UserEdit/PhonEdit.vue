@@ -1,5 +1,5 @@
 <template>
-<v-app class="pa-5 text-center">
+<v-app class="pa-2 ">
     <v-row >
         <v-col>
             <v-alert
@@ -20,35 +20,39 @@
             >
              휴대폰 번호를 확인해주세요
             </v-alert>
-            <h1  class="mt-5 " style="font-size: 20px; text-align: center">변경하실 전화번호를 입력하세요</h1>
+            <v-btn icon @click="Editback">
+                <i class="fas fa-angle-double-left" style="font-size: large;"></i>
+            </v-btn>
+            <h1  class="mt-5 " style="font-size: 17px; text-align: center">변경하실 전화번호를 입력해 주세요.</h1>
             <v-text-field
                 required
                 hint="예시)01011112222"
                 v-model="phone"
             ></v-text-field>
-            <div v-show="Pshow === false">
+            <div v-show="Pshow === false" class="text-center">
             <v-btn 
-                class="mt-5 primary"
+                class="mt-5 primary align-content-center "
                 small 
                 @click="sms({phone})"
+
                 
                 >인증문자받기</v-btn>
             </div>
-            <div v-show="Pshow === true">
+            <div v-show="Pshow === true"  class="text-center pa-3" > 
             <v-row>
-            <v-text-field
-                required
-                hint="타인에게 공유하지 마세요!"
-                class="mt-3"
-                v-model="certinum"
-            >
-            </v-text-field> 
-            <v-btn 
-                class="ma-5 primary--text" 
-                small 
-                @click="certification({certinum})"
-                outlined
-            >확인</v-btn>
+                <v-text-field
+                    required
+                    hint="타인에게 공유하지 마세요!"
+                    class="mt-3"
+                    v-model="certinum"
+                >
+                </v-text-field> 
+                <v-btn 
+                    class="mt-7 ml-3 primary--text" 
+                    small 
+                    @click="certification({certinum})"
+                    outlined
+                >확인</v-btn>
             </v-row>
             <v-btn  
                 class="primary mt-5"
@@ -74,7 +78,7 @@ export default {
         
     },
     methods: {
-        ...mapActions(['sms', 'certification']),
+        ...mapActions(['sms', 'certification','Editback']),
         Edit(){
             this.userInfo.phone = this.phone
             this.$store.dispatch('EditOK')
@@ -87,4 +91,11 @@ export default {
 
 }
 </script>
+<style>
+.a {
+     position: absolute;
+
+}
+
+</style>
 

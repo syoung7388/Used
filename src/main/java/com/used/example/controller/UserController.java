@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.used.example.domain.Auth;
+
 import com.used.example.domain.User;
 import com.used.example.domain.UserInfo;
 import com.used.example.response.JwtResponse;
@@ -140,20 +140,20 @@ public class UserController{
 		UserInfo user= userService.readUser_token(username);
 		
 		user.setAuthorities(userService.readAuthorities_token(username));
-		logger.info("!!!!"+user);
+		logger.info("readUser_token:"+user);
 		
 		return new ResponseEntity<>( user, HttpStatus.OK);
 		
 	}
 	@PostMapping("/edit")
 	public ResponseEntity<?> UserEdit(@RequestBody User user){
-		logger.info("비밀번호 가즈아:"+ user.getOldusername());
-		logger.info("비밀번호 가즈아:"+ user.getUsername());
+		
+		logger.info("비밀번호:"+ user.getPassword());
 	
 		
 
-		String encodedPassword= new BCryptPasswordEncoder().encode(user.getPassword());
-		user.setPassword(encodedPassword);
+//		String encodedPassword= new BCryptPasswordEncoder().encode(user.getPassword());
+//		user.setPassword(encodedPassword);
 		userService.UserEidt(user);// auth.getName이 같을시 
 		
 		
