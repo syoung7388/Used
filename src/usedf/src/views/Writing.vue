@@ -57,7 +57,7 @@
                     <v-textarea
                     outlined
                     auto-grow
-                    value="고객님 자세한 설명은 빠른 판매에 도움이 됩니다."                  
+                    value= "고객님 자세한 설명은 빠른 판매에 도움이 됩니다."                  
                     >
                     </v-textarea>
                 </v-col>          
@@ -70,7 +70,16 @@
                 </v-col>
                 <v-col
                 cols="10" 
-                >         
+                >
+                    <v-date-picker
+                       v-model="date"
+                       type="year"
+                       lang="en"
+                       format="yyyy"
+
+                    ></v-date-picker>
+
+
                 </v-col>          
             </v-row>
         </v-container>
@@ -80,9 +89,12 @@
 </template>
 
 <script>
+import Datepicker from 'vue2-datepicker'
 export default{
     data() {
+        
         return {
+            date:'',
             select: null,
             device: null,
             industry: null,
@@ -124,26 +136,18 @@ export default{
                 '절단기',
                 '벽선단',
                 '기타'
-            ]
+            ],
 //////////////////////////////////////////////////////////////////제품 선택 내생각엔 따로 빼는것도 좋은 방법인듯
-      
+        
 
         }
-    }
-}
 
+    },
+    components: {
+        Datepicker
+    }
+    
+
+}
 
 </script>
-<style>
-.datepicker-days{
-    display: none;
-}
-.datepicker-months{
-    display: none;
-}
-.datepicker-years {
-
-   display: block ;
-
-}
-</style>
