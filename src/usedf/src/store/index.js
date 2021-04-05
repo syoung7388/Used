@@ -13,6 +13,7 @@ export default new Vuex.Store({
     Ashow: 0,
     removeBar: false,
     EPshow: false,
+    Eshow: false,
     
     
     certi: null,
@@ -72,6 +73,18 @@ export default new Vuex.Store({
 
     LoginFaile(state){
       state.isLoginError=true
+    },
+    EditSuccess(state, payload){
+      state.userInfo= {
+        name: payload.name,
+        username: payload.username,
+        password: payload.password,
+        phone: payload.phone,
+        address: payload.address,
+        u_num: payload.u_num
+      }
+      state.Eshow= true
+
     }
 
   
@@ -177,7 +190,8 @@ export default new Vuex.Store({
       .then(Eres =>{
         console.log("수정완료")
         console.log(Eres.data)
-        //commit('EditSuccess', Eres.data)
+        commit('EditSuccess', Eres.data)
+        
       })
       .catch(() => {
         console.log("실패")

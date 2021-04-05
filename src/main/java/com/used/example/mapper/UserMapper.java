@@ -28,8 +28,11 @@ public interface UserMapper {
 	public Collection<? extends GrantedAuthority> readAuthorities_token(String username);
 
 	public void UserEdit(User user);
+//	public void AuthEdit(int u_num);
 
 	public void UserDelete(String username);
+
+	
 	
 
 }

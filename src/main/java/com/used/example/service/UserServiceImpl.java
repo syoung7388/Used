@@ -101,12 +101,20 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+//	@Override
+//	public void AuthEdit(User user) {
+//		userMapper.AuthEdit(user);
+//		
+//	}
+
 
 	@Override
 	public void UserDelete(String username) {
 		userMapper.UserDelete(username);
 		
 	}
+
+
 
 
 

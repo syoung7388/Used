@@ -1,8 +1,7 @@
 package com.used.example.controller;
 
 import java.util.ArrayList;
-
-
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -17,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.used.example.domain.Auth;
 import com.used.example.domain.User;
 import com.used.example.domain.UserInfo;
 import com.used.example.response.JwtResponse;
@@ -54,6 +56,9 @@ public class UserController{
     @Autowired
     AuthenticationManager authenticationManager;
     
+
+ 
+    
     
     
 	//회원가입 인증 메세지 보내기
@@ -76,7 +81,6 @@ public class UserController{
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	
-	//프론트에서 회원가입 정보 받아서 DB저장
 	@PostMapping("/signup")
 	public ResponseEntity<?> Signup(@RequestBody User user){
 		
@@ -98,17 +102,18 @@ public class UserController{
 	//로그인
 	@PostMapping("/login")
 	public ResponseEntity<?> Login(@RequestBody User user){
-		logger.info("??" +user);
+		logger.info("넘어온 값" +user);
 		
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword())); // AuthenticationManager 에 token 을 넘기면 UserDetailsService 가 받아 처리하도록 한다.
-		
+
 		SecurityContextHolder.getContext().setAuthentication(authentication);  // 실제 SecurityContext 에 authentication 정보를 등록한다.
+
 		
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		
 		user= (User) authentication.getPrincipal();
-		logger.info("!!!!"+ authentication.getPrincipal());
+		logger.info("authentication.getPrincipal():"+ authentication.getPrincipal());
 		
 		List<String> roles= user.getAuthorities().stream()
 								.map(item -> item.getAuthority())
@@ -142,12 +147,29 @@ public class UserController{
 	}
 	@PostMapping("/edit")
 	public ResponseEntity<?> UserEdit(@RequestBody User user){
-		logger.info("비밀번호 가즈아:"+ user.getName());
+		logger.info("비밀번호 가즈아:"+ user.getOldusername());
+		logger.info("비밀번호 가즈아:"+ user.getUsername());
+	
 		
 
 		String encodedPassword= new BCryptPasswordEncoder().encode(user.getPassword());
-		user.setPassword(encodedPassword);	
-		userService.UserEidt(user);
+		user.setPassword(encodedPassword);
+		userService.UserEidt(user);// auth.getName이 같을시 
+		
+		
+		
+//		Auth auth= (Auth) SecurityContextHolder.getContext()
+//
+//			.getAuthentication().getPrincipal();
+//
+//		System.out.println(auth.getUsername());
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		String username = auth.getName();
+//		
+//		
+//userService.AuthEdit( user); 수정은 되고 있음 하지만 권한에서 문제 발생중 
+		
+		
 		
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}

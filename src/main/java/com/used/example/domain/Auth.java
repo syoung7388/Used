@@ -1,14 +1,12 @@
 package com.used.example.domain;
 
-
-
 import java.util.Collection;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class User implements UserDetails{
-	
+public class Auth implements UserDetails{
+
 	private static final long serialVersionUID = 1L;
 
 	private String username;//email
@@ -17,7 +15,7 @@ public class User implements UserDetails{
 	private String numStr;
 	private String name;//별명
 	private String address;
-	private String oldusername;
+	private String newusername;
 	private int u_num;
 	private Collection<? extends GrantedAuthority> authorities;
 	private boolean isAccountNonExpired;
@@ -119,12 +117,12 @@ public class User implements UserDetails{
 		this.numStr = numStr;
 	}
 
-	public String getOldusername() {
-		return oldusername;
+	public String getNewusername() {
+		return newusername;
 	}
 
-	public void setOldusername(String oldusername) {
-		this.oldusername = oldusername;
+	public void setNewusername(String newusername) {
+		this.newusername = newusername;
 	}
 
 	public int getU_num() {
@@ -135,24 +133,4 @@ public class User implements UserDetails{
 		this.u_num = u_num;
 	}
 
-	@Override
-	public String toString() {
-		return "User [username=" + username + ", password=" + password + ", phone=" + phone + ", numStr=" + numStr
-				+ ", name=" + name + ", address=" + address + ", oldusername=" + oldusername + ", u_num=" + u_num
-				+ ", authorities=" + authorities + ", isAccountNonExpired=" + isAccountNonExpired
-				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
-				+ ", isEnabled=" + isEnabled + "]";
-	}
-
-
-	
-	
-	
 }
-
-	
-	
-	
-	
-	
-	

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.used.example.mapper.UserMapper">
+
 	<insert id= "createUser" parameterType= "com.used.example.domain.User">
 		insert into user(
 			u_name,
@@ -24,7 +25,9 @@
 			#{isEnabled}
 
 		)
+	
 	</insert>
+	
 	<insert id= "createAuthority"  parameterType= "com.used.example.domain.User">
 		insert into auth(
 			u_username,
@@ -91,6 +94,10 @@
 		where   a.u_num = #{u_num}
 		
 	</update>
+	
+
+
+	
 	<delete id= "UserDelete" parameterType="String">
 		DELETE a,b
 		FROM user a

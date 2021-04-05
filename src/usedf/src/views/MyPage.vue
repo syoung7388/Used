@@ -76,19 +76,19 @@ import {mapActions, mapState} from 'vuex'
 export default {
     data(){
         return{
-            Eshow: false
+            
         }
     },
 
 
     computed: {
-        ...mapState(['userInfo'])
+        ...mapState(['userInfo', 'Eshow'])
     },
 
 
     methods:{
         Edit(){
-            this.Eshow =true
+            this.$store.state.Eshow = true
             this.$store.state.removeBar= true
 
         }
