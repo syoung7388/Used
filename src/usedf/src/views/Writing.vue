@@ -30,13 +30,15 @@
             </v-row>
             <v-row>
                 <v-col
+                class="py-0"
                 
-                cols="2">
+                cols="3">
                     <h1 style="font-size: 15px">제목</h1>
                 
                 </v-col>
                 <v-col
-                cols="10"
+                cols="9"
+                 class="py-0"
                 >
                     <v-text-field
                         outlined
@@ -47,12 +49,14 @@
             </v-row>
             <v-row>
                 <v-col
-                cols="2"
+                cols="3"
+                class="py-0" 
                 >
                     <h1 style="font-size: 15px">내용</h1>
                 </v-col>
                 <v-col
-                cols="10" 
+                cols="9"
+                class="py-0" 
                 >           
                     <v-textarea
                     outlined
@@ -62,26 +66,81 @@
                     </v-textarea>
                 </v-col>          
             </v-row> 
+
+            <v-row >
+                <v-col
+                cols="3"
+                class="py-0" 
+                >
+                    <h1 style="font-size: 15px">브랜드</h1>               
+                </v-col>
+                <v-col
+                cols="9"
+                class="py-0" 
+                >
+                    <v-text-field
+                        outlined
+                        rows="1"
+                        dense
+                        height="2"
+                        ></v-text-field>
+                </v-col>
+            </v-row>
             <v-row>
                 <v-col
-                cols="2"
+                cols="3"
+                class="py-0" 
                 >
                     <h1 style="font-size: 15px">연식</h1>
                 </v-col>
                 <v-col
-                cols="10" 
+                cols="5"
+                class="py-0"  
                 >
-                    <v-date-picker
-                       v-model="date"
-                       type="year"
-                       lang="en"
-                       format="yyyy"
-
-                    ></v-date-picker>
-
-
+                    <v-select       
+                    :items="yearOptions"
+                    single-line
+                    dense
+                    class="mt-0"
+                    ></v-select>
                 </v-col>          
             </v-row>
+            <h1 class="primary--text my-5" style="font-size: 16px;" >사진 등록은 필수입니다!</h1>
+            <v-row align="center">
+                <v-col
+                cols="3"
+                >
+                    <input ref="imageInput" type="file"  @change="ChangeImages" hidden>
+                    <v-btn
+                    @click="ClickImageUpload"
+                    icon
+                    color="grey"
+                    >
+                        <i class="far fa-plus-square" style="font-size: 30px;"></i>
+                    </v-btn>
+                </v-col>
+                    <v-col
+                    cols="3" 
+                    v-for="(list, idx) in imageList"
+                    :key="idx"
+                    >               
+                        <v-img 
+                        v-if="imageList" 
+                        :src="list.image"
+                        max-height="60"
+                        max-width="60"
+                        ></v-img>  
+
+                    </v-col>         
+            </v-row>
+             <v-btn  
+            class="primary mt-5"
+            block
+            >확인</v-btn>
+            <v-virtual-scroll
+            height="100"
+            item-height="20"
+            ></v-virtual-scroll>     
         </v-container>
     </v-app>
 
@@ -89,12 +148,14 @@
 </template>
 
 <script>
-import Datepicker from 'vue2-datepicker'
+
 export default{
     data() {
         
         return {
-            date:'',
+            imageList: [],
+            yearOptions:[],
+            imageList:[],
             select: null,
             device: null,
             industry: null,
@@ -143,9 +204,29 @@ export default{
         }
 
     },
-    components: {
-        Datepicker
+    mounted() {
+        // 연도 선택 옵션 리스트 설정
+        let year = new Date().getFullYear();
+        for (let i = 1970; i <= year; i++) {
+        this.yearOptions.push(i);        
+        }
+    },
+///////////////////////////////////////////////////////////연도 선택
+    methods: {
+        ClickImageUpload(){
+            this.$refs.imageInput.click();     
+        },
+
+        ChangeImages(i) {
+
+            const file = i.target.files[0];
+            let image = URL.createObjectURL(file) 
+            this.imageList.push({image, status: 'created'})
+            console.log( this.imageList)
+
+        }
     }
+    
     
 
 }

@@ -4,11 +4,11 @@
 
         <v-bottom-navigation
             v-show="removeBar === false"
-            absolute
             color="primary"
             grow
             height="70"
             :value="value"
+            fixed
         >
             <v-btn router :to="{name: 'Home'}">
                 <span style="opacity:0.5 font-weight:500;">홈</span>
