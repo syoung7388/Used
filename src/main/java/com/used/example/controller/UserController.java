@@ -1,6 +1,8 @@
 package com.used.example.controller;
 
 import java.util.ArrayList;
+
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -124,6 +126,7 @@ public class UserController{
 													user.getName(),
 													roles));
 	}
+	
 	//로그인으로 받은 토큰으로 정보 빼오기
 	@GetMapping("/unpackToken")
 	public ResponseEntity<?> unpackToken(HttpServletRequest request){
@@ -150,24 +153,8 @@ public class UserController{
 		
 		logger.info("비밀번호:"+ user.getPassword());
 	
+	
 		
-
-//		String encodedPassword= new BCryptPasswordEncoder().encode(user.getPassword());
-//		user.setPassword(encodedPassword);
-		userService.UserEidt(user);// auth.getName이 같을시 
-		
-		
-		
-//		Auth auth= (Auth) SecurityContextHolder.getContext()
-//
-//			.getAuthentication().getPrincipal();
-//
-//		System.out.println(auth.getUsername());
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		String username = auth.getName();
-//		
-//		
-//userService.AuthEdit( user); 수정은 되고 있음 하지만 권한에서 문제 발생중 
 		
 		
 		

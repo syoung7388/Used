@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import EmailEdit from '@/views/UserEdit/EmailEdit.vue'
+import EmailEdit from '@/views/UserEditDelete/EmailEdit.vue'
 import MyPage from '@/views/MyPage.vue'
 
 Vue.use(VueRouter)
@@ -45,31 +45,31 @@ const routes = [
         {
           path: '/passwordedit',
           name: 'PasswordEdit',
-          component: () => import(/* webpackChunkName: "passwordedit" */'@/views/UserEdit/PasswordEdit.vue')
+          component: () => import(/* webpackChunkName: "passwordedit" */'@/views/UserEditDelete/PasswordEdit.vue')
       
         },
         {
           path: '/phonedit',
           name: 'PhonEdit',
-          component: () => import(/* webpackChunkName: "phonedit" */'@/views/UserEdit/PhonEdit.vue')
+          component: () => import(/* webpackChunkName: "phonedit" */'@/views/UserEditDelete/PhonEdit.vue')
       
         },
         {
           path: '/nameedit',
           name: 'NameEdit',
-          component: () => import(/* webpackChunkName: "nameedit" */'@/views/UserEdit/NameEdit.vue')
+          component: () => import(/* webpackChunkName: "nameedit" */'@/views/UserEditDelete/NameEdit.vue')
       
         },
         {
           path: '/addressedit',
           name: 'AddressEdit',
-          component: () => import(/* webpackChunkName: "addressedit" */'@/views/UserEdit/AddressEdit.vue')
+          component: () => import(/* webpackChunkName: "addressedit" */'@/views/UserEditDelete/AddressEdit.vue')
       
         },
         {
           path:'/delete',
           name: 'UserDelete',
-          component: () => import(/* webpackChunkName: "delete" */'@/views/UserDelete.vue')
+          component: () => import(/* webpackChunkName: "delete" */'@/views/UserEditDelete/UserDelete.vue')
 
         }
 

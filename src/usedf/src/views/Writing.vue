@@ -21,8 +21,8 @@
             
                 >
                     <v-select
-                        v-model="device"
-                        :items="devices"
+                        v-model="kind"
+                        :items="kinds"
                         single-line
                         dense
                     ></v-select>
@@ -41,10 +41,11 @@
                  class="py-0"
                 >
                     <v-text-field
-                        outlined
-                        rows="1"
-                        dense
-                        ></v-text-field>
+                    v-model="title"
+                    outlined
+                    rows="1"
+                    dense
+                    ></v-text-field>
                 </v-col>
             </v-row>
             <v-row>
@@ -59,9 +60,10 @@
                 class="py-0" 
                 >           
                     <v-textarea
+                    v-model="content"
                     outlined
-                    auto-grow
-                    value= "고객님 자세한 설명은 빠른 판매에 도움이 됩니다."                  
+                    rows="2"
+                        
                     >
                     </v-textarea>
                 </v-col>          
@@ -79,11 +81,12 @@
                 class="py-0" 
                 >
                     <v-text-field
-                        outlined
-                        rows="1"
-                        dense
-                        height="2"
-                        ></v-text-field>
+                    v-model="brand"
+                    outlined
+                    rows="1"
+                    dense
+                    height="2"
+                    ></v-text-field>
                 </v-col>
             </v-row>
             <v-row>
@@ -102,8 +105,29 @@
                     single-line
                     dense
                     class="mt-0"
+                    v-model="year"
                     ></v-select>
                 </v-col>          
+            </v-row>
+            <v-row >
+                <v-col
+                cols="3"
+                class="py-0" 
+                >
+                    <h1 style="font-size: 15px">시작가격</h1>               
+                </v-col>
+                <v-col
+                cols="9"
+                class="py-0"
+                >
+                    <v-text-field
+                    v-model="startprice"
+                    outlined
+                    rows="1"
+                    dense
+                    height="2"
+                    ></v-text-field>
+                </v-col>
             </v-row>
             <h1 class="primary--text my-5" style="font-size: 16px;" >사진 등록은 필수입니다!</h1>
             <v-row align="center">
@@ -136,6 +160,15 @@
              <v-btn  
             class="primary mt-5"
             block
+            @click="WritingOK({
+                industry,
+                kind,
+                title,
+                content,
+                brand,
+                year,
+                startprice
+            })"
             >확인</v-btn>
             <v-virtual-scroll
             height="100"
@@ -148,16 +181,27 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 
 export default{
     data() {
         
         return {
-            imageList: [],
-            yearOptions:[],
+
+            industry: null,
+            kind: null,
+            title: null,
+            content: null,
+            brand: null,
+            year: null,
+            startprice: null,
             imageList:[],
+
+/////////////////////////////////////////////////////보내야 할것들
+
+            yearOptions:[], 
             select: null,
-            device: null,
+            kind: null,
             industry: null,
             industries: [
                 '한식', 
@@ -178,7 +222,7 @@ export default{
 
             ],
 
-            devices: [
+            kinds: [
                 '작업대',
                 '커피머신',
                 '그릴기',
@@ -224,7 +268,8 @@ export default{
             this.imageList.push({image, status: 'created'})
             console.log( this.imageList)
 
-        }
+        },
+        ...mapActions(['WritingOK'])
     }
     
     

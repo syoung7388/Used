@@ -17,13 +17,13 @@ public class User implements UserDetails{
 	private String numStr;
 	private String name;//별명
 	private String address;
-	private String oldusername;
 	private int u_num;
 	private Collection<? extends GrantedAuthority> authorities;
 	private boolean isAccountNonExpired;
 	private boolean isAccountNonLocked;
 	private boolean isCredentialsNonExpired;
 	private boolean isEnabled;
+
 	
 	
 	
@@ -118,15 +118,6 @@ public class User implements UserDetails{
 	public void setNumStr(String numStr) {
 		this.numStr = numStr;
 	}
-
-	public String getOldusername() {
-		return oldusername;
-	}
-
-	public void setOldusername(String oldusername) {
-		this.oldusername = oldusername;
-	}
-
 	public int getU_num() {
 		return u_num;
 	}
@@ -138,7 +129,7 @@ public class User implements UserDetails{
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password + ", phone=" + phone + ", numStr=" + numStr
-				+ ", name=" + name + ", address=" + address + ", oldusername=" + oldusername + ", u_num=" + u_num
+				+ ", name=" + name + ", address=" + address + ",u_num=" + u_num
 				+ ", authorities=" + authorities + ", isAccountNonExpired=" + isAccountNonExpired
 				+ ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
 				+ ", isEnabled=" + isEnabled + "]";

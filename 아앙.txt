@@ -1,0 +1,25 @@
+board 작성자 / 제목/ 내용/ board_num /like(좋아요)
+b_writer
+
+
+
+////
+
+
+product  업종분야/ 제품종류/ 브랜드/ 연식/ 사진/ product_num
+
+
+
+
+//// 
+
+price  시작가격 / 낙찰가격
+
+
+auctionprice 제품num/ 경매가격/ Buyer
+image 잠시 지윰
+
+	
+
+https://ssssssu12.tistory.com/4
+

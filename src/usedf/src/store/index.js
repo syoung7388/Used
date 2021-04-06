@@ -99,14 +99,23 @@ export default new Vuex.Store({
   },
   actions: {
 
-    Alogin({state}){ //App.vue에서 login페이지 전환
+    Alogin({state}){ //App.vue -> login페이지 전환
       state.Ashow =1
     },
-    Asignup({state}){ //App.vue에서 signup페이지 전환
+    Asignup({state}){ //App.vue-> signup페이지 전환
       state.Ashow =2
     },
-    RemoveBar({state}){
+    RemoveBar({state}){ // 하단바 제거하는 함수
       state.removeBar= true
+    },
+    Editback({state}) { /// Edit&Delete -> deleteMyPage로 돌아가는 함수
+      state.Eshow= false
+      router.back()
+
+    },
+    Homeback({state}){///  MyPage -> Home으로 돌아가는 함수
+      state.removeBar=false
+      router.back()
     },
 
 
@@ -176,14 +185,6 @@ export default new Vuex.Store({
       .get('http://localhost:9200/api/user/unpackToken', config)
       .then( Ires =>{
         console.log(Ires.data)
-        // let userInfo={
-        //   username: Ires.data.username,
-        //   name: Ires.data.name,
-        //   phone: Ires.data.phone,
-        //   address: Ires.data.address,
-        //   password: Ires.data.password,
-        //   u_num: Ires.data.u_num
-        // }
         commit('LoginSuccess', Ires.data)
       
       })
@@ -205,7 +206,7 @@ export default new Vuex.Store({
       })
 
     },
-    deleteOK({state,commit}){
+    deleteOK({state,commit}){ ///삭제하러 가는 함수
       let username= state.userInfo.username
       console.log(username)
       
@@ -223,14 +224,12 @@ export default new Vuex.Store({
       })
       
     },
-    Editback({state}) {
-      state.Eshow= false
-      router.back()
-
-    },
-    Homeback({state}){
-      state.removeBar=false
-      router.back()
+    WritingOK({commit}, payload){/// 게시물 작성 내용 DB전달
+      console.log(payload)
+      
+      axios
+      .post('http://localhost:9200/api/board/writing', payload)
+      
     }
 
 
