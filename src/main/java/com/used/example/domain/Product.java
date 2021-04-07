@@ -1,6 +1,9 @@
 package com.used.example.domain;
 
+import java.io.File;
 import java.util.ArrayList;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class Product {
 	
@@ -12,14 +15,24 @@ public class Product {
 	private String industry;
 	private String brand;
 	private String year;
-	private ArrayList<String> imageList;
 	private String startprice;
 	private String endprice;
 	private String title;
 	private String content;
+	private ArrayList<MultipartFile> imageList;
 	
 	
 	
+	
+	
+	
+	
+	public ArrayList<MultipartFile> getImageList() {
+		return imageList;
+	}
+	public void setImageList(ArrayList<MultipartFile> imageList) {
+		this.imageList = imageList;
+	}
 	public int getP_num() {
 		return p_num;
 	}
@@ -50,17 +63,6 @@ public class Product {
 	}
 	public void setYear(String year) {
 		this.year = year;
-	}
-	public ArrayList<String> getImageList() {
-		return imageList;
-	}
-	public void setImageList(ArrayList<String> imageList) {
-		
-		
-		for(int i=0; i<imageList.size(); i++) {
-			String originalFileName= imageList.get(i).
-		}
-		this.imageList = imageList;
 	}
 	public String getStartprice() {
 		return startprice;

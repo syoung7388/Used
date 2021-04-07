@@ -167,7 +167,8 @@
                 kind ,
                 brand,
                 year,
-                startprice
+                startprice,
+                imageList
             })"
             >확인</v-btn>
             <v-virtual-scroll

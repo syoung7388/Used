@@ -10,36 +10,36 @@ import org.springframework.web.multipart.MultipartFile;
 public class Image {
 	
 	
-	public String Image( List<MultipartFile> images){
+//	public String Image( List<MultipartFile> images){
 		
 		
 		
 		
 
-		
-		String path= "";
-		String thumbPath= path+"thumb/";
-		String filename = 
-		String ext= filename.substring(filename.lastIndexOf(".")+1);
-		
-		
-		File file= new File(path+ filename);
-		File thumbFile = new File(thumbPath+filename);
-		
-		try {
-			InputStream input = multipartFile.getInputStream();
-			FileUtils.copyInputStreamToFile(input, file);
-			
-			
-			Buffr
-			
-			
-		}
-		
-		
+//		
+//		String path= "";
+//		String thumbPath= path+"thumb/";
+//		String filename = 
+//		String ext= filename.substring(filename.lastIndexOf(".")+1);
+//		
+//		
+//		File file= new File(path+ filename);
+//		File thumbFile = new File(thumbPath+filename);
+//		
+//		try {
+//			InputStream input = multipartFile.getInputStream();
+//			FileUtils.copyInputStreamToFile(input, file);
+//			
+//			
+//			Buffr
+//			
+//			
+//		}
 		
 		
-	}
+		
+		
+	//}
 	
 	
 }
