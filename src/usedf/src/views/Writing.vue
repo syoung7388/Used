@@ -163,14 +163,11 @@
             @click="WritingOK({
                 title,
                 content,
-                writer,
-                product: {
-                industry: industry,
-                kind: kind ,
-                brand: brand,
-                year: year,
-                startprice: startprice
-                }
+                industry,
+                kind ,
+                brand,
+                year,
+                startprice
             })"
             >확인</v-btn>
             <v-virtual-scroll
@@ -199,7 +196,7 @@ export default{
             year: null,
             startprice: null,
             imageList:[],
-            writer: null,
+            username: null,
 
 /////////////////////////////////////////////////////보내야 할것들
 
@@ -279,7 +276,7 @@ export default{
         ...mapState(['userInfo'])
     },
     created(){
-        this.writer= this.userInfo.username
+        this.username= this.userInfo.username
     }
     
     

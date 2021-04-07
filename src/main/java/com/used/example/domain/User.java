@@ -10,14 +10,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class User implements UserDetails{
 	
 	private static final long serialVersionUID = 1L;
-
+	
+	
+	private int u_num;
+	
+	
+	
+	
 	private String username;//email
 	private String password;
 	private String phone;
 	private String numStr;
 	private String name;//별명
 	private String address;
-	private int u_num;
 	private Collection<? extends GrantedAuthority> authorities;
 	private boolean isAccountNonExpired;
 	private boolean isAccountNonLocked;

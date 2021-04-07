@@ -226,9 +226,15 @@ export default new Vuex.Store({
     },
     WritingOK({commit}, payload){/// 게시물 작성 내용 DB전달
       console.log(payload)
+      let token = localStorage.getItem("access_token")
+      let config={
+        headers: {
+          access_token: token
+        }
+      }
       
       axios
-      .post('http://localhost:9200/api/board/writing', payload)
+      .post('http://localhost:9200/api/product/writing', payload, config)
       
     }
 

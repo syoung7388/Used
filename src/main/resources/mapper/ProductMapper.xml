@@ -3,23 +3,30 @@
 <mapper namespace="com.used.example.mapper.ProductMapper">
 	<insert id="createProduct" parameterType="com.used.example.domain.Product">
 		insert into product ( 
+		
+								u_username,
 								p_kind,
 								p_industry,
 								p_brand,
 								p_year,
-							
 								p_startprice,
 								p_endprice,
-								b_number
+								p_title,
+								p_content
 		
-		) values (
+		) values (				
+		
+								#{username},
 								#{kind},
 								#{industry},
 								#{brand},
 								#{year},	
 								#{startprice},
 								#{endprice},
-								#{b_number}
+								#{title},
+								#{content}
+							
+								
 	
 		
 		)
