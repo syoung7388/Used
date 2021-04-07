@@ -10,7 +10,7 @@ import com.used.example.domain.Product;
 public interface BoardMapper {
 
 
-	public int createBoard(Board board);
+	public void createBoard(Board board);
 
 
 }

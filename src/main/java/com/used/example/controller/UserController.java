@@ -107,7 +107,7 @@ public class UserController{
 		logger.info("넘어온 값" +user);
 		
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword())); // AuthenticationManager 에 token 을 넘기면 UserDetailsService 가 받아 처리하도록 한다.
+				new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())); // AuthenticationManager 에 token 을 넘기면 UserDetailsService 가 받아 처리하도록 한다.
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);  // 실제 SecurityContext 에 authentication 정보를 등록한다.
 
@@ -115,6 +115,7 @@ public class UserController{
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		
 		user= (User) authentication.getPrincipal();
+		logger.info("authentication.getPrincipal():"+ authentication.getPrincipal());
 		logger.info("authentication.getPrincipal():"+ authentication.getPrincipal());
 		
 		List<String> roles= user.getAuthorities().stream()

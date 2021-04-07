@@ -4,7 +4,11 @@
 
 
 <insert id="createBoard" parameterType="com.used.example.domain.Board" >
-	insert into board	(b_writer,
+
+           <selectKey keyProperty="b_num" resultType="int" order="AFTER">
+		       SELECT LAST_INSERT_ID()
+          </selectKey>
+          	insert into board	(b_writer,
 						 b_title,
 						 b_content
 						 )
@@ -14,9 +18,6 @@
 						  #{content}
 				)
 				
-				<selectKey  keyProperty="b_num" resultType="int" order="AFTER">
-					select last_insert_id()
-				</selectKey>
 
 </insert>
 

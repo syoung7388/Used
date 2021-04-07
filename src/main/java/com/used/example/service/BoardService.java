@@ -8,7 +8,8 @@ import com.used.example.domain.Product;
 
 public interface BoardService {
 
-	int createBoard(Board board);
+	void createBoard(Board board);
 
+	
 
 }

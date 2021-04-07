@@ -2,13 +2,30 @@ package com.used.example.domain;
 
 import java.util.ArrayList;
 
-public class Board {
+public class Board extends Product{
 	
 	private int b_num;
 	private String title;
 	private String content;
 	private String writer;
 	private int bTime;// 게시뮬  작성시간
+	
+
+	private Product product;
+	
+	
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+
+	
+
+	
+	
 
 
 	
@@ -43,6 +60,7 @@ public class Board {
 	public void setB_num(int b_num) {
 		this.b_num = b_num;
 	}
+
 
 
 }

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,39 +38,44 @@ public class BoardController {
 	private final Logger logger= LoggerFactory.getLogger(this.getClass());
 	
 	
+
+	
 	
 	
 	@PostMapping("/writing")
-	public ResponseEntity<?> Writing (@RequestBody Board board, Product product){
+	public ResponseEntity<?> Writing (@RequestBody Board board){
 		
 		
 		
+// Q) 세션에 저장되어있는 username을 어떻게 꺼내오는가?계속 uknownuser라는 스트링 타입이 넘어온다          일단, vue에서 자체제작을 하기로 했다.. 
 		
 		
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-		User user = (User)principal; 
-		String username = ((User) principal).getUsername(); 
-		String password = ((User) principal).getPassword();
-		
-		logger.info("username:"+username);
-		
-		
-
-		
-		
-		
+// 1. @AuthenticationPrincipal UserDetails userdetails ///logger.info("username:"+userdetails.getUsername());
+//	2.	User user= (User) authentication.getPrincipal();
+//		String user_id = user.getUsername();
+//	3.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		String username = authentication.getName(); 혹시 몰라서 getUsername 으로도 해봄
+//		logger.debug("current username : {}", username);	
+//		--> 안되는 이유? 1.Token을 계속 ? 2. 로그인할때 lodeby로 가져온 내용들이 세션에 저장이 되지 않았다. 3.컨트롤러가 달라서? 
+			
 
 //		String username= user.getUsername();	
 //		board.setWriter(username);
 		
+	
 		
-		int selectBnum= boardService.createBoard(board);
-		product.setB_number(selectBnum);
+		boardService.createBoard(board);
+		
+		Product product= board.getProduct();
 		
 		
 		
+		product.setB_number(board.getB_num());
 		
+		logger.info("b_number"+board.getB_num());
 		
+		logger.info("product"+product);
+	
 		
 		productService.createProduct(product);
 		

@@ -161,13 +161,16 @@
             class="primary mt-5"
             block
             @click="WritingOK({
-                industry,
-                kind,
                 title,
                 content,
-                brand,
-                year,
-                startprice
+                writer,
+                product: {
+                industry: industry,
+                kind: kind ,
+                brand: brand,
+                year: year,
+                startprice: startprice
+                }
             })"
             >확인</v-btn>
             <v-virtual-scroll
@@ -181,7 +184,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default{
     data() {
@@ -196,6 +199,7 @@ export default{
             year: null,
             startprice: null,
             imageList:[],
+            writer: null,
 
 /////////////////////////////////////////////////////보내야 할것들
 
@@ -270,6 +274,12 @@ export default{
 
         },
         ...mapActions(['WritingOK'])
+    },
+    computed: {
+        ...mapState(['userInfo'])
+    },
+    created(){
+        this.writer= this.userInfo.username
     }
     
     
