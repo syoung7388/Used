@@ -26,7 +26,9 @@ dependencies {
 	implementation 'org.projectlombok:lombok'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
 	implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
-	implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+	implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+	implementation group: 'commons-fileupload.wso2', name: 'commons-fileupload', version: '1.2.0.wso2v1'
+
 
 }
 

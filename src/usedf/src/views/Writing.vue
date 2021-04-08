@@ -167,8 +167,7 @@
                 kind ,
                 brand,
                 year,
-                startprice,
-                imageList
+                startprice
             })"
             >확인</v-btn>
             <v-virtual-scroll
@@ -196,8 +195,9 @@ export default{
             brand: null,
             year: null,
             startprice: null,
-            imageList:[],
             username: null,
+            imageList: [],
+           
 
 /////////////////////////////////////////////////////보내야 할것들
 
@@ -262,22 +262,21 @@ export default{
         ClickImageUpload(){
             this.$refs.imageInput.click();     
         },
-
-        ChangeImages(i) {
-
-            const file = i.target.files[0];
-            let image = URL.createObjectURL(file) 
-            this.imageList.push({image, status: 'created'})
-            console.log( this.imageList)
-
+        
+        ChangeImages(i){ 
+            const file = i.target.files[0]
+            let image = URL.createObjectURL(file)
+            this.imageList.push({image})
+            this.$store.state.ImageList= this.imageList
         },
         ...mapActions(['WritingOK'])
     },
     computed: {
-        ...mapState(['userInfo'])
+        ...mapState(['userInfo','ImageList'])
     },
     created(){
         this.username= this.userInfo.username
+      
     }
     
     

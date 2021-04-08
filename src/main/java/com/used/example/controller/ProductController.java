@@ -1,7 +1,9 @@
 package com.used.example.controller;
 
 import java.io.File;
-import java.util.ArrayList;
+
+//import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.filechooser.FileSystemView;
@@ -28,7 +30,8 @@ import com.used.example.config.JwtUtils;
 import com.used.example.domain.Product;
 import com.used.example.domain.User;
 import com.used.example.service.ProductService;
-import com.used.example.utilty.makeSomenail;
+import com.used.example.utilty.MakeSomenail;
+
 
 @CrossOrigin(origins="*", maxAge =3600)
 @RestController
@@ -58,58 +61,14 @@ public class ProductController {
 			token=token.substring(7, token.length());
 		}
 		String username= JwtUtils.getUserEmailFromToken(token);
-		
-		
 		//====================================================================토큰
 		
-		ArrayList<MultipartFile> imageList = product.getImageList();
-		
-		
-		makeSomenail Somnail = new makeSomenail();
-		
-		for(int i=0; i<imageList.size(); i++) {
-			
-//			String rootPath= FileSystemView.getFileSystemView().getHomeDirectory().toString();
-//			String basePath= rootPath+"/"+"single";
-//			
-			
-			
-		
-			String originalFileName = imageList.get(i).getOriginalFilename();
-			int index= originalFileName .lastIndexOf(".");
-			System.out.println("나지금 Domain이야:"+ originalFileName);
-			
-			String fileName= originalFileName.substring(0, index);
-			String fileExt= originalFileName.substring(index+1);
-			
-			
-			File file = new File("Used/src/usedf/src/asset/"+ originalFileName);
-			
-			logger.info(file.getAbsolutePath());
-			
-			imageList.get(i).transferTo(file);
-			
-			Somnail.makeSomenail(file.getAbsoluteFile(), originalFileName, fileExt);
-
-		}
-		
-
-		
-		
-		
-		
-		
-		//=====================================================================이미지
 		logger.info(username);
 		product.setUsername(username);
 		
 		productService.createProduct(product);
 		
 		
-		
-		
-		
-
 		return new ResponseEntity<>("success", HttpStatus.OK);
 		
 

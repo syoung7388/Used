@@ -14,6 +14,7 @@ export default new Vuex.Store({
     removeBar: false,
     EPshow: false,
     Eshow: false,
+    ImageList:[],
     
     
     certi: null,
@@ -224,18 +225,50 @@ export default new Vuex.Store({
       })
       
     },
-    WritingOK({commit}, payload){/// 게시물 작성 내용 DB전달
+
+
+
+    WritingOK({commit, dispatch}, payload){/// 게시물 작성 내용 DB전달
       console.log(payload)
+
       let token = localStorage.getItem("access_token")
       let config={
         headers: {
+          'Access-Control-Allow-Origin': '*',
           access_token: token
         }
       }
-      
+
       axios
-      .post('http://localhost:9200/api/product/writing', payload, config)
+      .post('http://localhost:9200/api/product/writing',payload,config)
       
+      dispatch('uploadImage')
+
+      
+  
+    },
+    uploadImage({state}){
+
+      console.log(state.ImageList)
+      let ImageList= state.ImageList
+      let formData= new FormData()
+    
+      for(var index=0; index< ImageList.length; index++){
+          formData.append('ImageList', ImageList[index])
+      }
+      axios
+      .post('http://localhost:9200/api/image/multiimage', formData,{
+
+        headers: {
+          // 'Content-Type': 'multipart/form-data',
+          'Access-Control-Allow-Origin': '*'
+      }
+        
+
+      })
+
+
+
     }
 
 

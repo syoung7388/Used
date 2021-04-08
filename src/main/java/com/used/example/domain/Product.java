@@ -1,7 +1,9 @@
 package com.used.example.domain;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Arrays;
+//import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,20 +21,14 @@ public class Product {
 	private String endprice;
 	private String title;
 	private String content;
-	private ArrayList<MultipartFile> imageList;
+
 	
 	
 	
 	
 	
-	
-	
-	public ArrayList<MultipartFile> getImageList() {
-		return imageList;
-	}
-	public void setImageList(ArrayList<MultipartFile> imageList) {
-		this.imageList = imageList;
-	}
+
+
 	public int getP_num() {
 		return p_num;
 	}
@@ -89,20 +85,20 @@ public class Product {
 		this.content = content;
 	}
 	
-	
-	@Override
-	public String toString() {
-		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
-				+ ", brand=" + brand + ", year=" + year + ", imageList=" + imageList + ", startprice=" + startprice
-				+ ", endprice=" + endprice + ", title=" + title + ", content=" + content + "]";
-	}
+
 	public String getUsername() {
 		return username;
 	}
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
+	@Override
+	public String toString() {
+		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
+				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
+				+ ", title=" + title + ", content=" + content + "]";
+	}
+
 	
 	
 	

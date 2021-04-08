@@ -10,6 +10,19 @@ import org.springframework.web.multipart.MultipartFile;
 public class Image {
 	
 	
+	
+
+	private List<MultipartFile> ImageList;
+
+	public List<MultipartFile> getImageList() {
+		return ImageList;
+	}
+
+	public void setImageList(List<MultipartFile> imageList) {
+		ImageList = imageList;
+	}
+	
+	
 //	public String Image( List<MultipartFile> images){
 		
 		
