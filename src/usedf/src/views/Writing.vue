@@ -145,11 +145,11 @@
                 </v-col>
                     <v-col
                     cols="3" 
-                    v-for="(list, idx) in imageList"
+                    v-for="(list, idx) in showImage"
                     :key="idx"
                     >               
                         <v-img 
-                        v-if="imageList" 
+                        v-if="showImage" 
                         :src="list.image"
                         max-height="60"
                         max-width="60"
@@ -167,7 +167,8 @@
                 kind ,
                 brand,
                 year,
-                startprice
+                startprice,
+                imageList
             })"
             >확인</v-btn>
             <v-virtual-scroll
@@ -197,6 +198,9 @@ export default{
             startprice: null,
             username: null,
             imageList: [],
+            onefile: null,
+
+            showImage:[],
            
 
 /////////////////////////////////////////////////////보내야 할것들
@@ -265,9 +269,16 @@ export default{
         
         ChangeImages(i){ 
             const file = i.target.files[0]
-            let image = URL.createObjectURL(file)
-            this.imageList.push({image})
-            this.$store.state.ImageList= this.imageList
+
+
+            this.imageList.push({file})//보내기 위한 이미지리스트
+    
+            
+
+            let image = URL.createObjectURL(file)//보여주기 위한 이미지 리스트
+            this.showImage.push({image})
+
+
         },
         ...mapActions(['WritingOK'])
     },

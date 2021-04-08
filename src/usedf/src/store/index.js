@@ -229,20 +229,43 @@ export default new Vuex.Store({
 
 
     WritingOK({commit, dispatch}, payload){/// 게시물 작성 내용 DB전달
-      console.log(payload)
+    
 
       let token = localStorage.getItem("access_token")
       let config={
         headers: {
-          'Access-Control-Allow-Origin': '*',
-          access_token: token
+          "access_token": token,
+          'Content-Type': 'multipart/form-data',
+          'Access-Control-Allow-Origin': '*'
         }
       }
 
+      let formData = new FormData()
+
+      formData.append('title', payload.title)
+      formData.append('content',payload.content)
+      formData.append('industry',payload.industry)
+      formData.append('kind',payload.kind)
+      formData.append('brand',payload.brand)
+      formData.append('year',payload.year)
+      formData.append('startprice',payload.startprice)
+      formData.append('imageList', payload.imageList)
+
+    //   let images=[]
+    //   let imageList= payload.imageList
+    //   console.dir(imageList);
+    // for(var i=0; i< imageList.length; i++){
+    //   images.push(imageList[i])
+    //   console.log(imageList[i])   
+    // }
+
+    // formData.append('imageList', images)
+
+    //https://m.blog.naver.com/PostView.nhn?blogId=lhd1328&logNo=221428102896&proxyReferer=https:%2F%2Fwww.google.com%2F
       axios
-      .post('http://localhost:9200/api/product/writing',payload,config)
+      .post('http://localhost:9200/api/product/writing' , formData, config)
       
-      dispatch('uploadImage')
+      // dispatch('uploadImage')
 
       
   
@@ -258,6 +281,8 @@ export default new Vuex.Store({
       }
       axios
       .post('http://localhost:9200/api/image/multiimage', formData,{
+
+
 
         headers: {
           // 'Content-Type': 'multipart/form-data',
