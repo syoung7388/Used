@@ -243,6 +243,7 @@ export default new Vuex.Store({
 
       let formData = new FormData()
 
+       
       formData.append('title', payload.title)
       formData.append('content',payload.content)
       formData.append('industry',payload.industry)
@@ -250,7 +251,23 @@ export default new Vuex.Store({
       formData.append('brand',payload.brand)
       formData.append('year',payload.year)
       formData.append('startprice',payload.startprice)
-      console.log(payload.files)
+      
+      console.log('----------------------')
+      console.dir(payload.files)
+
+      for(let i=0; i< payload.files.length; i++){
+        var files = JSON.stringify(payload.files[i]);
+        formData.append('files', files)
+        
+      }
+
+      
+      for(let i=0; i< payload.files; i++){
+        var files = JSON.stringify(payload.files[i]);
+        formData.append('files',payload.files)
+        
+      }
+
       axios
       .post('http://localhost:9200/api/product/writing' , formData, config)
       

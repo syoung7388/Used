@@ -25,10 +25,10 @@ public class Product {
 	private String endprice;
 	private String title;
 	private String content;
-	private  List<MultipartFile> list;
-
+	private MultipartFile multipartfile;
 
 	
+
 	
 	
 	
@@ -101,8 +101,13 @@ public class Product {
 				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
 				+ ", title=" + title + ", content=" + content+"]";
 	}
-	
-	
+	public MultipartFile getMultipartfile() {
+		return multipartfile;
+	}
+	public void setMultipartfile(MultipartFile multipartfile) {
+		this.multipartfile = multipartfile;
+	}
+
 	
 
 	

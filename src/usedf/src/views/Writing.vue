@@ -134,7 +134,7 @@
                 <v-col
                 cols="3"
                 >
-                    <input ref="imageInput" type="file"  @change="ChangeImages" hidden multiple>
+                    <input ref="imageInput" type="file"  @change="ChangeImages" hidden >
                     <v-btn
                     @click="ClickImageUpload"
                     icon
@@ -267,33 +267,24 @@ export default{
         },
         
         ChangeImages(i){ 
-            //const file = i.target.files[0]
-            // this.imageList.push({})//보내기 위한 이미지리스트
-            // console.log(this.imageList[0].file)
-            // console.log(this.imageList)
+            
+            const file = i.target.files[0];
+            console.log(file)
+            // let fileinfo= {
+            //     name: file.name,
+            //     size: file.size,
+            //     type: file.type
+            // }
+            this.files.push(file)
 
 
-            const files= this.$refs.imageInput.files;
-            console.log(files)
-
-            //보내는 파일들
-            this.files= [
-                ...this.files,
-                ..._.map(files, file => ({
-                    name: file.name,
-                    size: file.size,
-                    type: file.type,
-                }))
-            ]
-            console.log(this.files)
+            console.info(this.files)
 
 
-            // 보여주는 이미지 
-            let image = URL.createObjectURL(files[0])
+            let image = URL.createObjectURL(file)
+
             this.showImage.push({image})
-            //console.log(this.showImage)  
-           
-
+ 
 
         },
         ...mapActions(['WritingOK'])

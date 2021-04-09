@@ -2,6 +2,7 @@ package com.used.example.controller;
 
 import java.io.File;
 
+
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -70,36 +71,15 @@ public class ProductController {
 	
 	@PostMapping("/writing")
 	public ResponseEntity<?> Writing (Product product, HttpServletRequest request) throws Exception {
+	
+
 		
 		
-		List <MultipartFile> list= /// 무엇을 하든 [Object object로 들어옴]
-		
+	
 		
 		
 	
 
-		
-
-		
-
-
-		
-
-
-		
-
-		
-//	
-//		for (Object[] objArr : list) {
-//		    for (Object obj : objArr) {
-//		        // 형 변환 후 출력
-//		        System.out.println(obj);
-//		    }
-//		}
-
-		
-		
-		
 
 		
 		
