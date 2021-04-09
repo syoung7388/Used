@@ -2,7 +2,10 @@ package com.used.example.domain;
 
 import java.io.File;
 
+
+
 import java.util.Arrays;
+import java.util.Collection;
 //import java.util.ArrayList;
 import java.util.List;
 
@@ -22,14 +25,13 @@ public class Product {
 	private String endprice;
 	private String title;
 	private String content;
-
-	
-	
-	
-	
-	
+	private  List<MultipartFile> list;
 
 
+	
+	
+	
+	
 	public int getP_num() {
 		return p_num;
 	}
@@ -97,13 +99,12 @@ public class Product {
 	public String toString() {
 		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
 				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
-				+ ", title=" + title + ", content=" + content + "]";
+				+ ", title=" + title + ", content=" + content+"]";
 	}
+	
+	
+	
 
-
-	
-	
-	
 	
 	
 	

@@ -10,17 +10,38 @@ import org.springframework.web.multipart.MultipartFile;
 public class Image {
 	
 	
+	private String name;
+	private String size;
+	private String type;
+	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSize() {
+		return size;
+	}
+	public void setSize(String size) {
+		this.size = size;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	
+	
+	
+	
 	
 
-	private List<MultipartFile> ImageList;
-
-	public List<MultipartFile> getImageList() {
-		return ImageList;
-	}
-
-	public void setImageList(List<MultipartFile> imageList) {
-		ImageList = imageList;
-	}
+	
+	
 	
 	
 //	public String Image( List<MultipartFile> images){

@@ -2,13 +2,21 @@ package com.used.example.controller;
 
 import java.io.File;
 
-
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 //import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.filechooser.FileSystemView;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 
 import org.slf4j.LoggerFactory;
@@ -32,6 +40,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.used.example.config.JwtUtils;
+import com.used.example.domain.Image;
 import com.used.example.domain.Product;
 import com.used.example.domain.User;
 import com.used.example.service.ProductService;
@@ -53,15 +62,51 @@ public class ProductController {
 	private String token;
 	
 	
+	
+	
+
 
 	
 	
-	
 	@PostMapping("/writing")
-	public ResponseEntity<?> Writing (MultipartHttpServletRequest imageList , Product product, HttpServletRequest request) throws Exception {
-		logger.info("imageList: "+imageList);
-		logger.info("product: "+product);
+	public ResponseEntity<?> Writing (Product product, HttpServletRequest request) throws Exception {
 		
+		
+		List <MultipartFile> list= /// 무엇을 하든 [Object object로 들어옴]
+		
+		
+		
+	
+
+		
+
+		
+
+
+		
+
+
+		
+
+		
+//	
+//		for (Object[] objArr : list) {
+//		    for (Object obj : objArr) {
+//		        // 형 변환 후 출력
+//		        System.out.println(obj);
+//		    }
+//		}
+
+		
+		
+		
+
+		
+		
+
+		
+		
+		//====================================================================이미지 리스트
 		
 
 		//logger.info("product: "+product.getImageList());

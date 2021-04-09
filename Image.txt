@@ -1,0 +1,39 @@
+		logger.info("files: "+files);
+		logger.info("product: "+product);
+		
+		String path="C:/photo/";
+		String fileName="";
+		
+		File dir= new File(path);
+		if(!dir.isDirectory()) {
+			dir.mkdir();
+		}
+		
+		List<MultipartFile> mf= files.getFiles("files");
+		logger.info("제발:"+mf);
+		
+		Iterator<String> imageList= files.getFileNames();
+		MultipartFile mpf= files.getFile(imageList.next());
+		if(mpf == null || mpf.getSize() <= 0) {
+			logger.info("파일 용량 없음");
+		}
+		
+		List<MultipartFile> fileList= files.getFiles("file");
+		
+		for(MultipartFile filePart: fileList) {
+			fileName= filePart.getOriginalFilename();
+			logger.info("실제 파일이름:"+fileName);
+			long fileSize= filePart.getSize();
+			
+			if(!fileName.equals("")) {
+				try {
+					FileOutputStream fs= new FileOutputStream(path+ fileName);
+					fs.write(filePart.getBytes());
+					fs.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		

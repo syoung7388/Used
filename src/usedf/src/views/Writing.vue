@@ -134,7 +134,7 @@
                 <v-col
                 cols="3"
                 >
-                    <input ref="imageInput" type="file"  @change="ChangeImages" hidden>
+                    <input ref="imageInput" type="file"  @change="ChangeImages" hidden multiple>
                     <v-btn
                     @click="ClickImageUpload"
                     icon
@@ -168,7 +168,7 @@
                 brand,
                 year,
                 startprice,
-                imageList
+                files
             })"
             >확인</v-btn>
             <v-virtual-scroll
@@ -183,6 +183,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import _ from 'lodash';
 
 export default{
     data() {
@@ -197,9 +198,7 @@ export default{
             year: null,
             startprice: null,
             username: null,
-            imageList: [],
-            onefile: null,
-
+            files:[],
             showImage:[],
            
 
@@ -268,15 +267,32 @@ export default{
         },
         
         ChangeImages(i){ 
-            const file = i.target.files[0]
+            //const file = i.target.files[0]
+            // this.imageList.push({})//보내기 위한 이미지리스트
+            // console.log(this.imageList[0].file)
+            // console.log(this.imageList)
 
 
-            this.imageList.push({file})//보내기 위한 이미지리스트
-    
-            
+            const files= this.$refs.imageInput.files;
+            console.log(files)
 
-            let image = URL.createObjectURL(file)//보여주기 위한 이미지 리스트
+            //보내는 파일들
+            this.files= [
+                ...this.files,
+                ..._.map(files, file => ({
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                }))
+            ]
+            console.log(this.files)
+
+
+            // 보여주는 이미지 
+            let image = URL.createObjectURL(files[0])
             this.showImage.push({image})
+            //console.log(this.showImage)  
+           
 
 
         },

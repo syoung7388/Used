@@ -236,7 +236,8 @@ export default new Vuex.Store({
         headers: {
           "access_token": token,
           'Content-Type': 'multipart/form-data',
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': '*',
+          "files": payload.files
         }
       }
 
@@ -249,19 +250,7 @@ export default new Vuex.Store({
       formData.append('brand',payload.brand)
       formData.append('year',payload.year)
       formData.append('startprice',payload.startprice)
-      formData.append('imageList', payload.imageList)
-
-    //   let images=[]
-    //   let imageList= payload.imageList
-    //   console.dir(imageList);
-    // for(var i=0; i< imageList.length; i++){
-    //   images.push(imageList[i])
-    //   console.log(imageList[i])   
-    // }
-
-    // formData.append('imageList', images)
-
-    //https://m.blog.naver.com/PostView.nhn?blogId=lhd1328&logNo=221428102896&proxyReferer=https:%2F%2Fwww.google.com%2F
+      console.log(payload.files)
       axios
       .post('http://localhost:9200/api/product/writing' , formData, config)
       
