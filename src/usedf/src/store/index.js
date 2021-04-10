@@ -26,8 +26,11 @@ export default new Vuex.Store({
     isLoginError: false,
     phoneError:false,
     certiError: false,
+    WritingError: false,
 
     userInfo: {},
+    saleList: [],
+    pictureList:[],
 
 
   
@@ -93,6 +96,15 @@ export default new Vuex.Store({
       state.Ashow = 0
       router.push({name: 'App'})
 
+    },
+    WritingFaile(state){
+      state.WritingError= true
+    },
+    WritingSuccess(){
+      router.push({name: 'Home'})
+    },
+    getSaleListSuccess(state, payload){
+      state.saleList = payload
     }
 
   
@@ -116,7 +128,7 @@ export default new Vuex.Store({
     },
     Homeback({state}){///  MyPage -> Home으로 돌아가는 함수
       state.removeBar=false
-      router.back()
+      router.push({name: 'Home'})
     },
 
 
@@ -175,7 +187,7 @@ export default new Vuex.Store({
         commit('LoginFaile')
       )
     },
-    getUserInfo({commit}){ //토큰 이용해서 유저정보 얻어오기
+    getUserInfo({commit, dispatch}){ //토큰 이용해서 유저정보 얻어오기
       let token= localStorage.getItem("access_token")
       let config= {
         headers: {
@@ -187,6 +199,8 @@ export default new Vuex.Store({
       .then( Ires =>{
         console.log(Ires.data)
         commit('LoginSuccess', Ires.data)
+        dispatch('getSaleList')
+      
       
       })
     },
@@ -228,7 +242,7 @@ export default new Vuex.Store({
 
 
 
-    WritingOK({commit, dispatch}, payload){/// 게시물 작성 내용 DB전달
+    WritingOK({dispatch, commit}, payload){/// 게시물 작성 내용 DB전달
     
 
       let token = localStorage.getItem("access_token")
@@ -236,8 +250,7 @@ export default new Vuex.Store({
         headers: {
           "access_token": token,
           'Content-Type': 'multipart/form-data',
-          'Access-Control-Allow-Origin': '*',
-          "files": payload.files
+          'Access-Control-Allow-Origin': '*'
         }
       }
 
@@ -251,59 +264,40 @@ export default new Vuex.Store({
       formData.append('brand',payload.brand)
       formData.append('year',payload.year)
       formData.append('startprice',payload.startprice)
-      
-      console.log('----------------------')
-      console.dir(payload.files)
 
       for(let i=0; i< payload.files.length; i++){
-        var files = JSON.stringify(payload.files[i]);
-        formData.append('files', files)
-        
+        formData.append('multipartfile',payload.files[i])
       }
-
-      
-      for(let i=0; i< payload.files; i++){
-        var files = JSON.stringify(payload.files[i]);
-        formData.append('files',payload.files)
-        
-      }
-
+  
       axios
       .post('http://localhost:9200/api/product/writing' , formData, config)
-      
-      // dispatch('uploadImage')
-
-      
-  
+      .then(wres=>{
+        if(wres.data === "success"){
+          commit('WritingSuccess')
+        }
+      })
+      .catch(()=>{
+        commit('WritingFaile')
+      })
     },
-    uploadImage({state}){
-
-      console.log(state.ImageList)
-      let ImageList= state.ImageList
-      let formData= new FormData()
-    
-      for(var index=0; index< ImageList.length; index++){
-          formData.append('ImageList', ImageList[index])
+    getSaleList({commit}){
+      let token = localStorage.getItem("access_token")
+      console.log("saleList")
+      let config={
+        headers: {
+          "access_token": token
+        }
       }
       axios
-      .post('http://localhost:9200/api/image/multiimage', formData,{
-
-
-
-        headers: {
-          // 'Content-Type': 'multipart/form-data',
-          'Access-Control-Allow-Origin': '*'
-      }
+      .get('http://localhost:9200/api/product/salelist', config)
+      .then(lres=> {
+        commit('getSaleListSuccess', lres.data)
         
-
       })
-
-
-
+      .catch(()=>{
+        alert("오류")
+      })
     }
-
-
-
 
 
 

@@ -24,6 +24,13 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	compile group: 'net.nurigo', name: 'javaSDK', version: '2.2'
 	implementation 'org.projectlombok:lombok'
+	
+	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+	compile('javax.servlet:jstl:1.2')
+	implementation 'org.springframework.security:spring-security-taglibs'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
+	
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
 	implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
 	implementation group: 'commons-io', name: 'commons-io', version: '2.6'

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.used.example.domain.Image;
+import com.used.example.domain.Picture;
 
 
 
@@ -32,7 +32,7 @@ public class ImageController {
 	//RequestParam("FormData") List<MultipartFile> multi
 	
 	@PostMapping("/multiimage")
-	public void MultiImage(@RequestBody Image image) throws IllegalStateException, IOException{
+	public void MultiImage(@RequestBody File image) throws IllegalStateException, IOException{
 		
 
 		

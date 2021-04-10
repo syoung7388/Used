@@ -1,6 +1,11 @@
 <template>
     <v-app>
         <v-container class="pa-5">
+            <div v-show="WritingError === true">
+                <h1 class="red--text" style="font-size: 15px;">
+                    입력하신걸 확인해 주세요!
+                </h1>
+            </div>
             <v-row justify="start">
                 <v-col 
                 cols="5"
@@ -198,9 +203,9 @@ export default{
             year: null,
             startprice: null,
             username: null,
-            files:[],
+            file: null,
             showImage:[],
-           
+            files:[],
 
 /////////////////////////////////////////////////////보내야 할것들
 
@@ -266,15 +271,10 @@ export default{
             this.$refs.imageInput.click();     
         },
         
+            
         ChangeImages(i){ 
             
-            const file = i.target.files[0];
-            console.log(file)
-            // let fileinfo= {
-            //     name: file.name,
-            //     size: file.size,
-            //     type: file.type
-            // }
+            const file = i.target.files[0]
             this.files.push(file)
 
 
@@ -284,13 +284,14 @@ export default{
             let image = URL.createObjectURL(file)
 
             this.showImage.push({image})
+
  
 
         },
         ...mapActions(['WritingOK'])
     },
     computed: {
-        ...mapState(['userInfo','ImageList'])
+        ...mapState(['userInfo','ImageList', 'WritingError'])
     },
     created(){
         this.username= this.userInfo.username

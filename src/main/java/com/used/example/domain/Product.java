@@ -1,9 +1,7 @@
 package com.used.example.domain;
 
 import java.io.File;
-
-
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 //import java.util.ArrayList;
@@ -25,13 +23,28 @@ public class Product {
 	private String endprice;
 	private String title;
 	private String content;
-	private MultipartFile multipartfile;
+	List <MultipartFile> multipartfile;
+
+	String[] pictureList;
 
 	
 
 	
 	
-	
+
+	public String[] getPictureList() {
+		return pictureList;
+	}
+	public void setPictureList(String p_picture) {
+		String[] list= p_picture.split(",");
+		this.pictureList = list;
+	}
+	public List<MultipartFile> getMultipartfile() {
+		return multipartfile;
+	}
+	public void setMultipartfile(List<MultipartFile> multipartfile) {
+		this.multipartfile = multipartfile;
+	}
 	public int getP_num() {
 		return p_num;
 	}
@@ -88,29 +101,25 @@ public class Product {
 		this.content = content;
 	}
 	
-
 	public String getUsername() {
 		return username;
 	}
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
+	
+
+
 	@Override
 	public String toString() {
 		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
 				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
-				+ ", title=" + title + ", content=" + content+"]";
+				+ ", title=" + title + ", content=" + content + ", multipartfile=" + multipartfile +"]";
 	}
-	public MultipartFile getMultipartfile() {
-		return multipartfile;
-	}
-	public void setMultipartfile(MultipartFile multipartfile) {
-		this.multipartfile = multipartfile;
-	}
-
+	
 	
 
-	
 	
 	
 	

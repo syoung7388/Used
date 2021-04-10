@@ -152,20 +152,14 @@ public class UserController{
 	@PostMapping("/edit")
 	public ResponseEntity<?> UserEdit(@RequestBody User user){
 		
-		logger.info("비밀번호:"+ user.getPassword());
-	
-	
-		
-		
-		
-		
+		userService.UserEidt(user);
+
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	@ResponseBody
 	@DeleteMapping("/delete/{username}")
 	public ResponseEntity<?> UserDelete(@PathVariable("username") String username){
 		
-		logger.info("username:"+ username);
 		
 		userService.UserDelete(username);
 		
