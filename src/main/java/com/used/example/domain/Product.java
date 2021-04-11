@@ -24,21 +24,22 @@ public class Product {
 	private String title;
 	private String content;
 	List <MultipartFile> multipartfile;
-
-	String[] pictureList;
-
-	
-
 	
 	
+	private String p_picture;
+	private String[] pictureList;
 
+	
+	public String getP_picture() {
+		return p_picture;
+	}
+	public void setP_picture(String p_picture) {
+		this.pictureList= p_picture.split(",");
+	}	
 	public String[] getPictureList() {
 		return pictureList;
 	}
-	public void setPictureList(String p_picture) {
-		String[] list= p_picture.split(",");
-		this.pictureList = list;
-	}
+
 	public List<MultipartFile> getMultipartfile() {
 		return multipartfile;
 	}
@@ -107,18 +108,17 @@ public class Product {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
-	
-
-
 	@Override
 	public String toString() {
 		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
 				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
-				+ ", title=" + title + ", content=" + content + ", multipartfile=" + multipartfile +"]";
+				+ ", title=" + title + ", content=" + content + ", multipartfile=" + multipartfile + ", p_picture="
+				+ p_picture + ", pictureList=" + Arrays.toString(pictureList) + "]";
 	}
+
 	
-	
+
+
 
 	
 	

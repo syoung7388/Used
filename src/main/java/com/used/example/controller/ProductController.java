@@ -93,7 +93,7 @@ public class ProductController {
 		
 		int Pnum= product.getP_num();
 		List<MultipartFile> multiList= product.getMultipartfile();
-		String path="C:\\photo\\";
+		String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
 		for(int i=0; i<multiList.size(); i++) {
 			
 			String filename= multiList.get(i).getOriginalFilename();
@@ -132,9 +132,15 @@ public class ProductController {
 		
 		List<Product> list= productService.getSaleList(username);
 		
-		logger.info(""+list.get(0).getPictureList());
-	
-	
+//		logger.info(""+list.get(0).getPictureList());
+//		Product pro= list.get(0);
+//		logger.info(""+pro.getKind());
+//		String[] list2 = pro.getPictureList();
+//		for(String aa: list2) {
+//			System.out.print("["+aa+"],");
+//		} 나온거 확인 ~~!!
+		
+
 		
 		
 		

@@ -4,23 +4,28 @@
             <v-subheader>Recent chat</v-subheader>
 
             <v-list-item
-                v-for="list in saleList"
+                v-for="list in B"
                 :key="list.p_num"
-            >
-  
-                <v-list-item-title v-text="list.title"></v-list-item-title>
-                <v-divider></v-divider>
-              
+            > 
+            <v-text-field v-text="list.pictureList"></v-text-field>
+        
+         
+   
+           
             </v-list-item>
+            
         </v-list>
     </v-app>
 </template>
 
 <script>
+import Vue from 'vue'
 import{mapState} from 'vuex'
 export default {
     data(){
         return{
+            B: [],
+            
           
         }
 
@@ -30,7 +35,17 @@ export default {
         ...mapState({
             saleList: 'saleList'})
     },
+    created() {
+        let a= this.saleList
+        for(let i=0; i < a.length; i++){
+            let b= a[i].pictureList
 
-    
+            for(let index=0; index< b.length; i++){
+         
+            }
+            Vue.set(a.pictureList, b)  
+        }
+        this.B= a         
+    }
 }
 </script>
