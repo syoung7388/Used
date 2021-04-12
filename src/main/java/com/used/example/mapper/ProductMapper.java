@@ -20,6 +20,7 @@ public interface ProductMapper {
 
 	public List<String> getImg(int i);
 
+	public List<Product> getSoldList(String username);
 
 
 }

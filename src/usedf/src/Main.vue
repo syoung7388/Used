@@ -20,7 +20,7 @@
             <i class="far fa-edit mb-2" style="font-size: x-large; opacity:0.5;"></i>
             </v-btn>
 
-            <v-btn router :to="{name:'SaleList'}">
+            <v-btn router :to="{name:'SaleList'}" @click="getSaleList">
             <span style="opacity:0.5 font-weight:500;">판매 리스트</span>
             <i class="fas fa-file-invoice-dollar mb-2" style="font-size: x-large; opacity:0.5;" ></i>
             </v-btn>
@@ -34,7 +34,7 @@
     </v-app>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
   export default {
     data() {
         return{
@@ -46,6 +46,10 @@ import { mapState } from 'vuex'
     computed: {
         ...mapState(['removeBar'])
     },
+    methods: {
+
+        ...mapActions(['getSaleList'])
+    }
   }
 </script>
  

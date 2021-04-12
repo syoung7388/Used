@@ -30,6 +30,7 @@ export default new Vuex.Store({
 
     userInfo: {},
     saleList: [],
+    soldList:[],
     pictureList:[],
     
 
@@ -107,7 +108,10 @@ export default new Vuex.Store({
       router.push({name: 'Home'})
     },
     getSaleListSuccess(state, payload){
-      state.saleList = payload
+      state.saleList = payload.get[0]
+      state.soldList= payload.get[1]
+      console.log(state.saleList)
+      console.log(state.soldList)
     },
     test(state ,payload){
       state.te= payload
@@ -205,7 +209,6 @@ export default new Vuex.Store({
       .then( Ires =>{
         console.log(Ires.data)
         commit('LoginSuccess', Ires.data)
-        dispatch('getSaleList')
       
       
       })
@@ -297,29 +300,17 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/product/salelist', config)
       .then(lres=> {
+        console.log (lres.data)
         commit('getSaleListSuccess', lres.data)
+        
         
       })
       .catch(()=>{
         alert("오류")
       })
     },
-    test({commit}){
-      let token = localStorage.getItem("access_token")
-      let config={
-        headers: {
-          "access_token": token
-        }
-      }
-      
-      axios
-      .get('http://localhost:9200/api/product/img', config )
-      .then(Tres=>{
-        console.log(Tres.data)
-        commit('test', Tres.data)
-      })
   
-  }
+ 
 
 
   }

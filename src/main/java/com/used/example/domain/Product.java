@@ -110,7 +110,7 @@ public class Product {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String isSale() {
+	public String getSale() {
 		return sale;
 	}
 	public void setSale(String sale) {

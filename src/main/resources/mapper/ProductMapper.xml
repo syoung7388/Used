@@ -56,11 +56,26 @@
 						WHERE a.p_num = b.p_num)p_picture
 		FROM product a
 		WHERE a.u_username =#{username}
+		AND   a.p_sale='false'
 	</select>
-	<select id="getImg" parameterType="int" resultType="String">
-		select p_picture 
-		from picture
-		where p_num= #{i}
+		<select id= "getSoldList" parameterType="String" resultType= "com.used.example.domain.Product">	
+		SELECT 	a.p_num 				as p_num,
+				a.u_username			as username,
+				a.p_kind				as kind,
+				a.p_industry 			as industry,
+				a.p_brand				as brand,
+				a.p_year				as year,
+				a.p_startprice		  	as startprice,
+				a.p_title				as title,
+				a.p_content				as content,
+				a.p_sale				as sale,
+				a.p_date				as p_date,
+				(SELECT GROUP_CONCAT(p_picture SEPARATOR ',')
+						FROM picture b
+						WHERE a.p_num = b.p_num)p_picture
+		FROM product a
+		WHERE a.u_username =#{username}
+		AND   a.p_sale='true'
 	</select>
 	
 

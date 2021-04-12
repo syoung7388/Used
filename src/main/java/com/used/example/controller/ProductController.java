@@ -101,8 +101,8 @@ public class ProductController {
 		
 		int Pnum= product.getP_num();
 		List<MultipartFile> multiList= product.getMultipartfile();
-		String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
-		
+		//String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
+		String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
 		for(int i=0; i<multiList.size(); i++) {
 			
 			String filename= multiList.get(i).getOriginalFilename();
@@ -112,9 +112,8 @@ public class ProductController {
 			
 			MakeThumbnail makeThumbnail = new MakeThumbnail();
 			makeThumbnail.makeThumbnail(input, file,  ext);
-			
-			String vuepath="@/assets/";
-			String pic= vuepath+filename;
+		
+			String pic= filename;
 			
 			Picture picture = new Picture();
 			picture.setP_num(Pnum);
@@ -139,18 +138,27 @@ public class ProductController {
 		}
 		String username= JwtUtils.getUserEmailFromToken(token);
 		
-		List<Product> list= productService.getSaleList(username);
+		List<Product> salelist= productService.getSaleList(username);
+		List<Product> soldlist= productService.getSoldList(username);
+		List<Object> list= new ArrayList<Object>();
+		Map<String, List<Product>> map = new HashMap<String, List<Product>>(); 
+		map.put("salelist", salelist);
+		map.put("soldlist", soldlist);
+		logger.info("map:"+map);
+		list.add(map);
+		
+		logger.info("list:"+ list);
+	
 		
 //		logger.info(""+list.get(0).getPictureList());
 //		Product pro= list.get(0);
-//		logger.info(""+pro.getKind());
+//		logger.info(""+pro.getSale());
 //		String[] list2 = pro.getPictureList();
 //		for(String aa: list2) {
 //			System.out.print("["+aa+"],");
-//		} 나온거 확인 ~~!!
+//		}
 		
-		
-		return new ResponseEntity<>(list , HttpStatus.OK);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 		
 	}
 	

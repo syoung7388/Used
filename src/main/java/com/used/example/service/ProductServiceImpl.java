@@ -40,6 +40,12 @@ public class ProductServiceImpl implements ProductService {
 		return productMapper.getImg(i);
 	}
 
+	@Override
+	public List<Product> getSoldList(String username) {
+		
+		return productMapper.getSoldList(username);
+	}
+
 
 
 }
