@@ -1,3 +1,3 @@
 <template>
-    <h1>구매리스트</h1>
+    <p>구매리스트</p>
 </template>

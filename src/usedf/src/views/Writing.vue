@@ -285,7 +285,7 @@ export default{
 
             this.showImage.push({image})
 
-            URL.revokeObjectURL(image)
+            // URL.revokeObjectURL(image)
 
  
 

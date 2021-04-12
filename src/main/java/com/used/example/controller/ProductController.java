@@ -6,7 +6,11 @@ import java.io.File;
 
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,6 +21,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.filechooser.FileSystemView;
 
+import org.apache.http.HttpHeaders;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,6 +29,8 @@ import org.slf4j.Logger;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.ClientCodecConfigurer.MultipartCodecs;
@@ -87,6 +94,7 @@ public class ProductController {
 		
 		
 		product.setUsername(username);
+		product.setSale("false");
 		productService.createProduct(product);
 		logger.info("p_num:"+product.getP_num());
 		//제품 정보 저장 후 제품 번호 가져오기
@@ -94,6 +102,7 @@ public class ProductController {
 		int Pnum= product.getP_num();
 		List<MultipartFile> multiList= product.getMultipartfile();
 		String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
+		
 		for(int i=0; i<multiList.size(); i++) {
 			
 			String filename= multiList.get(i).getOriginalFilename();
@@ -104,8 +113,8 @@ public class ProductController {
 			MakeThumbnail makeThumbnail = new MakeThumbnail();
 			makeThumbnail.makeThumbnail(input, file,  ext);
 			
-			
-			String pic= path+filename;
+			String vuepath="@/assets/";
+			String pic= vuepath+filename;
 			
 			Picture picture = new Picture();
 			picture.setP_num(Pnum);
@@ -140,13 +149,24 @@ public class ProductController {
 //			System.out.print("["+aa+"],");
 //		} 나온거 확인 ~~!!
 		
-
-		
-		
-		
 		
 		return new ResponseEntity<>(list , HttpStatus.OK);
 		
+	}
+	
+	@GetMapping("/img")
+	public ResponseEntity<?> Img(HttpServletRequest request) throws IOException{
+
+		List<String> img= productService.getImg(53);
+		String j= img.get(0);
+
+		logger.info("j:"+ j);
+		
+		
+		
+		
+
+		return new ResponseEntity<>(j, HttpStatus.OK);
 	}
 	
 

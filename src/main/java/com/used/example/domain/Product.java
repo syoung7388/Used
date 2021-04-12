@@ -28,7 +28,9 @@ public class Product {
 	
 	private String p_picture;
 	private String[] pictureList;
-
+	
+	private String p_date;
+	private String sale;
 	
 	public String getP_picture() {
 		return p_picture;
@@ -108,14 +110,26 @@ public class Product {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	@Override
-	public String toString() {
-		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
-				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
-				+ ", title=" + title + ", content=" + content + ", multipartfile=" + multipartfile + ", p_picture="
-				+ p_picture + ", pictureList=" + Arrays.toString(pictureList) + "]";
+	public String isSale() {
+		return sale;
 	}
+	public void setSale(String sale) {
+		this.sale = sale;
+	}
+	public String getP_date() {
+		return p_date;
+	}
+	public void setP_date(String p_date) {
+		this.p_date = p_date;
+	}
+	
+	
+	
 
+	
+	
+	
+	
 	
 
 

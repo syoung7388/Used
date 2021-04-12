@@ -12,7 +12,8 @@
 								p_startprice,
 								p_endprice,
 								p_title,
-								p_content
+								p_content,
+								p_sale
 		
 		) values (				
 		
@@ -24,8 +25,8 @@
 								#{startprice},
 								#{endprice},
 								#{title},
-								#{content}	
-		
+								#{content},
+								#{sale}
 		)
 		
 		<selectKey resultType= "int" keyProperty="p_num" order="AFTER" >
@@ -48,11 +49,18 @@
 				a.p_startprice		  	as startprice,
 				a.p_title				as title,
 				a.p_content				as content,
+				a.p_sale				as sale,
+				a.p_date				as p_date,
 				(SELECT GROUP_CONCAT(p_picture SEPARATOR ',')
 						FROM picture b
 						WHERE a.p_num = b.p_num)p_picture
 		FROM product a
 		WHERE a.u_username =#{username}
+	</select>
+	<select id="getImg" parameterType="int" resultType="String">
+		select p_picture 
+		from picture
+		where p_num= #{i}
 	</select>
 	
 

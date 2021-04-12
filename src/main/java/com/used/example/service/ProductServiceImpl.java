@@ -35,6 +35,11 @@ public class ProductServiceImpl implements ProductService {
 		return productMapper.getSaleList(username);
 	}
 
+	@Override
+	public List<String> getImg(int i) {
+		return productMapper.getImg(i);
+	}
+
 
 
 }

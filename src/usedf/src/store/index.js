@@ -31,6 +31,9 @@ export default new Vuex.Store({
     userInfo: {},
     saleList: [],
     pictureList:[],
+    
+
+    te: null,
 
 
   
@@ -105,6 +108,9 @@ export default new Vuex.Store({
     },
     getSaleListSuccess(state, payload){
       state.saleList = payload
+    },
+    test(state ,payload){
+      state.te= payload
     }
 
   
@@ -297,8 +303,23 @@ export default new Vuex.Store({
       .catch(()=>{
         alert("오류")
       })
-    }
-
+    },
+    test({commit}){
+      let token = localStorage.getItem("access_token")
+      let config={
+        headers: {
+          "access_token": token
+        }
+      }
+      
+      axios
+      .get('http://localhost:9200/api/product/img', config )
+      .then(Tres=>{
+        console.log(Tres.data)
+        commit('test', Tres.data)
+      })
+  
+  }
 
 
   }

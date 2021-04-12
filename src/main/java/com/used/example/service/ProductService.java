@@ -13,6 +13,8 @@ public interface ProductService {
 
 	public List<Product> getSaleList(String username);
 
+	public List<String> getImg(int i);
+
 	
 
 }
