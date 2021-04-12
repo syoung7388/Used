@@ -101,8 +101,8 @@ public class ProductController {
 		
 		int Pnum= product.getP_num();
 		List<MultipartFile> multiList= product.getMultipartfile();
-		//String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
-		String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
+		String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
+		//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
 		for(int i=0; i<multiList.size(); i++) {
 			
 			String filename= multiList.get(i).getOriginalFilename();
@@ -141,13 +141,10 @@ public class ProductController {
 		List<Product> salelist= productService.getSaleList(username);
 		List<Product> soldlist= productService.getSoldList(username);
 		List<Object> list= new ArrayList<Object>();
-		Map<String, List<Product>> map = new HashMap<String, List<Product>>(); 
-		map.put("salelist", salelist);
-		map.put("soldlist", soldlist);
-		logger.info("map:"+map);
-		list.add(map);
+		list.add(salelist);
+		list.add(soldlist);
+		logger.info("list:"+list);
 		
-		logger.info("list:"+ list);
 	
 		
 //		logger.info(""+list.get(0).getPictureList());

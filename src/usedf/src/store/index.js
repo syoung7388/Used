@@ -108,10 +108,8 @@ export default new Vuex.Store({
       router.push({name: 'Home'})
     },
     getSaleListSuccess(state, payload){
-      state.saleList = payload.get[0]
-      state.soldList= payload.get[1]
-      console.log(state.saleList)
-      console.log(state.soldList)
+      state.saleList= payload[0]
+      state.soldList= payload[1]
     },
     test(state ,payload){
       state.te= payload
