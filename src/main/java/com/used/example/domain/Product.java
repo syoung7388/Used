@@ -23,20 +23,11 @@ public class Product {
 	private String endprice;
 	private String title;
 	private String content;
-	List <MultipartFile> multipartfile;
+//	List <MultipartFile> multipartfile;
 	
 	
 	private String p_picture;
 	private String[] pictureList;
-	
-	@Override
-	public String toString() {
-		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
-				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
-				+ ", title=" + title + ", content=" + content + ", multipartfile=" + multipartfile + ", p_picture="
-				+ p_picture + ", pictureList=" + Arrays.toString(pictureList) + ", p_date=" + p_date + ", sale=" + sale
-				+ "]";
-	}
 	private String p_date;
 	private String sale;
 	
@@ -50,12 +41,12 @@ public class Product {
 		return pictureList;
 	}
 
-	public List<MultipartFile> getMultipartfile() {
-		return multipartfile;
-	}
-	public void setMultipartfile(List<MultipartFile> multipartfile) {
-		this.multipartfile = multipartfile;
-	}
+//	public List<MultipartFile> getMultipartfile() {
+//		return multipartfile;
+//	}
+//	public void setMultipartfile(List<MultipartFile> multipartfile) {
+//		this.multipartfile = multipartfile;
+//	}
 	public int getP_num() {
 		return p_num;
 	}
@@ -130,6 +121,17 @@ public class Product {
 	public void setP_date(String p_date) {
 		this.p_date = p_date;
 	}
+	@Override
+	public String toString() {
+		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
+				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
+				+ ", title=" + title + ", content=" + content +", p_picture="
+				+ p_picture + ", pictureList=" + Arrays.toString(pictureList) + ", p_date=" + p_date + ", sale=" + sale
+				+ "]";
+	}
+	
+	
+	
 	
 	
 	

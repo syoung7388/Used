@@ -18,12 +18,19 @@
                         })" 
                         router :to="{name:'SaleDetail'}">      
                                 <v-row>
-                                    <v-col cols="5">
+                                    <v-col cols="5"  v-if="item.pictureList !== null">
                                         <v-img 
                                         :src="require('@/assets/'+item.pictureList[0])"
                                         max-height="80"
                                         max-width="80"
                                         ></v-img>
+                                    </v-col>
+                                    <v-col  cols="5" v-else-if="item.pictureList === null">
+                                            <v-img 
+                                            :src="require('@/assets/다운로드.png')"
+                                            max-height="80"
+                                            max-width="80"
+                                            ></v-img>
                                     </v-col>
                                     <v-col cols="6">
                                     <v-list-item-content>
@@ -49,15 +56,21 @@
                     p_num: item.p_num
                     })"
                     router :to="{name:'SaleDetail'}">       
-                    > 
-                    
+    
                             <v-row>
-                                <v-col cols="5">
-                                    <v-img 
-                                    :src="require('@/assets/'+item.pictureList[0])"
-                                    max-height="90"
-                                    max-width="90"
-                                    ></v-img>
+                                <v-col cols="5"  v-if="item.pictureList !== null">
+                                            <v-img 
+                                            :src="require('@/assets/'+item.pictureList[0])"
+                                            max-height="80"
+                                            max-width="80"
+                                            ></v-img>
+                                </v-col>
+                                <v-col  cols="5" v-else-if="item.pictureList === null">
+                                        <v-img 
+                                        :src="require('@/assets/다운로드.png')"
+                                        max-height="80"
+                                        max-width="80"
+                                        ></v-img>
                                 </v-col>
                                 <v-col cols="6">
                                 <v-list-item-content>

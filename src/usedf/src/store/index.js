@@ -117,6 +117,7 @@ export default new Vuex.Store({
     SaledetailSuccess(state, payload){
       state.auctionInfo= payload.auctionList
       state.productInfo = payload.product
+      console.log(state.productInfo)
 
     }
   
@@ -293,6 +294,38 @@ export default new Vuex.Store({
         commit('WritingFaile')
       })
     },
+    ProductOK({commit}, payload){
+      if(payload !== null){
+        console.log(payload)
+        let token = localStorage.getItem("access_token")
+        let config={
+          headers: {
+            "access_token": token
+          }
+        }
+        axios
+        .post('http://localhost:9200/api/product/save' , payload, config)
+        .then(wres=>{
+         
+            commit('WritingSuccess' , wres.data)
+            console.log(wres.data)        
+        })
+        .catch(()=>{
+          commit('WritingFaile')
+        })
+
+      }
+
+    },
+
+
+
+
+
+
+
+
+
     getSaleList({commit}){
       let token = localStorage.getItem("access_token")
       console.log("saleList")

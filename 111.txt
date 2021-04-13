@@ -1,5 +1,18 @@
 <template>
     <v-app>
+        <v-container v-show="list_show === false" class="pa-2"> 
+            <v-list three-line>
+                <h1 style="font-size:19px; text-align: center" class="mb-5">{{userInfo.name}}님의 판매내역</h1>
+                <h1 style="font-size:15px;" class="primary--text mb-3">판매중</h1>
+                
+                <v-list-item-group
+                active-class="primary--text"
+                >
+                    <template 
+                    v-for="(item,index) in saleList"
+                    >  
+<template>
+    <v-app>
         <v-container class="pa-5">
             <div v-show="WritingError === true">
                 <h1 class="red--text" style="font-size: 15px;">
@@ -134,20 +147,48 @@
                     ></v-text-field>
                 </v-col>
             </v-row>
+            <h1 class="primary--text my-5" style="font-size: 16px;" >사진 등록은 필수입니다!</h1>
+            <v-row align="center">
+                <v-col
+                cols="3"
+                >
+                    <input ref="imageInput" type="file"  @change="ChangeImages" hidden >
+                    <v-btn
+                    @click="ClickImageUpload"
+                    icon
+                    color="grey"
+                    >
+                        <i class="far fa-plus-square" style="font-size: 30px;"></i>
+                    </v-btn>
+                </v-col>
+                    <v-col
+                    cols="3" 
+                    v-for="(list, idx) in showImage"
+                    :key="idx"
+                    >               
+                        <v-img 
+                        v-if="showImage" 
+                        :src="list.image"
+                        max-height="60"
+                        max-width="60"
+                        ></v-img>  
+
+                    </v-col>         
+            </v-row>
              <v-btn  
             class="primary mt-5"
             block
-            router :to="{name: 'Picture'}"
-            @click="ProductOK({
+            @click="WritingOK({
                 title,
                 content,
                 industry,
                 kind ,
                 brand,
                 year,
-                startprice
+                startprice,
+                files
             })"
-            >다음</v-btn>
+            >확인</v-btn>
             <v-virtual-scroll
             height="100"
             item-height="20"
@@ -239,8 +280,30 @@ export default{
     },
 ///////////////////////////////////////////////////////////연도 선택
     methods: {
-    
-        ...mapActions(['ProductOK'])
+        ClickImageUpload(){
+            this.$refs.imageInput.click();     
+        },
+        
+            
+        ChangeImages(i){ 
+            
+            const file = i.target.files[0]
+            this.files.push(file)
+
+
+            console.info(this.files)
+
+
+            let image = URL.createObjectURL(file)
+
+            this.showImage.push({image})
+
+            // URL.revokeObjectURL(image)
+
+ 
+
+        },
+        ...mapActions(['WritingOK'])
     },
     computed: {
         ...mapState(['userInfo','ImageList', 'WritingError'])

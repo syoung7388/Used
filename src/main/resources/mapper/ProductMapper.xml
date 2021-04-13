@@ -102,7 +102,8 @@
 				a_time					as aTime
 		FROM    auction
 		WHERE   p_num = #{p_num}				
-	</select>
+		ORDER BY  a_price DESC
+ 	</select>
 	
 
 

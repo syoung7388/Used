@@ -1,3 +1,37 @@
+   
+
+
+1) index.js
+
+ ProductOK({commit}, payload){
+      if(payload !== null){
+        console.log(payload)
+        let token = localStorage.getItem("access_token")
+        let config={
+          headers: {
+            "access_token": token
+          }
+        }
+        axios
+        .post('http://localhost:9200/api/product' , payload, config)
+        .then(wres=>{
+         
+            commit('WritingSuccess' , wres.data)
+            console.log(wres.data)        
+        })
+        .catch(()=>{
+          commit('WritingFaile')
+        })
+
+      }
+
+    },
+
+
+2)Writing
+
+
+
 <template>
     <v-app>
         <v-container class="pa-5">
@@ -255,3 +289,29 @@ export default{
 }
 
 </script>
+
+
+
+
+3)
+
+
+	@PostMapping//제품 저장
+	public ResponseEntity<?> Product (@RequestBody Product product, HttpServletRequest request) throws Exception {
+		token= request.getHeader("access_token");
+		
+		if(StringUtils.hasText(token)&& token.startsWith("Bearer")) {
+			token=token.substring(7, token.length());
+		}
+		String username= JwtUtils.getUserEmailFromToken(token);
+		
+		product.setUsername(username);
+		product.setSale("false");
+		productService.createProduct(product);		
+		int p_num = product.getP_num();
+		
+		return  new ResponseEntity<>(p_num , HttpStatus.OK);
+		
+	}
+	
+
