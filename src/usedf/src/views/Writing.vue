@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container class="pa-5">
+        <v-container class="pa-5" v-show="Writingshow === 1">
             <div v-show="WritingError === true">
                 <h1 class="red--text" style="font-size: 15px;">
                     입력하신걸 확인해 주세요!
@@ -137,8 +137,7 @@
              <v-btn  
             class="primary mt-5"
             block
-            router :to="{name: 'Picture'}"
-            @click="ProductOK({
+            @click="ProductSave({ 
                 title,
                 content,
                 industry,
@@ -153,14 +152,21 @@
             item-height="20"
             ></v-virtual-scroll>     
         </v-container>
+        <div v-show=" Writingshow=== 2">
+            <WPicture/>
+        </div>
+        <div v-show=" Writingshow=== 3">
+            <WAddress/>
+        </div>
     </v-app>
-
-
+   
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import _ from 'lodash';
+import WPicture from '@/components/WritingComponent/WPicture'
+import WAddress from '@/components/WritingComponent/WAddress'
+
 
 export default{
     data() {
@@ -176,8 +182,7 @@ export default{
             startprice: null,
             username: null,
             file: null,
-            showImage:[],
-            files:[],
+
 
 /////////////////////////////////////////////////////보내야 할것들
 
@@ -225,7 +230,7 @@ export default{
                 '기타'
             ],
 //////////////////////////////////////////////////////////////////제품 선택 내생각엔 따로 빼는것도 좋은 방법인듯
-        
+              
 
         }
 
@@ -239,15 +244,20 @@ export default{
     },
 ///////////////////////////////////////////////////////////연도 선택
     methods: {
-    
-        ...mapActions(['ProductOK'])
+        ...mapActions(['ProductSave'])
+        
     },
     computed: {
-        ...mapState(['userInfo','ImageList', 'WritingError'])
+        ...mapState(['userInfo','ImageList', 'WritingError', 'Writingshow'])
     },
     created(){
         this.username= this.userInfo.username
       
+    },
+    components: {
+        WPicture,
+        WAddress
+
     }
     
     

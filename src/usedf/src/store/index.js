@@ -33,9 +33,17 @@ export default new Vuex.Store({
     saleList: [],
     soldList:[],
     pictureList:[],
-
     productInfo:[],
-    auctionInfo:[],    
+    auctionInfo:[],
+    
+    
+    writing_product: [],
+    writing_picture: [],
+    writing_address: [],
+    Writingshow: 1,
+      
+    
+
 
     te: null,
 
@@ -118,11 +126,19 @@ export default new Vuex.Store({
       state.auctionInfo= payload.auctionList
       state.productInfo = payload.product
       console.log(state.productInfo)
-
-    }
+    },
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ProductSave(state, payload){
+      state.writing_product= payload
+      state.Writingshow = 2
+    },
+    PictureSave(state, payload){
+      state.writing_picture = payload
+      state.Writingshow = 3
+    },
   
 
-  
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 
   },
   actions: {
@@ -254,6 +270,19 @@ export default new Vuex.Store({
       
     },
 
+///////////////////////////////////////////////////////////////////////////////////////////Writing정보 저장
+
+ProductSave({commit}, payload){
+  commit('ProductSave',payload)
+  console.log(payload)
+},
+PictureSave({commit}, payload){
+  commit('PictureSave', payload)
+  console.log(payload)
+
+},
+
+///////////////////////////////////////////////////////////////////////////////
 
 
     WritingOK({dispatch, commit}, payload){/// 게시물 작성 내용 DB전달
@@ -294,29 +323,7 @@ export default new Vuex.Store({
         commit('WritingFaile')
       })
     },
-    ProductOK({commit}, payload){
-      if(payload !== null){
-        console.log(payload)
-        let token = localStorage.getItem("access_token")
-        let config={
-          headers: {
-            "access_token": token
-          }
-        }
-        axios
-        .post('http://localhost:9200/api/product/save' , payload, config)
-        .then(wres=>{
-         
-            commit('WritingSuccess' , wres.data)
-            console.log(wres.data)        
-        })
-        .catch(()=>{
-          commit('WritingFaile')
-        })
 
-      }
-
-    },
 
 
 

@@ -90,28 +90,27 @@ public class ProductController {
 		//제품 정보 저장 후 제품 번호 가져오기
 		
 		int Pnum= product.getP_num();
-//		List<MultipartFile> multiList= product.getMultipartfile();
-//		String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
-//		//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
-//		for(int i=0; i<multiList.size(); i++) {
-//			
-//			String filename= multiList.get(i).getOriginalFilename();
-//			String ext= filename.substring(filename.lastIndexOf(".")+1);
-//			File file= new File(path+ filename);
-//			InputStream input = multiList.get(i).getInputStream();
-//			
-//			MakeThumbnail makeThumbnail = new MakeThumbnail();
-//			makeThumbnail.makeThumbnail(input, file,  ext);
-//		
-//			String pic= filename;
-//			
-//			Picture picture = new Picture();
-//			picture.setP_num(Pnum);
-//			picture.setPicture(pic);
-//			logger.info(""+picture);
-//			productService.createPicture(picture);
+		List<MultipartFile> multiList= product.getMultipartfile();
+		String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
+		//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
+		for(int i=0; i<multiList.size(); i++) {
+			
+			String filename= multiList.get(i).getOriginalFilename();
+			String ext= filename.substring(filename.lastIndexOf(".")+1);
+			File file= new File(path+ filename);			
+			InputStream input = multiList.get(i).getInputStream();
+			
+			MakeThumbnail makeThumbnail = new MakeThumbnail();
+			makeThumbnail.makeThumbnail(input, file,  ext);		
+			String pic= filename;
+			
+			Picture picture = new Picture();
+			picture.setP_num(Pnum);
+			picture.setPicture(pic);
+			logger.info(""+picture);
+			productService.createPicture(picture);
 
-		//}
+		}
 		//썸네일 만들고 이미지 리스트 저장 
 
 		return new ResponseEntity<>("success", HttpStatus.OK);

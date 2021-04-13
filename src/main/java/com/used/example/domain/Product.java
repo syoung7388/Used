@@ -23,7 +23,7 @@ public class Product {
 	private String endprice;
 	private String title;
 	private String content;
-//	List <MultipartFile> multipartfile;
+	List <MultipartFile> multipartfile;
 	
 	
 	private String p_picture;
@@ -41,12 +41,12 @@ public class Product {
 		return pictureList;
 	}
 
-//	public List<MultipartFile> getMultipartfile() {
-//		return multipartfile;
-//	}
-//	public void setMultipartfile(List<MultipartFile> multipartfile) {
-//		this.multipartfile = multipartfile;
-//	}
+	public List<MultipartFile> getMultipartfile() {
+		return multipartfile;
+	}
+	public void setMultipartfile(List<MultipartFile> multipartfile) {
+		this.multipartfile = multipartfile;
+	}
 	public int getP_num() {
 		return p_num;
 	}

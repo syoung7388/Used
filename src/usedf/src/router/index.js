@@ -19,29 +19,13 @@ const routes = [
   {
     path: '/writing',
     name: 'Writing',
-    component: () => import(/* webpackChunkName: "writing" */'@/views/Writing.vue'),
-    children: [
-      {
-        path: '/picture',
-        name: 'Picture',
-        component: ()=> import(/* webpackChunkName: "picture" */'@/views/WritingChild/Picture.vue'),
-        children: [
-          {
-            path: '/waddress',
-            name: 'WAddress',
-            component: ()=> import(/* webpackChunkName: "waddress" */'@/views/WritingChild/WAddress.vue'),
-
-          }
-        ]
-
-      }
-    ]
+    component: () => import(/* webpackChunkName: "writing" */'@/views/Writing.vue')
   },
   {
     path: '/salelist',
     name: 'SaleList',
     component: () => import(/* webpackChunkName: "salelist" */'@/views/SaleList.vue'),
-    children:[
+    children: [
       {      
         path: '/saledetail',
         name: 'SaleDetail',
