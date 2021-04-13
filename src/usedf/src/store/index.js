@@ -14,6 +14,7 @@ export default new Vuex.Store({
     removeBar: false,
     EPshow: false,
     Eshow: false,
+    list_show: false,
     ImageList:[],
     
     
@@ -32,7 +33,9 @@ export default new Vuex.Store({
     saleList: [],
     soldList:[],
     pictureList:[],
-    
+
+    productInfo:[],
+    auctionInfo:[],    
 
     te: null,
 
@@ -111,9 +114,12 @@ export default new Vuex.Store({
       state.saleList= payload[0]
       state.soldList= payload[1]
     },
-    test(state ,payload){
-      state.te= payload
+    SaledetailSuccess(state, payload){
+      state.auctionInfo= payload.auctionList
+      state.productInfo = payload.product
+
     }
+  
 
   
 
@@ -307,12 +313,22 @@ export default new Vuex.Store({
         alert("오류")
       })
     },
+    getSaledetail({state, commit}, payload){
+      state.list_show= !state.list_show
+      console.log(payload)
+
+      axios
+      .get(`http://localhost:9200/api/product/saledetail?p_num=${payload.p_num}`)
+      .then(Dres =>{
+        commit('SaledetailSuccess', Dres.data)
+      })
+      .catch(()=>{
+        alert("오류")
+      })
+    }
   
  
 
 
   }
 })
-
-
-

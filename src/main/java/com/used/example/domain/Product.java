@@ -29,6 +29,14 @@ public class Product {
 	private String p_picture;
 	private String[] pictureList;
 	
+	@Override
+	public String toString() {
+		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
+				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
+				+ ", title=" + title + ", content=" + content + ", multipartfile=" + multipartfile + ", p_picture="
+				+ p_picture + ", pictureList=" + Arrays.toString(pictureList) + ", p_date=" + p_date + ", sale=" + sale
+				+ "]";
+	}
 	private String p_date;
 	private String sale;
 	

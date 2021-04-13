@@ -1,16 +1,7 @@
 package com.used.example.controller;
 
 import java.io.File;
-
-
-
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -51,6 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.used.example.config.JwtUtils;
+import com.used.example.domain.Auction;
 import com.used.example.domain.Picture;
 import com.used.example.domain.Product;
 import com.used.example.domain.User;
@@ -72,12 +64,7 @@ public class ProductController {
 
 	private String token;
 	
-	
-	
-	
 
-
-	
 	
 	@PostMapping("/writing")
 	public ResponseEntity<?> Writing (Product product, HttpServletRequest request) throws Exception {
@@ -143,36 +130,29 @@ public class ProductController {
 		List<Object> list= new ArrayList<Object>();
 		list.add(salelist);
 		list.add(soldlist);
-		logger.info("list:"+list);
-		
-	
-		
-//		logger.info(""+list.get(0).getPictureList());
-//		Product pro= list.get(0);
-//		logger.info(""+pro.getSale());
-//		String[] list2 = pro.getPictureList();
-//		for(String aa: list2) {
-//			System.out.print("["+aa+"],");
-//		}
+		//logger.info("list:"+list);
 		
 		return new ResponseEntity<>(list, HttpStatus.OK);
 		
 	}
 	
-	@GetMapping("/img")
-	public ResponseEntity<?> Img(HttpServletRequest request) throws IOException{
-
-		List<String> img= productService.getImg(53);
-		String j= img.get(0);
-
-		logger.info("j:"+ j);
+	@GetMapping("/saledetail")
+	public ResponseEntity<?> SaleDetail(@RequestParam ("p_num") int p_num) throws Exception{
+		Product product = productService.getSaleDetail(p_num);
+		List<Auction> list= productService.getAuction(p_num);
+		Map<String, Object> map= new HashMap<>();
+		map.put("product", product);
+		map.put("auctionList",list);
+		logger.info("map"+ map);
 		
 		
 		
 		
-
-		return new ResponseEntity<>(j, HttpStatus.OK);
+		
+		return new ResponseEntity<>(map, HttpStatus.OK);
+		
 	}
+
 	
 
 

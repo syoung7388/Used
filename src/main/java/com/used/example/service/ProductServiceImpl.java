@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import com.used.example.domain.Auction;
 import com.used.example.domain.Picture;
 import com.used.example.domain.Product;
 import com.used.example.mapper.ProductMapper;
@@ -44,6 +45,17 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> getSoldList(String username) {
 		
 		return productMapper.getSoldList(username);
+	}
+
+	@Override
+	public Product getSaleDetail(int p_num) {
+		return productMapper.getSaleDetail(p_num);
+	}
+
+	@Override
+	public List<Auction> getAuction(int p_num) {
+		
+		return productMapper.getAuction(p_num);
 	}
 
 

@@ -58,7 +58,7 @@
 		WHERE a.u_username =#{username}
 		AND   a.p_sale='false'
 	</select>
-		<select id= "getSoldList" parameterType="String" resultType= "com.used.example.domain.Product">	
+	<select id= "getSoldList" parameterType="String" resultType= "com.used.example.domain.Product">	
 		SELECT 	a.p_num 				as p_num,
 				a.u_username			as username,
 				a.p_kind				as kind,
@@ -76,6 +76,32 @@
 		FROM product a
 		WHERE a.u_username =#{username}
 		AND   a.p_sale='true'
+	</select>		
+	<select id= "getSaleDetail" parameterType= "int" resultType= "com.used.example.domain.Product">
+		SELECT 	a.p_num 				as p_num,
+				a.u_username			as username,
+				a.p_kind				as kind,
+				a.p_industry 			as industry,
+				a.p_brand				as brand,
+				a.p_year				as year,
+				a.p_startprice		  	as startprice,
+				a.p_title				as title,
+				a.p_content				as content,
+				a.p_sale				as sale,
+				a.p_date				as p_date,
+				(SELECT GROUP_CONCAT(p_picture SEPARATOR ',')
+						FROM  picture b
+						WHERE b.p_num = #{p_num})p_picture
+		FROM   product a
+		WHERE  a.p_num = #{p_num}		
+	</select>
+	<select id= "getAuction" parameterType= "int" resultType= "com.used.example.domain.Auction">
+		SELECT 	u_name 					as participant,
+				p_num					as p_num,
+				a_price					as price,
+				a_time					as aTime
+		FROM    auction
+		WHERE   p_num = #{p_num}				
 	</select>
 	
 
