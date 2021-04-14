@@ -13,7 +13,8 @@
 								p_endprice,
 								p_title,
 								p_content,
-								p_sale
+								p_sale,
+								p_address
 		
 		) values (				
 		
@@ -26,7 +27,8 @@
 								#{endprice},
 								#{title},
 								#{content},
-								#{sale}
+								#{sale},
+								#{address}
 		)
 		
 		<selectKey resultType= "int" keyProperty="p_num" order="AFTER" >

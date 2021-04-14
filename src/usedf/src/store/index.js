@@ -14,7 +14,7 @@ export default new Vuex.Store({
     removeBar: false,
     EPshow: false,
     Eshow: false,
-    list_show: false,
+    list_show: true,
     ImageList:[],
     
     
@@ -35,12 +35,14 @@ export default new Vuex.Store({
     pictureList:[],
     productInfo:[],
     auctionInfo:[],
+
+
+
+    writingInfo:[],
+    Writingshow: true,
     
-    
-    writing_product: [],
-    writing_picture: [],
-    writing_address: [],
-    Writingshow: 1,
+
+ 
       
     
 
@@ -127,18 +129,7 @@ export default new Vuex.Store({
       state.productInfo = payload.product
       console.log(state.productInfo)
     },
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ProductSave(state, payload){
-      state.writing_product= payload
-      state.Writingshow = 2
-    },
-    PictureSave(state, payload){
-      state.writing_picture = payload
-      state.Writingshow = 3
-    },
-  
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 
   },
   actions: {
@@ -270,23 +261,10 @@ export default new Vuex.Store({
       
     },
 
-///////////////////////////////////////////////////////////////////////////////////////////Writing정보 저장
-
-ProductSave({commit}, payload){
-  commit('ProductSave',payload)
-  console.log(payload)
-},
-PictureSave({commit}, payload){
-  commit('PictureSave', payload)
-  console.log(payload)
-
-},
-
-///////////////////////////////////////////////////////////////////////////////
 
 
-    WritingOK({dispatch, commit}, payload){/// 게시물 작성 내용 DB전달
-    
+
+    WritingOK({state, commit}, payload){/// 게시물 작성 내용 DB전달
 
       let token = localStorage.getItem("access_token")
       let config={
@@ -297,23 +275,27 @@ PictureSave({commit}, payload){
         }
       }
 
+      let writingInfo= state.writingInfo
+      console.log(writingInfo)
       let formData = new FormData()
 
        
-      formData.append('title', payload.title)
-      formData.append('content',payload.content)
-      formData.append('industry',payload.industry)
-      formData.append('kind',payload.kind)
-      formData.append('brand',payload.brand)
-      formData.append('year',payload.year)
-      formData.append('startprice',payload.startprice)
+      formData.append('title', writingInfo.title)
+      formData.append('content',writingInfo.content)
+      formData.append('industry',writingInfo.industry)
+      formData.append('kind',writingInfo.kind)
+      formData.append('brand',writingInfo.brand)
+      formData.append('year',writingInfo.year)
+      formData.append('startprice',writingInfo.startprice)
+      formData.append('address', payload.fullAddress)
 
-      for(let i=0; i< payload.files.length; i++){
-        formData.append('multipartfile',payload.files[i])
+      for(let i=0; i< writingInfo.files.length; i++){
+        formData.append('multipartfile',writingInfo.files[i])
       }
+      
   
       axios
-      .post('http://localhost:9200/api/product/writing' , formData, config)
+      .post('http://localhost:9200/api/product' , formData, config)
       .then(wres=>{
         if(wres.data === "success"){
           commit('WritingSuccess')
@@ -326,14 +308,8 @@ PictureSave({commit}, payload){
 
 
 
-
-
-
-
-
-
-
-    getSaleList({commit}){
+    getSaleList({state ,commit}){
+      state.list_show =  true
       let token = localStorage.getItem("access_token")
       console.log("saleList")
       let config={

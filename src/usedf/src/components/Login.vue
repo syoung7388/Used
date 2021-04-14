@@ -33,7 +33,6 @@
                   password
                   })"
                 block
-                x-large
                 class="primary"
                 >확인</v-btn>
             </v-col>

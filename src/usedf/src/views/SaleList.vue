@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container v-show="list_show === false" class="pa-2"> 
+        <v-container v-show="list_show === true" class="pa-2"> 
             <v-list three-line>
                 <h1 style="font-size:19px; text-align: center" class="mb-5">{{userInfo.name}}님의 판매내역</h1>
                 <h1 style="font-size:15px;" class="primary--text mb-3">판매중</h1>

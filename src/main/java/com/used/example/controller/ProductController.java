@@ -68,8 +68,9 @@ public class ProductController {
 	
 
 	
-	@PostMapping("/image")
-	public ResponseEntity<?> Image (Product product, HttpServletRequest request) throws Exception {
+	
+	@PostMapping
+	public ResponseEntity<?> CreateProduct(Product product, HttpServletRequest request) throws Exception {
 		
 		token= request.getHeader("access_token");
 		

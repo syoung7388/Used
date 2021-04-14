@@ -1,13 +1,20 @@
 package com.used.example.domain;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-//import java.util.ArrayList;
-import java.util.List;
 
+
+import java.util.Arrays;
+import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
+
+
+//	private Picture picture;	
+//	public Picture getPicture() {
+//		return picture;
+//	}
+//	public void setPicture(Picture picture) {
+//		this.picture = picture;
+//	}
+
 
 public class Product {
 	
@@ -30,6 +37,7 @@ public class Product {
 	private String[] pictureList;
 	private String p_date;
 	private String sale;
+	private String address;
 	
 	public String getP_picture() {
 		return p_picture;
@@ -121,37 +129,21 @@ public class Product {
 	public void setP_date(String p_date) {
 		this.p_date = p_date;
 	}
+
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	@Override
 	public String toString() {
 		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
 				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
-				+ ", title=" + title + ", content=" + content +", p_picture="
+				+ ", title=" + title + ", content=" + content + ", multipartfile=" + multipartfile + ", p_picture="
 				+ p_picture + ", pictureList=" + Arrays.toString(pictureList) + ", p_date=" + p_date + ", sale=" + sale
-				+ "]";
+				+ ", address=" + address + "]";
 	}
 	
 	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }
