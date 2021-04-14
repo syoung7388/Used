@@ -2,6 +2,7 @@ package com.used.example.domain;
 
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,16 +31,22 @@ public class Product {
 	private String endprice;
 	private String title;
 	private String content;
-    private List<Picture> picture;
+   
  	private String p_date;
 	private String sale;
 	private String address;
+	private List<Picture> picture;
+	private List<Auction> auction;
 	
 	
 	public List<Picture> getPicture() {
 		return picture;
 	}
 	public void setPicture(List<Picture> picture) {
+		
+
+		
+		
 		this.picture = picture;
 	}
 
@@ -125,13 +132,24 @@ public class Product {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	public List<Auction> getAuction() {
+		return auction;
+	}
+	public void setAuction(List<Auction> auction) {
+		this.auction = auction;
+	}
+	
+	
 	@Override
 	public String toString() {
-		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
+		return "Product=> [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
 				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
-				+ ", title=" + title + ", content=" + content + ", picture=" + picture + ", p_date=" + p_date
-				+ ", sale=" + sale + ", address=" + address + "]";
+				+ ", title=" + title + ", content=" + content + ", p_date=" + p_date + ", sale=" + sale + ", address="
+				+ address + ", picture=" + picture + ", auction=" + auction + "]";
 	}
+	
+	
 
 	
 	

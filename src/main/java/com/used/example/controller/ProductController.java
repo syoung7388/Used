@@ -95,8 +95,8 @@ public class ProductController {
 		List<String> pictureNames= new ArrayList<String>();
 		
 		
-		//String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
-		String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
+		String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
+		//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
 		
 		for(int i=0; i<multiList.size(); i++) {
 			
@@ -129,33 +129,37 @@ public class ProductController {
 			token= token.substring(7, token.length());
 		}
 		String username= JwtUtils.getUserEmailFromToken(token);
+		Map<String,Object> map= new HashMap<>();
+		
+		
 		
 		List<Product> salelist= productService.getSaleList(username);
-		List<Product> soldlist= productService.getSoldList(username);
-		List<Object> list= new ArrayList<Object>();
-		list.add(salelist);
-		list.add(soldlist);
-		logger.info("salelist:"+salelist);
-		logger.info("list:"+list);
 		
-		return new ResponseEntity<>(salelist, HttpStatus.OK);
+		logger.info("salelist:"+salelist);
+		
+		
+		List<Product> soldlist= productService.getSoldList(username);
+		map.put("saleList", salelist);
+		map.put("soldList", soldlist);
+		
+
+
+		
+		return new ResponseEntity<>(map, HttpStatus.OK);
 		
 	}
 	
 	@GetMapping("/saledetail")
 	public ResponseEntity<?> SaleDetail(@RequestParam ("p_num") int p_num) throws Exception{
 		Product product = productService.getSaleDetail(p_num);
-		List<Auction> list= productService.getAuction(p_num);
-		Map<String, Object> map= new HashMap<>();
-		map.put("product", product);
-		map.put("auctionList",list);
-		logger.info("map"+ map);
+
+		logger.info("product:"+ product);
 		
 		
 		
 		
 		
-		return new ResponseEntity<>(map, HttpStatus.OK);
+		return new ResponseEntity<>(product, HttpStatus.OK);
 		
 	}
 

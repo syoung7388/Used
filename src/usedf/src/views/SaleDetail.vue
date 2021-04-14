@@ -4,9 +4,9 @@
         height="270"
         >
             <v-carousel-item
-            v-for="(item, i) in productInfo.pictureList"
+            v-for="(item, i) in productInfo.picture"
             :key="i"
-            :src="require('@/assets/'+item)"
+            :src="require('@/assets/'+item.pictureName)"
             reverse-transition="fade-transition"
             transition="fade-transition"
             max-height= "300"
@@ -43,8 +43,8 @@
                     <v-tab class="ml-0" style="font-size: 15px;">경매 요청</v-tab>
                     <v-tab class="ml-0" style="font-size: 15px;">제품 정보</v-tab>
                      <v-tab-item>
-                        <v-card flat class="pa-5"> 
-                            <v-row v-for="(item, int) in auctionInfo" :key="int">
+                        <v-card flat class="pa-5" v-if="productInfo.auction.size !== 0"> 
+                            <v-row v-for="(item, int) in productInfo.auction" :key="int">
                                 <v-col cols="2" >
                                     <h1 style="font-size: 15px;" >{{int+1}}등</h1>
                                 </v-col>
@@ -117,7 +117,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['auctionInfo', 'productInfo','userInfo'])
+        ...mapState([ 'productInfo','userInfo'])
     }
     
 }

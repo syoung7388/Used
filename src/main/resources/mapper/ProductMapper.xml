@@ -45,11 +45,16 @@
 					</foreach>
 	</insert>
 	
+	
+	
+	
+	
+	
 	<resultMap type="Picture" id="PictureMap">
 		<result property="pictureName" column="pi_name" />
 	</resultMap>
 	
-	<resultMap id="ProductMap" type="Product">
+	<resultMap id="ListMap" type="Product">
 		<id property= "p_num" column= "p_num" />
 		<result property= "p_num" column= "p_num" />
 		<result property= "username" column= "u_username" />
@@ -59,7 +64,8 @@
 	</resultMap>
 	
 	
-	<select id= "getSaleList" parameterType="String" resultMap= "ProductMap">	
+	
+	<select id= "getSaleList" parameterType="String" resultMap= "ListMap">	
 		SELECT			a.p_num, 				
 						a.u_username,			
 						a.p_title,			
@@ -70,7 +76,7 @@
 		WHERE 		    u_username= #{username}
 		AND             a.p_sale='false'
 	</select>
-	<select id= "getSoldList" parameterType="String" resultMap= "ProductMap">	
+	<select id= "getSoldList" parameterType="String" resultMap= "ListMap">	
 		SELECT			a.p_num, 				
 						a.u_username,		
 						a.p_title,				
@@ -80,38 +86,52 @@
 		LEFT JOIN	    picture b ON a.p_num = b.p_num
 		WHERE 		    u_username= #{username}
 		AND             a.p_sale='true'
-	</select>		
+	</select>	
+	
+	
+	<resultMap type="Picture" id="Dtail_PicMap">
+		<result property="pictureName" column="pi_name" />
+		<result property="pi_num" column="pi_num" />	
+	</resultMap>
+	<resultMap type="Auction" id="Dtail_AuctionMap">
+		<result property="participant" column="u_name" />
+		<result property="price" column="a_price" />
+		<result property="aTime" column="a_time" />
+	</resultMap>
+	
+	<resultMap id="DetailMap" type="Product">
+		<id property= "p_num" column= "p_num" />
+		<result property= "p_num" column= "p_num" />
+		<result property= "username" column= "u_username" />
+		<result property= "kind" column= "p_kind" />
+		<result property= "industry" column= "p_industry" />
+		<result property= "brand" column= "p_brand" />
+		<result property= "year" column= "p_year" />
+		<result property= "startprice" column= "p_startprice" />
+		<result property= "title" column= "p_title" />
+		<result property= "content" column= "p_content" />
+		<result property= "sale" column= "p_sale" />
+		<result property= "p_date" column= "p_date" />
+		
+		<collection property="picture" resultMap="Dtail_PicMap"></collection>
+		<collection property="auction" resultMap="Dtail_AuctionMap"></collection>
+	</resultMap>
+		
 	
 	
 	
 	
-	<select id= "getSaleDetail" parameterType= "int" resultType= "com.used.example.domain.Product">
-		SELECT 	a.p_num 				as p_num,
-				a.u_username			as username,
-				a.p_kind				as kind,
-				a.p_industry 			as industry,
-				a.p_brand				as brand,
-				a.p_year				as year,
-				a.p_startprice		  	as startprice,
-				a.p_title				as title,
-				a.p_content				as content,
-				a.p_sale				as sale,
-				a.p_date				as p_date,
-				(SELECT GROUP_CONCAT(p_picture SEPARATOR ',')
-						FROM  picture b
-						WHERE b.p_num = #{p_num})p_picture
-		FROM   product a
-		WHERE  a.p_num = #{p_num}		
+	<select id= "getSaleDetail" parameterType= "int" resultMap= "DetailMap">
+			SELECT		*
+											
+			FROM			product a
+			LEFT  JOIN	    picture b ON a.p_num = b.p_num
+			LEFT JOIN 				 auction c ON c.p_num = a.p_num
+			WHERE 		    a.p_num = #{p_num}
+			ORDER BY  a_price DESC
+
 	</select>
-	<select id= "getAuction" parameterType= "int" resultType= "com.used.example.domain.Auction">
-		SELECT 	u_name 					as participant,
-				p_num					as p_num,
-				a_price					as price,
-				a_time					as aTime
-		FROM    auction
-		WHERE   p_num = #{p_num}				
-		ORDER BY  a_price DESC
- 	</select>
+	
 	
 
 

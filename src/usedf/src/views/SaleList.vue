@@ -18,19 +18,12 @@
                         })" 
                         router :to="{name:'SaleDetail'}">      
                                 <v-row>
-                                    <v-col cols="5"  v-if="item.pictureList !== null">
+                                    <v-col cols="5">
                                         <v-img 
-                                        :src="require('@/assets/'+item.pictureList[0])"
+                                        :src="require('@/assets/'+item.picture[0].pictureName)"
                                         max-height="80"
                                         max-width="80"
                                         ></v-img>
-                                    </v-col>
-                                    <v-col  cols="5" v-else-if="item.pictureList === null">
-                                            <v-img 
-                                            :src="require('@/assets/다운로드.png')"
-                                            max-height="80"
-                                            max-width="80"
-                                            ></v-img>
                                     </v-col>
                                     <v-col cols="6">
                                     <v-list-item-content>
@@ -58,27 +51,20 @@
                     router :to="{name:'SaleDetail'}">       
     
                             <v-row>
-                                <v-col cols="5"  v-if="item.pictureList !== null">
-                                            <v-img 
-                                            :src="require('@/assets/'+item.pictureList[0])"
-                                            max-height="80"
-                                            max-width="80"
-                                            ></v-img>
-                                </v-col>
-                                <v-col  cols="5" v-else-if="item.pictureList === null">
+                                    <v-col cols="5">
                                         <v-img 
-                                        :src="require('@/assets/다운로드.png')"
+                                        :src="require('@/assets/'+item.picture[0].pictureName)"
                                         max-height="80"
                                         max-width="80"
                                         ></v-img>
-                                </v-col>
-                                <v-col cols="6">
-                                <v-list-item-content>
-                                    <v-list-item-title v-html="item.title"></v-list-item-title>
-                                    <v-list-item-subtitle v-html="item.p_date"></v-list-item-subtitle>
-                                </v-list-item-content>
-                                </v-col>    
-                            </v-row>
+                                    </v-col>
+                                    <v-col cols="6">
+                                    <v-list-item-content>
+                                        <v-list-item-title v-html="item.title"></v-list-item-title>
+                                        <v-list-item-subtitle v-html="item.p_date"></v-list-item-subtitle>
+                                    </v-list-item-content>
+                                    </v-col>    
+                                </v-row>
                     </v-list-item>
                     <v-divider
                         v-if="index < soldList.length- 1"
@@ -99,9 +85,7 @@ export default {
         return{            
            
         }
-
     },
-
     computed: {
         ...mapState({
             saleList: 'saleList',
@@ -117,5 +101,4 @@ export default {
 }
 </script>
 <style>
-
 </style>

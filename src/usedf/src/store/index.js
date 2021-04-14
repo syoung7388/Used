@@ -34,7 +34,6 @@ export default new Vuex.Store({
     soldList:[],
     pictureList:[],
     productInfo:[],
-    auctionInfo:[],
 
 
 
@@ -121,14 +120,13 @@ export default new Vuex.Store({
       router.push({name: 'Home'})
     },
     getSaleListSuccess(state, payload){
-      colors.log(payload[0].picture[0])
-      state.saleList= payload[0]
-      state.soldList= payload[1]
+      state.saleList= payload.saleList
+      state.soldList= payload.soldList
+      // console.log(state.soldList)
     },
     SaledetailSuccess(state, payload){
-      state.auctionInfo= payload.auctionList
-      state.productInfo = payload.product
-      console.log(state.productInfo)
+      state.productInfo= payload
+      
     },
 
 
@@ -320,7 +318,6 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/product/salelist', config)
       .then(lres=> {
-        console.log (lres)
         commit('getSaleListSuccess', lres.data)
         
         
