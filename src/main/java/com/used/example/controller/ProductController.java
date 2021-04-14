@@ -70,7 +70,7 @@ public class ProductController {
 	
 	
 	@PostMapping
-	public ResponseEntity<?> CreateProduct(Product product, HttpServletRequest request) throws Exception {
+	public ResponseEntity<?> CreateProduct(Product product, Picture picture, HttpServletRequest request) throws Exception {
 		
 		token= request.getHeader("access_token");
 		
@@ -88,12 +88,16 @@ public class ProductController {
 		product.setSale("false");
 		productService.createProduct(product);
 		logger.info("p_num:"+product.getP_num());
-		//제품 정보 저장 후 제품 번호 가져오기
+		int Pnum= product.getP_num();//제품 정보 저장 후 제품 번호 가져오기
 		
-		int Pnum= product.getP_num();
-		List<MultipartFile> multiList= product.getMultipartfile();
-		String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
-		//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
+		
+		List<MultipartFile> multiList= picture.getMultipartfile();
+		List<String> pictureNames= new ArrayList<String>();
+		
+		
+		//String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
+		String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
+		
 		for(int i=0; i<multiList.size(); i++) {
 			
 			String filename= multiList.get(i).getOriginalFilename();
@@ -103,17 +107,15 @@ public class ProductController {
 			
 			MakeThumbnail makeThumbnail = new MakeThumbnail();
 			makeThumbnail.makeThumbnail(input, file,  ext);		
-			String pic= filename;
 			
-			Picture picture = new Picture();
-			picture.setP_num(Pnum);
-			picture.setPicture(pic);
-			logger.info(""+picture);
-			productService.createPicture(picture);
-
+			pictureNames.add(filename);
 		}
 		//썸네일 만들고 이미지 리스트 저장 
-
+		
+		picture.setP_num(Pnum);
+		picture.setPictureNames(pictureNames);
+		
+		productService.createPicture(picture);
 		return new ResponseEntity<>("success", HttpStatus.OK);
 		
 	}
@@ -133,9 +135,10 @@ public class ProductController {
 		List<Object> list= new ArrayList<Object>();
 		list.add(salelist);
 		list.add(soldlist);
-		//logger.info("list:"+list);
+		logger.info("salelist:"+salelist);
+		logger.info("list:"+list);
 		
-		return new ResponseEntity<>(list, HttpStatus.OK);
+		return new ResponseEntity<>(salelist, HttpStatus.OK);
 		
 	}
 	

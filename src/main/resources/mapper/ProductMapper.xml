@@ -36,49 +36,55 @@
 		</selectKey>
 	</insert>
 	<insert id= "createPicture" parameterType= "com.used.example.domain.Picture">
-		insert into picture(p_num, p_picture)
-					values(#{p_num}, #{picture})
-	
+			insert into picture(
+				p_num,
+				pi_name
+			) values
+					<foreach collection="pictureNames" item="list" separator=" , ">
+					(#{p_num}, #{list})
+					</foreach>
 	</insert>
 	
-	<select id= "getSaleList" parameterType="String" resultType= "com.used.example.domain.Product">	
-		SELECT 	a.p_num 				as p_num,
-				a.u_username			as username,
-				a.p_kind				as kind,
-				a.p_industry 			as industry,
-				a.p_brand				as brand,
-				a.p_year				as year,
-				a.p_startprice		  	as startprice,
-				a.p_title				as title,
-				a.p_content				as content,
-				a.p_sale				as sale,
-				a.p_date				as p_date,
-				(SELECT GROUP_CONCAT(p_picture SEPARATOR ',')
-						FROM picture b
-						WHERE a.p_num = b.p_num)p_picture
-		FROM product a
-		WHERE a.u_username =#{username}
-		AND   a.p_sale='false'
+	<resultMap type="Picture" id="PictureMap">
+		<result property="pictureName" column="pi_name" />
+	</resultMap>
+	
+	<resultMap id="ProductMap" type="Product">
+		<id property= "p_num" column= "p_num" />
+		<result property= "p_num" column= "p_num" />
+		<result property= "username" column= "u_username" />
+		<result property= "title" column= "p_title" />
+		<result property= "p_date" column= "p_date" />
+		<collection property="picture" resultMap="PictureMap"></collection>
+	</resultMap>
+	
+	
+	<select id= "getSaleList" parameterType="String" resultMap= "ProductMap">	
+		SELECT			a.p_num, 				
+						a.u_username,			
+						a.p_title,			
+						a.p_date,				
+						b.pi_name				
+		FROM			product a
+		LEFT JOIN	    picture b ON a.p_num = b.p_num
+		WHERE 		    u_username= #{username}
+		AND             a.p_sale='false'
 	</select>
-	<select id= "getSoldList" parameterType="String" resultType= "com.used.example.domain.Product">	
-		SELECT 	a.p_num 				as p_num,
-				a.u_username			as username,
-				a.p_kind				as kind,
-				a.p_industry 			as industry,
-				a.p_brand				as brand,
-				a.p_year				as year,
-				a.p_startprice		  	as startprice,
-				a.p_title				as title,
-				a.p_content				as content,
-				a.p_sale				as sale,
-				a.p_date				as p_date,
-				(SELECT GROUP_CONCAT(p_picture SEPARATOR ',')
-						FROM picture b
-						WHERE a.p_num = b.p_num)p_picture
-		FROM product a
-		WHERE a.u_username =#{username}
-		AND   a.p_sale='true'
+	<select id= "getSoldList" parameterType="String" resultMap= "ProductMap">	
+		SELECT			a.p_num, 				
+						a.u_username,		
+						a.p_title,				
+						a.p_date,			
+						b.pi_name				
+		FROM			product a
+		LEFT JOIN	    picture b ON a.p_num = b.p_num
+		WHERE 		    u_username= #{username}
+		AND             a.p_sale='true'
 	</select>		
+	
+	
+	
+	
 	<select id= "getSaleDetail" parameterType= "int" resultType= "com.used.example.domain.Product">
 		SELECT 	a.p_num 				as p_num,
 				a.u_username			as username,

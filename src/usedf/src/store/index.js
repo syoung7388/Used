@@ -121,6 +121,7 @@ export default new Vuex.Store({
       router.push({name: 'Home'})
     },
     getSaleListSuccess(state, payload){
+      colors.log(payload[0].picture[0])
       state.saleList= payload[0]
       state.soldList= payload[1]
     },
@@ -311,7 +312,6 @@ export default new Vuex.Store({
     getSaleList({state ,commit}){
       state.list_show =  true
       let token = localStorage.getItem("access_token")
-      console.log("saleList")
       let config={
         headers: {
           "access_token": token
@@ -320,7 +320,7 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/product/salelist', config)
       .then(lres=> {
-        console.log (lres.data)
+        console.log (lres)
         commit('getSaleListSuccess', lres.data)
         
         

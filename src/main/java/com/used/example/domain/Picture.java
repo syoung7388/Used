@@ -5,16 +5,35 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Picture {
+	private List<MultipartFile> multipartfile;// 받아오는거
 	
+
 	private int p_num;
 	private int pi_num;
-	private String picture;
-	private List<MultipartFile> multipartfile;
+	private String pictureName; //select할때
+
+	
+	
+	
+	
+	private List<String> pictureNames;//insert할때
 	
 	
 	
 	
 	
+	public List<String> getPictureNames() {
+		return pictureNames;
+	}
+	public void setPictureNames(List<String> pictureNames) {
+		this.pictureNames = pictureNames;
+	}
+	public List<MultipartFile> getMultipartfile() {
+		return multipartfile;
+	}
+	public void setMultipartfile(List<MultipartFile> multipartfile) {
+		this.multipartfile = multipartfile;
+	}
 	public int getP_num() {
 		return p_num;
 	}
@@ -27,24 +46,22 @@ public class Picture {
 	public void setPi_num(int pi_num) {
 		this.pi_num = pi_num;
 	}
-	public String getPicture() {
-		return picture;
+
+	public String getPictureName() {
+		return pictureName;
 	}
-	public void setPicture(String picture) {
-		this.picture = picture;
-	}
-	public List<MultipartFile> getMultipartfile() {
-		return multipartfile;
-	}
-	public void setMultipartfile(List<MultipartFile> multipartfile) {
-		this.multipartfile = multipartfile;
+	public void setPictureName(String pictureName) {
+		this.pictureName = pictureName;
 	}
 	@Override
 	public String toString() {
-		return "Picture [p_num=" + p_num + ", pi_num=" + pi_num + ", picture=" + picture + ", multipartfile="
-				+ multipartfile + "]";
+		return "Picture [multipartfile=" + multipartfile + ", p_num=" + p_num + ", pi_num=" + pi_num + ", pictureName="
+				+ pictureName + ", pictureNames=" + pictureNames + "]";
 	}
 	
+	
+	
+
 	
 	
 	

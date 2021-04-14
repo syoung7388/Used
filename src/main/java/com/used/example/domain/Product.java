@@ -30,31 +30,20 @@ public class Product {
 	private String endprice;
 	private String title;
 	private String content;
-	List <MultipartFile> multipartfile;
-	
-	
-	private String p_picture;
-	private String[] pictureList;
-	private String p_date;
+    private List<Picture> picture;
+ 	private String p_date;
 	private String sale;
 	private String address;
 	
-	public String getP_picture() {
-		return p_picture;
+	
+	public List<Picture> getPicture() {
+		return picture;
 	}
-	public void setP_picture(String p_picture) {
-		this.pictureList= p_picture.split(",");
-	}	
-	public String[] getPictureList() {
-		return pictureList;
+	public void setPicture(List<Picture> picture) {
+		this.picture = picture;
 	}
 
-	public List<MultipartFile> getMultipartfile() {
-		return multipartfile;
-	}
-	public void setMultipartfile(List<MultipartFile> multipartfile) {
-		this.multipartfile = multipartfile;
-	}
+
 	public int getP_num() {
 		return p_num;
 	}
@@ -140,10 +129,14 @@ public class Product {
 	public String toString() {
 		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
 				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
-				+ ", title=" + title + ", content=" + content + ", multipartfile=" + multipartfile + ", p_picture="
-				+ p_picture + ", pictureList=" + Arrays.toString(pictureList) + ", p_date=" + p_date + ", sale=" + sale
-				+ ", address=" + address + "]";
+				+ ", title=" + title + ", content=" + content + ", picture=" + picture + ", p_date=" + p_date
+				+ ", sale=" + sale + ", address=" + address + "]";
 	}
+
+	
+	
+	
+
 	
 	
 }
