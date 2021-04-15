@@ -112,6 +112,7 @@
 		<result property= "content" column= "p_content" />
 		<result property= "sale" column= "p_sale" />
 		<result property= "p_date" column= "p_date" />
+		<result property= "address" column= "p_address" />
 		
 		<collection property="picture" resultMap="Dtail_PicMap"></collection>
 		<collection property="auction" resultMap="Dtail_AuctionMap"></collection>

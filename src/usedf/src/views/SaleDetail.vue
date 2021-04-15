@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container v-show="Saleshow === 0" class="pa-0">
+        <v-container v-show="sale_show === 0" class="pa-0">
             <v-carousel            
             height="245"
             >
@@ -124,7 +124,7 @@
                 </v-tabs>
           
         </v-container>
-        <v-container v-show="Saleshow === 1">
+        <v-container v-show="sale_show === 1">
             <SaleEdit></SaleEdit>
         </v-container>
     </v-app>
@@ -142,11 +142,11 @@ export default {
         }
     },
     computed: {
-        ...mapState([ 'productInfo','userInfo', 'Saleshow', 'RemoveBar'])
+        ...mapState([ 'productInfo','userInfo', 'sale_show', 'RemoveBar'])
     },
     methods: {
         Edit(){
-            this.$store.state.Saleshow = 1
+            this.$store.state.sale_show = 1
         },
         Delete(){
             alert(삭제)

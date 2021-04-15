@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container class="pa-3">
+        <v-container class="pa-3" v-show="address_show === false">
             <!-- <div >
                 <h1 class="red--text" style="font-size: 15px;">
                     입력하신걸 확인해 주세요!
@@ -133,51 +133,123 @@
                     ></v-text-field>
                 </v-col>
             </v-row>
-            <h1 class="primary--text my-5" style="font-size: 16px;" >사진 등록은 필수입니다!</h1>
-            <v-row align="center">
-                    <v-col
-                    cols="3" 
-                    v-for="(list, idx) in productInfo.picture"
-                    :key="idx"
-                    >   
-                                      
+            <v-row >
+                <v-col
+                cols="3"
+                class="py-0" 
+                >
+                    <h1 style="font-size: 15px">주소</h1>               
+                </v-col>
+                <v-col
+                cols="9"
+                class="py-0"
+                >
+                    <v-text-field
+                    v-model="productInfo.address"
+                    outlined
+                    rows="1"
+                    dense
+                    height="2"
+                    @click="PAddress"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
+            <h1 class="primary--text my-3" style="font-size: 15px;" >사진 등록은 필수입니다!</h1>
+            <v-row align="center" class="pt-3">
+                <v-col
+                cols="2"
+                >
+                    <input ref="imageInput" type="file"  @change="ChangeImages" hidden >
+                    <v-btn
+                    @click="ClickImageUpload"
+                    icon
+                    color="grey"
+                    >
+                        <i class="far fa-plus-square" style="font-size: 30px;"></i>
+                    </v-btn>
+                </v-col> 
+
+                <v-col
+                cols="3" 
+                v-for="(list, idx) in beforeImage"
+                :key="idx"
+                >   
+                    <v-card
+                    flat
+                    >             
                         <v-img 
-                        v-if="showImage" 
                         :src="require('@/assets/'+list.pictureName)"
                         max-height="60"
                         max-width="60"
                         >
-                         <v-btn x-small><i class="fas fa-angle-double-left" style="font-size: large;"></i></v-btn>
-
-                        
                         </v-img>
-                    </v-col>
-                    <v-col
-                    cols="3"
-                    >
-                        <input ref="imageInput" type="file"  @change="ChangeImages" hidden >
+                
                         <v-btn
-                        @click="ClickImageUpload"
+                        absolute
+                        fab
+                        x-small
+                        left
+                        top
+                        class="ml-7"
                         icon
-                        color="grey"
+                        @click="Beforedelete({idx})"
+                        ><i class="far fa-times-circle" style="font-size: large"></i></v-btn>
+                        </v-card>
+                    </v-col> <!--여기까지 원래 이미지 수정삭제 하는곳 beforeImage -->
+
+                    <v-col  v-for="(a,i) in showImage" :key="a.image" >
+                    <v-card
+                    flat
+                    :key="i"
+                    > 
+                    
+                        <v-img   
+                        max-height="60"
+                        max-width="60"
+                        :src="a.image"
                         >
-                            <i class="far fa-plus-square" style="font-size: 30px;"></i>
-                        </v-btn>
-                </v-col>         
+                        </v-img>
+                        <v-btn
+                        absolute
+                        fab
+                        x-small
+                        left
+                        top
+                        class="ml-7"
+                        icon
+                        @click="Nowdelete({i})"
+                        ><i class="far fa-times-circle" style="font-size: large"></i></v-btn>            
+                    </v-card>
+                    </v-col>             
             </v-row>
-             <v-btn  
-            class="primary mt-5"
+            <v-btn  
+            class="primary mt-8"
             block
+            @click="SaleEditOK({
+                industry: productInfo.industry,
+                kind: productInfo.kind,
+                title: productInfo.title,
+                brand: productInfo.brand,
+                year: productInfo.year,
+                startprice: productInfo.startprice,
+                address: productInfo.address,
+                picture: files
+
+
+            })"
             >확인</v-btn>
-            </v-container>
+        </v-container>
+        <v-container v-show="address_show === true"> 
+            <SaleAddress @Address="ResultAddress"></SaleAddress>
+        </v-container>
     </v-app>
     
 </template>
 <script>
 import { mapActions, mapState } from 'vuex';
-import WAddress from '../WritingComponent/WAddress.vue';
+import SaleAddress from '../SaleComponents/SaleAddress.vue';
 export default{
-  components: { WAddress },
+  components: { SaleAddress },
     data() {
         
         return {
@@ -190,10 +262,12 @@ export default{
             year: null,
             startprice: null,
             username: null,
-            file: null,
-            showImage:[],
-            files:[],
+            
+            showImage:[],// 일단 보여주기식 이미지
+            files: [], //신규파일전체
+          
             writingInfo:{},
+
 
             yearOptions:[], 
             select: null,
@@ -207,6 +281,8 @@ export default{
 
     },
     mounted() {
+       
+        
 
 
 
@@ -229,14 +305,39 @@ export default{
             
             const file = i.target.files[0]
             this.files.push(file)
-            console.info(this.files)
+
             let image = URL.createObjectURL(file)
-            this.showImage.push({image})
+
+            
+            this.showImage.push({image: image})
+         
         },
+        Beforedelete(idx){
+            console.log(idx)
+            this.beforeImage.splice(idx, 1)
+            //console.log(this.beforeImage)
+        },
+        Nowdelete(i){
+            this.files.splice(i, 1)    
+            this.showImage.splice(i, 1)
+            //console.log( this.showImage)
+            //console.log(this.files)
+        },
+        PAddress(){
+            this.$store.state.address_show= true
+        },
+        ResultAddress(address){
+
+            this.$store.state.address_show= false
+            this.$store.state.productInfo.address = address
+
+        },
+        ...mapActions(['SaleEditOK'])
+        
        
     },
     computed: {
-        ...mapState({productInfo:'productInfo'})
+        ...mapState({productInfo:'productInfo', beforeImage: 'beforeImage', address_show: 'address_show'})
     },
     created(){
     }

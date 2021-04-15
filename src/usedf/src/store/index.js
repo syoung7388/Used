@@ -33,7 +33,9 @@ export default new Vuex.Store({
     saleList: [],
     soldList:[],
     pictureList:[],
+
     productInfo:[],
+    beforeImage:[],
 
 
 
@@ -41,8 +43,9 @@ export default new Vuex.Store({
     Writingshow: true,
 
 
-
-    Saleshow: 0,
+    //saleList~saleDetial
+    sale_show: 0,
+    address_show: false,
     
 
  
@@ -131,6 +134,7 @@ export default new Vuex.Store({
     SaledetailSuccess(state, payload){
       state.productInfo= payload
       state.removeBar= true
+      state.beforeImage= payload.picture
       
     },
 
