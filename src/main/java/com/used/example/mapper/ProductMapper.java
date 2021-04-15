@@ -27,5 +27,9 @@ public interface ProductMapper {
 	
 	public List<Auction> getAuction(int p_num);
 
+	public void updateProduct(Product product);
+
+	public void deletePicture(Picture picture);
+
 
 }

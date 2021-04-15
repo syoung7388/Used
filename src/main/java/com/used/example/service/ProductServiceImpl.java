@@ -58,6 +58,22 @@ public class ProductServiceImpl implements ProductService {
 		return productMapper.getAuction(p_num);
 	}
 
+	@Override
+	public void updateProduct(Product product) {
+		productMapper.updateProduct(product);
+		
+	}
+
+	@Override
+	public void deletePicture(Picture picture) {
+		productMapper.deletePicture(picture);
+		
+	}
+
+
+
+
+
 
 
 }

@@ -3,6 +3,7 @@ import Vuex, { createLogger } from 'vuex'
 import axios from 'axios'
 import router from '../router'
 import colors from 'vuetify/lib/util/colors'
+import Form from 'antd/lib/form/Form'
 
 Vue.use(Vuex)
 
@@ -347,6 +348,44 @@ export default new Vuex.Store({
       .catch(()=>{
         alert("오류")
       })
+    },
+    SaleEditOK({state, commit},payload){
+    
+
+      let token= localStorage.getItem("access_token")
+      let config= {
+        headers:{
+          "access_token": token,
+          'Content-Type': 'multipart/form-data',
+          'Access-Control-Allow-Origin': '*'
+        }
+      }
+
+
+      let formData= new FormData()
+      formData.append('title', payload.title)
+      formData.append('content', payload.content)
+      formData.append('industry', payload.industry)
+      formData.append('kind', payload.kind)
+      formData.append('brand', payload.brand)
+      formData.append('year', payload.year)
+      formData.append('startprice', payload.startprice)
+      formData.append('p_num', payload.p_num)
+      formData.append('address', payload.address)
+
+      for(let i=0 ; i< payload.picture.length ; i++){
+        formData.append('multipartfile', payload.picture[i])
+      }
+      for(let i=0; i< payload.pi_numList.length; i++){
+        formData.append('pi_nums', payload.pi_numList[i])
+
+      }
+
+
+
+
+      axios
+      .post('http://localhost:9200/api/product/edit',  formData, config)
     }
   
  

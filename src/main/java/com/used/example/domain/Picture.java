@@ -17,6 +17,7 @@ public class Picture {
 	
 	
 	private List<String> pictureNames;//insert할때
+	private List<Integer> pi_nums; //삭제 할떄  
 	
 	
 	
@@ -53,10 +54,17 @@ public class Picture {
 	public void setPictureName(String pictureName) {
 		this.pictureName = pictureName;
 	}
+
+	public List<Integer> getPi_nums() {
+		return pi_nums;
+	}
+	public void setPi_nums(List<Integer> pi_nums) {
+		this.pi_nums = pi_nums;
+	}
 	@Override
 	public String toString() {
 		return "Picture [multipartfile=" + multipartfile + ", p_num=" + p_num + ", pi_num=" + pi_num + ", pictureName="
-				+ pictureName + ", pictureNames=" + pictureNames + "]";
+				+ pictureName + ", pictureNames=" + pictureNames + ", pi_nums=" + pi_nums + "]";
 	}
 	
 	

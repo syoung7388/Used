@@ -134,6 +134,35 @@
 	</select>
 	
 	
+	
+	<update id="updateProduct" parameterType="com.used.example.domain.Product">
+			update product
+			set u_username = #{username},
+				p_kind = #{kind},
+				p_industry = #{industry},
+				p_content = #{content},
+				p_brand = #{brand},
+				p_year= #{year},
+				p_startprice = #{startprice},
+				p_title = #{title},
+				p_address = #{address}
+			where p_num = #{p_num}				
+				
+	</update>
+	
+	<delete id="deletePicture" parameterType="com.used.example.domain.Product">
+		delete  
+		from picture
+		where
+		<foreach collection="pi_nums" item="num" separator=" or " >
+			pi_num = #{num}
+		</foreach>
+		
+	
+	</delete>
+	
+
+	
 
 
 

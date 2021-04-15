@@ -192,7 +192,7 @@
                         top
                         class="ml-7"
                         icon
-                        @click="Beforedelete({idx})"
+                        @click="Beforedelete({idx: idx, pi_num: list.pi_num})"
                         ><i class="far fa-times-circle" style="font-size: large"></i></v-btn>
                         </v-card>
                     </v-col> <!--여기까지 원래 이미지 수정삭제 하는곳 beforeImage -->
@@ -229,11 +229,14 @@
                 industry: productInfo.industry,
                 kind: productInfo.kind,
                 title: productInfo.title,
+                content: productInfo.content,
                 brand: productInfo.brand,
                 year: productInfo.year,
                 startprice: productInfo.startprice,
                 address: productInfo.address,
-                picture: files
+                picture: files,
+                p_num: productInfo.p_num,
+                pi_numList: pi_numList
 
 
             })"
@@ -265,8 +268,10 @@ export default{
             
             showImage:[],// 일단 보여주기식 이미지
             files: [], //신규파일전체
-          
+    
             writingInfo:{},
+
+            pi_numList: [],
 
 
             yearOptions:[], 
@@ -312,9 +317,11 @@ export default{
             this.showImage.push({image: image})
          
         },
-        Beforedelete(idx){
-            console.log(idx)
-            this.beforeImage.splice(idx, 1)
+        Beforedelete(payload){
+           
+            this.beforeImage.splice(payload.idx, 1)
+            this.pi_numList.push(payload.pi_num)
+            console.log(this.pi_numList)
             //console.log(this.beforeImage)
         },
         Nowdelete(i){

@@ -95,8 +95,8 @@ public class ProductController {
 		List<String> pictureNames= new ArrayList<String>();
 		
 		
-        //String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
-		String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
+        String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
+		//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
 		
 		for(int i=0; i<multiList.size(); i++) {
 			
@@ -161,6 +161,66 @@ public class ProductController {
 		
 		return new ResponseEntity<>(product, HttpStatus.OK);
 		
+	}
+	@PostMapping("/edit")
+	public ResponseEntity<?> SaleEdit(Product product, Picture picture, HttpServletRequest request) throws Exception{
+		
+		token= request.getHeader("access_token");
+		
+		if(StringUtils.hasText(token)&& token.startsWith("Bearer")) {
+			token = token.substring(7, token.length());
+		}
+		
+		String username= JwtUtils.getUserEmailFromToken(token);
+		product.setUsername(username);
+		productService.updateProduct(product); // 제품 업데이트
+		
+		
+		List<Integer> deletelist = picture.getPi_nums();
+		
+		if(deletelist.size() != 0) {
+			productService.deletePicture(picture);// 삭제한사진들 삭제
+		}
+		
+		
+		
+		
+		int P_num= product.getP_num();
+		List <MultipartFile> multiList= picture.getMultipartfile();
+		
+		
+		if(multiList != null) {
+			 
+			String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
+				//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
+			 
+			 List<String> pictureNames = new ArrayList<String>();
+			 for(int i=0; i<multiList.size() ; i++) {
+				 
+				 String filename= multiList.get(i).getOriginalFilename();
+				 String ext= filename.substring(filename.indexOf(".")+i);
+				 File file= new File(path+ filename);
+				 InputStream input = multiList.get(i).getInputStream();
+				 
+				 MakeThumbnail makeThumbnail = new MakeThumbnail();
+				 makeThumbnail.makeThumbnail(input, file, ext);
+				 pictureNames.add(filename);
+				 
+			 }
+			 picture.setP_num(P_num);
+			 picture.setPictureNames(pictureNames);
+			 
+			 productService.createPicture(picture);
+			 
+			
+		}
+		 
+		 
+		
+		
+		
+		
+		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 
 	
