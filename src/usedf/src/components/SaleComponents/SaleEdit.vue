@@ -1,12 +1,11 @@
-
 <template>
     <v-app>
-        <v-container class="pa-5" v-show=" Writingshow=== true">
-            <div v-show="WritingError === true">
+        <v-container class="pa-3">
+            <!-- <div >
                 <h1 class="red--text" style="font-size: 15px;">
                     입력하신걸 확인해 주세요!
                 </h1>
-            </div>
+            </div> -->
             <v-row justify="start">
                 <v-col 
                 cols="5"
@@ -14,7 +13,7 @@
                 class="d-flex"
                 >
                     <v-select
-                        v-model="industry"
+                        v-model="productInfo.industry"
                         :items="industries"
                         single-line
                         dense
@@ -27,7 +26,7 @@
             
                 >
                     <v-select
-                        v-model="kind"
+                        v-model="productInfo.kind"
                         :items="kinds"
                         single-line
                         dense
@@ -47,7 +46,7 @@
                  class="py-0"
                 >
                     <v-text-field
-                    v-model="title"
+                    v-model="productInfo.title"
                     outlined
                     rows="1"
                     dense
@@ -66,10 +65,9 @@
                 class="py-0" 
                 >           
                     <v-textarea
-                    v-model="content"
+                    v-model="productInfo.content"
                     outlined
                     rows="2"
-                        
                     >
                     </v-textarea>
                 </v-col>          
@@ -87,7 +85,7 @@
                 class="py-0" 
                 >
                     <v-text-field
-                    v-model="brand"
+                    v-model="productInfo.brand"
                     outlined
                     rows="1"
                     dense
@@ -111,7 +109,7 @@
                     single-line
                     dense
                     class="mt-0"
-                    v-model="year"
+                    v-model="productInfo.year"
                     ></v-select>
                 </v-col>          
             </v-row>
@@ -127,7 +125,7 @@
                 class="py-0"
                 >
                     <v-text-field
-                    v-model="startprice"
+                    v-model="productInfo.startprice"
                     outlined
                     rows="1"
                     dense
@@ -137,71 +135,54 @@
             </v-row>
             <h1 class="primary--text my-5" style="font-size: 16px;" >사진 등록은 필수입니다!</h1>
             <v-row align="center">
-                <v-col
-                cols="3"
-                >
-                    <input ref="imageInput" type="file"  @change="ChangeImages" hidden >
-                    <v-btn
-                    @click="ClickImageUpload"
-                    icon
-                    color="grey"
-                    >
-                        <i class="far fa-plus-square" style="font-size: 30px;"></i>
-                    </v-btn>
-                </v-col>
                     <v-col
                     cols="3" 
-                    v-for="(list, idx) in showImage"
+                    v-for="(list, idx) in productInfo.picture"
                     :key="idx"
-                    >               
+                    >   
+                                      
                         <v-img 
                         v-if="showImage" 
-                        :src="list.image"
+                        :src="require('@/assets/'+list.pictureName)"
                         max-height="60"
                         max-width="60"
-                        ></v-img>  
+                        >
+                         <v-btn x-small><i class="fas fa-angle-double-left" style="font-size: large;"></i></v-btn>
 
-                    </v-col>         
+                        
+                        </v-img>
+                    </v-col>
+                    <v-col
+                    cols="3"
+                    >
+                        <input ref="imageInput" type="file"  @change="ChangeImages" hidden >
+                        <v-btn
+                        @click="ClickImageUpload"
+                        icon
+                        color="grey"
+                        >
+                            <i class="far fa-plus-square" style="font-size: 30px;"></i>
+                        </v-btn>
+                </v-col>         
             </v-row>
              <v-btn  
             class="primary mt-5"
             block
-            @click="Next({
-                
-                title,
-                content,
-                industry,
-                kind ,
-                brand,
-                year,
-                startprice,
-                files
-
-            })"
-            >다음</v-btn>
-            <v-virtual-scroll
-            height="100"
-            item-height="20"
-            ></v-virtual-scroll>     
-        </v-container>
-        <div v-show=" Writingshow=== false">
-            <WAddress></WAddress>
-        </div>
+            >확인</v-btn>
+            </v-container>
     </v-app>
     
-
-
 </template>
-
 <script>
 import { mapActions, mapState } from 'vuex';
-import  WAddress from '@/components/WritingComponent/WAddress.vue'
+import WAddress from '../WritingComponent/WAddress.vue';
 export default{
+  components: { WAddress },
     data() {
         
         return {
 
-            industry: null,
+            industry:null,
             kind: null,
             title: null,
             content: null,
@@ -212,64 +193,30 @@ export default{
             file: null,
             showImage:[],
             files:[],
-
             writingInfo:{},
-
-/////////////////////////////////////////////////////보내야 할것들
 
             yearOptions:[], 
             select: null,
-            industries: [
-                '한식', 
-                '찜/탕',
-                '면요리',
-                '고기/구이',
-                '족발/ 보쌈',
-                '치킨',
-                '분식',
-                '중식',
-                '동남아식',
-                '회/초밥',
-                '일식/돈까스',
-                '피자/샐러드',
-                '호프/술집',
-                '카페/베이커리',
-                '배달전문점'
+            industries: ['한식', '찜/탕','면요리','고기/구이','족발/ 보쌈','치킨','분식','중식','동남아식','회/초밥','일식/돈까스','피자/샐러드','호프/술집','카페/베이커리','배달전문점'],
+            kinds: ['작업대','커피머신','그릴기','냉동 절육기','제빙기','오븐기','튀김기','기름 정제기','씽크대','소독기','가스렌지','냉장고/쇼케이스','보온통','에어컨','회전국솥','절단기','벽선단','기타'],
 
-            ],
 
-            kinds: [
-                '작업대',
-                '커피머신',
-                '그릴기',
-                '냉동 절육기',
-                '제빙기',
-                '오븐기',
-                '튀김기',
-                '기름 정제기',
-                '씽크대',
-                '소독기',
-                '가스렌지',
-                '냉장고/쇼케이스',
-                '보온통',
-                '에어컨',
-                '회전국솥',
-                '절단기',
-                '벽선단',
-                '기타'
-            ],
-//////////////////////////////////////////////////////////////////제품 선택 내생각엔 따로 빼는것도 좋은 방법인듯
-        
+
 
         }
 
     },
     mounted() {
+
+
+
+
         // 연도 선택 옵션 리스트 설정
         let year = new Date().getFullYear();
         for (let i = 1970; i <= year; i++) {
         this.yearOptions.push(i);        
         }
+       
     },
 ///////////////////////////////////////////////////////////연도 선택
     methods: {
@@ -286,27 +233,12 @@ export default{
             let image = URL.createObjectURL(file)
             this.showImage.push({image})
         },
-  
-        Next(payload){
-            this.$store.state.writingInfo = payload
-            this.$store.state.Writingshow = false
-        }
-
+       
     },
     computed: {
-        ...mapState(['userInfo','ImageList', 'WritingError', 'Writingshow'])
+        ...mapState({productInfo:'productInfo'})
     },
     created(){
-        this.username= this.userInfo.username
-    
-      
-    },
-    components: {
-        WAddress
     }
-    
-    
-
 }
-
 </script>

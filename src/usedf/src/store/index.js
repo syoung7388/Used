@@ -39,6 +39,10 @@ export default new Vuex.Store({
 
     writingInfo:[],
     Writingshow: true,
+
+
+
+    Saleshow: 0,
     
 
  
@@ -126,6 +130,7 @@ export default new Vuex.Store({
     },
     SaledetailSuccess(state, payload){
       state.productInfo= payload
+      state.removeBar= true
       
     },
 

@@ -6,6 +6,7 @@
                 <h1 style="font-size:15px;" class="primary--text mb-3">판매중</h1>
                 
                 <v-list-item-group
+                v-model="selecteditem"
                 active-class="primary--text"
                 >
                     <template 
@@ -74,7 +75,9 @@
             </v-list>
             <v-divider></v-divider>
         </v-container>
-        <router-view/>
+        <v-container v-show="list_show === false" class="pa-0">
+            <router-view/>
+        </v-container>
     </v-app>
 </template>
 <script>
@@ -82,7 +85,8 @@ import Vue from 'vue'
 import{mapActions, mapState} from 'vuex'
 export default {
     data(){
-        return{            
+        return{   
+            selecteditem:1        
            
         }
     },

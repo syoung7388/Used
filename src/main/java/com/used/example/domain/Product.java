@@ -8,14 +8,6 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 
-//	private Picture picture;	
-//	public Picture getPicture() {
-//		return picture;
-//	}
-//	public void setPicture(Picture picture) {
-//		this.picture = picture;
-//	}
-
 
 public class Product {
 	
