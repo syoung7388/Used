@@ -150,15 +150,24 @@
 				
 	</update>
 	
-	<delete id="deletePicture" parameterType="com.used.example.domain.Product">
+	<delete id="deletePicture" parameterType="com.used.example.domain.Picture">
 		delete  
 		from picture
 		where
 		<foreach collection="pi_nums" item="num" separator=" or " >
 			pi_num = #{num}
 		</foreach>
-		
+	</delete>
 	
+	
+	<delete id= "deleteProduct" parameterType="int">
+				DELETE  	a.*,
+							b.*,
+							c.*
+				FROM 		product a
+				LEFT JOIN picture b ON a.p_num= b.p_num
+				LEFT JOIN auction c ON c.p_num = a.p_num
+				WHERE a.p_num = #{p_num}
 	</delete>
 	
 

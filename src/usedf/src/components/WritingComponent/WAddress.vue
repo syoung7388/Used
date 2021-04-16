@@ -1,18 +1,9 @@
 <template>
     <v-app class="pa-5">
-        <v-btn icon @click="Back">
-            <i class="fas fa-angle-double-left" style="font-size: large;"></i>
-        </v-btn>
         <DaumPostcode
-        style="height: 450px"
+        style="height: 610px"
         :on-complete= handleAddress
         ></DaumPostcode>
-        <v-btn
-        class="primary mt-3"
-        @click="WritingOK({
-            fullAddress
-        })"
-        >확인</v-btn>
     </v-app>
     
 </template>
@@ -50,14 +41,10 @@ export default {
                 this.extraAddress += (this.extraAddress !== '' ? `, ${e.buildingName}` : e.buildingName)
             }
             this.fullAddress += (this.extraAddress !== '' ? ` (${this.extraAddress})` : '')
+            this.$emit('Address', this.fullAddress);
 
             }
         },
-
-        ...mapActions(['WritingOK']),
-        Back(){
-            this.$store.state.Writingshow = true
-        }
     }
 
 }

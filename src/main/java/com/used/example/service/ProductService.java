@@ -26,6 +26,8 @@ public interface ProductService {
 
 	public void deletePicture(Picture picture);
 
+	public void deleteProduct(int p_num);
+
 	
 
 }

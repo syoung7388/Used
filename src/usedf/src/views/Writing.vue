@@ -135,6 +135,27 @@
                     ></v-text-field>
                 </v-col>
             </v-row>
+            <v-row >
+                <v-col
+                cols="3"
+                class="py-0" 
+                >
+                    <h1 style="font-size: 15px">주소</h1>               
+                </v-col>
+                <v-col
+                cols="9"
+                class="py-0"
+                >
+                    <v-text-field
+                    v-model="address"
+                    outlined
+                    rows="1"
+                    dense
+                    height="2"
+                    @click="Address"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
             <h1 class="primary--text my-5" style="font-size: 16px;" >사진 등록은 필수입니다!</h1>
             <v-row align="center">
                 <v-col
@@ -166,7 +187,7 @@
              <v-btn  
             class="primary mt-5"
             block
-            @click="Next({
+            @click="WritingOK({
                 
                 title,
                 content,
@@ -175,7 +196,8 @@
                 brand,
                 year,
                 startprice,
-                files
+                files,
+                address
 
             })"
             >다음</v-btn>
@@ -185,7 +207,7 @@
             ></v-virtual-scroll>     
         </v-container>
         <div v-show=" Writingshow=== false">
-            <WAddress></WAddress>
+            <WAddress @Address="result_Address"></WAddress>
         </div>
     </v-app>
     
@@ -210,55 +232,20 @@ export default{
             startprice: null,
             username: null,
             file: null,
+            address: null,
             showImage:[],
             files:[],
 
             writingInfo:{},
+            Writingshow: true,
 
-/////////////////////////////////////////////////////보내야 할것들
+
 
             yearOptions:[], 
             select: null,
-            industries: [
-                '한식', 
-                '찜/탕',
-                '면요리',
-                '고기/구이',
-                '족발/ 보쌈',
-                '치킨',
-                '분식',
-                '중식',
-                '동남아식',
-                '회/초밥',
-                '일식/돈까스',
-                '피자/샐러드',
-                '호프/술집',
-                '카페/베이커리',
-                '배달전문점'
+            industries: ['한식', '찜/탕','면요리','고기/구이','족발/ 보쌈','치킨','분식','중식','동남아식','회/초밥','일식/돈까스','피자/샐러드','호프/술집','카페/베이커리','배달전문점'],
+            kinds: ['작업대','커피머신','그릴기','냉동 절육기','제빙기','오븐기','튀김기','기름 정제기','씽크대','소독기','가스렌지','냉장고/쇼케이스','보온통','에어컨','회전국솥','절단기','벽선단','기타'],
 
-            ],
-
-            kinds: [
-                '작업대',
-                '커피머신',
-                '그릴기',
-                '냉동 절육기',
-                '제빙기',
-                '오븐기',
-                '튀김기',
-                '기름 정제기',
-                '씽크대',
-                '소독기',
-                '가스렌지',
-                '냉장고/쇼케이스',
-                '보온통',
-                '에어컨',
-                '회전국솥',
-                '절단기',
-                '벽선단',
-                '기타'
-            ],
-//////////////////////////////////////////////////////////////////제품 선택 내생각엔 따로 빼는것도 좋은 방법인듯
         
 
         }
@@ -271,7 +258,7 @@ export default{
         this.yearOptions.push(i);        
         }
     },
-///////////////////////////////////////////////////////////연도 선택
+
     methods: {
         ClickImageUpload(){
             this.$refs.imageInput.click();     
@@ -286,15 +273,19 @@ export default{
             let image = URL.createObjectURL(file)
             this.showImage.push({image})
         },
-  
-        Next(payload){
-            this.$store.state.writingInfo = payload
-            this.$store.state.Writingshow = false
-        }
+        result_Address(address){
+            this.Writingshow= true  
+            this.address = address
+        },
+        Address(){
+            this.Writingshow= false  
+        },
+        ...mapActions(['WritingOK'])
+        
 
     },
     computed: {
-        ...mapState(['userInfo','ImageList', 'WritingError', 'Writingshow'])
+        ...mapState(['userInfo','ImageList', 'WritingError'])
     },
     created(){
         this.username= this.userInfo.username

@@ -29,6 +29,7 @@ export default new Vuex.Store({
     phoneError:false,
     certiError: false,
     WritingError: false,
+  
 
     userInfo: {},
     saleList: [],
@@ -41,12 +42,13 @@ export default new Vuex.Store({
 
 
     writingInfo:[],
-    Writingshow: true,
+    
 
 
     //saleList~saleDetial
     sale_show: 0,
     address_show: false,
+    SaleEdit_error:false,
     
 
  
@@ -133,10 +135,20 @@ export default new Vuex.Store({
       // console.log(state.soldList)
     },
     SaledetailSuccess(state, payload){
+      state.list_show= !state.list_show
       state.productInfo= payload
       state.removeBar= true
       state.beforeImage= payload.picture
       
+    },
+    SaleEdit_s(state){
+      state.sale_show = 0
+      state.list_show= !state.list_show
+
+    },
+
+    SaleEdit_f(state){
+
     },
 
 
@@ -284,22 +296,20 @@ export default new Vuex.Store({
         }
       }
 
-      let writingInfo= state.writingInfo
-      console.log(writingInfo)
       let formData = new FormData()
 
        
-      formData.append('title', writingInfo.title)
-      formData.append('content',writingInfo.content)
-      formData.append('industry',writingInfo.industry)
-      formData.append('kind',writingInfo.kind)
-      formData.append('brand',writingInfo.brand)
-      formData.append('year',writingInfo.year)
-      formData.append('startprice',writingInfo.startprice)
+      formData.append('title', payload.title)
+      formData.append('content',payload.content)
+      formData.append('industry',payload.industry)
+      formData.append('kind',payload.kind)
+      formData.append('brand',payload.brand)
+      formData.append('year',payload.year)
+      formData.append('startprice',payload.startprice)
       formData.append('address', payload.fullAddress)
 
-      for(let i=0; i< writingInfo.files.length; i++){
-        formData.append('multipartfile',writingInfo.files[i])
+      for(let i=0; i< payload.files.length; i++){
+        formData.append('multipartfile',payload.files[i])
       }
       
   
@@ -337,7 +347,6 @@ export default new Vuex.Store({
       })
     },
     getSaledetail({state, commit}, payload){
-      state.list_show= !state.list_show
       console.log(payload)
 
       axios
@@ -349,7 +358,7 @@ export default new Vuex.Store({
         alert("오류")
       })
     },
-    SaleEditOK({state, commit},payload){
+    SaleEditOK({dispatch, commit},payload){
     
 
       let token= localStorage.getItem("access_token")
@@ -378,14 +387,37 @@ export default new Vuex.Store({
       }
       for(let i=0; i< payload.pi_numList.length; i++){
         formData.append('pi_nums', payload.pi_numList[i])
-
       }
-
-
-
-
       axios
       .post('http://localhost:9200/api/product/edit',  formData, config)
+      .then(Seres =>{
+        if(Seres.data === "success"){
+          let p_num = payload.p_num
+          dispatch('getSaledetail', {p_num: p_num})
+          commit('SaleEdit_s')
+
+        }
+      })
+      .catch(()=>{
+        commit('SaleEdit_f')
+      })
+    },
+
+    SaleDeleteOK({dispatch, state}, payload){
+      let p_num = payload.p_num
+      axios
+      .delete(`http://localhost:9200/api/product/${p_num}`)
+      .then(Dres =>{
+        if(Dres.data === "success"){
+          router.push({name: 'SaleList'})
+          state.removeBar = false
+          dispatch('getSaleList')
+        }
+      })
+      .catch(()=>{
+        alert("삭제 오류")
+      })
+
     }
   
  

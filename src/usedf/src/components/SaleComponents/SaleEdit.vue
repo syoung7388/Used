@@ -1,11 +1,11 @@
 <template>
     <v-app>
         <v-container class="pa-3" v-show="address_show === false">
-            <!-- <div >
+            <div v-show ="SaleEdit_error === true">
                 <h1 class="red--text" style="font-size: 15px;">
                     입력하신걸 확인해 주세요!
                 </h1>
-            </div> -->
+            </div>
             <v-row justify="start">
                 <v-col 
                 cols="5"
@@ -159,7 +159,7 @@
                 <v-col
                 cols="2"
                 >
-                    <input ref="imageInput" type="file"  @change="ChangeImages" hidden >
+                    <input ref="imageInput" type="file" accept=".gif, .jpg, .png" @change="ChangeImages" hidden >
                     <v-btn
                     @click="ClickImageUpload"
                     icon
@@ -344,7 +344,7 @@ export default{
        
     },
     computed: {
-        ...mapState({productInfo:'productInfo', beforeImage: 'beforeImage', address_show: 'address_show'})
+        ...mapState({productInfo:'productInfo', beforeImage: 'beforeImage', address_show: 'address_show', SaleEdit_error:'SaleEdit_error'})
     },
     created(){
     }

@@ -31,5 +31,7 @@ public interface ProductMapper {
 
 	public void deletePicture(Picture picture);
 
+	public void deleteProduct(int p_num);
+
 
 }

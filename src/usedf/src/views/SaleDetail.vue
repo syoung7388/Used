@@ -2,7 +2,7 @@
     <v-app>
         <v-container v-show="sale_show === 0" class="pa-0">
             <v-carousel            
-            height="245"
+            height="300"
             >
                 <v-carousel-item
                 v-for="(item, i) in productInfo.picture"
@@ -10,9 +10,11 @@
                 :src="require('@/assets/'+item.pictureName)"
                 reverse-transition="fade-transition"
                 transition="fade-transition"
-                max-height= "245"
+                max-height= "300"
                 hide-delimiter-background
                 >
+                <p class="black--text">{{item.pictureName}}</p>
+
                 <v-menu 
                 offset-y
                 absolute
@@ -43,7 +45,7 @@
                         </v-list-item >
                         <v-divider></v-divider>
                         <v-list-item class="mx-3" dense > 
-                            <v-list-item-title style="font-size: 15px" @click="Delete">삭제</v-list-item-title>
+                            <v-list-item-title style="font-size: 15px" @click="SaleDeleteOK({p_num: productInfo.p_num})">삭제</v-list-item-title>
                         </v-list-item>
                     </v-list>
                     </v-menu>
@@ -148,13 +150,12 @@ export default {
         Edit(){
             this.$store.state.sale_show = 1
         },
-        Delete(){
-            alert(삭제)
-        },
         ListBack(){
             this.$store.state.list_show =true
+            this.$store.state.removeBar= false
             this.$router.push({name: 'SaleList'})
-        }
+        },
+        ...mapActions(['SaleDeleteOK'])
     },
     components: {
         SaleEdit

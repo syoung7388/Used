@@ -70,6 +70,12 @@ public class ProductServiceImpl implements ProductService {
 		
 	}
 
+	@Override
+	public void deleteProduct(int p_num) {
+		productMapper.deleteProduct(p_num);
+		
+	}
+
 
 
 

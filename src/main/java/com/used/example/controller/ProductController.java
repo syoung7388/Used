@@ -31,7 +31,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -153,7 +155,7 @@ public class ProductController {
 	public ResponseEntity<?> SaleDetail(@RequestParam ("p_num") int p_num) throws Exception{
 		Product product = productService.getSaleDetail(p_num);
 
-		logger.info("product:"+ product);
+		logger.info("product@@:"+ product);
 		
 		
 		
@@ -176,9 +178,9 @@ public class ProductController {
 		productService.updateProduct(product); // 제품 업데이트
 		
 		
-		List<Integer> deletelist = picture.getPi_nums();
+		 
 		
-		if(deletelist.size() != 0) {
+		if(picture.getPi_nums() != null) {
 			productService.deletePicture(picture);// 삭제한사진들 삭제
 		}
 		
@@ -214,9 +216,16 @@ public class ProductController {
 			 
 			
 		}
-		 
-		 
+
 		
+		return new ResponseEntity<>("success", HttpStatus.OK);
+	}
+	
+	
+	@DeleteMapping("/{p_num}")
+	public ResponseEntity<?> DeleteProduct(@PathVariable("p_num") int p_num){
+		
+		productService.deleteProduct(p_num);
 		
 		
 		
