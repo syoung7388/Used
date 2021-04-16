@@ -418,7 +418,8 @@ export default new Vuex.Store({
         alert("삭제 오류")
       })
 
-    }
+    },
+
   
  
 
