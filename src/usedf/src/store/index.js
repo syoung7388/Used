@@ -55,6 +55,9 @@ export default new Vuex.Store({
     Lat: null,
     Lon: null,
 
+
+    topList:[],
+
  
       
     
@@ -153,6 +156,11 @@ export default new Vuex.Store({
 
     SaleEdit_f(state){
 
+    },
+    Map_s(state, payload){
+      state.topList = payload
+      state.removeBar = false
+      router.push({name: 'Home'})
     },
 
 
@@ -304,13 +312,13 @@ export default new Vuex.Store({
 
 
       let lat = localStorage.getItem('lat')
-      let lng = localStorage.getItem('lng')
+      let lon = localStorage.getItem('lon')
   
 
       let formData = new FormData()
 
       formData.append('lat', lat)
-      formData.append('lon', lng)
+      formData.append('lon', lon)
       formData.append('title', payload.title)
       formData.append('content',payload.content)
       formData.append('industry',payload.industry)
@@ -432,6 +440,23 @@ export default new Vuex.Store({
       })
 
     },
+    MapOK({commit}){
+      let lat = localStorage.getItem('lat')
+      let lon = localStorage.getItem('lon')
+      console.log(lat)
+
+      axios
+      .get(`http://localhost:9200/api/product?lat=${lat}&lon=${lon}`)
+      .then(Tres => {
+        console.log(Tres.data)
+        commit('Map_s', Tres.data)
+
+      })
+      .catch(()=>{
+        commit('Map_f')
+      })
+
+    }
 
   
  

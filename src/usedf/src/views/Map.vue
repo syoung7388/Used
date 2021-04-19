@@ -2,22 +2,15 @@
     <v-app>
 
         <div id= "map" style="width:500px;height:400px;"></div>
-        <div id="clickLatlng"></div>
-        <input type="text" name="lat">
-        <input type="text" name="lng">
-        <v-btn @click="k" ></v-btn>
-
-
+        <v-btn @click="MapOK" >확인</v-btn>
     </v-app>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
 
     data(){
         return{
-            ss: [],
-            lat: null,
-            lng: null
      
 
         }
@@ -51,6 +44,11 @@ export default {
                     let lat = position.coords.latitude,
                         lon = position.coords.longitude;
                     var locPosition = new kakao.maps.LatLng(lat, lon)
+
+                    localStorage.setItem('lat',lat)
+                    localStorage.setItem('lon',lon)
+
+    
                    
                        
                     marker.setPosition(locPosition)
@@ -78,19 +76,12 @@ export default {
             kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
                 searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
                     if (status === kakao.maps.services.Status.OK) {
-                        
-
-                        // var message= mouseEvent.latLng                      
-                        // var resultDiv = document.getElementById('clickLatlng'); 
-                        // resultDiv.innerHTML = message;
-                        //console.log(address)
 
                         var Latlng = mouseEvent.latLng
 
-                        document.getElementsByName("lat")[0].value = Latlng.getLat()
-                        document.getElementsByName("lng")[0].value = Latlng.getLng()
 
-                        localStorage.setItem('lat', Latlng.getLat())
+                         localStorage.setItem('lat', Latlng.getLat())
+                         localStorage.setItem('lon', Latlng.getLng())
                     
 
 
@@ -98,6 +89,7 @@ export default {
                         marker.setPosition(mouseEvent.latLng)
                         marker.setMap(map);
                         map.setCenter(mouseEvent.latLng)
+                        //console.log(localStorage.getItem('lat'))
                         
                     }                
                     
@@ -115,10 +107,7 @@ export default {
         
         
         },
-        k(){
-            var a= localStorage.getItem('lat')
-            alert(a)
-        }
+        ...mapActions(['MapOK'])
  
     } ///클릭한 위치 지도로 전환
 

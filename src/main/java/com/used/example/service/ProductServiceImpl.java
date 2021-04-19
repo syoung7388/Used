@@ -76,6 +76,12 @@ public class ProductServiceImpl implements ProductService {
 		
 	}
 
+	@Override
+	public List<Product> TopList(Product product) {
+		return productMapper.TopList(product);
+		
+	}
+
 
 
 

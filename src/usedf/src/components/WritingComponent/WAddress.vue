@@ -50,7 +50,7 @@ export default {
                     var coords= new kakao.maps.LatLng(result[0].y, result[0].x)
                     console.log(coords)
                     localStorage.setItem('lat', result[0].y)
-                    localStorage.setItem('lng', result[0].x)
+                    localStorage.setItem('lon', result[0].x)
         
                 }
 

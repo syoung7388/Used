@@ -15,7 +15,8 @@
 								p_content,
 								p_sale,
 								p_address,
-								p_lonlat
+								p_lat,
+								p_lon
 		
 		) values (				
 		
@@ -30,7 +31,8 @@
 								#{content},
 								#{sale},
 								#{address},
-								GeomFromText(CONCAT('POINT(',#{lon},' ',#{lat},')' )) 
+								#{lat},
+								#{lon}
 		)
 		
 		<selectKey resultType= "int" keyProperty="p_num" order="AFTER" >
@@ -171,6 +173,26 @@
 				LEFT JOIN auction c ON c.p_num = a.p_num
 				WHERE a.p_num = #{p_num}
 	</delete>
+	<select id="TopList" parameterType="com.used.example.domain.Product" resultMap="ListMap">
+		SELECT a.*,
+		b.*,
+	    (
+	      	6371 * acos (
+	      	cos ( radians(#{lat}) )
+	      	* cos( radians( p_lat ) )
+	      	* cos( radians( p_lon ) - radians(#{lon}) )
+	      	+ sin ( radians(#{lat}) )
+	      	* sin( radians( p_lat ) )
+	    	)
+		) AS distance
+	FROM product a
+	LEFT JOIN picture b ON a.p_num = b.p_num
+	ORDER BY  a.p_hits DESC, distance DESC 	
+	</select>
+	
+	
+	
+	
 	
 
 	

@@ -37,6 +37,9 @@
                             <v-tabs-slider primary></v-tabs-slider>
                                 <v-tab class="ml-0" style="font-size:17px;">인기매물</v-tab>
                                 <v-tab style="font-size:17px;">카테고리</v-tab>
+                                <v-tab-item>
+                                    <TopList></TopList>
+                                </v-tab-item>
                                                 
                         </v-tabs>
                     </template>
@@ -50,6 +53,7 @@
 </template>
 <script>
 
+import TopList from '@/components/HomeComponents/TopList.vue'
 
 export default{
     data(){
@@ -71,6 +75,9 @@ export default{
             this.$router.push({name: 'Map'})
             
         }
+    },
+    components: {
+        TopList
     }
 
 }

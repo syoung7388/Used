@@ -33,5 +33,7 @@ public interface ProductMapper {
 
 	public void deleteProduct(int p_num);
 
+	public List<Product> TopList(Product product);
+
 
 }
