@@ -41,16 +41,21 @@ export default {
                 this.extraAddress += (this.extraAddress !== '' ? `, ${e.buildingName}` : e.buildingName)
             }
             this.fullAddress += (this.extraAddress !== '' ? ` (${this.extraAddress})` : '')
+            console.log(this.fullAddress)
             this.$emit('Address', this.fullAddress);
+            this.fullAddress= null
+            this.extraAddress= null
 
 
             var geocoder = new kakao.maps.services.Geocoder();
             geocoder.addressSearch(e.address, function(result, status){
                 if(status === kakao.maps.services.Status.OK){
                     var coords= new kakao.maps.LatLng(result[0].y, result[0].x)
-                    console.log(coords)
+                   // console.log(coords)
                     localStorage.setItem('lat', result[0].y)
                     localStorage.setItem('lon', result[0].x)
+                    // console.log(localStorage.getItem('lon'))
+                    // console.log(localStorage.getItem('lat'))
         
                 }
 

@@ -36,6 +36,7 @@
                         :key="int"
                         ></v-divider> 
                     </template>
+                    <v-divider></v-divider>
                 </v-list-item-group>            
             </v-list>
         </v-container>

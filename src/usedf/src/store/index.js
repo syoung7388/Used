@@ -93,6 +93,7 @@ export default new Vuex.Store({
       console.log(state.phone)
     },
     LoginSuccess(state, payload){
+      
       state.userInfo= {
         name: payload.name,
         username: payload.username,
@@ -157,7 +158,7 @@ export default new Vuex.Store({
     SaleEdit_f(state){
 
     },
-    Map_s(state, payload){
+    LatLon_s(state, payload){
       state.topList = payload
       state.removeBar = false
       router.push({name: 'Home'})
@@ -254,9 +255,10 @@ export default new Vuex.Store({
       .then( Ires =>{
         console.log(Ires.data)
         commit('LoginSuccess', Ires.data)
-      
+        dispatch('nowLatLon')
       
       })
+
     },
     EditOK({state, commit}){///UserEdit마무리 
       let userInfo= state.userInfo
@@ -440,20 +442,47 @@ export default new Vuex.Store({
       })
 
     },
-    MapOK({commit}){
+    nowLatLon({dispatch}){
+      const script = document.createElement('script')
+      script.onload = () => kakao.maps.load(this.initMap)
+      script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=e4ae1156e9644814145b77eeb30b26b0&libraries=services'
+      document.head.appendChild(script)
+      if(navigator.geolocation){
+         navigator.geolocation.getCurrentPosition(function(position){
+              let lat = position.coords.latitude
+              let lon = position.coords.longitude
+         localStorage.setItem('lat',lat)
+         localStorage.setItem('lon',lon)
+         console.log(localStorage.getItem('lat'))
+         console.log(localStorage.getItem('lon'))
+
+         })
+      }
+
+      dispatch('LatLonOK')
+      
+
+
+    },
+
+
+
+
+    LatLonOK({commit}){
       let lat = localStorage.getItem('lat')
       let lon = localStorage.getItem('lon')
       console.log(lat)
+      console.log(lon)
 
       axios
       .get(`http://localhost:9200/api/product?lat=${lat}&lon=${lon}`)
       .then(Tres => {
         console.log(Tres.data)
-        commit('Map_s', Tres.data)
+        commit('LatLon_s', Tres.data)
 
       })
       .catch(()=>{
-        commit('Map_f')
+        commit('LatLon_f')
       })
 
     }

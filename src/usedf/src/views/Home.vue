@@ -40,6 +40,9 @@
                                 <v-tab-item>
                                     <TopList></TopList>
                                 </v-tab-item>
+                                <v-tab-item>
+                                    <IndustryList></IndustryList>
+                                </v-tab-item>
                                                 
                         </v-tabs>
                     </template>
@@ -54,6 +57,9 @@
 <script>
 
 import TopList from '@/components/HomeComponents/TopList.vue'
+import IndustryList from '@/components/HomeComponents/IndustryList.vue'
+
+
 
 export default{
     data(){
@@ -77,7 +83,8 @@ export default{
         }
     },
     components: {
-        TopList
+        TopList,
+        IndustryList
     }
 
 }
