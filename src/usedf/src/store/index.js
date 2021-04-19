@@ -51,6 +51,10 @@ export default new Vuex.Store({
     SaleEdit_error:false,
     
 
+
+    Lat: null,
+    Lon: null,
+
  
       
     
@@ -286,6 +290,7 @@ export default new Vuex.Store({
 
 
     WritingOK({state, commit}, payload){/// 게시물 작성 내용 DB전달
+      console.log(payload)
 
       let token = localStorage.getItem("access_token")
       let config={
@@ -296,9 +301,16 @@ export default new Vuex.Store({
         }
       }
 
+
+
+      let lat = localStorage.getItem('lat')
+      let lng = localStorage.getItem('lng')
+  
+
       let formData = new FormData()
 
-       
+      formData.append('lat', lat)
+      formData.append('lon', lng)
       formData.append('title', payload.title)
       formData.append('content',payload.content)
       formData.append('industry',payload.industry)
@@ -306,8 +318,9 @@ export default new Vuex.Store({
       formData.append('brand',payload.brand)
       formData.append('year',payload.year)
       formData.append('startprice',payload.startprice)
-      formData.append('address', payload.fullAddress)
+      formData.append('address', payload.address)
 
+      console.log(formData)
       for(let i=0; i< payload.files.length; i++){
         formData.append('multipartfile',payload.files[i])
       }

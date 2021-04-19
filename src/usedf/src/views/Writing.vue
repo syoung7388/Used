@@ -233,6 +233,7 @@ export default{
             username: null,
             file: null,
             address: null,
+            code: null,
             showImage:[],
             files:[],
 
@@ -280,6 +281,7 @@ export default{
         Address(){
             this.Writingshow= false  
         },
+
         ...mapActions(['WritingOK'])
         
 

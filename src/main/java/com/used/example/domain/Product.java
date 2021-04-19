@@ -22,11 +22,26 @@ public class Product {
 	private String startprice;
 	private String endprice;
 	private String title;
-	private String content;
-   
+	private String content;  
  	private String p_date;
 	private String sale;
 	private String address;
+	private double lat;
+	private double lon;
+	
+	
+	public double getLat() {
+		return lat;
+	}
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+	public double getLon() {
+		return lon;
+	}
+	public void setLon(double lon) {
+		this.lon = lon;
+	}
 	private List<Picture> picture;
 	private List<Auction> auction;
 	
@@ -131,16 +146,14 @@ public class Product {
 	public void setAuction(List<Auction> auction) {
 		this.auction = auction;
 	}
-	
-	
 	@Override
 	public String toString() {
-		return "Product=> [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
+		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
 				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
 				+ ", title=" + title + ", content=" + content + ", p_date=" + p_date + ", sale=" + sale + ", address="
-				+ address + ", picture=" + picture + ", auction=" + auction + "]";
+				+ address + ", lat=" + lat + ", lon=" + lon + ", picture=" + picture + ", auction=" + auction + "]";
 	}
-	
+
 	
 
 	

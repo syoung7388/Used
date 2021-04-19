@@ -25,17 +25,24 @@ CREATE TABLE IF NOT EXISTS `product` (
   `p_endprice` int(50) DEFAULT NULL,
   `p_title` varchar(50) NOT NULL,
   `p_sale` varchar(5) NOT NULL,
-  `p_address` varchar(50) NOT NULL,
+  `p_lonlat` point NOT NULL,
+  `p_address` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`p_num`,`u_username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 used.product:~2 rows (대략적) 내보내기
+-- 테이블 데이터 used.product:~10 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` (`p_num`, `u_username`, `p_kind`, `p_industry`, `p_content`, `p_brand`, `p_year`, `p_startprice`, `p_date`, `p_endprice`, `p_title`, `p_sale`, `p_address`) VALUES
-	(57, 'kk@kk', '제빙기', '호프/술집', '얼맥당 제빙기 팔아요', '대우', '1997', 1000000, '2021-04-12', NULL, '얼맥당 제빙기 팔아요', 'false', '광주 남구 2순환로 1508 (송하동, 톨게이트사무소송하동, 톨게이트사무소)'),
-	(58, 'kk@kk', '커피머신', '치킨', '땅땅치킨', '대우', '2018', 121212, '2021-04-12', NULL, '땅땅치킨', 'false', '광주 남구 2순환로 1508 (송하동, 톨게이트사무소송하동, 톨게이트사무소)'),
-	(59, 'kk@kk', '튀김기', '분식', '신전입니다', '대우', '2007', 100000, '2021-04-12', NULL, '신전떡볶이', 'false', '광주 남구 2순환로 1508 (송하동, 톨게이트사무소송하동, 톨게이트사무소)'),
-	(60, 'kk@kk', '커피머신', '면요리', '2', '2', '1977', 1111, '2021-04-14', NULL, '2', 'false', '서울 강남구 남부순환로 2907 (대치동, 대치지구대)');
+INSERT INTO `product` (`p_num`, `u_username`, `p_kind`, `p_industry`, `p_content`, `p_brand`, `p_year`, `p_startprice`, `p_date`, `p_endprice`, `p_title`, `p_sale`, `p_lonlat`, `p_address`) VALUES
+	(71, 'kk@kk', '그릴기', '카페/베이커리', '2', '2', '1989', 2, '2021-04-16', NULL, '2', 'false', _binary 0x00000000010100000028DC58FC7BC05F40CC03A3DCBCD24240, NULL),
+	(72, 'kk@kk', '커피머신', '분식', '3', '3', '1987', 3, '2021-04-16', NULL, '3', 'false', _binary '', NULL),
+	(73, 'kk@kk', '그릴기', '배달전문점', '4', '4', '1997', 4, '2021-04-16', NULL, '4', 'false', _binary '', NULL),
+	(77, 'kk@kk', '커피머신', '배달전문점', '2', '2', '1988', 2, '2021-04-17', NULL, '2', 'false', _binary '', NULL),
+	(78, 'kk@kk', '벽선단', '치킨', 'ㅈ', '1', '1988', 1, '2021-04-17', NULL, 'ㅈ', 'false', _binary '', NULL),
+	(79, 'kk@kk', '그릴기', '배달전문점', '5', '5', '1989', 5, '2021-04-17', NULL, '5', 'false', _binary '', NULL),
+	(80, 'kk@kk', '커피머신', '치킨', '7', '7', '1987', 7, '2021-04-17', NULL, '7', 'false', _binary '', NULL),
+	(81, 'kk@kk', '커피머신', '치킨', '7', '7', '1989', 7, '2021-04-17', NULL, '7', 'false', _binary '', NULL),
+	(82, 'kk@kk', '커피머신', '배달전문점', '123', '123', '1987', 1213, '2021-04-17', NULL, '123', 'false', _binary '', NULL),
+	(83, 'kk@kk', '그릴기', '배달전문점', '2', '2', '1988', 2, '2021-04-19', NULL, '2', 'false', _binary 0x000000000101000000AABA8FE403B85F400344C022CF8E4140, '광주 남구 2순환로 1508 (송하동, 톨게이트사무소)');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

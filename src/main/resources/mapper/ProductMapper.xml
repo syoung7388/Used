@@ -14,7 +14,8 @@
 								p_title,
 								p_content,
 								p_sale,
-								p_address
+								p_address,
+								p_lonlat
 		
 		) values (				
 		
@@ -28,7 +29,8 @@
 								#{title},
 								#{content},
 								#{sale},
-								#{address}
+								#{address},
+								GeomFromText(CONCAT('POINT(',#{lon},' ',#{lat},')' )) 
 		)
 		
 		<selectKey resultType= "int" keyProperty="p_num" order="AFTER" >

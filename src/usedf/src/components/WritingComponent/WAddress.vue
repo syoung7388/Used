@@ -43,9 +43,35 @@ export default {
             this.fullAddress += (this.extraAddress !== '' ? ` (${this.extraAddress})` : '')
             this.$emit('Address', this.fullAddress);
 
+
+            var geocoder = new kakao.maps.services.Geocoder();
+            geocoder.addressSearch(e.address, function(result, status){
+                if(status === kakao.maps.services.Status.OK){
+                    var coords= new kakao.maps.LatLng(result[0].y, result[0].x)
+                    console.log(coords)
+                    localStorage.setItem('lat', result[0].y)
+                    localStorage.setItem('lng', result[0].x)
+        
+                }
+
+            })
+            
+
             }
         },
-    }
+
+    },
+     mounted(){
+        if(window.kakao && window.kakao.maps) {
+          
+            //this.initMap()
+        } else {
+            const script = document.createElement('script')
+            script.onload = () => kakao.maps.load(this.initMap)
+            script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=e4ae1156e9644814145b77eeb30b26b0&libraries=services'
+            document.head.appendChild(script)
+        }
+    },
 
 }
 </script>

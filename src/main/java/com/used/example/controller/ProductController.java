@@ -57,7 +57,8 @@ import com.used.example.utility.MakeThumbnail;
 @RequestMapping("/api/product")
 public class ProductController {
 	
-	///https://velog.io/@sdsdsrd/Vue.js%EC%97%90%EC%84%9C-%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%A7%B5API-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0
+	///https://purumae.tistory.com/198 
+	///https://dba.stackexchange.com/questions/33410/whats-the-difference-between-pointx-y-and-geomfromtextpointx-y
 	
 	@Autowired
 	ProductService productService;
@@ -83,6 +84,8 @@ public class ProductController {
 		//토큰
 		product.setUsername(username);
 		
+		logger.info(""+product);
+		
 		
 		
 		
@@ -97,8 +100,8 @@ public class ProductController {
 		List<String> pictureNames= new ArrayList<String>();
 		
 		
-        //String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
-		String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
+        String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
+		//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
 		
 		for(int i=0; i<multiList.size(); i++) {
 			

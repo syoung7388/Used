@@ -8,7 +8,7 @@
                     absolute
                 >
 
-                    <v-btn icon>
+                    <v-btn icon @click="getMap">
                         <i class="fas fa-map-marker-alt" style="font-size: x-large;"></i>            
                     </v-btn>
                     <span style= "font-size:15px" black--text>대구 신천동</span>
@@ -54,6 +54,10 @@
 export default{
     data(){
         return{
+            latitude: 0,
+            longitude: 0
+
+        
 
         }
     },
@@ -61,6 +65,11 @@ export default{
         RemoveBar(){
             this.$store.state.removeBar= true
             this.$router.push({name: 'MyPage'})
+        },
+        getMap(){
+            this.$store.state.removeBar= true
+            this.$router.push({name: 'Map'})
+            
         }
     }
 
