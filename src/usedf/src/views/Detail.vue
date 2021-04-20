@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container v-show="sale_show === true" class="pa-0">
+        <v-container class="pa-0" v-show="detail_show === true">
             <v-carousel            
             height="300"
             >
@@ -13,8 +13,6 @@
                 max-height= "300"
                 hide-delimiter-background
                 >
-                <p class="black--text">{{item.pictureName}}</p>
-
                 <v-menu 
                 offset-y
                 absolute
@@ -25,7 +23,7 @@
                                 <v-btn 
                                 style="font-size: large;" 
                                 icon 
-                                @click="ListBack"
+                               
                                 >
                                     <i class="fas fa-angle-double-left" style="font-size: large;"></i>
                                 </v-btn>
@@ -41,11 +39,11 @@
                     </template>
                     <v-list>
                         <v-list-item  class="mx-3" dense>
-                            <v-list-item-title style="font-size: 15px" @click="Edit">수정</v-list-item-title>
+                            <v-list-item-title style="font-size: 15px" @click="ProductEdit">수정</v-list-item-title>
                         </v-list-item >
                         <v-divider></v-divider>
                         <v-list-item class="mx-3" dense > 
-                            <v-list-item-title style="font-size: 15px" @click="SaleDeleteOK({p_num: productInfo.p_num})">삭제</v-list-item-title>
+                            <v-list-item-title style="font-size: 15px" @click="ProductDelete({p_num: productInfo.p_num})">삭제</v-list-item-title>
                         </v-list-item>
                     </v-list>
                     </v-menu>
@@ -55,14 +53,10 @@
                 <v-col cols="9" class="mt-2">
                     <v-list-item-title v-html="productInfo.title" style="font-size: 20px; font-weight: bold"></v-list-item-title>
                 </v-col>
-                <v-col cols="3" class="ma-0"  v-if="productInfo.sale=== 'false'" >   
-                    <v-list-item-title style="font-size: 15px;" class="primary--text">거래중</v-list-item-title>
+                <v-col cols="3" class="ma-0">      
                     <v-list-item-subtitle v-html="productInfo.p_date" style="font-size: 12px;"></v-list-item-subtitle>
                 </v-col>
-                <v-col cols="3" v-else>   
-                        <h1 style="font-size: 15px;" class="primary--text"> 거래완료</h1>
-                        <v-list-item-subtitle v-html="productInfo.p_date" style="font-size: 12px;"></v-list-item-subtitle>
-                </v-col>
+            
             </v-row>
             <v-row class="ma-3"> 
                 <v-list-item-title v-html="productInfo.content" style="font-size: 15px"></v-list-item-title>       
@@ -123,44 +117,31 @@
 
                         </v-card>
                     </v-tab-item>
-                </v-tabs>
-          
+                </v-tabs>   
         </v-container>
-        <v-container v-show="sale_show === false">
-            <SaleEdit></SaleEdit>
-        </v-container>
+        <div v-show="detail_show === false">
+            <DetailEdit></DetailEdit>
+        </div>
+
     </v-app>
 </template>
-
 <script>
-import {mapState, mapActions} from 'vuex'
-import SaleEdit from '@/components/SaleComponents/SaleEdit.vue'
-
+import {mapActions, mapState} from 'vuex'
+import DetailEdit from '@/components/DetailComponents/DetailEdit.vue'
 export default {
-
-    data(){
-        return{
+    methods: {
+        ...mapActions(['ProductDeleteOK']),
+        ProductEdit(){
+            this.$store.state.detail_show = false
 
         }
     },
     computed: {
-        ...mapState([ 'productInfo','userInfo', 'sale_show', 'RemoveBar'])
-    },
-    methods: {
-        Edit(){
-            this.$store.state.sale_show = false
-        },
-        ListBack(){
-            this.$store.state.list_show =true
-            this.$store.state.removeBar= false
-            this.$router.push({name: 'SaleList'})
-        },
-        ...mapActions(['SaleDeleteOK'])
+        ...mapState(['productInfo' , 'detail_show'])
     },
     components: {
-        SaleEdit
+        DetailEdit
     }
     
 }
 </script>
-

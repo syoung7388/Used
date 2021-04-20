@@ -46,7 +46,7 @@ export default new Vuex.Store({
 
 
     //saleList~saleDetial
-    sale_show: 0,
+    sale_show: true,
     address_show: false,
     SaleEdit_error:false,
     
@@ -57,6 +57,14 @@ export default new Vuex.Store({
 
 
     topList:[],
+    industryList: [],
+    I_list_show: false,
+
+
+
+    detail_show: true,
+    edit_addr: false,
+    DetailEdit_error: false,
 
  
       
@@ -142,7 +150,7 @@ export default new Vuex.Store({
       state.soldList= payload.soldList
       // console.log(state.soldList)
     },
-    SaledetailSuccess(state, payload){
+    Saledetail_s(state, payload){
       state.list_show= !state.list_show
       state.productInfo= payload
       state.removeBar= true
@@ -150,7 +158,7 @@ export default new Vuex.Store({
       
     },
     SaleEdit_s(state){
-      state.sale_show = 0
+      state.sale_show = false
       state.list_show= !state.list_show
 
     },
@@ -163,6 +171,17 @@ export default new Vuex.Store({
       state.removeBar = false
       router.push({name: 'Home'})
     },
+    IndustryList_s(state, payload){
+      state.industryList = payload
+      state.I_list_show = true
+    },
+    Detail_s(state, payload){
+      state.removeBar = true
+      state.productInfo= payload
+      state.beforeImage= payload.picture
+      router.push({name:'Detail'})
+
+    }
 
 
   },
@@ -370,12 +389,12 @@ export default new Vuex.Store({
       })
     },
     getSaledetail({state, commit}, payload){
-      console.log(payload)
+  
 
       axios
-      .get(`http://localhost:9200/api/product/saledetail?p_num=${payload.p_num}`)
+      .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`)
       .then(Dres =>{
-        commit('SaledetailSuccess', Dres.data)
+        commit('Detail_s', Dres.data)
       })
       .catch(()=>{
         alert("오류")
@@ -475,7 +494,7 @@ export default new Vuex.Store({
       console.log(lon)
 
       axios
-      .get(`http://localhost:9200/api/product?lat=${lat}&lon=${lon}`)
+      .get(`http://localhost:9200/api/product/${lat}/${lon}`)
       .then(Tres => {
         console.log(Tres.data)
         commit('LatLon_s', Tres.data)
@@ -485,11 +504,45 @@ export default new Vuex.Store({
         commit('LatLon_f')
       })
 
+    },
+
+    getIndustryList({commit}, payload){
+      console.log(payload)
+      let lat =localStorage.getItem('lat')
+      let lon= localStorage.getItem('lon')
+      let industry = payload.industry
+      axios
+      .get(`http://localhost:9200/api/product/${lat}/${lon}/${industry}`)
+      .then(Ires =>{
+        if(Ires.data === "null"){
+          commit('Listnull')
+        }else{
+          commit('IndustryList_s', Ires.data)
+        }
+      })
+
+    },
+    getDetail({commit}, payload){
+      console.log(payload)
+
+
+      axios
+      .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`)
+      .then(Dres =>{
+        commit('Saledetail_s', Dres.data)
+      })
+      .catch(()=>{
+        alert("오류")
+      })
+
+
+
+      router.push({name: 'Detail'})
+    },
+    ProductDeleteOK({commit},payload){
+      alert("삭제")
     }
-
   
- 
-
 
   }
 })

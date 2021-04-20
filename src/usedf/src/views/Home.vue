@@ -36,12 +36,12 @@
                             
                             <v-tabs-slider primary></v-tabs-slider>
                                 <v-tab class="ml-0" style="font-size:17px;">인기매물</v-tab>
-                                <v-tab style="font-size:17px;">카테고리</v-tab>
+                                <v-tab style="font-size:17px;" @click="sort">카테고리</v-tab>
                                 <v-tab-item>
                                     <TopList></TopList>
                                 </v-tab-item>
                                 <v-tab-item>
-                                    <IndustryList></IndustryList>
+                                    <IndustrySort></IndustrySort>
                                 </v-tab-item>
                                                 
                         </v-tabs>
@@ -57,7 +57,7 @@
 <script>
 
 import TopList from '@/components/HomeComponents/TopList.vue'
-import IndustryList from '@/components/HomeComponents/IndustryList.vue'
+import IndustrySort from '@/components/HomeComponents/IndustrySort.vue'
 
 
 
@@ -80,11 +80,14 @@ export default{
             this.$store.state.removeBar= true
             this.$router.push({name: 'Map'})
             
+        },
+        sort(){
+            this.$store.state.I_list_show= false
         }
     },
     components: {
         TopList,
-        IndustryList
+        IndustrySort
     }
 
 }

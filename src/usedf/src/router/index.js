@@ -31,16 +31,22 @@ const routes = [
     path: '/salelist',
     name: 'SaleList',
     component: () => import(/* webpackChunkName: "salelist" */'@/views/SaleList.vue'),
-    children: [
+    children:[
       {      
         path: '/saledetail',
         name: 'SaleDetail',
         component: () => import(/* webpackChunkName: "saledetail" */'@/views/SaleDetail.vue'),
-
-
-      }
+    
+      },
     ]
+
   },
+  {
+    path: '/detail',
+    name: 'Detail',
+    component: () => import(/* webpackChunkName: "detail" */'@/views/Detail.vue'),
+  },
+
   {
     path: '/buyinglist',
     name: 'BuyingList',

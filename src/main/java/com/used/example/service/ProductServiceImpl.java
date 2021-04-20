@@ -82,6 +82,11 @@ public class ProductServiceImpl implements ProductService {
 		
 	}
 
+	@Override
+	public List<Product> IndustryList(Product product) {
+		return productMapper.IndustryList(product);
+	}
+
 
 
 

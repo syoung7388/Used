@@ -30,6 +30,8 @@ public interface ProductService {
 
 	public List<Product> TopList(Product product);
 
+	public List<Product> IndustryList(Product product);
+
 	
 
 }

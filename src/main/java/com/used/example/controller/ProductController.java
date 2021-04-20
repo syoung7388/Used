@@ -154,9 +154,12 @@ public class ProductController {
 		
 	}
 	
-	@GetMapping
-	public ResponseEntity<?> TopList(Product product){
+	@GetMapping("/{lat}/{lon}")
+	public ResponseEntity<?> TopList(@PathVariable("lat") String lat, @PathVariable("lon") String lon){
 		
+		Product product = new Product();
+		product.setLat(lat);
+		product.setLon(lon);
 		
 		List<Product> list= productService.TopList(product);
 		
@@ -167,7 +170,26 @@ public class ProductController {
 		
 	}
 	
-	@GetMapping("/saledetail")
+	@GetMapping("/{lat}/{lon}/{industry}")
+	public ResponseEntity<?> IndustryList(@PathVariable("lat") String lat, @PathVariable("lon")String lon, @PathVariable("industry") String industry){
+		
+		Product product = new Product();
+		product.setLat(lat);
+		product.setLon(lon);
+		product.setIndustry(industry);
+		
+		List<Product> list = productService.IndustryList(product);
+		
+		if(list == null) {
+			return new ResponseEntity<>("null",HttpStatus.OK);
+			
+		}else {
+			return new ResponseEntity<>(list, HttpStatus.OK);
+		}
+		
+	}
+	
+	@GetMapping
 	public ResponseEntity<?> SaleDetail(@RequestParam ("p_num") int p_num) throws Exception{
 		Product product = productService.getSaleDetail(p_num);
 

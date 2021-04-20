@@ -1,36 +1,57 @@
 <template>
     <v-app>
-        <v-container> 
-        
- 
-            <v-card 
-            v-for="(list, index) in industries"
-            :key="index"
-            max-width="100"
-            >
-            
-           
-               
-                    <v-img
-                    :src="require('@/IndustryImg/'+index+'.jpg')"
-                    max-width="80"
-                    max-height="80"
-                    ></v-img>
-                    <v-card-text v-html="list"></v-card-text>
-            </v-card>
-  
-        
-          
-        
-        </v-container>
-    </v-app>
+        <v-container class="px-0">
+            <v-list three-line>
+                <v-list-item-group active-class="primary--text">
+                    <template v-for="(item, int) in industryList">
+                        <v-list-item 
+                        :key="item.p_num" 
+                        @click="getDetail({
+                            p_num: item.p_num
+                        })">
+                            <v-row>
+                                <v-col cols="5" class="my-5 mx-0">
+                                    <v-card
+                                    max-width="90"
+                                    max-height="90"
+                                    >
+                                        <v-img
+                                        :src="require('@/assets/'+item.picture[0].pictureName)"
+                                        ></v-img>
+                                    </v-card>
+                                </v-col>
+                                <v-col cols="6">
+                                    <v-list-item-content>
+                                        <v-list-item-title v-html="item.title"></v-list-item-title>
+                                        <v-list-item-subtitle v-html="item.p_date"></v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-col>
+                            </v-row>
+                        </v-list-item>
+                        <v-divider
+                        :key="int"
+                        v-if="int< industryList.length"
+                        ></v-divider>
+                    </template>
+                </v-list-item-group>
+            </v-list>
+
+        </v-container>   
+    </v-app> 
 </template>
 <script>
+import {mapActions, mapState} from 'vuex'
 export default {
     data(){
         return{
-            industries: ['한식', '찜/탕','면요리','고기/구이','족발/ 보쌈','치킨','분식','중식','동남아식','회/초밥','일식/돈까스','피자/샐러드','호프/술집','카페/베이커리','배달전문점'],
+
         }
-    }    
+    },
+    computed: {
+        ...mapState(['industryList'])
+    },
+    methods: {
+        ...mapActions(['getDetail'])
+    }
 }
 </script>
