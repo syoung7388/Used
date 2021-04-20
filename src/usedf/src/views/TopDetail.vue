@@ -118,7 +118,47 @@
 
                         </v-card>
                     </v-tab-item>
-                </v-tabs>   
+                </v-tabs>
+
+                <v-bottom-navigation
+                grow
+                height="70"       
+                fixed   
+                >
+                    <v-row class="ma-1 ">
+                        <v-col cols="7" class="ma-0">
+                            <v-text-field outlined dense v-model="price"></v-text-field>
+                        </v-col>
+                        <v-col cols="1" class="pa-0 mt-4">
+                            <h1 style="font-size: 20px">원</h1>
+                        </v-col>
+                        <v-col cols="4" >
+                            <v-btn large class="primary mt-1" block>
+                                <span style="font-size:15px;" class="white--text ma-2" @click="overlay= !overlay">가격제안</span>
+                            </v-btn>
+                            <v-overlay :value="overlay">
+                                <v-card color="white" >
+                                    <v-card-title class="black--text justify-center" style="font-size: 17px;">입력하신 금액 </v-card-title>
+                                    <v-card-title class="black--text justify-center" style="font-size: 17px; text-align: center"> {{price}}원이 맞나요?</v-card-title>
+                                    <v-card-actions>
+                                        <v-btn text color="primary" x-small @click="priceOffer({
+                                            p_num: productInfo.p_num,
+                                            price: price
+                                        })">
+                                            <span class="primary--text ma-1">확인</span>
+                                        </v-btn>
+                                        <v-btn text color="primary" >
+                                            <span class="primary--text ma-1" @click="overlay = !overlay">취소</span>
+                                        </v-btn>
+                                    </v-card-actions>
+
+                                    
+                                </v-card>
+                            </v-overlay>
+                        </v-col>
+                    </v-row>
+
+                </v-bottom-navigation>   
         </v-container>
         <div v-show="detail_show === false">
             <Edit></Edit>
@@ -130,17 +170,23 @@
 import {mapActions, mapState} from 'vuex'
 import Edit from '@/components/EditComponents/Edit.vue'
 export default {
+    data(){
+        return{
+            price: 0,
+            overlay: false
+        }
+    },
     methods: {
-        ...mapActions(['ProductDeleteOK']),
+        ...mapActions(['ProductDeleteOK', 'priceOffer']),
         Edit(){
             localStorage.Editkind = "generalEdit"
             this.$store.state.detail_show = false
         },
         ListBack(){
             this.$store.state.removeBar= false
-            this.$store.state.I_list_show = true
-            this.$router.push({name: 'IndustryList'})
-        }
+            this.$router.push({name: 'Home'})
+        },
+
     },
     computed: {
         ...mapState(['productInfo' , 'detail_show'])

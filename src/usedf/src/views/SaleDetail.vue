@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container v-show="sale_show === true" class="pa-0">
+        <v-container v-show="edit_show === false" class="pa-0">
             <v-carousel            
             height="300"
             >
@@ -126,15 +126,15 @@
                 </v-tabs>
           
         </v-container>
-        <v-container v-show="sale_show === false">
-            <SaleEdit></SaleEdit>
+        <v-container v-show="edit_show === true">
+            <Edit></Edit>
         </v-container>
     </v-app>
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex'
-import SaleEdit from '@/components/SaleComponents/SaleEdit.vue'
+import Edit from '@/components/EditComponents/Edit.vue'
 
 export default {
 
@@ -144,11 +144,12 @@ export default {
         }
     },
     computed: {
-        ...mapState([ 'productInfo','userInfo', 'sale_show', 'RemoveBar'])
+        ...mapState([ 'productInfo','userInfo', 'edit_show', 'RemoveBar'])
     },
     methods: {
         Edit(){
-            this.$store.state.sale_show = false
+            localStorage.setItem("Editkind", "saleEdit")
+            this.$store.state.edit_show = true
         },
         ListBack(){
             this.$store.state.list_show =true
@@ -158,7 +159,7 @@ export default {
         ...mapActions(['SaleDeleteOK'])
     },
     components: {
-        SaleEdit
+        Edit
     }
     
 }

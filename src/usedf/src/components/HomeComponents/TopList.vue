@@ -9,6 +9,9 @@
                     >
                         <v-list-item
                         :key ="item.p_num"
+                        @click="getTopDetail({
+                            p_num: item.p_num
+                        })"
                         >
                             <v-row>
                                 <v-col cols="5" class="pa-5">
@@ -44,7 +47,7 @@
     </v-app>
 </template>
 <script>
-import{mapState} from 'vuex'
+import{mapActions, mapState} from 'vuex'
 export default {
     data(){
         return{
@@ -54,6 +57,9 @@ export default {
 
     computed: {
         ...mapState(['topList'])
+    },
+    methods: {
+        ...mapActions(['getTopDetail'])
     }
     
 }

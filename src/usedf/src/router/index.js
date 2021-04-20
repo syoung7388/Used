@@ -46,6 +46,18 @@ const routes = [
     name: 'Detail',
     component: () => import(/* webpackChunkName: "detail" */'@/views/Detail.vue'),
   },
+  {
+    path: '/topdetail',
+    name: 'TopDetail',
+    component: () => import(/* webpackChunkName: "detail" */'@/views/TopDetail.vue'),
+  },
+  {
+    
+    path: '/industrylist',
+    name: 'IndustryList',
+    component: () => import(/* webpackChunkName: "industrylist" */'@/views/IndustryList.vue')
+
+  },
 
   {
     path: '/buyinglist',

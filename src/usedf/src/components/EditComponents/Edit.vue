@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-container class="pa-3" v-show="address_show === false">
-            <div v-show ="SaleEdit_error === true">
+            <div v-show ="Edit_error === true">
                 <h1 class="red--text" style="font-size: 15px;">
                     입력하신걸 확인해 주세요!
                 </h1>
@@ -225,7 +225,7 @@
             <v-btn  
             class="primary mt-8"
             block
-            @click="SaleEditOK({
+            @click="DetailEditOK({
                 industry: productInfo.industry,
                 kind: productInfo.kind,
                 title: productInfo.title,
@@ -237,22 +237,20 @@
                 picture: files,
                 p_num: productInfo.p_num,
                 pi_numList: pi_numList
-
-
             })"
             >확인</v-btn>
         </v-container>
         <v-container v-show="address_show === true"> 
-            <SaleAddress @Address="ResultAddress"></SaleAddress>
+            <EditAddress @Address="ResultAddress"></EditAddress>
         </v-container>
     </v-app>
     
 </template>
 <script>
 import { mapActions, mapState } from 'vuex';
-import SaleAddress from '../SaleComponents/SaleAddress.vue';
+import EditAddress from '../EditComponents/EditAddress.vue';
 export default{
-  components: { SaleAddress },
+  components: { EditAddress },
     data() {
         
         return {
@@ -339,12 +337,12 @@ export default{
             this.$store.state.productInfo.address = address
 
         },
-        ...mapActions(['SaleEditOK'])
+        ...mapActions(['DetailEditOK'])
         
        
     },
     computed: {
-        ...mapState({productInfo:'productInfo', beforeImage: 'beforeImage', address_show: 'address_show', SaleEdit_error:'SaleEdit_error'})
+        ...mapState({productInfo:'productInfo', beforeImage: 'beforeImage', address_show: 'address_show', Edit_error:'Edit_error'})
     },
     created(){
     }

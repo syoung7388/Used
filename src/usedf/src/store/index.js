@@ -5,6 +5,7 @@ import router from '../router'
 import colors from 'vuetify/lib/util/colors'
 import Form from 'antd/lib/form/Form'
 
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -46,9 +47,9 @@ export default new Vuex.Store({
 
 
     //saleList~saleDetial
-    sale_show: true,
+    edit_show: false,
     address_show: false,
-    SaleEdit_error:false,
+    Edit_error:false,
     
 
 
@@ -158,7 +159,7 @@ export default new Vuex.Store({
       
     },
     SaleEdit_s(state){
-      state.sale_show = false
+      state.edit_show = false
       state.list_show= !state.list_show
 
     },
@@ -174,13 +175,25 @@ export default new Vuex.Store({
     IndustryList_s(state, payload){
       state.industryList = payload
       state.I_list_show = true
+      router.push({name: 'IndustryList'})
     },
     Detail_s(state, payload){
       state.removeBar = true
       state.productInfo= payload
       state.beforeImage= payload.picture
       router.push({name:'Detail'})
-
+    },
+    DetailEdit_s(state, payload){
+      state.removeBar = true
+      state.productInfo = payload
+      state.beforeImage = payload.beforeImage
+      state.detail_show = true
+    },
+    TopDetail_s(state, payload){
+      state.removeBar = true
+      state.productInfo= payload
+      state.beforeImage= payload.picture
+      router.push({name:'TopDetail'})
     }
 
 
@@ -394,13 +407,16 @@ export default new Vuex.Store({
       axios
       .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`)
       .then(Dres =>{
-        commit('Detail_s', Dres.data)
+        commit('Saledetail_s', Dres.data)
       })
       .catch(()=>{
         alert("오류")
       })
     },
-    SaleEditOK({dispatch, commit},payload){
+
+
+
+    DetailEditOK({dispatch, commit},payload){
     
 
       let token= localStorage.getItem("access_token")
@@ -435,8 +451,15 @@ export default new Vuex.Store({
       .then(Seres =>{
         if(Seres.data === "success"){
           let p_num = payload.p_num
-          dispatch('getSaledetail', {p_num: p_num})
-          commit('SaleEdit_s')
+
+          if(localStorage.Editkind === "saleEdit"){
+            dispatch('getSaledetail', {p_num: p_num})
+            commit('SaleEdit_s')
+            alert("sale")
+          }else{
+            dispatch('getDetail', {p_num: p_num, Re: true})
+          }
+          
 
         }
       })
@@ -529,19 +552,52 @@ export default new Vuex.Store({
       axios
       .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`)
       .then(Dres =>{
-        commit('Saledetail_s', Dres.data)
+
+        if(payload.Re === true){ // Edit후 Reload할경우
+          commit('DetailEdit_s',Dres.data)
+        } else {
+          commit('Detail_s', Dres.data) // 제일 처음에 Detail 정보 가져올 경우  
+        }
       })
       .catch(()=>{
         alert("오류")
       })
-
-
-
-      router.push({name: 'Detail'})
     },
     ProductDeleteOK({commit},payload){
       alert("삭제")
+    },
+    getTopDetail({commit}, payload){
+      console.log(payload)
+
+
+      axios
+      .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`)
+      .then(Dres =>{
+
+        if(payload.Re === true){ // Edit후 Reload할경우
+          commit('DetailEdit_s',Dres.data)
+        } else {
+          commit('TopDetail_s', Dres.data) // 제일 처음에 Detail 정보 가져올 경우  
+        }
+      })
+      .catch(()=>{
+        alert("오류")
+      })
+    },
+    priceOffer({commit}, payload){
+
+
+      let token = localStorage.getItem("access_token")
+      let config = {
+        headers: {
+          'access_token': token
+        }
+      }
+      console.log(payload)
+      .post('http://localhost:9200/api/auction',payload, config)
     }
+
+ 
   
 
   }

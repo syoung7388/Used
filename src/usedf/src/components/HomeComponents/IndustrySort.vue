@@ -1,6 +1,11 @@
 <template>
     <v-app>
-        <v-container v-show="I_list_show === false"> 
+        <v-container v-show="I_list_show === false">
+            <v-row>
+                <v-col>
+                    
+                </v-col>
+            </v-row>
             <v-row 
             v-for="(c, index) in cut"
             :key="index"
@@ -19,7 +24,7 @@
                 })"
                 >
                     <v-card-title class="justify-center pa-0" >
-                        <v-avatar size="70">
+                        <v-avatar size="60">
                         <v-img
                         :src="require('@/IndustryImg/'+list.img)"
                         style="text-align: center"
@@ -34,12 +39,12 @@
             </v-row>
         </v-container>
         <v-container v-show="I_list_show === true" class="px-0">
-            <IndustryList></IndustryList>
+            <router-view/>
         </v-container>
     </v-app>
 </template>
 <script>
-import IndustryList from '@/components/HomeComponents/IndustryList.vue'
+
 import {mapActions, mapState} from 'vuex'
 export default {
     data(){
@@ -60,9 +65,6 @@ export default {
     computed:{
         ...mapState(['I_list_show'])
     },
-    components: {
-        IndustryList
-    }
 
 }
 </script>

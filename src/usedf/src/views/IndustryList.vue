@@ -12,11 +12,13 @@
                             <v-row>
                                 <v-col cols="5" class="my-5 mx-0">
                                     <v-card
-                                    max-width="90"
-                                    max-height="90"
+                                    max-width="80"
+                                    max-height="80"
                                     >
                                         <v-img
                                         :src="require('@/assets/'+item.picture[0].pictureName)"
+                                        max-width="80"
+                                        max-height="80"
                                         ></v-img>
                                     </v-card>
                                 </v-col>
