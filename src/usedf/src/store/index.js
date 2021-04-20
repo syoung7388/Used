@@ -66,6 +66,8 @@ export default new Vuex.Store({
     detail_show: true,
     edit_addr: false,
     DetailEdit_error: false,
+    overlay: false,
+    price: 0 ,
 
  
       
@@ -194,6 +196,17 @@ export default new Vuex.Store({
       state.productInfo= payload
       state.beforeImage= payload.picture
       router.push({name:'TopDetail'})
+    },
+    priceOffer_s(state, payload){
+      state.price =0
+      state.overlay = false
+      state.productInfo = payload
+      state.beforeImage= payload.picture
+      
+    },
+    priceOffer_f(state){
+
+
     }
 
 
@@ -533,14 +546,22 @@ export default new Vuex.Store({
       console.log(payload)
       let lat =localStorage.getItem('lat')
       let lon= localStorage.getItem('lon')
-      let industry = payload.industry
+      console.log(payload)
+
+      let formData = new FormData()
+      formData.append('lat', lat)
+      formData.append('lon', lon)
+      formData.append('industry', payload.industry)
+
       axios
-      .get(`http://localhost:9200/api/product/${lat}/${lon}/${industry}`)
+      .get('http://localhost:9200/api/product/industry', formData)
       .then(Ires =>{
         if(Ires.data === "null"){
           commit('Listnull')
+          console.log(Ires.data)
         }else{
           commit('IndustryList_s', Ires.data)
+          console.log(Ires.data)
         }
       })
 
@@ -574,17 +595,20 @@ export default new Vuex.Store({
       .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`)
       .then(Dres =>{
 
-        if(payload.Re === true){ // Edit후 Reload할경우
-          commit('DetailEdit_s',Dres.data)
-        } else {
-          commit('TopDetail_s', Dres.data) // 제일 처음에 Detail 정보 가져올 경우  
+        if(payload.before === 'eidt'){ // Edit후 Reload할경우
+          commit('DetailEdit_s', Dres.data)
+        } else if(payload.before === 'offer'){
+          commit('priceOffer_s', Dres.data)
+        } else{
+          commit('TopDetail_s', Dres.data) // 제일 처음에 Detail 정보 가져올 경
         }
       })
       .catch(()=>{
         alert("오류")
       })
     },
-    priceOffer({commit}, payload){
+    priceOffer({commit, dispatch}, payload){
+
 
 
       let token = localStorage.getItem("access_token")
@@ -594,7 +618,16 @@ export default new Vuex.Store({
         }
       }
       console.log(payload)
+      let p_num = payload.p_num
+      axios
       .post('http://localhost:9200/api/auction',payload, config)
+      .then(Pres => {
+        if(Pres.data === "success"){
+          dispatch('getTopDetail', {p_num: p_num , before: 'offer' })
+        }else {
+          commit('priceOffer_f')
+        }
+      })
     }
 
  

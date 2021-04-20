@@ -155,7 +155,7 @@
 		<result property="pi_num" column="pi_num" />	
 	</resultMap>
 	<resultMap type="Auction" id="Dtail_AuctionMap">
-		<result property="participant" column="u_name" />
+		<result property="participant" column="a_participant" />
 		<result property="price" column="a_price" />
 		<result property="aTime" column="a_time" />
 	</resultMap>

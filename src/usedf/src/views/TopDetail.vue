@@ -134,21 +134,23 @@
                         </v-col>
                         <v-col cols="4" >
                             <v-btn large class="primary mt-1" block>
-                                <span style="font-size:15px;" class="white--text ma-2" @click="overlay= !overlay">가격제안</span>
+                                <span style="font-size:15px;" class="white--text ma-2" @click="Overlay">가격제안</span>
                             </v-btn>
                             <v-overlay :value="overlay">
                                 <v-card color="white" >
                                     <v-card-title class="black--text justify-center" style="font-size: 17px;">입력하신 금액 </v-card-title>
                                     <v-card-title class="black--text justify-center" style="font-size: 17px; text-align: center"> {{price}}원이 맞나요?</v-card-title>
                                     <v-card-actions>
-                                        <v-btn text color="primary" x-small @click="priceOffer({
-                                            p_num: productInfo.p_num,
-                                            price: price
+                                        <v-btn text color="primary" x-small 
+                                        @click="PriceOffer({
+                                        p_num: productInfo.p_num,
+                                        price: price
+
                                         })">
                                             <span class="primary--text ma-1">확인</span>
                                         </v-btn>
                                         <v-btn text color="primary" >
-                                            <span class="primary--text ma-1" @click="overlay = !overlay">취소</span>
+                                            <span class="primary--text ma-1" @click="Overlay">취소</span>
                                         </v-btn>
                                     </v-card-actions>
 
@@ -172,8 +174,8 @@ import Edit from '@/components/EditComponents/Edit.vue'
 export default {
     data(){
         return{
-            price: 0,
-            overlay: false
+            price: 0
+         
         }
     },
     methods: {
@@ -186,10 +188,21 @@ export default {
             this.$store.state.removeBar= false
             this.$router.push({name: 'Home'})
         },
+        Overlay(){
+            this.$store.state.overlay = !this.$store.state.overlay
+
+        },
+        PriceOffer(payload){
+            this.$store.dispatch('priceOffer',{
+                                            p_num: payload.p_num,
+                                            price: payload.price
+                                            })
+            this.price = 0
+        }
 
     },
     computed: {
-        ...mapState(['productInfo' , 'detail_show'])
+        ...mapState(['detail_show', 'overlay', 'productInfo'])
     },
     components: {
         Edit

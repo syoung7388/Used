@@ -1,2 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace= "com.used.example.mapper.AuctionMapper">
+
+	<insert id= "CreateAuction" parameterType= "com.used.example.domain.Auction">
+		<selectKey resultType= "int" keyProperty= "order" order="BEFORE">
+			select ifnull(max(a_order), 0)+1
+			from auction
+			where p_num = #{p_num} and a_participant = #{participant}
+		</selectKey>
+		
+				insert into auction(p_num, a_participant, a_price, a_order, a_bid)
+				values(#{p_num}, #{participant}, #{price}, #{order}, 'false')	
+	
+		
+	</insert>
+
+</mapper>

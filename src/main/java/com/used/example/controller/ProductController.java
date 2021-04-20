@@ -2,6 +2,7 @@ package com.used.example.controller;
 
 import java.io.File;
 
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -163,21 +164,19 @@ public class ProductController {
 		
 	}
 	
-	@GetMapping("/{lat}/{lon}/{industry}")
-	public ResponseEntity<?> IndustryList(@PathVariable("lat") String lat, @PathVariable("lon")String lon, @PathVariable("industry") String industry){
-		
-		Product product = new Product();
-		product.setLat(lat);
-		product.setLon(lon);
-		product.setIndustry(industry);
+	@GetMapping("/industry")
+	public ResponseEntity<?> IndustryList(@RequestBody Product product){
 		
 		List<Product> list = productService.IndustryList(product);
 		
-		if(list == null) {
+		logger.info("industryList:"+ list);
+		
+		if(list.size()== 0) {
 			return new ResponseEntity<>("null",HttpStatus.OK);
 			
 		}else {
 			return new ResponseEntity<>(list, HttpStatus.OK);
+			
 		}
 		
 	}
