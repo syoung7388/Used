@@ -1,11 +1,10 @@
 <template>
-    <v-container class="pt-5">
+    <v-container class="pt-7">
 
             <v-row justify="center">
 
-                <v-col cols="6" v-for="(item, i) in kinds" :key="i">
-                
-                        <h1 style="font-size: 20px ; text-align: center" @click="getKindList({kind: item})" class="mb-2">{{item}}</h1>    
+                <v-col cols="6" v-for="(item, i) in kinds" :key="i">                
+                        <h1 style="font-size: 17px ; text-align: center; font-weight: bold" @click="getKindList({kind: item})" class="mb-2">{{item}}</h1>    
                     <v-divider></v-divider>
                 </v-col>
             </v-row>

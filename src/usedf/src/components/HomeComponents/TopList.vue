@@ -9,9 +9,7 @@
                     >
                         <v-list-item
                         :key ="item.p_num"
-                        @click="getTopDetail({
-                            p_num: item.p_num
-                        })"
+                        @click="TopDetail(item.p_num)"
                         >
                             <v-row>
                                 <v-col cols="5" class="pa-5">
@@ -59,7 +57,10 @@ export default {
         ...mapState(['topList'])
     },
     methods: {
-        ...mapActions(['getTopDetail'])
+        TopDetail(payload){
+            this.$store.state.backType= "top"
+            this.$store.dispatch('getDetail',{p_num: payload})
+        }
     }
     
 }

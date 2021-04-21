@@ -6,9 +6,7 @@
                     <template v-for="(item, int) in industryList">
                         <v-list-item 
                         :key="item.p_num" 
-                        @click="getDetail({
-                            p_num: item.p_num
-                        })">
+                        @click="IndustryDetail(item.p_num)">
                             <v-row>
                                 <v-col cols="5" class="my-5 mx-0">
                                     <v-card
@@ -53,7 +51,11 @@ export default {
         ...mapState(['industryList'])
     },
     methods: {
-        ...mapActions(['getDetail'])
+        ...mapActions(['getDetail']),
+        IndustryDetail(payload){
+            this.$store.state.backType = "industry"
+            this.$store.dispatch('getDetail', {p_num: payload})
+        }
     }
 }
 </script>

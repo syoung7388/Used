@@ -30,7 +30,7 @@
                                 </v-btn>
                             </v-col>
                             
-                            <v-col cols="2">
+                            <v-col cols="2" v-show="userInfo.username === productInfo.username">
                                 <v-btn style="font-size: large;" icon v-bind="attrs" v-on="on">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </v-btn>
@@ -44,7 +44,7 @@
                         </v-list-item >
                         <v-divider></v-divider>
                         <v-list-item class="mx-3" dense > 
-                            <v-list-item-title style="font-size: 15px" @click="ProductDelete({p_num: productInfo.p_num})">삭제</v-list-item-title>
+                            <v-list-item-title style="font-size: 15px" @click="KIDeleteOK({p_num: productInfo.p_num})">삭제</v-list-item-title>
                         </v-list-item>
                     </v-list>
                     </v-menu>
@@ -71,26 +71,8 @@
         
                 >
                     <v-tabs-slider></v-tabs-slider>
-                    <v-tab class="ml-0" style="font-size: 15px;">경매 요청</v-tab>
                     <v-tab class="ml-0" style="font-size: 15px;">제품 정보</v-tab>
-                    <v-tab-item>
-                        <v-card flat class="pa-5"> 
-                            <v-row v-for="(item, int) in productInfo.auction" :key="int">
-                                <v-col cols="2" >
-                                    <h1 style="font-size: 15px;" >{{int+1}}등</h1>
-                                </v-col>
-                                <v-col cols="5" >
-                                    <h1 style="font-size: 15px;" >{{item.price}}원</h1>
-                                </v-col>
-                                <v-col cols="2">
-                                    <p style="font-size: 15px;">{{item.participant}}님</p>
-                                </v-col>
-                                <v-col cols="3">
-                                    <p style="font-size: 10px;">{{item.aTime}}</p>
-                                </v-col>
-                            </v-row>
-                        </v-card>
-                    </v-tab-item>
+                    <v-tab class="ml-0" style="font-size: 15px;">경매 순위</v-tab>
                     <v-tab-item>
                         <v-card flat class="pa-5">
                             <v-simple-table>
@@ -115,7 +97,24 @@
                                     </tbody>
                                 </template>
                             </v-simple-table>
-
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <v-card flat class="pa-5"> 
+                            <v-row v-for="(item, int) in productInfo.auction" :key="int">
+                                <v-col cols="2" >
+                                    <h1 style="font-size: 15px;" >{{int+1}}등</h1>
+                                </v-col>
+                                <v-col cols="5" >
+                                    <h1 style="font-size: 15px;" >{{item.price}}원</h1>
+                                </v-col>
+                                <v-col cols="2">
+                                    <p style="font-size: 15px;">{{item.participant}}님</p>
+                                </v-col>
+                                <v-col cols="3">
+                                    <p style="font-size: 10px;">{{item.aTime}}</p>
+                                </v-col>
+                            </v-row>
                         </v-card>
                     </v-tab-item>
                 </v-tabs> 
@@ -176,15 +175,23 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['ProductDeleteOK']),
+        ...mapActions(['KIDeleteOK']),
         Edit(){
-            localStorage.Editkind = "generalEdit"
+            this.$store.state.editType = "I/K"
             this.$store.state.detail_show = false
         },
         ListBack(){
             this.$store.state.removeBar= false
             this.$store.state.I_list_show = true
-            this.$router.push({name: 'IndustryList'})
+            if(this.$store.state.backType === "kind"){
+                this.$router.push({name : 'KindList'})
+            }else if(this.$store.state.backType === "industry"){
+                this.$router.push({name: 'IndustryList'})
+            } else{
+                this.$router.push({name: 'Home'})
+            }
+
+            
         },
         Overlay(){
             this.$store.state.overlay = !this.$store.state.overlay
@@ -199,7 +206,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['productInfo' , 'detail_show' , 'overlay'])
+        ...mapState(['productInfo' , 'detail_show' , 'overlay', 'userInfo'])
     },
     components: {
         Edit

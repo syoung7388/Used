@@ -148,7 +148,7 @@ export default {
     },
     methods: {
         Edit(){
-            localStorage.setItem("Editkind", "saleEdit")
+            this.$store.state.editType = "Sale"
             this.$store.state.edit_show = true
         },
         ListBack(){

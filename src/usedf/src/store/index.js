@@ -72,6 +72,8 @@ export default new Vuex.Store({
     
 
     kindList: [],
+    backType: null,
+    editType: null,
  
       
     
@@ -187,25 +189,25 @@ export default new Vuex.Store({
       state.productInfo= payload
       state.beforeImage= payload.picture
       router.push({name:'Detail'})
+
     },
     DetailEdit_s(state, payload){
 
-      var set = setTimeout(()=>{
-        alert('SetTime')
+     setTimeout(()=>{
         state.productInfo = payload
         state.beforeImage = payload.picture
         state.removeBar = true
         state.detail_show = true
 
       }, 2000)
-      clearTimeout(set)
 
     },
-    TopDetail_s(state, payload){
-      state.removeBar = true
-      state.productInfo= payload
-      state.beforeImage= payload.picture
-      router.push({name:'TopDetail'})
+    KIDelete_s(state){
+      state.removeBar = false
+      router.push({name: 'Home'})
+    },
+    KIDelete_f(){
+
     },
     priceOffer_s(state, payload){
       state.price =0
@@ -219,7 +221,7 @@ export default new Vuex.Store({
     KindList_s(state, payload){
       console.log(payload)
       state.kindList = payload
-      state.removeBar = true
+      state.removeBar = false
       router.push({name: 'KindList'})
     },
     KindList_f(state){
@@ -449,7 +451,7 @@ export default new Vuex.Store({
 
 
 
-    DetailEditOK({dispatch, commit},payload){
+    DetailEditOK({dispatch, commit, state},payload){
     
 
       let token= localStorage.getItem("access_token")
@@ -485,12 +487,12 @@ export default new Vuex.Store({
         if(Seres.data === "success"){
           let p_num = payload.p_num
 
-          if(localStorage.Editkind === "saleEdit"){
+          if(state.editType === "Sale"){
             dispatch('getSaledetail', {p_num: p_num})
             commit('SaleEdit_s')
             alert("sale")
           }else{
-            dispatch('getDetail', {p_num: p_num, where: 'edit'})
+            dispatch('getDetail', {p_num: p_num, detailType: 'edit'})
           }
           
 
@@ -589,9 +591,8 @@ export default new Vuex.Store({
       .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`)
       .then(Dres =>{
 
-        if(payload.where === 'edit'){ // Edit후 Reload할경우
+        if(payload.detailType === 'edit'){ // Edit후 Reload할경우
           alert('edit')
-
           commit('DetailEdit_s',Dres.data)
             
         } else {
@@ -602,27 +603,18 @@ export default new Vuex.Store({
         alert("오류")
       })
     },
-    ProductDeleteOK({commit},payload){
-      alert("삭제")
-    },
-    getTopDetail({commit}, payload){
-      console.log(payload)
 
 
+    KIDeleteOK({commit},payload){
+      let p_num = payload.p_num
       axios
-      .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`)
-      .then(Dres =>{
-
-        if(payload.before === 'eidt'){ // Edit후 Reload할경우
-          commit('DetailEdit_s', Dres.data)
-        } else if(payload.before === 'offer'){
-          commit('priceOffer_s', Dres.data)
-        } else{
-          commit('TopDetail_s', Dres.data) // 제일 처음에 Detail 정보 가져올 경
+      .delete(`http://localhost:9200/api/product/${p_num}`)
+      .then(Dres=>{
+        if(Dres.data === "success"){
+          commit('KIDelete_s')
+        }else{
+          commit('KIDelete_f')
         }
-      })
-      .catch(()=>{
-        alert("오류")
       })
     },
     priceOffer({commit, dispatch}, payload){
@@ -641,7 +633,7 @@ export default new Vuex.Store({
       .post('http://localhost:9200/api/auction',payload, config)
       .then(Pres => {
         if(Pres.data === "success"){
-          dispatch('getTopDetail', {p_num: p_num , before: 'offer' })
+          dispatch('getTopDetail', {p_num: p_num , beforeType: 'offer' })
         }else {
           commit('priceOffer_f')
         }

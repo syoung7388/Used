@@ -6,12 +6,13 @@
                     color="white"
                     flat
                     absolute
+                    height="70"
                 >
 
                     <v-btn icon @click="getMap">
                         <i class="fas fa-map-marker-alt" style="font-size: x-large;"></i>            
                     </v-btn>
-                    <span style= "font-size:15px" black--text>대구 신천동</span>
+                    <span style= "font-size:17px" black--text>대구 신천동</span>
 
                     <v-spacer></v-spacer>
 
@@ -32,6 +33,7 @@
                         <v-tabs
                             align-with-title
                             fixed-tabs
+                            height="50"
                         >
                             
                             <v-tabs-slider primary></v-tabs-slider>
