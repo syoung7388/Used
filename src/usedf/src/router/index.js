@@ -58,6 +58,13 @@ const routes = [
     component: () => import(/* webpackChunkName: "industrylist" */'@/views/IndustryList.vue')
 
   },
+  {
+    
+    path: '/kindlist',
+    name: 'KindList',
+    component: () => import(/* webpackChunkName: "kindlist" */'@/views/KindList.vue')
+
+  },
 
   {
     path: '/buyinglist',

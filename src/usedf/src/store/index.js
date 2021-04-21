@@ -68,7 +68,10 @@ export default new Vuex.Store({
     DetailEdit_error: false,
     overlay: false,
     price: 0 ,
+    
+    
 
+    kindList: [],
  
       
     
@@ -212,9 +215,17 @@ export default new Vuex.Store({
       
     },
     priceOffer_f(state){
-
+    },
+    KindList_s(state, payload){
+      console.log(payload)
+      state.kindList = payload
+      state.removeBar = true
+      router.push({name: 'KindList'})
+    },
+    KindList_f(state){
 
     }
+
 
 
   },
@@ -636,12 +647,24 @@ export default new Vuex.Store({
         }
       })
     },
-    // Delay(){
-    //   setTimeout(()=>{
-    //     alert('SetTime')
-    //   }, 3000)
+    getKindList({commit}, payload){
+      alert(payload.kind)
+      let lat = localStorage.getItem("lat")
+      let lon = localStorage.getItem("lon")
     
-    // },
+      let kind = encodeURI(payload.kind)
+      console.log(kind)
+      axios
+      .get(`http://localhost:9200/api/product/${lat}/${lon}/${kind}`)
+      .then(Kres=>{
+        if(Kres.data !== null){
+          commit('KindList_s', Kres.data)
+        } else{
+          commit('KindList_f')
+        }
+      })
+      
+    }
 
 
 

@@ -87,6 +87,12 @@ public class ProductServiceImpl implements ProductService {
 		return productMapper.IndustryList(product);
 	}
 
+	@Override
+	public List<Product> KindList(Product product) {
+		
+		return productMapper.KindList(product);
+	}
+
 
 
 

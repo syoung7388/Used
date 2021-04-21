@@ -142,6 +142,27 @@
 			limit 4
 	</select>
 	
+	<select id ="KindList" parameterType = "com.used.example.domain.Product" resultMap="ListMap">
+			select	a.*,
+					b.pi_name,
+					(
+						6731 * acos(
+						cos( radians(#{lat}))
+						* cos(radians(p_lat))
+						* cos(radians(p_lon)- radians(#{lon}))
+						+ sin(radians(#{lat}))
+						* sin(radians(p_lat))
+						)
+					) as distance
+			from product a
+			left join picture b on a.p_num = b.p_num
+			where p_kind = #{kind}
+			order by distance ASC
+			limit 4
+	
+	
+	</select>
+	
 	
 	
 	

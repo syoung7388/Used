@@ -94,8 +94,8 @@ public class ProductController {
 		List<String> pictureNames= new ArrayList<String>();
 		
 		
-        String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
-		//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
+        //String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
+		String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
 		
 		for(int i=0; i<multiList.size(); i++) {
 			
@@ -163,6 +163,19 @@ public class ProductController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 		
 	}
+	@GetMapping({"/{lat}/{lon}/{kind}"})
+	public ResponseEntity<?> KindList(@PathVariable("lat") String lat, @PathVariable("lon") String lon, @PathVariable("kind") String kind){
+		
+		Product product = new Product();
+		product.setLat(lat);
+		product.setLon(lon);
+		product.setKind(kind);
+		List<Product> list = productService.KindList(product);
+		
+		
+		logger.info("kindlist:"+list);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 	
 	@GetMapping("/industry")
 	public ResponseEntity<?> IndustryList(@RequestParam("lat")String lat, @RequestParam("lon")String lon, @RequestParam("industry")String industry){
@@ -184,6 +197,8 @@ public class ProductController {
 		}
 		
 	}
+	
+	
 	
 	@GetMapping
 	public ResponseEntity<?> SaleDetail(@RequestParam ("p_num") int p_num) throws Exception{

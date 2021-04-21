@@ -37,5 +37,7 @@ public interface ProductMapper {
 
 	public List<Product> IndustryList(Product product);
 
+	public List<Product> KindList(Product product);
+
 
 }
