@@ -202,7 +202,7 @@
             })"
             >다음</v-btn>
             <v-virtual-scroll
-            height="100"
+            height="300"
             item-height="20"
             ></v-virtual-scroll>     
         </v-container>

@@ -36,14 +36,17 @@
                             
                             <v-tabs-slider primary></v-tabs-slider>
                                 <v-tab class="ml-0" style="font-size:17px;">인기매물</v-tab>
-                                <v-tab style="font-size:17px;" @click="sort">카테고리</v-tab>
+                                <v-tab style="font-size:17px;" @click="sort">업종별</v-tab>
+                                <v-tab style="font-size:17px;">제품별</v-tab>
                                 <v-tab-item>
                                     <TopList></TopList>
                                 </v-tab-item>
                                 <v-tab-item>
                                     <IndustrySort></IndustrySort>
                                 </v-tab-item>
-                                                
+                                <v-tab-item>
+                                    <KindSort></KindSort>
+                                </v-tab-item>
                         </v-tabs>
                     </template>
                 </v-app-bar>
@@ -58,6 +61,8 @@
 
 import TopList from '@/components/HomeComponents/TopList.vue'
 import IndustrySort from '@/components/HomeComponents/IndustrySort.vue'
+import KindSort from '@/components/HomeComponents/KindSort.vue'
+
 
 
 
@@ -87,7 +92,8 @@ export default{
     },
     components: {
         TopList,
-        IndustrySort
+        IndustrySort,
+        KindSort
     }
 
 }

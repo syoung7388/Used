@@ -186,10 +186,17 @@ export default new Vuex.Store({
       router.push({name:'Detail'})
     },
     DetailEdit_s(state, payload){
-      state.removeBar = true
-      state.productInfo = payload
-      state.beforeImage = payload.beforeImage
-      state.detail_show = true
+
+      var set = setTimeout(()=>{
+        alert('SetTime')
+        state.productInfo = payload
+        state.beforeImage = payload.picture
+        state.removeBar = true
+        state.detail_show = true
+
+      }, 2000)
+      clearTimeout(set)
+
     },
     TopDetail_s(state, payload){
       state.removeBar = true
@@ -274,6 +281,8 @@ export default new Vuex.Store({
       })
     },
     login({dispatch, commit , state}, payload){ //Login.vue에서 login요청하는 함수
+
+      console.log(payload)
       axios
       .post('http://localhost:9200/api/user/login', payload)
       .then(Lres =>{
@@ -470,7 +479,7 @@ export default new Vuex.Store({
             commit('SaleEdit_s')
             alert("sale")
           }else{
-            dispatch('getDetail', {p_num: p_num, Re: true})
+            dispatch('getDetail', {p_num: p_num, where: 'edit'})
           }
           
 
@@ -543,18 +552,13 @@ export default new Vuex.Store({
     },
 
     getIndustryList({commit}, payload){
-      console.log(payload)
+      
       let lat =localStorage.getItem('lat')
       let lon= localStorage.getItem('lon')
-      console.log(payload)
-
-      let formData = new FormData()
-      formData.append('lat', lat)
-      formData.append('lon', lon)
-      formData.append('industry', payload.industry)
+      let industry= encodeURI(payload.industry)
 
       axios
-      .get('http://localhost:9200/api/product/industry', formData)
+      .get(`http://localhost:9200/api/product/industry?lat=${lat}&lon=${lon}&industry=${industry}`)
       .then(Ires =>{
         if(Ires.data === "null"){
           commit('Listnull')
@@ -566,7 +570,7 @@ export default new Vuex.Store({
       })
 
     },
-    getDetail({commit}, payload){
+    getDetail({commit,dispatch}, payload){
       console.log(payload)
 
 
@@ -574,8 +578,11 @@ export default new Vuex.Store({
       .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`)
       .then(Dres =>{
 
-        if(payload.Re === true){ // Edit후 Reload할경우
+        if(payload.where === 'edit'){ // Edit후 Reload할경우
+          alert('edit')
+
           commit('DetailEdit_s',Dres.data)
+            
         } else {
           commit('Detail_s', Dres.data) // 제일 처음에 Detail 정보 가져올 경우  
         }
@@ -628,10 +635,15 @@ export default new Vuex.Store({
           commit('priceOffer_f')
         }
       })
-    }
+    },
+    // Delay(){
+    //   setTimeout(()=>{
+    //     alert('SetTime')
+    //   }, 3000)
+    
+    // },
 
- 
-  
+
 
   }
 })

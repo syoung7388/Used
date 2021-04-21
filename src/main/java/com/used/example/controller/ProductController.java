@@ -165,11 +165,15 @@ public class ProductController {
 	}
 	
 	@GetMapping("/industry")
-	public ResponseEntity<?> IndustryList(@RequestBody Product product){
+	public ResponseEntity<?> IndustryList(@RequestParam("lat")String lat, @RequestParam("lon")String lon, @RequestParam("industry")String industry){
 		
+		Product product = new Product();
+		product.setLat(lat);
+		product.setLon(lon);
+		product.setIndustry(industry);
 		List<Product> list = productService.IndustryList(product);
 		
-		logger.info("industryList:"+ list);
+		logger.info("industryList:"+ product);
 		
 		if(list.size()== 0) {
 			return new ResponseEntity<>("null",HttpStatus.OK);
