@@ -42,6 +42,7 @@
 		<result property= "sale" column= "p_sale" />
 		<result property= "p_date" column= "p_date" />
 		<result property= "address" column= "p_address" />
+		<result property= "d_day" column= "p_enddate" />
 		<collection property="picture" resultMap="PictureMap"></collection>
 		<collection property="auction" resultMap="AuctionMap"></collection>	
 	</resultMap>
@@ -98,8 +99,10 @@
 		<result property= "sale" column= "p_sale" />
 		<result property= "p_date" column= "p_date" />
 		<result property= "address" column= "p_address" />
+		<result property= "enddate" column= "p_enddate" />
 		<collection property="picture" resultMap="pic"/>
 		<collection property="auction" resultMap="auc"/>
+		
  	</resultMap>
 	
 	
@@ -112,5 +115,12 @@
 		where a.p_num = #{p_num}
 		order by b.a_price desc
 	</select>
+	
+	<delete id="AuctionDelete" parameterType= "int">
+		delete 
+		from auction
+		where a_num = #{a_num}
+	
+	</delete>
 
 </mapper>

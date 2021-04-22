@@ -16,7 +16,8 @@
 								p_sale,
 								p_address,
 								p_lat,
-								p_lon
+								p_lon,
+								p_enddate
 		
 		) values (				
 		
@@ -32,7 +33,8 @@
 								#{sale},
 								#{address},
 								#{lat},
-								#{lon}
+								#{lon},
+								#{enddate}
 		)
 		
 		<selectKey resultType= "int" keyProperty="p_num" order="AFTER" >
@@ -72,6 +74,7 @@
 		<result property= "sale" column= "p_sale" />
 		<result property= "p_date" column= "p_date" />
 		<result property= "address" column= "p_address" />
+		<result property= "d_day" column= "p_enddate" />
 		
 		
 		<collection property="picture" resultMap="PictureMap"></collection>
@@ -195,6 +198,7 @@
 		<result property= "sale" column= "p_sale" />
 		<result property= "p_date" column= "p_date" />
 		<result property= "address" column= "p_address" />
+		<result property= "d_day" column= "p_enddate" />
 		
 		<collection property="picture" resultMap="Dtail_PicMap"></collection>
 		<collection property="auction" resultMap="Dtail_AuctionMap"></collection>

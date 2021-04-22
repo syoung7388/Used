@@ -67,7 +67,7 @@
                 align-with-title
                 fixed-tabs
                 primary
-                height= "40"
+                height= "50"
         
                 >
                     <v-tabs-slider></v-tabs-slider>

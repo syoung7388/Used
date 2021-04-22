@@ -156,6 +156,55 @@
                     ></v-text-field>
                 </v-col>
             </v-row>
+            <v-row><!-- 달력 -->
+                <v-col
+                cols="12"
+                sm="6"
+                md="4"
+                >
+                <v-menu
+                    ref="menu"
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :return-value.sync="date"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                >
+                    <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                        v-model="date"
+                        label="마감 일자를 선택하시오."
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                    ></v-text-field>
+                    </template>
+                    <v-date-picker
+                    v-model="date"
+                    no-title
+                    scrollable
+                    >
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        text
+                        color="primary"
+                        @click="menu = false"
+                    >
+                        Cancel
+                    </v-btn>
+                    <v-btn
+                        text
+                        color="primary"
+                        @click="$refs.menu.save(date)"
+                    >
+                        OK
+                    </v-btn>
+                    </v-date-picker>
+                </v-menu>
+                </v-col>
+            </v-row>
             <h1 class="primary--text my-5" style="font-size: 16px;" >사진 등록은 필수입니다!</h1>
             <v-row align="center">
                 <v-col
@@ -197,7 +246,8 @@
                 year,
                 startprice,
                 files,
-                address
+                address,
+                date
 
             })"
             >다음</v-btn>
@@ -247,6 +297,9 @@ export default{
             industries: ['한식', '찜/탕','면요리','고기/구이','족발/ 보쌈','치킨','분식','중식','동남아식','회/초밥','일식/돈까스','피자/샐러드','호프/술집','카페/베이커리','배달전문점'],
             kinds: ['작업대','커피머신','그릴기','냉동 절육기','제빙기','오븐기','튀김기','기름 정제기','씽크대','소독기','가스렌지','냉장고/쇼케이스','보온통','에어컨','회전국솥','절단기','벽선단','기타'],
 
+
+            date: new Date().toISOString().substr(0, 10),
+            menu: false,
         
 
         }
@@ -282,8 +335,8 @@ export default{
             this.Writingshow= false  
         },
 
-        ...mapActions(['WritingOK'])
-        
+        ...mapActions(['WritingOK']),
+
 
     },
     computed: {

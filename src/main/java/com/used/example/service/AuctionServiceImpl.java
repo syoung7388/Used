@@ -34,4 +34,10 @@ public class AuctionServiceImpl implements AuctionService {
 		return auctionMapper.AuctionDetail(p_num);
 	}
 
+	@Override
+	public void AuctionDelete(int a_num) {
+		auctionMapper.AuctionDelete(a_num);
+		
+	}
+
 }

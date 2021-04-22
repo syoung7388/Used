@@ -23,7 +23,8 @@
                                 <v-btn 
                                 style="font-size: large;" 
                                 icon
-                                v-on="on" 
+                                v-on="on"
+                                @click="Back" 
                                 >
                                     <i class="fas fa-arrow-left" style="font-size: large;"></i>
                                 </v-btn>
@@ -56,7 +57,7 @@
                 align-with-title
                 fixed-tabs
                 primary
-                height= "40"
+                height= "43"
         
                 >
                     <v-tabs-slider></v-tabs-slider>
@@ -66,54 +67,32 @@
 
                     <v-tab-item>
                         <v-card flat class="pa-3"> 
-                            <v-row v-for="(item, int) in productInfo.auction" :key="int" align="center">
+                            <v-row v-for="(item, int) in productInfo.auction" :key="int" align="center" class="pt-3">
                                 <v-col cols="2" >
-                                    <h1 style="font-size: 13px;" >{{int+1}}등</h1>
+                                    <h1 style="font-size: 17px; text-align:center" >{{int+1}}등</h1>
                                 </v-col>
-                                <v-col cols="4" >
-                                    <h1 style="font-size: 13px;" >{{item.price}}원</h1>
+                                <v-col cols="5" >
+                                    <h1 style="font-size: 17px; text-align:center" >{{item.price}}원</h1>
                                 </v-col>
-                                <v-col cols="3" >
-                                    <h1 style="font-size: 13px;">{{item.participant}}님</h1>
-                                </v-col>
-                                <v-col cols="3">
-                                    <h1 style="font-size: 10px;" class="pt-3">{{item.aTime}}</h1>
+                                <v-col cols="5" >
+                                    <h1 style="font-size: 17px; text-align:center">{{item.participant}}님</h1>
                                 </v-col>
                             </v-row>
                         </v-card>
                     </v-tab-item>
                     <v-tab-item>
                         <v-card flat class="pa-3"> 
-                            <v-row v-for="(item, int) in productInfo.auction" :key="int" align="center" justify="center">
-                                <v-col cols="1" >
-                                    <v-checkbox
-                                    v-show="userInfo.username === item.participant"
-                                    color="secondary"                          
-                                    @click="Cancle"
-                                    v-model="item.a_num"
-                                    class="mt-5"
-                                    ></v-checkbox>
+                            <v-row v-for="(item, int) in productInfo.auction" :key="int" align="center" justify="center" >
+                                <v-col cols="5" v-show="item.participant === userInfo.username">
+                                    <h1 style="font-size: 17px; text-align:center" >{{item.price}}원</h1>
                                 </v-col>
-                                <v-col cols="4">
-                                    <h1 style="font-size: 13px; text-align:center" >{{item.price}}원</h1>
+                                <v-col cols="4" v-show="item.participant === userInfo.username">
+                                    <h1 style="font-size: 14px; text-align:center">{{item.aTime}}</h1>
                                 </v-col>
-                                <v-col cols="4">
-                                    <h1 style="font-size: 13px; text-align:center">{{item.participant}}님</h1>
-                                </v-col>
-                                <v-col cols="3">
-                                    <h1 style="font-size: 10px; text-align:center">{{item.aTime}}</h1>
+                                <v-col cols="3" v-show="item.participant === userInfo.username">
+                                    <v-btn text color="primary" @click="offerCancle({a_num: item.a_num, p_num: productInfo.p_num})">철회</v-btn>
                                 </v-col>
                             </v-row>
-                            <v-btn 
-                            v-show="cancle === true"
-                            small 
-                            block 
-                            color="primary" 
-                            class="mt-4"
-                            style="font-size: 18px" 
-                            text
-                            @click="offerCancle()"
-                            >철회</v-btn>
                         </v-card>
                     </v-tab-item>
                     <v-tab-item>
@@ -157,24 +136,24 @@
                         </v-col>
                         <v-col cols="4" >
                             <v-btn large class="primary mt-1" block>
-                                <span style="font-size:15px;" class="white--text ma-2" >가격제안</span>
+                                <span style="font-size:15px;" class="white--text ma-2" @click="Overlay">가격제안</span>
                             </v-btn>
-                            <!-- <v-overlay :value="overlay">
+                            <v-overlay :value="overlay">
                                 <v-card color="white" >
                                     <v-card-title class="black--text justify-center" style="font-size: 17px;">입력하신 금액 </v-card-title>
                                     <v-card-title class="black--text justify-center" style="font-size: 17px; text-align: center"> {{price}}원이 맞나요?</v-card-title>
                                     <v-card-actions>
                                         <v-btn text color="primary" x-small >
-                                            <span class="primary--text ma-1">확인</span>
+                                            <span class="primary--text ma-1" @click="PriceOffer({p_num: productInfo.p_num, price: price})">확인</span>
                                         </v-btn>
                                         <v-btn text color="primary" >
-                                            <span class="primary--text ma-1">취소</span>
+                                            <span class="primary--text ma-1" @click="Overlay">취소</span>
                                         </v-btn>
                                     </v-card-actions>
 
                                     
                                 </v-card>
-                            </v-overlay> -->
+                            </v-overlay>
                         </v-col>
                     </v-row>
                 </v-bottom-navigation> 
@@ -191,25 +170,35 @@ export default {
 
     data(){
         return{
+            price: 0
 
-            cancle: false
+            
 
         }
     },
     computed: {
-        ...mapState([ 'productInfo', 'userInfo', 'price'])
+        ...mapState([ 'productInfo', 'userInfo', 'overlay'])
     },
     methods: {
 
-        ListBack(){
+        Overlay(){
+            this.$store.state.overlay = !this.$store.state.overlay
 
         },
-        Cancle(){
-            this.cancle = true
+        ...mapActions(['offerCancle']),
+        PriceOffer(payload){
+            this.$store.state.aucType= "cancle"
+            this.$store.dispatch('priceOffer', {
+                p_num: payload.p_num,
+                price: payload.price,
+                Type: "aucdetail"
+            })
+            this.price = 0
 
         },
-        offerCancle(){
-            
+        Back(){
+            this.$store.state.removeBar = false
+            this.$router.push({name: 'AuctionList'})
         }
     },
  

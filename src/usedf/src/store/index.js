@@ -81,7 +81,7 @@ export default new Vuex.Store({
     bidList:[],
  
       
-    
+    aucType: null,
 
 
     te: null,
@@ -244,7 +244,12 @@ export default new Vuex.Store({
     AucDetail_s(state,payload){
       state.removeBar = true
       state.productInfo = payload
-      router.push({name: 'AucDetail'})
+      if(state.aucType === "cancle"){
+        state.overlay = false
+        state.aucType = null
+      }else{
+        router.push({name: 'AucDetail'})
+      }
     }
 
 
@@ -415,6 +420,8 @@ export default new Vuex.Store({
       formData.append('year',payload.year)
       formData.append('startprice',payload.startprice)
       formData.append('address', payload.address)
+      formData.append('enddate', payload.date)
+
 
       console.log(formData)
       for(let i=0; i< payload.files.length; i++){
@@ -638,8 +645,6 @@ export default new Vuex.Store({
     },
     priceOffer({commit, dispatch, state}, payload){
 
-
-
       let token = localStorage.getItem("access_token")
       let config = {
         headers: {
@@ -653,7 +658,13 @@ export default new Vuex.Store({
       .post('http://localhost:9200/api/auction',payload, config)
       .then(Pres => {
         if(Pres.data === "success"){
-          dispatch('getDetail', {p_num: p_num })
+          if(payload.Type === "aucdetail"){
+            dispatch('getAucDetail', {p_num: p_num })
+
+          }else{
+            dispatch('getDetail', {p_num: p_num })
+          }
+          
         }else {
           commit('priceOffer_f')
         }
@@ -709,6 +720,16 @@ export default new Vuex.Store({
           //console.log(Ares.data)
         }else{
           //console.log("err")
+        }
+      })
+    },
+    offerCancle({state, dispatch}, payload){
+      axios
+      .delete(`http://localhost:9200/api/auction/${payload.a_num}`)
+      .then(Ores =>{
+        if(Ores.data === "success"){
+          state.aucType = "cancle"
+          dispatch('getAucDetail',{p_num: payload.p_num})
         }
       })
     }

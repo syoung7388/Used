@@ -14,4 +14,6 @@ public interface AuctionService {
 
 	public Product AuctionDetail(int p_num);
 
+	public void AuctionDelete(int a_num);
+
 }

@@ -6,7 +6,7 @@ public class Auction {
 	
 	private int a_num;
 	private int p_num;
-	private int price;
+	private long price;
 	private String participant;
 	private String aTime;// 옥션 참가자가 돈제안 시간
 	private int order;
@@ -25,10 +25,10 @@ public class Auction {
 	public void setP_num(int p_num) {
 		this.p_num = p_num;
 	}
-	public int getPrice() {
+	public long getPrice() {
 		return price;
 	}
-	public void setPrice(int price) {
+	public void setPrice(long price) {
 		this.price = price;
 	}
 	public String getParticipant() {

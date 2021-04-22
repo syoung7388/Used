@@ -2,8 +2,13 @@ package com.used.example.domain;
 
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +36,9 @@ public class Product {
 	private long topprice;
 	private List<Picture> picture;
 	private List<Auction> auction;
+	private String enddate;
+	private String d_day;
+	
 	public int getP_num() {
 		return p_num;
 	}
@@ -139,16 +147,42 @@ public class Product {
 	public void setAuction(List<Auction> auction) {
 		this.auction = auction;
 	}
-	@Override
-	public String toString() {
-		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
-				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
-				+ ", title=" + title + ", content=" + content + ", p_date=" + p_date + ", sale=" + sale + ", address="
-				+ address + ", lat=" + lat + ", lon=" + lon + ", topprice=" + topprice + ", picture=" + picture
-				+ ", auction=" + auction + "]";
+	public String getEnddate() {
+		return enddate;
+	}
+	public void setEnddate(String enddate) {
+		this.enddate = enddate;
 	}
 	
 	
+	
+	
+	
+	
+
+	public String getD_day() {
+		return d_day;
+	}
+	public void setD_day(String d_day) {
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//		String today= format.format(new Date());
+//		String day=  format.format(d_day+"23:59:59");
+//		Date Today = format.parse(today);
+//		Date Dday = format.parse(day);
+//		
+//		long dday= Today.getTime()-Dday.getTime();
+//		long diffDays = dday / (24 * 60 * 60 * 1000);
+//
+//	
+//		
+//		System.out.println("d_day"+diffDays);
+		this.d_day = d_day;
+		
+		
+	}
+	
+	
+
 
 
 	

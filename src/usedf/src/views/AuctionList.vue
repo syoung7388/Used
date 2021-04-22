@@ -88,12 +88,16 @@ import {mapState, mapActions} from 'vuex'
 export default {
     beforeCreate(){
         this.$store.dispatch('getAuctionList')
+    
+    
+
+
     },
     computed: {
-        ...mapState(['bidingList', 'bidList', 'userInfo'])
+        ...mapState( {bidingList: 'bidingList', bidList:'bidList', userInfo: 'userInfo'})
     },
     methods: {
         ...mapActions(['getAucDetail'])
-    }
+    },
 }
 </script>
