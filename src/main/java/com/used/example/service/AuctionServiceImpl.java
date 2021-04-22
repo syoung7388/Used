@@ -1,9 +1,12 @@
 package com.used.example.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.used.example.domain.Auction;
+import com.used.example.domain.Product;
 import com.used.example.mapper.AuctionMapper;
 
 
@@ -19,6 +22,11 @@ public class AuctionServiceImpl implements AuctionService {
 	public void CreateAuction(Auction auction) {
 		auctionMapper.CreateAuction(auction);
 		
+	}
+
+	@Override
+	public List<Product> AuctionList(Product product) {
+		return auctionMapper.AuctionList(product);
 	}
 
 }

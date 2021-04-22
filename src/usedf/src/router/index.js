@@ -62,9 +62,9 @@ const routes = [
   },
 
   {
-    path: '/buyinglist',
-    name: 'BuyingList',
-    component: () => import(/* webpackChunkName: "buyinglist" */'@/views/BuyingList.vue')
+    path: '/auctionlist',
+    name: 'AuctionList',
+    component: () => import(/* webpackChunkName: "auctionlist" */'@/views/AuctionList.vue')
 
   },
   {

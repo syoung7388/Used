@@ -1,13 +1,16 @@
 package com.used.example.domain;
 
+import java.util.List;
+
 public class Auction {
 	
 	private int a_num;
 	private int p_num;
-	private String price;
+	private int price;
 	private String participant;
 	private String aTime;// 옥션 참가자가 돈제안 시간
 	private int order;
+
 	
 	
 	public int getA_num() {
@@ -22,10 +25,10 @@ public class Auction {
 	public void setP_num(int p_num) {
 		this.p_num = p_num;
 	}
-	public String getPrice() {
+	public int getPrice() {
 		return price;
 	}
-	public void setPrice(String price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 	public String getParticipant() {
@@ -51,6 +54,9 @@ public class Auction {
 		return "Auction [a_num=" + a_num + ", p_num=" + p_num + ", price=" + price + ", participant=" + participant
 				+ ", aTime=" + aTime + ", order=" + order + "]";
 	}
+
+	
+	
 	
 	
 	

@@ -123,8 +123,18 @@
                 height="70"       
                 fixed   
                 >
-                    <v-row class="ma-1 ">
-                        <v-col cols="7" class="ma-0">
+
+                    <v-row class="ma-2" v-if="productInfo.username === userInfo.username">
+                        <v-col cols="5">
+                            <h1 style="font-size: 20px; text-align:center;" class="primary--text">최고가</h1>
+                        </v-col>
+                        <v-col cols="7" >
+                            <h1 style="font-size: 20px; text-align:center;" v-if="productInfo.auction.length ===0">0원</h1>
+                            <h1 v-else style="font-size: 20px; text-align:center;">{{productInfo.auction[0].price}}원</h1>
+                        </v-col>
+                    </v-row>
+                    <v-row class="ma-1 " v-else>
+                        <v-col cols="7" class="ma-0" >
                             <v-text-field outlined dense v-model="price"></v-text-field>
                         </v-col>
                         <v-col cols="1" class="pa-0 mt-4">
@@ -176,6 +186,8 @@ export default {
     },
     methods: {
         ...mapActions(['KIDeleteOK']),
+    
+
         Edit(){
             this.$store.state.editType = "I/K"
             this.$store.state.detail_show = false
@@ -206,11 +218,14 @@ export default {
         }
     },
     computed: {
+     
+
         ...mapState(['productInfo' , 'detail_show' , 'overlay', 'userInfo'])
     },
     components: {
         Edit
-    }
+    },
+
     
 }
 </script>

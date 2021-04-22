@@ -12,22 +12,22 @@
         >
             <v-btn router :to="{name: 'Home'}">
                 <span style="opacity:0.5 font-weight:500; font-size: 15px">홈</span>
-                <i class="fas fa-home mb-2"  style="font-size: x-large; opacity:0.5;"></i>
+                <i class="fas fa-home mb-2"  style="font-size: x-large;"></i>
             </v-btn>
 
             <v-btn router :to="{name: 'Writing'}">
             <span  style="opacity:0.5 font-weight:500; font-size: 15px"> 글쓰기</span>
-            <i class="far fa-edit mb-2" style="font-size: x-large; opacity:0.5;"></i>
+            <i class="far fa-edit mb-2" style="font-size: x-large;"></i>
             </v-btn>
 
             <v-btn router :to="{name:'SaleList'}" @click="getSaleList">
             <span style="opacity:0.5 font-weight:500; font-size: 15px">판매 리스트</span>
-            <i class="fas fa-file-invoice-dollar mb-2" style="font-size: x-large; opacity:0.5;" ></i>
+            <i class="fas fa-file-invoice-dollar mb-2" style="font-size: x-large;" ></i>
             </v-btn>
 
-            <v-btn router :to="{name:'BuyingList'}">
+            <v-btn router :to="{name:'AuctionList'}">
                 <span style="opacity:0.5 font-weight:500; font-size: 15px">내경매</span>
-                <i class="fas fa-shopping-cart mb-2" style="font-size: x-large; opacity:0.5;"></i>
+                <i class="fas fa-hand-holding-usd mb-2" style="font-size: x-large;"></i>
             </v-btn>
         </v-bottom-navigation>
 

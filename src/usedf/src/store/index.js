@@ -74,6 +74,10 @@ export default new Vuex.Store({
     kindList: [],
     backType: null,
     editType: null,
+
+
+    bidingList:[],
+    bidList:[],
  
       
     
@@ -226,6 +230,12 @@ export default new Vuex.Store({
     },
     KindList_f(state){
 
+    },
+    AuctionList_s(state, payload){
+
+      state.bidingList = payload.bidinglist
+      console.log( state.bidingList)
+      state.bidList = payload.bidList
     }
 
 
@@ -633,14 +643,14 @@ export default new Vuex.Store({
       .post('http://localhost:9200/api/auction',payload, config)
       .then(Pres => {
         if(Pres.data === "success"){
-          dispatch('getTopDetail', {p_num: p_num , beforeType: 'offer' })
+          dispatch('getDetail', {p_num: p_num , beforeType: 'offer' })
         }else {
           commit('priceOffer_f')
         }
       })
     },
     getKindList({commit}, payload){
-      alert(payload.kind)
+     // alert(payload.kind)
       let lat = localStorage.getItem("lat")
       let lon = localStorage.getItem("lon")
     
@@ -656,6 +666,26 @@ export default new Vuex.Store({
         }
       })
       
+    },
+    getAuctionList({commit}){
+
+
+      let token = localStorage.getItem("access_token")
+      let config= {
+        headers: {
+          "access_token": token
+        }
+      }
+      axios
+      .get('http://localhost:9200/api/auction/' ,config)
+      .then(Ares =>{
+        if(Ares.data !== null){
+          commit('AuctionList_s', Ares.data)
+        }else{
+          console.log("AuctionList=>null")
+        }
+      })
+
     }
 
 

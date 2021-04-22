@@ -1,0 +1,31 @@
+지금 너가 겪고있는 문제는 뭐니?
+
+
+
+DB 가 Product-Picture-Auction이 연결되어 있음
+
+
+
+근데 내가 AuctionController를 따로 만들었음
+
+Why? 일단 RestApi때문에  & Auction에 추가할 기능들이 많다고 생각했음
+만약에 결제 절차가 Auction과 직접적으로 연결되어 있을수 있음
+
+
+
+그럼 니가 현재의 문제점은 뭐니?
+
+1. Domain 구조 
+   -> 내부에 내부 가능?
+
+2. 마감시간 
+  --> 마감시간은 Product테이블에 있어야함 /// Auction테이블에도 있어야할까? 
+	No!!! 생각해봐 만약에 Auction을 만든다고 생각하자 그럼 FRONT단에서 마감시간까지 들고 와야함 
+
+  --> 그럼 어떻게 빼올래? 
+	product 와 leftjoin 해서 select할때 product.p_endtime
+
+3.Picture은??
+
+max(pinum) 
+

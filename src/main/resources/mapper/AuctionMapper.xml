@@ -10,9 +10,50 @@
 		</selectKey>
 		
 				insert into auction(p_num, a_participant, a_price, a_order, a_bid)
-				values(#{p_num}, #{participant}, #{price}, #{order}, 'false')	
-	
-		
+				values(#{p_num}, #{participant}, #{price}, #{order}, 'false')		
 	</insert>
+	
+	
+	
+	<resultMap id="PictureMap" type="Picture">
+		<result property="pictureName" column="pi_name"/>
+		<result property="pi_num" column="pi_num"/>
+	</resultMap>
+	
+	<resultMap id="AuctionMap" type="Auction">
+		<result property="a_num" column="a_num"/>
+		<result property="p_num" column="p_num"/>
+		<result property="price" column="a_price"/>
+		<result property="aTime" column="a_time"/>
+		<result property="order" column="a_order"/>
+	</resultMap>
+
+	<resultMap id="aucList" type="Product">
+		<result property="p_date" column="p_date"/>
+		<result property="topprice" column="topprice"/>
+		<collection property="picture" resultMap="PictureMap"></collection>
+		<collection property="auction" resultMap="AuctionMap"></collection>	
+	</resultMap>
+	
+	<select id="AuctionList" parameterType= "Product" resultMap="aucList">
+		SELECT        	k.*,
+						MAX(d.a_price)topprice
+		FROM          	auction d
+		
+		INNER JOIN      
+		(SELECT				a.*,
+							c.p_date,
+							MAX(b.pi_num)pi_num,
+							pi_name					
+		FROM				auction a
+		LEFT JOIN	   		picture b ON a.p_num = b.p_num
+		LEFT JOIN      product c ON a.p_num = c.p_num
+		WHERE 		   		a.a_participant= #{username} AND c.p_sale= #{sale}
+		GROUP BY       a_price
+		)k ON k.p_num = d.p_num
+		
+		GROUP BY  		a_price
+		ORDER BY       p_num ASC, a_order desc
+	</select>
 
 </mapper>

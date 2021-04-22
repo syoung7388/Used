@@ -28,6 +28,7 @@ public class Product {
 	private String address;
 	private String lat;
 	private String lon;
+	private long topprice;
 	
 	
 	public String getLat() {
@@ -146,12 +147,19 @@ public class Product {
 	public void setAuction(List<Auction> auction) {
 		this.auction = auction;
 	}
+	public long getTopprice() {
+		return topprice;
+	}
+	public void setTopprice(long topprice) {
+		this.topprice = topprice;
+	}
 	@Override
 	public String toString() {
 		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
 				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
 				+ ", title=" + title + ", content=" + content + ", p_date=" + p_date + ", sale=" + sale + ", address="
-				+ address + ", lat=" + lat + ", lon=" + lon + ", picture=" + picture + ", auction=" + auction + "]";
+				+ address + ", lat=" + lat + ", lon=" + lon + ", topprice=" + topprice + ", picture=" + picture
+				+ ", auction=" + auction + "]";
 	}
 
 	
