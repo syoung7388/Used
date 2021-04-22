@@ -29,43 +29,20 @@ public class Product {
 	private String lat;
 	private String lon;
 	private long topprice;
-	
-	
-	public String getLat() {
-		return lat;
-	}
-	public void setLat(String lat) {
-		this.lat = lat;
-	}
-	public String getLon() {
-		return lon;
-	}
-	public void setLon(String lon) {
-		this.lon = lon;
-	}
 	private List<Picture> picture;
 	private List<Auction> auction;
-	
-	
-	public List<Picture> getPicture() {
-		return picture;
-	}
-	public void setPicture(List<Picture> picture) {
-		
-
-		
-		
-		this.picture = picture;
-	}
-
-
 	public int getP_num() {
 		return p_num;
 	}
 	public void setP_num(int p_num) {
 		this.p_num = p_num;
 	}
-
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	public String getKind() {
 		return kind;
 	}
@@ -114,12 +91,11 @@ public class Product {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
-	public String getUsername() {
-		return username;
+	public String getP_date() {
+		return p_date;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setP_date(String p_date) {
+		this.p_date = p_date;
 	}
 	public String getSale() {
 		return sale;
@@ -127,31 +103,41 @@ public class Product {
 	public void setSale(String sale) {
 		this.sale = sale;
 	}
-	public String getP_date() {
-		return p_date;
-	}
-	public void setP_date(String p_date) {
-		this.p_date = p_date;
-	}
-
 	public String getAddress() {
 		return address;
 	}
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-	public List<Auction> getAuction() {
-		return auction;
+	public String getLat() {
+		return lat;
 	}
-	public void setAuction(List<Auction> auction) {
-		this.auction = auction;
+	public void setLat(String lat) {
+		this.lat = lat;
+	}
+	public String getLon() {
+		return lon;
+	}
+	public void setLon(String lon) {
+		this.lon = lon;
 	}
 	public long getTopprice() {
 		return topprice;
 	}
 	public void setTopprice(long topprice) {
 		this.topprice = topprice;
+	}
+	public List<Picture> getPicture() {
+		return picture;
+	}
+	public void setPicture(List<Picture> picture) {
+		this.picture = picture;
+	}
+	public List<Auction> getAuction() {
+		return auction;
+	}
+	public void setAuction(List<Auction> auction) {
+		this.auction = auction;
 	}
 	@Override
 	public String toString() {
@@ -161,12 +147,9 @@ public class Product {
 				+ address + ", lat=" + lat + ", lon=" + lon + ", topprice=" + topprice + ", picture=" + picture
 				+ ", auction=" + auction + "]";
 	}
+	
+	
 
-	
-
-	
-	
-	
 
 	
 	

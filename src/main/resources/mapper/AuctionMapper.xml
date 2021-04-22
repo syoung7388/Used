@@ -9,8 +9,8 @@
 			where p_num = #{p_num} and a_participant = #{participant}
 		</selectKey>
 		
-				insert into auction(p_num, a_participant, a_price, a_order, a_bid)
-				values(#{p_num}, #{participant}, #{price}, #{order}, 'false')		
+				insert into auction(p_num, a_participant, a_price, a_order)
+				values(#{p_num}, #{participant}, #{price}, #{order})		
 	</insert>
 	
 	
@@ -22,15 +22,26 @@
 	
 	<resultMap id="AuctionMap" type="Auction">
 		<result property="a_num" column="a_num"/>
-		<result property="p_num" column="p_num"/>
+		<result property="participant" column="a_participant"/>
 		<result property="price" column="a_price"/>
 		<result property="aTime" column="a_time"/>
 		<result property="order" column="a_order"/>
 	</resultMap>
 
 	<resultMap id="aucList" type="Product">
-		<result property="p_date" column="p_date"/>
-		<result property="topprice" column="topprice"/>
+		<id property= "p_num" column= "p_num" />
+		<result property= "p_num" column= "p_num" />
+		<result property= "username" column= "u_username" />
+		<result property= "kind" column= "p_kind" />
+		<result property= "industry" column= "p_industry" />
+		<result property= "brand" column= "p_brand" />
+		<result property= "year" column= "p_year" />
+		<result property= "startprice" column= "p_startprice" />
+		<result property= "title" column= "p_title" />
+		<result property= "content" column= "p_content" />
+		<result property= "sale" column= "p_sale" />
+		<result property= "p_date" column= "p_date" />
+		<result property= "address" column= "p_address" />
 		<collection property="picture" resultMap="PictureMap"></collection>
 		<collection property="auction" resultMap="AuctionMap"></collection>	
 	</resultMap>
@@ -41,8 +52,12 @@
 		FROM          	auction d
 		
 		INNER JOIN      
-		(SELECT				a.*,
-							c.p_date,
+		(SELECT				a.a_num,
+							a.a_participant,
+							a.a_price,
+							a.a_time,
+							a.a_order,
+							c.*,
 							MAX(b.pi_num)pi_num,
 							pi_name					
 		FROM				auction a
@@ -54,6 +69,48 @@
 		
 		GROUP BY  		a_price
 		ORDER BY       p_num ASC, a_order desc
+	</select>
+	
+	
+	
+	<resultMap id="pic" type="Picture">
+		<result property="pictureName" column="pi_name" />
+		<result property="pi_num" column="pi_num" />	
+	</resultMap>
+	<resultMap id="auc" type="Auction">
+		<result property="a_num" column="a_num"/>
+		<result property="participant" column="a_participant"/>
+		<result property="price" column="a_price"/>
+		<result property="aTime" column="a_time"/>
+		<result property="order" column="a_order"/>
+	</resultMap>
+	<resultMap id="pro" type="Product">
+		<id property= "p_num" column= "p_num" />
+		<result property= "p_num" column= "p_num" />
+		<result property= "username" column= "u_username" />
+		<result property= "kind" column= "p_kind" />
+		<result property= "industry" column= "p_industry" />
+		<result property= "brand" column= "p_brand" />
+		<result property= "year" column= "p_year" />
+		<result property= "startprice" column= "p_startprice" />
+		<result property= "title" column= "p_title" />
+		<result property= "content" column= "p_content" />
+		<result property= "sale" column= "p_sale" />
+		<result property= "p_date" column= "p_date" />
+		<result property= "address" column= "p_address" />
+		<collection property="picture" resultMap="pic"/>
+		<collection property="auction" resultMap="auc"/>
+ 	</resultMap>
+	
+	
+	<select id="AuctionDetail" parameterType= "int" resultMap="pro">
+	
+		select 	 *
+		from     product a
+		left join auction b  on a.p_num = b.p_num
+		left join picture c  on a.p_num = c.p_num
+		where a.p_num = #{p_num}
+		order by b.a_price desc
 	</select>
 
 </mapper>

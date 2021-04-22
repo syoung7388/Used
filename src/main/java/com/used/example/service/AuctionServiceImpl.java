@@ -29,4 +29,9 @@ public class AuctionServiceImpl implements AuctionService {
 		return auctionMapper.AuctionList(product);
 	}
 
+	@Override
+	public Product AuctionDetail(int p_num) {
+		return auctionMapper.AuctionDetail(p_num);
+	}
+
 }

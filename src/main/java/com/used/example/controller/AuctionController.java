@@ -17,9 +17,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.used.example.config.JwtUtils;
@@ -76,7 +78,7 @@ public class AuctionController {
 	
 		List<Product> bidinglist =auctionService.AuctionList(product);
 		
-		//logger.info("bidinglist:"+bidinglist);
+		logger.info("bidinglist:"+bidinglist);
 		//logger.info("product:"+product);
 		
 		product.setSale("true");
@@ -93,6 +95,17 @@ public class AuctionController {
 		
 		
 		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	@GetMapping("/{p_num}")
+	public ResponseEntity<?> AuctionDetail(@PathVariable("p_num") int p_num){
+		
+		
+		Product product = auctionService.AuctionDetail(p_num);
+		
+		//logger.info("product:"+product);
+		//logger.info("p_num:"+p_num);
+		return new ResponseEntity<>(product , HttpStatus.OK);
 	}
 
 }

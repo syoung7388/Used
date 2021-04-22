@@ -15,4 +15,6 @@ public interface AuctionMapper {
 
 	public List<Product> AuctionList(Product product) ;
 
+	public Product AuctionDetail(int p_num);
+
 }

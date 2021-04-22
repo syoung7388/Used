@@ -74,6 +74,7 @@ export default new Vuex.Store({
     kindList: [],
     backType: null,
     editType: null,
+    beforeType: null,
 
 
     bidingList:[],
@@ -192,8 +193,11 @@ export default new Vuex.Store({
       state.removeBar = true
       state.productInfo= payload
       state.beforeImage= payload.picture
+      if(state.beforeType === "offer"){
+        state.overlay = false
+      }else{
       router.push({name:'Detail'})
-
+      }
     },
     DetailEdit_s(state, payload){
 
@@ -234,8 +238,13 @@ export default new Vuex.Store({
     AuctionList_s(state, payload){
 
       state.bidingList = payload.bidinglist
-      console.log( state.bidingList)
+      //console.log( state.bidingList)
       state.bidList = payload.bidList
+    },
+    AucDetail_s(state,payload){
+      state.removeBar = true
+      state.productInfo = payload
+      router.push({name: 'AucDetail'})
     }
 
 
@@ -627,7 +636,7 @@ export default new Vuex.Store({
         }
       })
     },
-    priceOffer({commit, dispatch}, payload){
+    priceOffer({commit, dispatch, state}, payload){
 
 
 
@@ -639,11 +648,12 @@ export default new Vuex.Store({
       }
       console.log(payload)
       let p_num = payload.p_num
+      state.beforeType = "offer"
       axios
       .post('http://localhost:9200/api/auction',payload, config)
       .then(Pres => {
         if(Pres.data === "success"){
-          dispatch('getDetail', {p_num: p_num , beforeType: 'offer' })
+          dispatch('getDetail', {p_num: p_num })
         }else {
           commit('priceOffer_f')
         }
@@ -668,6 +678,7 @@ export default new Vuex.Store({
       
     },
     getAuctionList({commit}){
+     
 
 
       let token = localStorage.getItem("access_token")
@@ -677,7 +688,7 @@ export default new Vuex.Store({
         }
       }
       axios
-      .get('http://localhost:9200/api/auction/' ,config)
+      .get('http://localhost:9200/api/auction', config)
       .then(Ares =>{
         if(Ares.data !== null){
           commit('AuctionList_s', Ares.data)
@@ -686,6 +697,20 @@ export default new Vuex.Store({
         }
       })
 
+    },
+    getAucDetail({commit},payload){
+      axios
+      .get(`http://localhost:9200/api/auction/${payload.p_num}`)
+      .then(Ares =>{
+        if(Ares.data !== null){
+          
+          commit('AucDetail_s', Ares.data)
+          
+          //console.log(Ares.data)
+        }else{
+          //console.log("err")
+        }
+      })
     }
 
 

@@ -68,6 +68,12 @@ const routes = [
 
   },
   {
+    path: '/aucdetail',
+    name: 'AucDetail',
+    component: () => import(/* webpackChunkName: "aucdetail" */'@/views/AucDetail.vue')
+
+  },
+  {
     path: '/mypage',
     name: 'MyPage',
     component: MyPage,
