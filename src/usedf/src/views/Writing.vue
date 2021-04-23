@@ -158,7 +158,7 @@
             </v-row>
             <v-row><!-- 달력 -->
                 <v-col
-                cols="12"
+                cols="6"
                 sm="6"
                 md="4"
                 >
@@ -174,7 +174,7 @@
                     <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                         v-model="date"
-                        label="마감 일자를 선택하시오."
+                        label="마감 일자"
                         prepend-icon="mdi-calendar"
                         readonly
                         v-bind="attrs"
@@ -203,6 +203,50 @@
                     </v-btn>
                     </v-date-picker>
                 </v-menu>
+                </v-col>
+                <v-col
+                cols="6"
+                sm="5"
+                >
+                <v-dialog
+                    ref="dialog"
+                    v-model="modal2"
+                    :return-value.sync="time"
+                    persistent
+                    width="290px"
+                >
+                    <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                        v-model="time"
+                        label="마감시간"
+                        prepend-icon="mdi-clock-time-four-outline"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                    ></v-text-field>
+                    </template>
+                    <v-time-picker
+                    v-if="modal2"
+                    v-model="time"
+                    full-width
+                    >
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        text
+                        color="primary"
+                        @click="modal2 = false"
+                    >
+                        Cancel
+                    </v-btn>
+                    <v-btn
+                        text
+                        color="primary"
+                        @click="$refs.dialog.save(time)"
+                    >
+                        OK
+                    </v-btn>
+                    </v-time-picker>
+                </v-dialog>
                 </v-col>
             </v-row>
             <h1 class="primary--text my-5" style="font-size: 16px;" >사진 등록은 필수입니다!</h1>
@@ -247,7 +291,8 @@
                 startprice,
                 files,
                 address,
-                date
+                date,
+                time
 
             })"
             >다음</v-btn>
@@ -300,6 +345,8 @@ export default{
 
             date: new Date().toISOString().substr(0, 10),
             menu: false,
+            modal2: false,
+            time : null
         
 
         }

@@ -38,7 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.used.example.config.JwtUtils;
-
+import com.used.example.domain.Like;
 import com.used.example.domain.Picture;
 import com.used.example.domain.Product;
 
@@ -280,7 +280,7 @@ public class ProductController {
 		
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
-
+	
 	
 
 

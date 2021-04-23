@@ -37,20 +37,33 @@
                 </v-carousel-item>
             </v-carousel>
             <v-row class="ma-0">
-                <v-col cols="9" class="mt-2">
-                    <v-list-item-title v-html="productInfo.title" style="font-size: 20px; font-weight: bold"></v-list-item-title>
-                </v-col>
-                <v-col cols="3" class="ma-0"  v-if="productInfo.sale=== 'false'" >   
-                    <v-list-item-title style="font-size: 15px;" class="primary--text">거래중</v-list-item-title>
-                    <v-list-item-subtitle v-html="productInfo.p_date" style="font-size: 12px;"></v-list-item-subtitle>
+                <v-col cols="12" class="ma-0"  v-if="productInfo.sale=== 'false'" >   
+                    <v-list-item-title style="font-size: 15px; text-align: right;" class="primary--text">거래중</v-list-item-title>
+                    <v-list-item-subtitle v-html="productInfo.enddate" style="font-size: 12px; text-align: right;"></v-list-item-subtitle>
                 </v-col>
                 <v-col cols="3" v-else>   
-                        <h1 style="font-size: 15px;" class="primary--text"> 거래완료</h1>
-                        <v-list-item-subtitle v-html="productInfo.p_date" style="font-size: 12px;"></v-list-item-subtitle>
+                        <h1 style="font-size: 15px; text-align: right;" class="primary--text"> 거래완료</h1>
+                        <v-list-item-subtitle v-html="productInfo.enddate" style="font-size: 12px; text-align: right;"></v-list-item-subtitle>
                 </v-col>
             </v-row>
-            <v-row class="ma-3"> 
-                <v-list-item-title v-html="productInfo.content" style="font-size: 15px"></v-list-item-title>       
+            <v-row class="ma-0" justify="center" > 
+                <v-expansion-panels flat>
+                    <v-expansion-panel>
+                        <v-expansion-panel-header class="secondary--text">게시물 상세보기</v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            <v-row>
+                                <v-col>
+                                    <h1 style="font-size: 20px">{{productInfo.title}}</h1>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col>
+                                    {{productInfo.content}}
+                                </v-col>
+                            </v-row>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-expansion-panels>       
             </v-row>
             <v-divider></v-divider>
                 <v-tabs

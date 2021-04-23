@@ -420,15 +420,14 @@ export default new Vuex.Store({
       formData.append('year',payload.year)
       formData.append('startprice',payload.startprice)
       formData.append('address', payload.address)
-      formData.append('enddate', payload.date)
-
-
+      let enddate = payload.date + ' '+ payload.time+':00'
+      //console.log(enddate)
+      formData.append('enddate', enddate )
       console.log(formData)
       for(let i=0; i< payload.files.length; i++){
         formData.append('multipartfile',payload.files[i])
       }
-      
-  
+       
       axios
       .post('http://localhost:9200/api/product' , formData, config)
       .then(wres=>{
@@ -610,7 +609,7 @@ export default new Vuex.Store({
 
     },
     getDetail({commit,dispatch}, payload){
-      console.log(payload)
+      
 
 
       axios
@@ -618,10 +617,10 @@ export default new Vuex.Store({
       .then(Dres =>{
 
         if(payload.detailType === 'edit'){ // Edit후 Reload할경우
-          alert('edit')
           commit('DetailEdit_s',Dres.data)
             
         } else {
+          console.log(Dres.data)
           commit('Detail_s', Dres.data) // 제일 처음에 Detail 정보 가져올 경우  
         }
       })
@@ -732,6 +731,13 @@ export default new Vuex.Store({
           dispatch('getAucDetail',{p_num: payload.p_num})
         }
       })
+    },
+    Like({commit, state}, payload){
+    
+      
+      axios
+      .post('http://localhost:9200/api/like', payload)
+
     }
 
 

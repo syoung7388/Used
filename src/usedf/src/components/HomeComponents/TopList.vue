@@ -11,26 +11,28 @@
                         :key ="item.p_num"
                         @click="TopDetail(item.p_num)"
                         >
-                            <v-row>
-                                <v-col cols="5" class="pa-5">
+                            <v-row align="center">
+                                <v-col cols="3" class="py-5">
                                     <v-card
-                                    max-width="90"
-                                    max-height="90"          
+                                    width="90"
                                     >
-                                        <v-img
-                                        :src="require('@/assets/'+item.picture[0].pictureName)"
-                                        max-height="90"
-                                        max-width="90"
-                                        ></v-img>
+                                    <v-img
+                                    :src="require('@/assets/'+item.picture[0].pictureName)"
+                                    max-width="90"
+                                    height="90" 
+                                    aspect-ratio="2"
+                                    ></v-img>
                                     </v-card>
+                           
                                 </v-col>
-                                <v-col cols="6">
+                                <v-col cols="9">
                                     <v-list-item-content>
-                                        <v-list-item-title v-html="item.title"></v-list-item-title>
-                                        <v-list-item-subtitle v-html="item.p_date"></v-list-item-subtitle>
+                                        <v-list-item-title v-html="item.title" class="mb-3" style="font-weight: bold"></v-list-item-title>
+                                        <v-list-item-title v-html="item.address" style="font-size: 12px"></v-list-item-title>
+                                        <v-list-item-subtitle style="text-align: right" class="mr-3">D{{item.d_day}}</v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-col>
-                            </v-row>                
+                            </v-row>              
                         </v-list-item>
                         <v-divider
                         v-if="int < topList.length -1"
@@ -49,7 +51,8 @@ import{mapActions, mapState} from 'vuex'
 export default {
     data(){
         return{
-            selecteditem: 1
+            selecteditem: 1,
+            heart: false
         }
     },
 
@@ -60,6 +63,10 @@ export default {
         TopDetail(payload){
             this.$store.state.backType= "top"
             this.$store.dispatch('getDetail',{p_num: payload})
+        },
+        Heart(payload){
+            alert(payload)
+            this.heart = true
         }
     }
     

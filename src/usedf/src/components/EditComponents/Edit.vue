@@ -110,6 +110,8 @@
                     dense
                     class="mt-0"
                     v-model="productInfo.year"
+                    :placeholder= productInfo.year
+
                     ></v-select>
                 </v-col>          
             </v-row>
@@ -152,6 +154,99 @@
                     height="2"
                     @click="PAddress"
                     ></v-text-field>
+                </v-col>
+            </v-row>
+             <v-row><!-- 달력 -->
+                <v-col
+                cols="6"
+                sm="6"
+                md="4"
+                >
+                <v-menu
+                    ref="menu"
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :return-value.sync="date"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                >
+                    <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                        v-model="date"
+                        label="마감 일자"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                    ></v-text-field>
+                    </template>
+                    <v-date-picker
+                    v-model="date"
+                    no-title
+                    scrollable
+                    >
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        text
+                        color="primary"
+                        @click="menu = false"
+                    >
+                        Cancel
+                    </v-btn>
+                    <v-btn
+                        text
+                        color="primary"
+                        @click="$refs.menu.save(date)"
+                    >
+                        OK
+                    </v-btn>
+                    </v-date-picker>
+                </v-menu>
+                </v-col>
+                <v-col
+                cols="6"
+                sm="5"
+                >
+                <v-dialog
+                    ref="dialog"
+                    v-model="modal2"
+                    :return-value.sync="time"
+                    persistent
+                    width="290px"
+                >
+                    <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                        v-model="time"
+                        label="마감시간"
+                        prepend-icon="mdi-clock-time-four-outline"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                    ></v-text-field>
+                    </template>
+                    <v-time-picker
+                    v-if="modal2"
+                    v-model="time"
+                    full-width
+                    >
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        text
+                        color="primary"
+                        @click="modal2 = false"
+                    >
+                        Cancel
+                    </v-btn>
+                    <v-btn
+                        text
+                        color="primary"
+                        @click="$refs.dialog.save(time)"
+                    >
+                        OK
+                    </v-btn>
+                    </v-time-picker>
+                </v-dialog>
                 </v-col>
             </v-row>
             <h1 class="primary--text my-3" style="font-size: 15px;" >사진 등록은 필수입니다!</h1>
@@ -236,7 +331,9 @@
                 address: productInfo.address,
                 picture: files,
                 p_num: productInfo.p_num,
-                pi_numList: pi_numList
+                pi_numList: pi_numList,
+                date: date,
+                time: time
             })"
             >확인</v-btn>
         </v-container>
@@ -277,14 +374,26 @@ export default{
             industries: ['한식', '찜/탕','면요리','고기/구이','족발/ 보쌈','치킨','분식','중식','동남아식','회/초밥','일식/돈까스','피자/샐러드','호프/술집','카페/베이커리','배달전문점'],
             kinds: ['작업대','커피머신','그릴기','냉동 절육기','제빙기','오븐기','튀김기','기름 정제기','씽크대','소독기','가스렌지','냉장고/쇼케이스','보온통','에어컨','회전국솥','절단기','벽선단','기타'],
 
-
+            
+            date: null,
+            menu: false,
+            modal2: false,
+            time : null
 
 
         }
 
     },
+    beforeCreate(){
+
+    },
     mounted() {
-       
+        var enddate= this.$store.state.productInfo.enddate
+        var a= enddate.split(' ')
+        this.date = a[0]
+        this.time = a[1]
+        console.log(this.date)
+        this.year = this.$store.state.productInfo.year
         
 
 

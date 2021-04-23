@@ -37,7 +37,7 @@ public class Product {
 	private List<Picture> picture;
 	private List<Auction> auction;
 	private String enddate;
-	private String d_day;
+	private long d_day;
 	
 	public int getP_num() {
 		return p_num;
@@ -160,23 +160,22 @@ public class Product {
 	
 	
 
-	public String getD_day() {
+	public long getD_day() {
 		return d_day;
 	}
-	public void setD_day(String d_day) {
-//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//		String today= format.format(new Date());
-//		String day=  format.format(d_day+"23:59:59");
-//		Date Today = format.parse(today);
-//		Date Dday = format.parse(day);
-//		
-//		long dday= Today.getTime()-Dday.getTime();
-//		long diffDays = dday / (24 * 60 * 60 * 1000);
-//
-//	
-//		
-//		System.out.println("d_day"+diffDays);
-		this.d_day = d_day;
+	public void setD_day(String d_day) throws Exception {
+		
+		
+		
+		this.enddate = d_day;
+		
+		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");	
+		String today= form.format(new Date());
+		Date Today = form.parse(today);
+		Date Dday = form.parse(d_day);
+		long dday=Today.getTime()-Dday.getTime();
+		long diffDays = dday / (24 * 60 * 60 * 1000);	
+		this.d_day = diffDays;
 		
 		
 	}

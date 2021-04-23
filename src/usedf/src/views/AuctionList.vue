@@ -26,7 +26,7 @@
                                 </v-col>
                                 <v-col cols="4" class="pl-0">
                                     <v-list-item-content>
-                                        <v-list-item-subtitle v-html="item.p_date"></v-list-item-subtitle>
+                                        <v-list-item-subtitle >D{{item.d_day}}</v-list-item-subtitle>
                                         <v-list-item-title class="pt-2">{{item.topprice}}원</v-list-item-title>
                                         <v-list-item-title class="pt-2">{{item.auction[0].price}}원</v-list-item-title>
                                     </v-list-item-content>

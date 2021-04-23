@@ -13,8 +13,6 @@
                 max-height= "300"
                 hide-delimiter-background
                 >
-                <p class="black--text">{{item.pictureName}}</p>
-
                 <v-menu 
                 offset-y
                 absolute
@@ -27,7 +25,7 @@
                                 icon 
                                 @click="ListBack"
                                 >
-                                    <i class="fas fa-angle-double-left" style="font-size: large;"></i>
+                                    <i class="fas fa-arrow-left" style="font-size: large;"></i>
                                 </v-btn>
                             </v-col>
                             
@@ -52,34 +50,37 @@
                 </v-carousel-item>
             </v-carousel>
             <v-row class="ma-0">
-                <v-col cols="9" class="mt-2">
-                    <v-list-item-title v-html="productInfo.title" style="font-size: 20px; font-weight: bold"></v-list-item-title>
+                <v-col cols="12" class="ma-0"  v-if="productInfo.sale=== 'false'" >   
+                    <v-list-item-title style="font-size: 15px; text-align:right" class="primary--text">거래중</v-list-item-title>
+                    <v-list-item-subtitle v-html="productInfo.enddate" style="font-size: 12px; text-align:right"></v-list-item-subtitle>
                 </v-col>
-                <v-col cols="3" class="ma-0"  v-if="productInfo.sale=== 'false'" >   
-                    <v-list-item-title style="font-size: 15px;" class="primary--text">거래중</v-list-item-title>
-                    <v-list-item-subtitle v-html="productInfo.p_date" style="font-size: 12px;"></v-list-item-subtitle>
+                <v-col cols="12" v-else>   
+                    <h1 style="font-size: 15px; text-align:right" class="primary--text"> 거래완료</h1>
+                    <v-list-item-subtitle v-html="productInfo.enddate" style="font-size: 12px; text-align:right"></v-list-item-subtitle>
                 </v-col>
-                <v-col cols="3" v-else>   
-                        <h1 style="font-size: 15px;" class="primary--text"> 거래완료</h1>
-                        <v-list-item-subtitle v-html="productInfo.p_date" style="font-size: 12px;"></v-list-item-subtitle>
-                </v-col>
-            </v-row>
-            <v-row class="ma-3"> 
-                <v-list-item-title v-html="productInfo.content" style="font-size: 15px"></v-list-item-title>       
             </v-row>
             <v-divider></v-divider>
                 <v-tabs
                 align-with-title
                 fixed-tabs
                 primary
-                height= "40"
+                height= "45"
         
                 >
                     <v-tabs-slider></v-tabs-slider>
-                    <v-tab class="ml-0" style="font-size: 15px;">경매 요청</v-tab>
-                    <v-tab class="ml-0" style="font-size: 15px;">제품 정보</v-tab>
+                    <v-tab class="ml-0" style="font-size: 15px;">경매순위</v-tab>
+                    <v-tab class="ml-0" style="font-size: 15px;">게시물</v-tab>
+                    <v-tab class="ml-0" style="font-size: 15px;">제품정보</v-tab>
+
                     <v-tab-item>
-                        <v-card flat class="pa-5"> 
+                        <v-card class="pa-10" flat v-if="productInfo.auction.length === 0">
+                            <v-row>
+                                <v-col>
+                                    <h1 style="font-size: 15px; text-align: center" class="grey--text">현재 요청 대기중입니다.</h1>
+                                </v-col>
+                            </v-row>
+                        </v-card>
+                        <v-card flat class="pa-5" v-else> 
                             <v-row v-for="(item, int) in productInfo.auction" :key="int">
                                 <v-col cols="2" >
                                     <h1 style="font-size: 15px;" >{{int+1}}등</h1>
@@ -97,32 +98,47 @@
                         </v-card>
                     </v-tab-item>
                     <v-tab-item>
-                        <v-card flat class="pa-5">
+                         <v-card class="px-4 py-5" flat>
                             <v-simple-table>
                                 <template>
                                     <tbody>
-                                        <tr class="text-center">
-                                            <td>종류</td>
-                                            <td>{{productInfo.kind}}</td>
+                                        <tr>
+                                            <td style="font-weight: bold; font-size: 16px">{{productInfo.title}}</td>
                                         </tr>
-                                        <tr class="text-center">
-                                            <td>업종</td>
-                                            <td>{{productInfo.industry}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td>브랜드</td>
-                                            <td>{{productInfo.brand}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td>연식</td>
-                                            <td>{{productInfo.year}}</td>
+                                        <tr>
+                                            <td  class="pt-5">{{productInfo.content}}</td>
                                         </tr>
                                     </tbody>
                                 </template>
                             </v-simple-table>
-
-                        </v-card>
+                        </v-card>          
                     </v-tab-item>
+                    <v-tab-item>
+                        <v-card flat class="px-5 py-5">
+                            <v-simple-table>
+                                <template>
+                                    <tbody>
+                                        <tr class="text-center">
+                                            <td style="font-size: 17px">종류</td>
+                                            <td style="font-size: 17px">{{productInfo.kind}}</td>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <td style="font-size: 17px">업종</td>
+                                            <td style="font-size: 17px">{{productInfo.industry}}</td>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <td style="font-size: 17px">브랜드</td>
+                                            <td style="font-size: 17px">{{productInfo.brand}}</td>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <td style="font-size: 17px">연식</td>
+                                            <td style="font-size: 17px">{{productInfo.year}}</td>
+                                        </tr>
+                                    </tbody>
+                                </template>
+                            </v-simple-table>
+                        </v-card>
+                    </v-tab-item>                
                 </v-tabs>
           
         </v-container>
