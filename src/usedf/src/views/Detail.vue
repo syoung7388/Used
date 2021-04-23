@@ -147,18 +147,19 @@
                             <h1 v-else style="font-size: 20px; text-align:center;">{{productInfo.auction[0].price}}원</h1>
                         </v-col>
                     </v-row>
-                    <v-row class="my-1 mr-1 ml-4" v-else justify="left">
+                    <v-row class="my-1 mr-1 ml-4" v-else>
                         <v-col cols="2" 
                         style="font-size: x-large;"  
                         v-show="heart === false" 
                         class="secandary--text"
-                        @click="Heart({p_num: productInfo.p_num, username: userInfo.username})"
+                        @click="LLike({p_num: productInfo.p_num, l_username: userInfo.username})"
                         >
                             <i class="far fa-heart"></i>
                         </v-col>
                         <v-col cols="2" 
                         style="font-size: x-large;"  
-                        v-show="heart ===true" 
+                        v-show="heart === true" 
+                        @click="RemoveLike({p_num: productInfo.p_num, l_username: userInfo.username})"
                         class="red--text"
                         > 
                             <i class="fas fa-heart"></i>     
@@ -210,12 +211,12 @@ import Edit from '@/components/EditComponents/Edit.vue'
 export default {
     data(){
         return {
-            price: 0,
-            heart: false
+            price: 0
         }
     },
     methods: {
-        ...mapActions(['KIDeleteOK']),
+        ...mapActions(['KIDeleteOK', 'RemoveLike', 'Like']),
+        
     
 
         Edit(){
@@ -246,15 +247,16 @@ export default {
                                             })
             this.price = 0
         },
-        Heart(payload){
-            this.heart = !this.heart
-            this.$store.dispatch('Like', payload)
+        LLike(payload){
+            this.$store.state.heart = !this.$store.state.heart
+            this.$store.dispatch('Like',payload) 
         }
+
     },
     computed: {
      
 
-        ...mapState(['productInfo' , 'detail_show' , 'overlay', 'userInfo'])
+        ...mapState(['productInfo' , 'detail_show' , 'overlay', 'userInfo', 'heart'])
     },
     components: {
         Edit

@@ -36,6 +36,7 @@ public class Product {
 	private long topprice;
 	private List<Picture> picture;
 	private List<Auction> auction;
+	private Like like;
 	private String enddate;
 	private long d_day;
 	
@@ -179,6 +180,23 @@ public class Product {
 		
 		
 	}
+	public Like getLike() {
+		return like;
+	}
+	public void setLike(Like like) {
+		this.like = like;
+	}
+	@Override
+	public String toString() {
+		return "Product [p_num=" + p_num + ", username=" + username + ", kind=" + kind + ", industry=" + industry
+				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
+				+ ", title=" + title + ", content=" + content + ", p_date=" + p_date + ", sale=" + sale + ", address="
+				+ address + ", lat=" + lat + ", lon=" + lon + ", topprice=" + topprice + ", picture=" + picture
+				+ ", auction=" + auction + ", like=" + like + ", enddate=" + enddate + ", d_day=" + d_day + "]";
+	}
+	
+	
+	
 	
 	
 

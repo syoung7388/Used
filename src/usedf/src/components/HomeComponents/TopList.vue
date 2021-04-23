@@ -63,10 +63,6 @@ export default {
         TopDetail(payload){
             this.$store.state.backType= "top"
             this.$store.dispatch('getDetail',{p_num: payload})
-        },
-        Heart(payload){
-            alert(payload)
-            this.heart = true
         }
     }
     

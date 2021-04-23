@@ -389,10 +389,15 @@ export default{
     },
     mounted() {
         var enddate= this.$store.state.productInfo.enddate
-        var a= enddate.split(' ')
-        this.date = a[0]
-        this.time = a[1]
-        console.log(this.date)
+        
+        if(enddate !== null){
+            var a= enddate.split(' ')
+            this.date = a[0]
+            this.time = a[1]
+            console.log(this.date)
+        }
+
+
         this.year = this.$store.state.productInfo.year
         
 

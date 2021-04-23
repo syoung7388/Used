@@ -3,13 +3,20 @@
 <mapper namespace="com.used.example.mapper.LikeMapper">
 	
 	<insert id="CreateLike" parameterType="com.used.example.domain.Like">
-		insert into like (
+		insert into `like` (
 		p_num, 
-		u_username
+		l_username
 		)values(
 		#{p_num}, 
-		#{username}
+		#{l_username}
 		)
 		
 	</insert>
+	
+	<delete id="DeleteLike" parameterType="Like">
+		delete 
+		from `like`
+		where p_num = #{p_num} and l_username= #{l_username}
+	
+	</delete>
 </mapper>

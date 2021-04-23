@@ -9,4 +9,6 @@ public interface LikeMapper {
 
 	public void CreateLike(Like like);
 
+	public void DeleteLike(Like like);
+
 }

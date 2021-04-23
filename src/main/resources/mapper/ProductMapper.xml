@@ -174,15 +174,16 @@
 		
 	
 	
-	<resultMap type="Picture" id="Dtail_PicMap">
+	<resultMap type="Picture" id="Detail_PicMap">
 		<result property="pictureName" column="pi_name" />
 		<result property="pi_num" column="pi_num" />	
 	</resultMap>
-	<resultMap type="Auction" id="Dtail_AuctionMap">
+	<resultMap type="Auction" id="Detail_AuctionMap">
 		<result property="participant" column="a_participant" />
 		<result property="price" column="a_price" />
 		<result property="aTime" column="a_time" />
 	</resultMap>
+
 	
 	<resultMap id="DetailMap" type="Product">
 		<id property= "p_num" column= "p_num" />
@@ -199,22 +200,25 @@
 		<result property= "p_date" column= "p_date" />
 		<result property= "address" column= "p_address" />
 		<result property= "d_day" column= "p_enddate" />
-		
-		<collection property="picture" resultMap="Dtail_PicMap"></collection>
-		<collection property="auction" resultMap="Dtail_AuctionMap"></collection>
+		<association property= "like" javaType="Like">
+			<result property="l_username" column="l_username"/> 
+		</association>
+		<collection property="picture" resultMap="Detail_PicMap"></collection>
+		<collection property="auction" resultMap="Detail_AuctionMap"></collection>	
 	</resultMap>
-		
+
 	
 	
 	
 	
-	<select id= "getSaleDetail" parameterType= "int" resultMap= "DetailMap">
+	<select id= "ProductDetail" parameterType= "Product" resultMap= "DetailMap">
 			SELECT		*
 											
 			FROM			product a
 			LEFT  JOIN	    picture b ON a.p_num = b.p_num
-			LEFT JOIN 				 auction c ON c.p_num = a.p_num
-			WHERE 		    a.p_num = #{p_num}
+			LEFT JOIN 		auction c ON c.p_num = a.p_num
+			LEFT JOIN       `like` d ON a.p_num = d.p_num and d.l_username= #{username}
+			WHERE 		    a.p_num = #{p_num} 
 			ORDER BY  a_price DESC
 
 	</select>

@@ -193,10 +193,24 @@ export default new Vuex.Store({
       state.removeBar = true
       state.productInfo= payload
       state.beforeImage= payload.picture
+
+
+
+      //(payload.like.l_username !== null)?state.heart = true : state.heart = false
+
+      if(payload.like === null){
+        state.heart = false
+        
+      }else{
+        state.heart = true
+        
+      }
       if(state.beforeType === "offer"){
         state.overlay = false
+        
       }else{
-      router.push({name:'Detail'})
+        router.push({name:'Detail'})
+      
       }
     },
     DetailEdit_s(state, payload){
@@ -250,6 +264,17 @@ export default new Vuex.Store({
       }else{
         router.push({name: 'AucDetail'})
       }
+    },
+    RemoveHeart_s(state){
+      state.heart = false
+    },
+    RemoveHeart_f(state){
+
+    },
+    Like_s(state){
+      state.heart = true
+    },
+    Like_f(state){
     }
 
 
@@ -609,11 +634,21 @@ export default new Vuex.Store({
 
     },
     getDetail({commit,dispatch}, payload){
+
+
+
+      let token = localStorage.getItem("access_token")
+
+      let config = {
+        headers: {
+          "access_token": token
+        }
+      }
       
 
 
       axios
-      .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`)
+      .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`, config)
       .then(Dres =>{
 
         if(payload.detailType === 'edit'){ // Edit후 Reload할경우
@@ -733,11 +768,19 @@ export default new Vuex.Store({
       })
     },
     Like({commit, state}, payload){
-    
-      
       axios
       .post('http://localhost:9200/api/like', payload)
+      .then(Lres =>{
+        (Lres.data ==="success")? commit('Like_s'): commit('Like_f')
+      })
 
+    },
+    RemoveLike({commit}, payload){
+      axios
+      .delete(`http://localhost:9200/api/like/${payload.p_num}/${payload.l_username}`)
+      .then(Hres =>{
+        (Hres.data === "success")? commit('RemoveHeart_s') : commit('RemoveHeart_f')
+      })
     }
 
 

@@ -201,16 +201,30 @@ public class ProductController {
 	
 	
 	@GetMapping
-	public ResponseEntity<?> SaleDetail(@RequestParam ("p_num") int p_num) throws Exception{
-		Product product = productService.getSaleDetail(p_num);
+	public ResponseEntity<?>ProductDetail(@RequestParam ("p_num") int p_num, HttpServletRequest request) throws Exception{
+		
+		
+		
+		String token= request.getHeader("access_token");
+		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
+			token= token.substring(7, token.length());
+		}
+		String username= JwtUtils.getUserEmailFromToken(token);
+		
+		
+		Product product = new Product();
+		product.setP_num(p_num);
+		product.setUsername(username);
+	
+		Product pro = productService.ProductDetail(product);
 
-		logger.info("product@@:"+ product);
+		logger.info("product_detail:"+ pro);
 		
 		
 		
 		
 		
-		return new ResponseEntity<>(product, HttpStatus.OK);
+		return new ResponseEntity<>(pro, HttpStatus.OK);
 		
 	}
 	@PostMapping("/edit")

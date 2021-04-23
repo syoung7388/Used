@@ -21,4 +21,11 @@ public class LikeServiceImpl implements LikeService {
 		
 	}
 
+
+	@Override
+	public void DeleteLike(Like like) {
+		likeMapper.DeleteLike(like);
+		
+	}
+
 }

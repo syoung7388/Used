@@ -78,6 +78,7 @@ public class UserController{
 		System.out.println("폰번호:"+ phoneNumber);
 		System.out.println("인증번호:"+numStr);
 		user.setNumStr(numStr);
+	
 
 
 		return new ResponseEntity<>(user, HttpStatus.OK);
@@ -121,6 +122,13 @@ public class UserController{
 		List<String> roles= user.getAuthorities().stream()
 								.map(item -> item.getAuthority())
 								.collect(Collectors.toList());
+		
+		logger.debug("debug");
+	    logger.info("info");
+	    logger.error("error");
+
+
+
 		
 		return ResponseEntity.ok(new JwtResponse(jwt,
 													user.getUsername(),

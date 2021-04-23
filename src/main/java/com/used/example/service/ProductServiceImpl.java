@@ -48,8 +48,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product getSaleDetail(int p_num) {
-		return productMapper.getSaleDetail(p_num);
+	public Product ProductDetail(Product product) {
+		return productMapper.ProductDetail(product);
 	}
 
 	@Override

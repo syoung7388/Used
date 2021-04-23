@@ -6,4 +6,6 @@ public interface LikeService {
 
 	public void CreateLike(Like like);
 
+	public void DeleteLike(Like like);
+
 }

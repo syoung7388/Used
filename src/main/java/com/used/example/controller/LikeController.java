@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +38,16 @@ public class LikeController {
 
 		likeService.CreateLike(like);
 		
+		return new ResponseEntity<>("success", HttpStatus.OK);
+	}
+	@DeleteMapping("/{p_num}/{l_username}")
+	public ResponseEntity<?> DeleteLike(@PathVariable("p_num") int p_num , @PathVariable("l_username") String l_username){
+		
+		Like like = new Like();
+		like.setL_username(l_username);
+		like.setP_num(p_num);
+		
+		likeService.DeleteLike(like);
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 
