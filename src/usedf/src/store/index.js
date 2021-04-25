@@ -85,6 +85,10 @@ export default new Vuex.Store({
 
 
     te: null,
+    heart: null,
+
+
+    likeList: [],
 
 
   
@@ -196,19 +200,14 @@ export default new Vuex.Store({
 
 
 
-      //(payload.like.l_username !== null)?state.heart = true : state.heart = false
+      if(payload.like === null){ state.heart = false }else{ state.heart = true}
 
-      if(payload.like === null){
-        state.heart = false
-        
-      }else{
-        state.heart = true
-        
-      }
       if(state.beforeType === "offer"){
+        
         state.overlay = false
         
       }else{
+        console.log("DD")
         router.push({name:'Detail'})
       
       }
@@ -271,10 +270,22 @@ export default new Vuex.Store({
     RemoveHeart_f(state){
 
     },
-    Like_s(state){
+    Like_s(state, payload){
+
+      console.log(payload)
       state.heart = true
+      state.removeBar = true
+      state.productInfo= payload
+
+
     },
     Like_f(state){
+    },
+    LikeList_s(state, payload){
+      state.removeBar = true
+      state.likeList = payload
+      router.push({name: 'LikeList'})
+
     }
 
 
@@ -570,10 +581,10 @@ export default new Vuex.Store({
 
     },
     nowLatLon({dispatch}){
-      const script = document.createElement('script')
-      script.onload = () => kakao.maps.load(this.initMap)
-      script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=e4ae1156e9644814145b77eeb30b26b0&libraries=services'
-      document.head.appendChild(script)
+      // const script = document.createElement('script')
+      // script.onload //= () => kakao.maps.load(this.initMap)
+      // script.src = 'https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=e4ae1156e9644814145b77eeb30b26b0c&libraries=services'
+      // document.head.appendChild(script)
       if(navigator.geolocation){
          navigator.geolocation.getCurrentPosition(function(position){
               let lat = position.coords.latitude
@@ -585,11 +596,7 @@ export default new Vuex.Store({
 
          })
       }
-
       dispatch('LatLonOK')
-      
-
-
     },
 
 
@@ -771,7 +778,10 @@ export default new Vuex.Store({
       axios
       .post('http://localhost:9200/api/like', payload)
       .then(Lres =>{
-        (Lres.data ==="success")? commit('Like_s'): commit('Like_f')
+
+        console.log(Lres.data)
+        // (Lres.data === null)? commit('Like_f'): commit('Like_s', Lres.data)
+        
       })
 
     },
@@ -780,6 +790,22 @@ export default new Vuex.Store({
       .delete(`http://localhost:9200/api/like/${payload.p_num}/${payload.l_username}`)
       .then(Hres =>{
         (Hres.data === "success")? commit('RemoveHeart_s') : commit('RemoveHeart_f')
+      })
+    },
+    getLikeList({commit}){
+
+      let token = localStorage.getItem("access_token")
+      let config = {
+        headers:{
+          "access_token": token
+        }
+      }
+
+
+      axios
+      .get('http://localhost:9200/api/like', config)
+      .then(Lres => {
+        (Lres.data === null)? commit('LikeList_f',Lres.data ) : commit('LikeList_s',Lres.data )
       })
     }
 

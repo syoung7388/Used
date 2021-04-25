@@ -59,7 +59,7 @@
             </div>
         </v-container>
         <v-container v-show="Ashow=== true">
-            <Address @Address="Aresult"></Address>
+            <!-- <Address @Address="Aresult"></Address> -->
         </v-container>
     </v-form>
 

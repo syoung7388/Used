@@ -74,6 +74,12 @@ const routes = [
 
   },
   {
+    path: '/likelist',
+    name: 'LikeList',
+    component: () => import(/* webpackChunkName: "likelist" */'@/views/LikeList.vue')
+
+  },
+  {
     path: '/mypage',
     name: 'MyPage',
     component: MyPage,

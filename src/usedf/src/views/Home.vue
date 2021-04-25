@@ -16,7 +16,7 @@
 
                     <v-spacer></v-spacer>
 
-                    <v-btn icon>
+                    <v-btn icon  @click="getLikeList">
                         <i class="far fa-heart" style="font-size: x-large;"></i>            
                     </v-btn>
                     <v-btn icon>
@@ -64,6 +64,7 @@
 import TopList from '@/components/HomeComponents/TopList.vue'
 import IndustrySort from '@/components/HomeComponents/IndustrySort.vue'
 import KindSort from '@/components/HomeComponents/KindSort.vue'
+import { mapActions, mapState } from 'vuex'
 
 
 
@@ -90,13 +91,15 @@ export default{
         },
         sort(){
             this.$store.state.I_list_show= false
-        }
+        },
+        ...mapActions(['getLikeList'])
+
     },
     components: {
         TopList,
         IndustrySort,
         KindSort
-    }
+    },
 
 }
 </script>

@@ -19,4 +19,45 @@
 		where p_num = #{p_num} and l_username= #{l_username}
 	
 	</delete>
+	
+	
+	<resultMap id="PictureMap" type="Picture">
+		<result property="pictureName" column="pi_name"/>
+		<result property="pi_num" column="pi_num"/>
+	</resultMap>
+	
+	
+	<resultMap id="List" type="Product">
+		<id property="p_num" column="p_num"/>
+		<result property="p_num" column="p_num"/>
+		<result property="username" column="u_username"/>
+		<result property="kind" column="p_kind"/>
+		<result property="industry" column="p_industry"/>
+		<result property="brand" column="p_brand"/>
+		<result property="year" column="p_year"/>
+		<result property="startprice" column="p_startprice"/>
+		<result property="title" column="p_title"/>
+		<result property="content" column="p_content"/>
+		<result property="sale" column="p_sale"/>
+		<result property="p_date" column="p_date"/>
+		<result property= "address" column= "p_address" />
+		<result property= "d_day" column= "p_enddate" />
+		<collection property="picture" resultMap="PictureMap"></collection>
+	
+	</resultMap>
+	
+	
+	
+	
+	
+	<select id= "LikeList"  parameterType ="String" resultMap="List">
+	
+		SELECT *
+		FROM `like` a
+		LEFT JOIN product b ON a.p_num = b.p_num
+		LEFT JOIN picture c ON a.p_num  = c.p_num	
+		WHERE a.l_username = #{l_username}
+		ORDER BY a.p_num ASC 
+	
+	</select>
 </mapper>

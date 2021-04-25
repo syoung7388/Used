@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <v-app class="ma-0">
         <v-container class="pa-0" v-show="detail_show === true">
             <v-carousel            
             height="300"
@@ -135,7 +135,7 @@
                 <v-bottom-navigation
                 grow
                 height="70"       
-                fixed   
+                fixed  
                 >
 
                     <v-row class="ma-2" v-if="productInfo.username === userInfo.username">
@@ -147,22 +147,26 @@
                             <h1 v-else style="font-size: 20px; text-align:center;">{{productInfo.auction[0].price}}원</h1>
                         </v-col>
                     </v-row>
-                    <v-row class="my-1 mr-1 ml-4" v-else>
-                        <v-col cols="2" 
-                        style="font-size: x-large;"  
-                        v-show="heart === false" 
-                        class="secandary--text"
-                        @click="LLike({p_num: productInfo.p_num, l_username: userInfo.username})"
+                    <v-row class="my-1 mr-1" v-else>
+                        <v-col cols="2"   
                         >
-                            <i class="far fa-heart"></i>
-                        </v-col>
-                        <v-col cols="2" 
-                        style="font-size: x-large;"  
-                        v-show="heart === true" 
-                        @click="RemoveLike({p_num: productInfo.p_num, l_username: userInfo.username})"
-                        class="red--text"
-                        > 
-                            <i class="fas fa-heart"></i>     
+                            <v-btn 
+                            icon
+                            class="mt-1 mr-1" 
+                            @click="like({p_num: productInfo.p_num, l_username: userInfo.username})"
+                            v-show="heart === false" 
+                            >
+                                <v-icon color="grey">mdi-heart</v-icon>
+                            </v-btn>
+                            <v-btn
+                            icon 
+                            class="mt-1 mr-1"
+                            v-show="heart === true" 
+                            @click="remove_like({p_num: productInfo.p_num, l_username: userInfo.username})"
+                            >
+                            <v-icon color="red">mdi-heart</v-icon>
+                            </v-btn> 
+
                         </v-col> 
                         <v-col cols="5" class="ma-0" >
                             <v-text-field outlined dense v-model="price"></v-text-field>
@@ -171,7 +175,7 @@
                             <h1 style="font-size: 20px">원</h1>
                         </v-col>
                         <v-col cols="4" >
-                            <v-btn large class="primary mt-1" block>
+                            <v-btn large class="primary mt-1 mr-1" block>
                                 <span style="font-size:15px;" class="white--text ma-2" @click="Overlay">가격제안</span>
                             </v-btn>
                             <v-overlay :value="overlay">
@@ -211,11 +215,13 @@ import Edit from '@/components/EditComponents/Edit.vue'
 export default {
     data(){
         return {
-            price: 0
+            price: 0,
+           
+        
         }
     },
     methods: {
-        ...mapActions(['KIDeleteOK', 'RemoveLike', 'Like']),
+        ...mapActions(['KIDeleteOK']),
         
     
 
@@ -230,6 +236,8 @@ export default {
                 this.$router.push({name : 'KindList'})
             }else if(this.$store.state.backType === "industry"){
                 this.$router.push({name: 'IndustryList'})
+            }else if(this.$store.state.backType === "like"){
+                this.$router.push({name: 'LikeList'})
             } else{
                 this.$router.push({name: 'Home'})
             }
@@ -247,21 +255,28 @@ export default {
                                             })
             this.price = 0
         },
-        LLike(payload){
-            this.$store.state.heart = !this.$store.state.heart
-            this.$store.dispatch('Like',payload) 
+        like(payload){
+            this.$store.state.heart = true
+            this.$store.dispatch('Like', payload)
+        },
+        remove_like(payload){
+            this.$store.state.heart = false
+            this.$store.dispatch('RemoveLike', payload)
+
         }
 
-    },
-    computed: {
-     
 
-        ...mapState(['productInfo' , 'detail_show' , 'overlay', 'userInfo', 'heart'])
+
+    },
+    computed: { 
+
+
+        ...mapState({productInfo: 'productInfo' , detail_show: 'detail_show' , overlay: 'overlay', userInfo: 'userInfo', heart:'heart'}),
     },
     components: {
         Edit
     },
-
+  
     
 }
 </script>

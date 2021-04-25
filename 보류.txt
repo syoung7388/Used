@@ -1,0 +1,15 @@
+<v-btn 
+                            icon
+                            class="mt-1 mr-1" 
+                            @click="like({p_num: productInfo.p_num, l_username: userInfo.username})"
+                            v-show="productInfo.like === null" 
+                            >
+                            <v-icon color="primary">mdi-heart</v-icon>
+                            </v-btn>
+                            <v-btn
+                            icon 
+                            class="mt-1 mr-1"
+                            v-show="productInfo.like !== null" 
+                            @click="remove_like({p_num: productInfo.p_num, l_username: userInfo.username})"
+                            ><v-icon color="red">mdi-heart</v-icon>
+                            </v-btn>

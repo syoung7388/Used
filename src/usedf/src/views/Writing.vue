@@ -301,13 +301,10 @@
             item-height="20"
             ></v-virtual-scroll>     
         </v-container>
-        <div v-show=" Writingshow=== false">
-            <WAddress @Address="result_Address"></WAddress>
+        <div v-show=" Writingshow=== false" >
+            <WAddress  @Address="result_Address"></WAddress> 
         </div>
     </v-app>
-    
-
-
 </template>
 
 <script>
@@ -377,9 +374,11 @@ export default{
         result_Address(address){
             this.Writingshow= true  
             this.address = address
+            console.log(this.address)
         },
         Address(){
-            this.Writingshow= false  
+            this.Writingshow= false
+            
         },
 
         ...mapActions(['WritingOK']),
