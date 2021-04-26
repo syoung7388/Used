@@ -122,5 +122,44 @@
 		where a_num = #{a_num}
 	
 	</delete>
+	
+	
+	<update id="AuctionEnd" parameterType = "String">
+	
+		UPDATE 
+		
+		product a
+		LEFT JOIN auction b ON a.p_num = b.p_num
+		SET a.p_sale = 'pay'
+		WHERE a.p_enddate = #{today} AND b.a_num IS NOT NULL 
+	</update>
+	
+	
+	
+	
+	<insert id= "createPayment">
+	
+		insert into payment(p_num, a_num, pay, price)
+		values(#{p_num},#{a_num}, 'false', #{price}) 
+
+
+	
+	<selectKey keyColumn="p_num, a_num, price" keyProperty="p_num, a_num, price" order="BEFORE" resultType="hashmap">
+	
+		SELECT a.p_num,
+		b.a_num,
+		MAX(b.a_price) AS price
+		FROM product a
+		LEFT JOIN auction b ON  a.p_num = b.p_num
+		WHERE a.p_sale = 'pay' 
+		GROUP BY p_num
+		
+	
+	
+	</selectKey>
+	</insert>
+	
+	
+	
 
 </mapper>

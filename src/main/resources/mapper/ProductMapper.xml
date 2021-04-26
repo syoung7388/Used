@@ -259,7 +259,9 @@
 				LEFT JOIN auction c ON c.p_num = a.p_num
 				WHERE a.p_num = #{p_num}
 	</delete>
-
+	
+	
+	
 	
 	
 	

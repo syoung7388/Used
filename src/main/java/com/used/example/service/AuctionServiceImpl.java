@@ -40,4 +40,16 @@ public class AuctionServiceImpl implements AuctionService {
 		
 	}
 
+	@Override
+	public void AuctionEnd(String today) {
+		auctionMapper.AuctionEnd(today);
+		
+	}
+
+	@Override
+	public void createPayment() {
+		auctionMapper.createPayment();
+		
+	}
+
 }

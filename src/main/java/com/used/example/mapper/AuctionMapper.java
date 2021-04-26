@@ -19,4 +19,8 @@ public interface AuctionMapper {
 
 	public void AuctionDelete(int a_num);
 
+	public void AuctionEnd(String today);
+
+	public void createPayment();
+
 }

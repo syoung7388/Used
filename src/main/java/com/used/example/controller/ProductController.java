@@ -3,6 +3,7 @@ package com.used.example.controller;
 import java.io.File;
 
 
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,8 +95,8 @@ public class ProductController {
 		List<String> pictureNames= new ArrayList<String>();
 		
 		
-        //String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
-		String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
+        String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
+		//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
 		
 		for(int i=0; i<multiList.size(); i++) {
 			
