@@ -149,8 +149,8 @@
                     rows="1"
                     dense
                     height="2"
-                    
-                    ></v-text-field><!-- @click="Address" -->
+                    @click="Address"
+                    ></v-text-field><!--  -->
                 </v-col>
             </v-row>
             <v-row>
@@ -226,7 +226,7 @@
             ></v-virtual-scroll>     
         </v-container>
         <div v-show=" Writingshow=== false" >
-            <WAddress></WAddress> 
+            <WAddress @fullAddress ="result_Address" ></WAddress> 
         </div>
     </v-app>
 </template>
@@ -255,6 +255,7 @@ export default{
 
             writingInfo:{},
             day: null,
+            Writingshow: true,
 
 
 
@@ -262,7 +263,7 @@ export default{
             select: null,
             industries: ['한식', '찜/탕','면요리','고기/구이','족발/ 보쌈','치킨','분식','중식','동남아식','회/초밥','일식/돈까스','피자/샐러드','호프/술집','카페/베이커리','배달전문점'],
             kinds: ['작업대','커피머신','그릴기','냉동 절육기','제빙기','오븐기','튀김기','기름 정제기','씽크대','소독기','가스렌지','냉장고/쇼케이스','보온통','에어컨','회전국솥','절단기','벽선단','기타'],
-            item: ['1','2', '3', '4', '5', '6', '7', '8', '9', '10'],
+            item: [1,2, 3, 4, 5, 6, 7, 8, 9, 10],
 
             date: new Date().toISOString().substr(0, 10),
             menu: false,
@@ -277,8 +278,15 @@ export default{
         // 연도 선택 옵션 리스트 설정
         let year = new Date().getFullYear();
         for (let i = 1970; i <= year; i++) {
-        this.yearOptions.push(i);        
+        this.yearOptions.push(i);
+        
+    
         }
+
+
+
+
+
     },
 
     methods: {
@@ -295,22 +303,22 @@ export default{
             let image = URL.createObjectURL(file)
             this.showImage.push({image})
         },
-        // result_Address(address){
-        //     this.Writingshow= true  
-        //     this.address = address
-        //     console.log(this.address)
-        // },
-        // Address(){
-        //     this.$store.state.Writingshow= false
+        result_Address(address){
+            this.Writingshow= true  
+            this.address = address
+        },
+        Address(){
+            this.Writingshow= false
             
-        // },
+        },
+    
 
         ...mapActions(['WritingOK']),
 
 
     },
     computed: {
-        ...mapState(['userInfo','ImageList', 'WritingError',  'Writingshow'])
+        ...mapState(['userInfo','ImageList', 'WritingError'])
     },
     created(){
         this.username= this.userInfo.username

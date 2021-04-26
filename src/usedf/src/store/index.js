@@ -468,22 +468,22 @@ export default new Vuex.Store({
 
 
       //console.log(enddate)
-      //formData.append('enddate', enddate )
+      formData.append('day', payload.day )
       console.log(formData)
       for(let i=0; i< payload.files.length; i++){
         formData.append('multipartfile',payload.files[i])
       }
        
-      // axios
-      // .post('http://localhost:9200/api/product' , formData, config)
-      // .then(wres=>{
-      //   if(wres.data === "success"){
-      //     commit('WritingSuccess')
-      //   }
-      // })
-      // .catch(()=>{
-      //   commit('WritingFaile')
-      // })
+      axios
+      .post('http://localhost:9200/api/product' , formData, config)
+      .then(wres=>{
+        if(wres.data === "success"){
+          commit('WritingSuccess')
+        }
+      })
+      .catch(()=>{
+        commit('WritingFaile')
+      })
     },
 
 

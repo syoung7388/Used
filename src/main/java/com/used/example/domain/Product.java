@@ -2,12 +2,14 @@ package com.used.example.domain;
 
 
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +40,7 @@ public class Product {
 	private List<Auction> auction;
 	private Like like;
 	private String enddate;
+	private int day;
 	private long d_day;
 	
 	public int getP_num() {
@@ -148,13 +151,33 @@ public class Product {
 	public void setAuction(List<Auction> auction) {
 		this.auction = auction;
 	}
+	
+	
+	
+	
 	public String getEnddate() {
 		return enddate;
 	}
 	public void setEnddate(String enddate) {
 		this.enddate = enddate;
 	}
-	
+	public int getDay() {
+		return day;
+	}
+	public void setDay(int day) {
+		this.day = day; 
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		System.out.println("current: " + df.format(cal.getTime()));
+		
+		cal.add(Calendar.DATE, +day);
+		System.out.println("after: " + df.format(cal.getTime()));
+		
+		String e_date = df.format(cal.getTime());
+		this.enddate = e_date;
+	}
 	
 	
 	
@@ -166,16 +189,17 @@ public class Product {
 	}
 	public void setD_day(String d_day) throws Exception {
 		
-		
-		
-		this.enddate = d_day;
-		
 		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");	
 		String today= form.format(new Date());
 		Date Today = form.parse(today);
-		Date Dday = form.parse(d_day);
+		Date Dday = form.parse(d_day+' '+"23:59:59");
+		System.out.println("Dday: " +Dday);
+		
+		
 		long dday=Today.getTime()-Dday.getTime();
-		long diffDays = dday / (24 * 60 * 60 * 1000);	
+		long diffDays = dday / (24 * 60 * 60 * 1000);
+		System.out.println("diffDays: " +diffDays);
+		
 		this.d_day = diffDays;
 		
 		
@@ -192,8 +216,15 @@ public class Product {
 				+ ", brand=" + brand + ", year=" + year + ", startprice=" + startprice + ", endprice=" + endprice
 				+ ", title=" + title + ", content=" + content + ", p_date=" + p_date + ", sale=" + sale + ", address="
 				+ address + ", lat=" + lat + ", lon=" + lon + ", topprice=" + topprice + ", picture=" + picture
-				+ ", auction=" + auction + ", like=" + like + ", enddate=" + enddate + ", d_day=" + d_day + "]";
+				+ ", auction=" + auction + ", like=" + like + ", enddate=" + enddate + ", day=" + day + ", d_day="
+				+ d_day + "]";
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 	

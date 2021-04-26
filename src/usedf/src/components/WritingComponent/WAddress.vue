@@ -1,12 +1,12 @@
 <template>
 <v-app class="pl-1">
     <div id="daum_postcode"  style="position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;"></div>
+    <div id="map_a" hidden></div>
+
 </v-app>
-
-
-
-
 </template>
+
+
 <script>
 export default {
 
@@ -17,7 +17,7 @@ export default {
             extraAddress: '',
             bname: null,
             buildingName: null,
-            address: {},
+            address: null,
             title: null,
             data:[],
 
@@ -31,15 +31,19 @@ export default {
         script.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
         document.head.appendChild(script)
 
+        const scr = document.createElement('script')   
+        scr.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=e4ae1156e9644814145b77eeb30b26b0&libraries=services'
+        document.head.appendChild(scr)
+
         
-        script.onload = function(){
+        script.onload = ()=>{
             
             var PostcodContainer = document.getElementById('daum_postcode')
             new daum.Postcode({
 
-            oncomplete: function (e){
-                console.log(e)
-                alert("handle")
+            oncomplete: (e)=>{
+                //console.log(e)
+            
                 var fullAddress = e.address
                 var extraAddress = ''
 
@@ -53,43 +57,46 @@ export default {
                     }
                     fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '')
 
-                    console.log(fullAddress)
+                    //console.log(fullAddress)
 
 
-                    localStorage.setItem('addr', fullAddress)
-                    
+                    this.$emit('fullAddress', fullAddress)
+              
+                   
                     
                 
                     fullAddress= ''
                     extraAddress= ''
 
-                    
                     if(e.address !== ''){
+                        var mapContainer = document.getElementById('map')
 
-                        var geocoder = new kakao.maps.services.Geocoder()// 문제 
+
+                        var geocoder = new kakao.maps.services.Geocoder()
                         geocoder.addressSearch(e.address, function(result, status){
                         if(status === kakao.maps.services.Status.OK){
 
 
-                            console(result)
+                            console.log(result)
                     
                             localStorage.setItem('lat', result[0].y)
                             localStorage.setItem('lon', result[0].x) 
                             
                             // console.log(coords)
-                            //console.log(localStorage.getItem('lon'))
+                            console.log(localStorage.getItem('lon'))
                             // console.log(localStorage.getItem('lat'))
-                
+
                             }
 
                         })
 
                     }
-                 }
+
+            
+                }
 
 
-                document.body.scrollTop = currentScroll;
-
+               
 
             },
 
@@ -102,11 +109,26 @@ export default {
             
         }).embed(PostcodContainer)
 
+
+        scr.onload =() =>kakao.maps.load(this.L)
         }
         
 
         
     },
+
+
+    methods: {
+        L(){
+            var mapContainer = document.getElementById('map_a'),
+            mapOption = {
+                center: new kakao.maps.LatLng(35.918423, 128.285210),
+                level: 3
+            }
+            var map = new kakao.maps.Map(mapContainer, mapOption)
+
+        }
+    }
 
     
 }
