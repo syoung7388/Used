@@ -89,6 +89,7 @@ export default new Vuex.Store({
 
 
     likeList: [],
+    Writingshow: true,
 
 
   
@@ -442,6 +443,10 @@ export default new Vuex.Store({
 
       let lat = localStorage.getItem('lat')
       let lon = localStorage.getItem('lon')
+
+
+      var now = new Date()
+
   
 
       let formData = new FormData()
@@ -456,24 +461,29 @@ export default new Vuex.Store({
       formData.append('year',payload.year)
       formData.append('startprice',payload.startprice)
       formData.append('address', payload.address)
-      let enddate = payload.date + ' '+ payload.time+':00'
+
+      
+
+
+
+
       //console.log(enddate)
-      formData.append('enddate', enddate )
+      //formData.append('enddate', enddate )
       console.log(formData)
       for(let i=0; i< payload.files.length; i++){
         formData.append('multipartfile',payload.files[i])
       }
        
-      axios
-      .post('http://localhost:9200/api/product' , formData, config)
-      .then(wres=>{
-        if(wres.data === "success"){
-          commit('WritingSuccess')
-        }
-      })
-      .catch(()=>{
-        commit('WritingFaile')
-      })
+      // axios
+      // .post('http://localhost:9200/api/product' , formData, config)
+      // .then(wres=>{
+      //   if(wres.data === "success"){
+      //     commit('WritingSuccess')
+      //   }
+      // })
+      // .catch(()=>{
+      //   commit('WritingFaile')
+      // })
     },
 
 
@@ -498,10 +508,20 @@ export default new Vuex.Store({
       })
     },
     getSaledetail({state, commit}, payload){
+
+
+      let token= localStorage.getItem("access_token")
+      let config= {
+        headers:{
+          "access_token": token,
+          'Content-Type': 'multipart/form-data',
+          'Access-Control-Allow-Origin': '*'
+        }
+      }
   
 
       axios
-      .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`)
+      .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`, config)
       .then(Dres =>{
         commit('Saledetail_s', Dres.data)
       })

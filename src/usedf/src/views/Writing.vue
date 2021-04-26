@@ -73,9 +73,6 @@
                     >
                     </v-textarea>
                 </v-col>          
-            </v-row> 
-
-            <v-row >
                 <v-col
                 cols="3"
                 class="py-0" 
@@ -152,103 +149,31 @@
                     rows="1"
                     dense
                     height="2"
-                    @click="Address"
-                    ></v-text-field>
+                    
+                    ></v-text-field><!-- @click="Address" -->
                 </v-col>
             </v-row>
-            <v-row><!-- 달력 -->
-                <v-col
-                cols="6"
-                sm="6"
-                md="4"
+            <v-row>
+                 <v-col
+                cols="3"
+                class="py-0" 
                 >
-                <v-menu
-                    ref="menu"
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    :return-value.sync="date"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                >
-                    <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                        v-model="date"
-                        label="마감 일자"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                    ></v-text-field>
-                    </template>
-                    <v-date-picker
-                    v-model="date"
-                    no-title
-                    scrollable
-                    >
-                    <v-spacer></v-spacer>
-                    <v-btn
-                        text
-                        color="primary"
-                        @click="menu = false"
-                    >
-                        Cancel
-                    </v-btn>
-                    <v-btn
-                        text
-                        color="primary"
-                        @click="$refs.menu.save(date)"
-                    >
-                        OK
-                    </v-btn>
-                    </v-date-picker>
-                </v-menu>
+                    <h1 style="font-size: 15px">마감기한</h1>               
                 </v-col>
-                <v-col
-                cols="6"
-                sm="5"
-                >
-                <v-dialog
-                    ref="dialog"
-                    v-model="modal2"
-                    :return-value.sync="time"
-                    persistent
-                    width="290px"
-                >
-                    <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                        v-model="time"
-                        label="마감시간"
-                        prepend-icon="mdi-clock-time-four-outline"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                    ></v-text-field>
-                    </template>
-                    <v-time-picker
-                    v-if="modal2"
-                    v-model="time"
-                    full-width
-                    >
-                    <v-spacer></v-spacer>
-                    <v-btn
-                        text
-                        color="primary"
-                        @click="modal2 = false"
-                    >
-                        Cancel
-                    </v-btn>
-                    <v-btn
-                        text
-                        color="primary"
-                        @click="$refs.dialog.save(time)"
-                    >
-                        OK
-                    </v-btn>
-                    </v-time-picker>
-                </v-dialog>
-                </v-col>
-            </v-row>
+                
+                <v-col cols="7"  class="py-0">
+                    <v-select
+                    :items="item"
+                    label="최대 10일"
+                    v-model="day"
+                    dense
+                     class="mt-0"
+                    ></v-select>
+                
+                </v-col> 
+
+            </v-row >
+
             <h1 class="primary--text my-5" style="font-size: 16px;" >사진 등록은 필수입니다!</h1>
             <v-row align="center">
                 <v-col
@@ -291,8 +216,7 @@
                 startprice,
                 files,
                 address,
-                date,
-                time
+                day
 
             })"
             >다음</v-btn>
@@ -302,7 +226,7 @@
             ></v-virtual-scroll>     
         </v-container>
         <div v-show=" Writingshow=== false" >
-            <WAddress  @Address="result_Address"></WAddress> 
+            <WAddress></WAddress> 
         </div>
     </v-app>
 </template>
@@ -330,7 +254,7 @@ export default{
             files:[],
 
             writingInfo:{},
-            Writingshow: true,
+            day: null,
 
 
 
@@ -338,7 +262,7 @@ export default{
             select: null,
             industries: ['한식', '찜/탕','면요리','고기/구이','족발/ 보쌈','치킨','분식','중식','동남아식','회/초밥','일식/돈까스','피자/샐러드','호프/술집','카페/베이커리','배달전문점'],
             kinds: ['작업대','커피머신','그릴기','냉동 절육기','제빙기','오븐기','튀김기','기름 정제기','씽크대','소독기','가스렌지','냉장고/쇼케이스','보온통','에어컨','회전국솥','절단기','벽선단','기타'],
-
+            item: ['1','2', '3', '4', '5', '6', '7', '8', '9', '10'],
 
             date: new Date().toISOString().substr(0, 10),
             menu: false,
@@ -371,22 +295,22 @@ export default{
             let image = URL.createObjectURL(file)
             this.showImage.push({image})
         },
-        result_Address(address){
-            this.Writingshow= true  
-            this.address = address
-            console.log(this.address)
-        },
-        Address(){
-            this.Writingshow= false
+        // result_Address(address){
+        //     this.Writingshow= true  
+        //     this.address = address
+        //     console.log(this.address)
+        // },
+        // Address(){
+        //     this.$store.state.Writingshow= false
             
-        },
+        // },
 
         ...mapActions(['WritingOK']),
 
 
     },
     computed: {
-        ...mapState(['userInfo','ImageList', 'WritingError'])
+        ...mapState(['userInfo','ImageList', 'WritingError',  'Writingshow'])
     },
     created(){
         this.username= this.userInfo.username
