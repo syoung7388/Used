@@ -74,6 +74,12 @@ const routes = [
 
   },
   {
+    path: '/paydetail',
+    name: 'PayDetail',
+    component: () => import(/* webpackChunkName: "paydetail" */'@/views/PayDetail.vue')
+
+  },
+  {
     path: '/likelist',
     name: 'LikeList',
     component: () => import(/* webpackChunkName: "likelist" */'@/views/LikeList.vue')

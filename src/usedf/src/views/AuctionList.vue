@@ -45,7 +45,7 @@
                 active-class="primary--text"
                 >
                     <template v-for="(item, index) in payList">
-                        <v-list-item :key="item.picture.pi_num"   @click="getAucDetail({p_num: item.p_num})">
+                        <v-list-item :key="item.picture.pi_num"   @click="getPayDetail({p_num: item.p_num})">
                             <v-row>
                                 <v-col cols="4">
                                     <v-img
@@ -54,20 +54,20 @@
                                     width="80"
                                     ></v-img>
                                 </v-col>
-                                <v-col cols="6" class="pr-0" >
+                                <v-col cols="6"  >
                                     <v-list-item-content>
                                         <v-list-item-subtitle >D-day</v-list-item-subtitle>
                                         <v-list-item-title class="pt-2">{{item.auction[0].price}}원</v-list-item-title>
                                     </v-list-item-content>
                      
                                 </v-col>
-                                <v-col cols="2" class="pl-0">
-                                    <v-list-item-icon style="font-size: 50px" class="green--text"><i class="fas fa-award"></i></v-list-item-icon>
+                                <v-col cols="2" >
+                                    <v-list-item-icon style="font-size: 30px" class="green--text"><i class="fas fa-award"></i></v-list-item-icon>
                                 </v-col>
                             </v-row>
                         </v-list-item>
                         <v-divider  
-                        v-if="index < bidingList.length"
+                        v-if="index < payList.length"
                         :key="index"
                         class="my-2"
                         ></v-divider>
@@ -130,7 +130,9 @@ export default {
         ...mapState( {bidingList: 'bidingList', bidList:'bidList', userInfo: 'userInfo', payList: 'payList'})
     },
     methods: {
-        ...mapActions(['getAucDetail'])
+        ...mapActions(['getAucDetail', 'getPayDetail']),
+        
     },
+
 }
 </script>

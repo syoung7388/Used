@@ -66,12 +66,16 @@
 	<choose>
 	
 	
-	<when test="sale == pay">
-	SELECT *
+	<when test="sale == 'pay'">
+	SELECT 	
+			b.*,
+			p.*,
+			c.*
 	FROM payment a
 	left JOIN product b on a.p_num = b.p_num
 	LEFT JOIN picture p ON a.p_num = p.p_num
 	left JOIN auction c on a.a_num = c.a_num
+	WHERE c.a_participant = #{username}
 	
 	</when>
 	

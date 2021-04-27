@@ -288,6 +288,13 @@ export default new Vuex.Store({
       state.likeList = payload
       router.push({name: 'LikeList'})
 
+    },
+    PayDetail_s(state, payload){
+
+      console.log(payload)
+      state.productInfo = payload
+      state.removeBar = true
+      router.push({name: 'PayDetail'})
     }
 
 
@@ -828,7 +835,24 @@ export default new Vuex.Store({
       .then(Lres => {
         (Lres.data === null)? commit('LikeList_f',Lres.data ) : commit('LikeList_s',Lres.data )
       })
+    },
+    getPayDetail({commit}, payload){
+
+
+      let token = localStorage.getItem("access_token")
+      let config = {
+        headers:{
+          "access_token": token
+        }
+      }
+      axios
+      .get(`http://localhost:9200/api/payment/${payload.p_num}`, config)
+      .then(Pres => {
+        (Pres.data !== null)? commit('PayDetail_s' , Pres.data):commit('PayDetail_f' , Pres.data) 
+      })
+
     }
+
 
 
 

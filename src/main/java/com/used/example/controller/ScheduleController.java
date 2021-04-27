@@ -47,9 +47,9 @@ public class ScheduleController {
 		
 		if(today != null) {
 			
-			auctionService.AuctionEnd(today);
-			
-			auctionService.createPayment();
+//			auctionService.AuctionEnd(today);
+//			
+//			auctionService.createPayment();
 			
 			
 			

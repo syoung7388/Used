@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.used.example.mapper.PaymentMapper">
+
+<resultMap id="pic" type="Picture">
+		<result property="pictureName" column="pi_name" />
+		<result property="pi_num" column="pi_num" />	
+	</resultMap>
+	<resultMap id="auc" type="Auction">
+		<result property="a_num" column="a_num"/>
+		<result property="participant" column="a_participant"/>
+		<result property="price" column="a_price"/>
+		<result property="aTime" column="a_time"/>
+	</resultMap>
+	<resultMap id="Detail" type="Product">
+		<id property= "p_num" column= "p_num" />
+		<result property= "p_num" column= "p_num" />
+		<result property= "username" column= "u_username" />
+		<result property= "kind" column= "p_kind" />
+		<result property= "industry" column= "p_industry" />
+		<result property= "brand" column= "p_brand" />
+		<result property= "year" column= "p_year" />
+		<result property= "startprice" column= "p_startprice" />
+		<result property= "title" column= "p_title" />
+		<result property= "content" column= "p_content" />
+		<result property= "sale" column= "p_sale" />
+		<result property= "p_date" column= "p_date" />
+		<result property= "address" column= "p_address" />
+		<result property= "enddate" column= "p_enddate" />
+		<collection property="picture" resultMap="pic"/>
+		<collection property="auction" resultMap="auc"/>
+		
+ 	</resultMap>
+
+	
+
+	<select id="PaymentDetail" parameterType="int" resultMap="Detail">
+			SELECT *
+			FROM product a
+			LEFT JOIN payment b ON  a.p_num = b.p_num
+			LEFT JOIN auction c ON a.p_num = c.p_num AND b.a_num = c.a_num
+			LEFT JOIN picture d ON a.p_num = d.p_num
+			WHERE a.p_num = #{p_num}
+	</select>
+
+
+
+</mapper>
