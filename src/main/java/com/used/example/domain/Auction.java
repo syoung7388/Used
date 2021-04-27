@@ -9,7 +9,7 @@ public class Auction {
 	private long price;
 	private String participant;
 	private String aTime;// 옥션 참가자가 돈제안 시간
-	private int order;
+
 
 	
 	
@@ -43,17 +43,12 @@ public class Auction {
 	public void setaTime(String aTime) {
 		this.aTime = aTime;
 	}
-	public int getOrder() {
-		return order;
-	}
-	public void setOrder(int order) {
-		this.order = order;
-	}
 	@Override
 	public String toString() {
 		return "Auction [a_num=" + a_num + ", p_num=" + p_num + ", price=" + price + ", participant=" + participant
-				+ ", aTime=" + aTime + ", order=" + order + "]";
+				+ ", aTime=" + aTime + "]";
 	}
+
 
 	
 	

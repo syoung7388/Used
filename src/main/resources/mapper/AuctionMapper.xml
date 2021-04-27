@@ -3,14 +3,27 @@
 <mapper namespace= "com.used.example.mapper.AuctionMapper">
 
 	<insert id= "CreateAuction" parameterType= "com.used.example.domain.Auction">
-		<selectKey resultType= "int" keyProperty= "order" order="BEFORE">
-			select ifnull(max(a_order), 0)+1
+		<selectKey resultType= "int" keyProperty= "a_num" order="BEFORE">
+			select a_num
 			from auction
 			where p_num = #{p_num} and a_participant = #{participant}
 		</selectKey>
+		<choose>
+			<when test="a_num == '' and a_num == null">
+				insert into auction(p_num, a_participant, a_price)
+				values(#{p_num}, #{participant}, #{price})
+			</when>
+			<otherwise>
+				update auction
+				set a_price = #{price},
+					a_time = (now())
+				where a_num = #{a_num}
+			
+			</otherwise>
 		
-				insert into auction(p_num, a_participant, a_price, a_order)
-				values(#{p_num}, #{participant}, #{price}, #{order})		
+		</choose>
+		
+						
 	</insert>
 	
 	
@@ -25,7 +38,6 @@
 		<result property="participant" column="a_participant"/>
 		<result property="price" column="a_price"/>
 		<result property="aTime" column="a_time"/>
-		<result property="order" column="a_order"/>
 	</resultMap>
 
 	<resultMap id="aucList" type="Product">
@@ -50,7 +62,21 @@
 	</resultMap>
 	
 	<select id="AuctionList" parameterType= "Product" resultMap="aucList">
-
+	
+	<choose>
+	
+	
+	<when test="sale == pay">
+	SELECT *
+	FROM payment a
+	left JOIN product b on a.p_num = b.p_num
+	LEFT JOIN picture p ON a.p_num = p.p_num
+	left JOIN auction c on a.a_num = c.a_num
+	
+	</when>
+	
+	<otherwise>
+	
 		SELECT 	e.*,
 					MAX(d.a_price)topprice
 		FROM auction d
@@ -71,6 +97,20 @@
 		
 		GROUP BY  	p_num
 		ORDER BY    p_num DESC  
+	
+	
+	
+	
+	
+	
+	
+	
+	</otherwise>
+
+	
+	
+	
+	</choose>
 
 	</select>
 	
@@ -85,7 +125,6 @@
 		<result property="participant" column="a_participant"/>
 		<result property="price" column="a_price"/>
 		<result property="aTime" column="a_time"/>
-		<result property="order" column="a_order"/>
 	</resultMap>
 	<resultMap id="pro" type="Product">
 		<id property= "p_num" column= "p_num" />
@@ -142,15 +181,19 @@
 	<update id= "createPayment" >
 	
 	
-		INSERT INTO payment (p_num, a_num,  price)
+		       INSERT INTO payment (p_num, a_num, price)
 			
-		SELECT a.p_num,
-		b.a_num,
-		MAX(b.a_price) AS price
-		FROM product a
-		LEFT JOIN auction b ON  a.p_num = b.p_num
-		WHERE a.p_sale = 'pay' 
-		GROUP BY p_num
+					SELECT  ta.p_num,
+								ta.a_num,
+								tb.price
+					
+					FROM auction ta
+					INNER JOIN 			
+								(SELECT MAX(b.a_price)price
+								FROM product a
+								INNER JOIN auction b ON a.p_num = b.p_num
+								WHERE a.p_sale = 'pay'
+								GROUP BY b.p_num) tb ON ta.a_price = tb.price
 	</update>
 	
 	
