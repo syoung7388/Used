@@ -86,12 +86,18 @@ public class AuctionController {
 		List<Product> bidlist =auctionService.AuctionList(product);
 		//logger.info("bidlist:"+bidlist);
 		
+		product.setSale("pay");
+		List<Product> paylist = auctionService.AuctionList(product);
+		
+		
+		
+		
 		Map<String, Object> map= new HashMap<>();
 		map.put("bidinglist",bidinglist);
 		map.put("bidlist", bidlist);
+		map.put("paylist", paylist);
 		
-		
-		
+		logger.info("paylist"+paylist);
 		
 		
 		

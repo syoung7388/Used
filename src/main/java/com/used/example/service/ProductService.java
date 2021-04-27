@@ -34,7 +34,7 @@ public interface ProductService {
 
 	public List<Product> KindList(Product product);
 
-	public List<Product> AuctionEnd(String today);
+	
 
 
 

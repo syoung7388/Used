@@ -79,7 +79,7 @@ export default new Vuex.Store({
 
     bidingList:[],
     bidList:[],
- 
+    payList:[], 
       
     aucType: null,
 
@@ -253,7 +253,8 @@ export default new Vuex.Store({
 
       state.bidingList = payload.bidinglist
       //console.log( state.bidingList)
-      state.bidList = payload.bidList
+      state.bidList = payload.bidlist
+      state.payList = payload.paylist
     },
     AucDetail_s(state,payload){
       state.removeBar = true

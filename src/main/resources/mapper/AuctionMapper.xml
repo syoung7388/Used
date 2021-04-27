@@ -30,6 +30,8 @@
 
 	<resultMap id="aucList" type="Product">
 		<id property= "p_num" column= "p_num" />
+		<result property= "topprice" column= "topprice" />
+		
 		<result property= "p_num" column= "p_num" />
 		<result property= "username" column= "u_username" />
 		<result property= "kind" column= "p_kind" />
@@ -48,28 +50,28 @@
 	</resultMap>
 	
 	<select id="AuctionList" parameterType= "Product" resultMap="aucList">
-		SELECT        	k.*,
-						MAX(d.a_price)topprice
-		FROM          	auction d
-		
-		INNER JOIN      
-		(SELECT				a.a_num,
-							a.a_participant,
-							a.a_price,
-							a.a_time,
-							a.a_order,
-							c.*,
-							MAX(b.pi_num)pi_num,
-							pi_name					
+
+		SELECT 	e.*,
+					MAX(d.a_price)topprice
+		FROM auction d
+		INNER JOIN 
+		(SELECT	a.a_num,
+					a.a_participant,
+					MAX(a.a_price)a_price,
+					c.*,
+					b.pi_num,
+					b.pi_name					
 		FROM				auction a
-		LEFT JOIN	   		picture b ON a.p_num = b.p_num
+		LEFT JOIN	   picture b ON a.p_num = b.p_num
 		LEFT JOIN      product c ON a.p_num = c.p_num
-		WHERE 		   		a.a_participant= #{username} AND c.p_sale= #{sale}
-		GROUP BY       a_price
-		)k ON k.p_num = d.p_num
+		WHERE 		   a.a_participant= #{username} AND c.p_sale= #{sale}
+		GROUP BY       a.p_num 
 		
-		GROUP BY  		a_price
-		ORDER BY       p_num ASC, a_order desc
+		)e ON e.p_num = d.p_num
+		
+		GROUP BY  	p_num
+		ORDER BY    p_num DESC  
+
 	</select>
 	
 	
@@ -137,15 +139,11 @@
 	
 	
 	
-	<insert id= "createPayment">
+	<update id= "createPayment" >
 	
-		insert into payment(p_num, a_num, pay, price)
-		values(#{p_num},#{a_num}, 'false', #{price}) 
-
-
 	
-	<selectKey keyColumn="p_num, a_num, price" keyProperty="p_num, a_num, price" order="BEFORE" resultType="hashmap">
-	
+		INSERT INTO payment (p_num, a_num,  price)
+			
 		SELECT a.p_num,
 		b.a_num,
 		MAX(b.a_price) AS price
@@ -153,11 +151,9 @@
 		LEFT JOIN auction b ON  a.p_num = b.p_num
 		WHERE a.p_sale = 'pay' 
 		GROUP BY p_num
-		
+	</update>
 	
 	
-	</selectKey>
-	</insert>
 	
 	
 	
