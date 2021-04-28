@@ -1,0 +1,21 @@
+salelist:[Auction [a_num=19, a_username=kk@kk, startdate=2021-04-28, enddate=2021-05-04, startprice=11, sale=false, hits=0, day=0, d_day=0,
+ title=e, content=e, 
+
+product=[Product [p_num=97, kind=그릴기, brand=1, year=1974, industry=호프/술집, 
+picture=[Picture [multipartfile=null, p_num=97, pi_num=136, pictureName=654_shop1_309263.jpg, pictureNames=null, pi_nums=null], 
+Picture [multipartfile=null, p_num=97, pi_num=137, pictureName=e382665f1e25e51bde7ac49e62d2ea1b.jpg, pictureNames=null, pi_nums=null]]]], like=null, offer=null, 
+
+address=Address [ad_num=1, a_num=19, lat=35.8514688, lon=128.60129279999998, addr=광주 남구 2순환로 1508 (송하동, 톨게이트사무소), town=송하동]]] 
+
+
+
+
+
+aucdetail:Auction [a_num=19, a_username=kk@kk, startdate=2021-04-28, enddate=null, startprice=11, sale=false, hits=0, day=0, d_day=-6, title=e, content=e, 
+product=[Product [p_num=97, kind=그릴기, brand=1, year=1974, industry=호프/술집, 
+ picture=[Picture [multipartfile=null, p_num=97, pi_num=0, pictureName=null, pictureNames=null, pi_nums=null]]]], 
+like=[Like [a_num=19, l_username=kk@kk]], 
+offer=[Offer [o_num=57, a_num=19, o_username=c@c, price=1990000, time=2021-04-28 09:40:51], 
+Offer [o_num=59, a_num=19, o_username=f@f, price=400000000, time=2021-04-28 09:42:56], 
+Offer [o_num=60, a_num=19, o_username=kk@kk, price=50000000, time=2021-04-28 09:43:44]], 
+address=Address [ad_num=1, a_num=19, lat=35.8514688, lon=128.60129279999998, addr=광주 남구 2순환로 1508 (송하동, 톨게이트사무소), town=송하동]] 
