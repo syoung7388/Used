@@ -5,6 +5,8 @@ import MyPage from '@/views/MyPage.vue'
 
 Vue.use(VueRouter)
 
+
+
 const routes = [
   {
     path:'/app',
@@ -62,15 +64,15 @@ const routes = [
   },
 
   {
-    path: '/auctionlist',
-    name: 'AuctionList',
-    component: () => import(/* webpackChunkName: "auctionlist" */'@/views/AuctionList.vue')
+    path: '/bidlist',
+    name: 'BidList',
+    component: () => import(/* webpackChunkName: "bidlist" */'@/views/BidList.vue')
 
   },
   {
-    path: '/aucdetail',
-    name: 'AucDetail',
-    component: () => import(/* webpackChunkName: "aucdetail" */'@/views/AucDetail.vue')
+    path: '/biddetail',
+    name: 'BidDetail',
+    component: () => import(/* webpackChunkName: "biddetail" */'@/views/BidDetail.vue')
 
   },
   {
@@ -83,6 +85,12 @@ const routes = [
     path: '/likelist',
     name: 'LikeList',
     component: () => import(/* webpackChunkName: "likelist" */'@/views/LikeList.vue')
+
+  },
+  {
+    path: '/paymethod',
+    name: 'PayMethod',
+    component: () => import(/* webpackChunkName: "paymethod" */'@/views/PayMethod.vue')
 
   },
   {

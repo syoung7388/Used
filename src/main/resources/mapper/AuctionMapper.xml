@@ -2,207 +2,277 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace= "com.used.example.mapper.AuctionMapper">
 
-	<insert id= "CreateAuction" parameterType= "com.used.example.domain.Auction">
-		<selectKey resultType= "int" keyProperty= "a_num" order="BEFORE">
-			select a_num
-			from auction
-			where p_num = #{p_num} and a_participant = #{participant}
+	<insert id="CreateAuction" parameterType="Auction">
+		insert into auction(a_username, a_enddate, a_startprice, a_title, a_content )
+					values(#{a_username},#{enddate},#{startprice},#{title},#{content})
+					
+		<selectKey resultType= "int" keyProperty="a_num" order="AFTER" >
+			select last_insert_id()
 		</selectKey>
-		<choose>
-			<when test="a_num == '' and a_num == null">
-				insert into auction(p_num, a_participant, a_price)
-				values(#{p_num}, #{participant}, #{price})
-			</when>
-			<otherwise>
-				update auction
-				set a_price = #{price},
-					a_time = (now())
-				where a_num = #{a_num}
-			
-			</otherwise>
-		
-		</choose>
-		
-						
+
+	</insert>
+	<insert id="CreateAP" parameterType="Auc_Pro">
+	
+		insert into auc_and_pro (a_num, p_num)
+					values(#{a_num}, #{p_num})
+	</insert>
+	<insert id="CreateAddress" parameterType="Address">
+		insert into address(ad_lat, ad_lon, ad_addr, ad_town, a_num)
+					values(#{lat}, #{lon}, #{addr}, #{town}, #{a_num})
 	</insert>
 	
 	
 	
-	<resultMap id="PictureMap" type="Picture">
-		<result property="pictureName" column="pi_name"/>
+	
+	
+	<resultMap type="Picture" id="ListPi">
+		<result property="p_num" column="p_num"/>
 		<result property="pi_num" column="pi_num"/>
+		<result property="pictureName" column="pi_name"/>
 	</resultMap>
 	
-	<resultMap id="AuctionMap" type="Auction">
+	<resultMap type="Product" id="ListPro">
+		<result property="p_num" column="p_num"/>
+		<result property="brand" column="p_brand"/>
+		<result property="kind" column="p_kind"/>
+		<result property="industry" column="p_industry"/>
+		<result property="year" column="p_year"/>
+		<collection property="picture" resultMap="ListPi"/>
+	</resultMap>
+	
+	<resultMap type="Offer" id="ListOffer">
+	
+		<result property="o_num" column="o_num"/>
 		<result property="a_num" column="a_num"/>
-		<result property="participant" column="a_participant"/>
-		<result property="price" column="a_price"/>
-		<result property="aTime" column="a_time"/>
-	</resultMap>
-
-	<resultMap id="aucList" type="Product">
-		<id property= "p_num" column= "p_num" />
-		<result property= "topprice" column= "topprice" />
-		
-		<result property= "p_num" column= "p_num" />
-		<result property= "username" column= "u_username" />
-		<result property= "kind" column= "p_kind" />
-		<result property= "industry" column= "p_industry" />
-		<result property= "brand" column= "p_brand" />
-		<result property= "year" column= "p_year" />
-		<result property= "startprice" column= "p_startprice" />
-		<result property= "title" column= "p_title" />
-		<result property= "content" column= "p_content" />
-		<result property= "sale" column= "p_sale" />
-		<result property= "p_date" column= "p_date" />
-		<result property= "address" column= "p_address" />
-		<result property= "d_day" column= "p_enddate" />
-		<collection property="picture" resultMap="PictureMap"></collection>
-		<collection property="auction" resultMap="AuctionMap"></collection>	
+		<result property="o_username" column="o_username"/>
+		<result property="price" column="o_price"/>
+		<result property="time" column="o_time"/>
+	
 	</resultMap>
 	
-	<select id="AuctionList" parameterType= "Product" resultMap="aucList">
+	<resultMap type="Like" id="ListLike">
+		<result property="a_num" column="a_num"/>
+		<result property="l_username" column="l_username"/>
 	
-	<choose>
+	</resultMap>
 	
 	
-	<when test="sale == 'pay'">
-	SELECT 	
-			b.*,
-			p.*,
-			c.*
-	FROM payment a
-	left JOIN product b on a.p_num = b.p_num
-	LEFT JOIN picture p ON a.p_num = p.p_num
-	left JOIN auction c on a.a_num = c.a_num
-	WHERE c.a_participant = #{username}
-	
-	</when>
-	
-	<otherwise>
-	
-		SELECT 	e.*,
-					MAX(d.a_price)topprice
-		FROM auction d
-		INNER JOIN 
-		(SELECT	a.a_num,
-					a.a_participant,
-					MAX(a.a_price)a_price,
-					c.*,
-					b.pi_num,
-					b.pi_name					
-		FROM				auction a
-		LEFT JOIN	   picture b ON a.p_num = b.p_num
-		LEFT JOIN      product c ON a.p_num = c.p_num
-		WHERE 		   a.a_participant= #{username} AND c.p_sale= #{sale}
-		GROUP BY       a.p_num 
-		
-		)e ON e.p_num = d.p_num
-		
-		GROUP BY  	p_num
-		ORDER BY    p_num DESC  
+	<resultMap id="ListMap" type="Auction">
+		<id property="a_num" column="a_num"/>
+		<result property="a_num" column="a_num"/>
+		<result property="a_username" column="a_username"/>
+		<result property="startdate" column="a_startdate"/>
+		<result property="d_day" column="a_enddate"/>
+		<result property="startprice" column="a_startprice"/>
+		<result property="sale" column="a_sale"/>
+		<result property="hits" column="a_hits"/>
+		<result property="title" column="a_title"/>
+		<result property="content" column="a_content"/>
+		<association property="address" javaType="Address">
+			<result property="ad_num" column="ad_num"/>
+			<result property="a_num" column="a_num"/>
+			<result property="lat" column="ad_lat"/>
+			<result property="lon" column="ad_lon"/>
+			<result property="addr" column="ad_addr"/>
+			<result property="town" column="ad_town"/>
+		</association>
+		<collection property="like"  resultMap="ListLike"/>
+		<collection property="offer" resultMap="ListOffer"/>
+		<collection property="product" resultMap="ListPro"/>
+	</resultMap>
 	
 	
 	
-	
-	
-	
-	
-	
-	</otherwise>
-
-	
-	
-	
-	</choose>
-
+	<select id="SaleList" parameterType="Auction" resultMap="ListMap">
+		SELECT *
+		FROM auction a
+		LEFT JOIN offer b ON a.a_num = b.a_num
+		LEFT JOIN address c ON a.a_num = c.a_num
+		LEFT JOIN `like` d ON a.a_num = d.a_num
+		LEFT JOIN auc_and_pro e ON a.a_num = e.a_num
+		LEFT JOIN product f ON e.p_num = f.p_num 
+		LEFT JOIN picture g ON f.p_num = g.p_num
+		WHERE a_sale = #{sale} and a_username = #{a_username}
+		ORDER BY a.a_num DESC	
 	</select>
 	
 	
 	
-	<resultMap id="pic" type="Picture">
-		<result property="pictureName" column="pi_name" />
-		<result property="pi_num" column="pi_num" />	
+		<resultMap type="Picture" id="DetailPi">
+			<result property="p_num" column="p_num"/>
+			<result property="pi_num" column="pi_num"/>
+			<result property="pictureName" column="pi_name"/>
+		</resultMap>
+	<resultMap type="Product" id="DetailPro">
+		<result property="p_num" column="p_num"/>
+		<result property="brand" column="p_brand"/>
+		<result property="kind" column="p_kind"/>
+		<result property="industry" column="p_industry"/>
+		<result property="year" column="p_year"/>
+		<collection property="picture" resultMap="DetailPi"/>
 	</resultMap>
-	<resultMap id="auc" type="Auction">
+	
+	
+	<resultMap type="Offer" id="DetailOffer">
+	
+		<result property="o_num" column="o_num"/>
 		<result property="a_num" column="a_num"/>
-		<result property="participant" column="a_participant"/>
-		<result property="price" column="a_price"/>
-		<result property="aTime" column="a_time"/>
+		<result property="o_username" column="o_username"/>
+		<result property="price" column="o_price"/>
+		<result property="time" column="o_time"/>
+	
 	</resultMap>
-	<resultMap id="pro" type="Product">
-		<id property= "p_num" column= "p_num" />
-		<result property= "p_num" column= "p_num" />
-		<result property= "username" column= "u_username" />
-		<result property= "kind" column= "p_kind" />
-		<result property= "industry" column= "p_industry" />
-		<result property= "brand" column= "p_brand" />
-		<result property= "year" column= "p_year" />
-		<result property= "startprice" column= "p_startprice" />
-		<result property= "title" column= "p_title" />
-		<result property= "content" column= "p_content" />
-		<result property= "sale" column= "p_sale" />
-		<result property= "p_date" column= "p_date" />
-		<result property= "address" column= "p_address" />
-		<result property= "enddate" column= "p_enddate" />
-		<collection property="picture" resultMap="pic"/>
-		<collection property="auction" resultMap="auc"/>
-		
- 	</resultMap>
+	
+		<resultMap type="Like" id="DetailLike">
+		<result property="a_num" column="a_num"/>
+		<result property="l_username" column="l_username"/>
+	
+	</resultMap>
 	
 	
-	<select id="AuctionDetail" parameterType= "int" resultMap="pro">
+	<resultMap id="DetailMap" type="Auction">
+		<id property="a_num" column="a_num"/>
+		<result property="a_num" column="a_num"/>
+		<result property="a_username" column="a_username"/>
+		<result property="startdate" column="a_startdate"/>
+		<result property="d_day" column="a_enddate"/>
+		<result property="startprice" column="a_startprice"/>
+		<result property="sale" column="a_sale"/>
+		<result property="hits" column="a_hits"/>
+		<result property="title" column="a_title"/>
+		<result property="content" column="a_content"/>
+		<association property="address" javaType="Address">
+			<result property="ad_num" column="ad_num"/>
+			<result property="a_num" column="a_num"/>
+			<result property="lat" column="ad_lat"/>
+			<result property="lon" column="ad_lon"/>
+			<result property="addr" column="ad_addr"/>
+			<result property="town" column="ad_town"/>
+		</association>
+		<collection property="like"  resultMap="DetailLike"/>
+		<collection property="offer" resultMap="DetailOffer"/>
+		<collection property="product" resultMap="DetailPro"/>
+	</resultMap>
 	
-		select 	 *
-		from     product a
-		left join auction b  on a.p_num = b.p_num
-		left join picture c  on a.p_num = c.p_num
-		where a.p_num = #{p_num}
-		order by b.a_price desc
+	
+	
+	<select id="AucDetail" parameterType="int" resultMap="DetailMap">
+		SELECT *
+		FROM auction a
+		LEFT JOIN offer b ON a.a_num = b.a_num
+		LEFT JOIN address c ON a.a_num = c.a_num
+		LEFT JOIN `like` d ON a.a_num = d.a_num 
+		LEFT JOIN auc_and_pro e ON a.a_num = e.a_num
+		LEFT JOIN product f ON e.p_num = f.p_num 
+		LEFT JOIN picture g ON f.p_num = g.p_num
+		WHERE a.a_num = #{a_num} 
 	</select>
 	
-	<delete id="AuctionDelete" parameterType= "int">
-		delete 
-		from auction
-		where a_num = #{a_num}
 	
+	<update id="AucEdit" parameterType="Auction">
+		UPDATE  auction a 
+			LEFT JOIN address b ON  a.a_num = b.a_num
+			LEFT JOIN auc_and_pro c ON a.a_num = c.a_num
+			LEFT JOIN product d ON  c.p_num = d.p_num
+		SET     a.a_content= #{content},
+				a.a_title = #{title},
+				a.a_enddate= #{enddate},
+				a.a_startprice=#{startprice},
+				b.ad_lat= #{address.lat},
+				b.ad_lon= #{address.lon},
+				b.ad_addr= #{address.addr},
+				b.ad_town= #{address.town},
+				d.p_brand= #{pro.brand},
+				d.p_kind = #{pro.kind},
+				d.p_industry= #{pro.industry},
+				d.p_year= #{pro.year}		
+		WHERE a.a_num = #{a_num}
+		
+	
+	</update>
+	<delete id="AucDelete" parameterType="int">
+		DELETE a.*, b.*, c.*, d.*, e.*, f.*, g.*
+		FROM auction a
+		LEFT JOIN offer b ON a.a_num = b.a_num
+		LEFT JOIN address c ON a.a_num = c.a_num
+		LEFT JOIN `like` d ON a.a_num = d.a_num 
+		LEFT JOIN auc_and_pro e ON a.a_num = e.a_num
+		LEFT JOIN product f ON e.p_num = f.p_num 
+		LEFT JOIN picture g ON f.p_num = g.p_num
+		WHERE a.a_num = #{a_num}
+
 	</delete>
 	
+	<select id="TopList" parameterType="address" resultMap="ListMap">
+		SELECT	*,
+						
+			  	(
+			      	6371 * acos (
+			      	cos ( radians(#{lat}) )
+			      	* cos( radians( ad_lat ) )
+			      	* cos( radians( ad_lon ) - radians(#{lon}) )
+			      	+ sin ( radians(#{lat}) )
+			      	* sin( radians( ad_lat ) )
+			    	)
+			   
+				) AS distance
+		FROM auction a
+		LEFT JOIN address b ON b.a_num = a.a_num
+		LEFT JOIN auc_and_pro c ON  c.a_num = a.a_num
+		LEFT JOIN product d ON d.p_num = c.p_num
+		LEFT JOIN picture e ON e.p_num = d.p_num
+		HAVING DISTANCE &lt; 300
+		ORDER BY distance ASC, a.a_hits DESC
+		LIMIT 10
 	
-	<update id="AuctionEnd" parameterType = "String">
-	
-		UPDATE 
-		
-		product a
-		LEFT JOIN auction b ON a.p_num = b.p_num
-		SET a.p_sale = 'pay'
-		WHERE a.p_enddate = #{today} AND b.a_num IS NOT NULL 
-	</update>
-	
-	
-	
-	
-	<update id= "createPayment" >
-	
-	
-		       INSERT INTO payment (p_num, a_num, price)
-			
-					SELECT  ta.p_num,
-								ta.a_num,
-								tb.price
-					
-					FROM auction ta
-					INNER JOIN 			
-								(SELECT MAX(b.a_price)price
-								FROM product a
-								INNER JOIN auction b ON a.p_num = b.p_num
-								WHERE a.p_sale = 'pay'
-								GROUP BY b.p_num) tb ON ta.a_price = tb.price
-	</update>
+	</select>
+	<select id="IndustryList" parameterType="String" resultMap="ListMap">
 	
 	
+			SELECT	*,
+						
+			  	(
+			      	6371 * acos (
+			      	cos ( radians(#{lat}) )
+			      	* cos( radians( ad_lat ) )
+			      	* cos( radians( ad_lon ) - radians(#{lon}) )
+			      	+ sin ( radians(#{lat}) )
+			      	* sin( radians( ad_lat ) )
+			    	)
+				) AS distance
+		FROM auction a
+		LEFT JOIN address b ON b.a_num = a.a_num
+		LEFT JOIN auc_and_pro c ON  c.a_num = a.a_num
+		LEFT JOIN product d ON d.p_num = c.p_num
+		LEFT JOIN picture e ON e.p_num = d.p_num
+		WHERE d.p_industry = #{industry}
+		ORDER BY distance ASC
+		LIMIT 10
+	</select>
+	
+	<select id="KindList" parameterType="String" resultMap="ListMap">
 	
 	
+			SELECT	*,
+						
+			  	(
+			      	6371 * acos (
+			      	cos ( radians(#{lat}) )
+			      	* cos( radians( ad_lat ) )
+			      	* cos( radians( ad_lon ) - radians(#{lon}) )
+			      	+ sin ( radians(#{lat}) )
+			      	* sin( radians( ad_lat ) )
+			    	)
+				) AS distance
+		FROM auction a
+		LEFT JOIN address b ON b.a_num = a.a_num
+		LEFT JOIN auc_and_pro c ON  c.a_num = a.a_num
+		LEFT JOIN product d ON d.p_num = c.p_num
+		LEFT JOIN picture e ON e.p_num = d.p_num
+		WHERE d.p_kind = #{kind}
+		ORDER BY distance ASC
+		LIMIT 10
+	</select>
 	
 
 </mapper>

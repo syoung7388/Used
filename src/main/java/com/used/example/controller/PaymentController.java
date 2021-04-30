@@ -1,5 +1,7 @@
 package com.used.example.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,16 +10,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.used.example.config.JwtUtils;
+import com.used.example.domain.Auction;
+import com.used.example.domain.Offer;
+import com.used.example.domain.Payment;
 import com.used.example.domain.Product;
+import com.used.example.service.AuctionService;
 import com.used.example.service.PaymentService;
 
 
@@ -35,39 +44,35 @@ public class PaymentController {
 	@Autowired
 	PaymentService paymentService;
 	
-	@GetMapping("/{p_num}")
-	public ResponseEntity<?> PaymentDetail(@PathVariable("p_num")int p_num , HttpServletRequest request){
+	@Autowired
+	AuctionService auctionService;
+	
+	
+	
+	
+	@PostMapping
+	public ResponseEntity<?> KakaoPay(@RequestBody Product product, Offer offer){
 		
-		token= request.getHeader("access_token");
-		if(StringUtils.hasText(token) && token.startsWith("Bearer") ) {
-			token = token.substring(7, token.length());
-		}
-		
-		String username =JwtUtils.getUserEmailFromToken(token);
-		
-		if(username == null) {
-			return new ResponseEntity<>("error",HttpStatus.OK);
-		}else {
-			
-			
-			Product product = paymentService.PaymentDetail(p_num);
-			
-			
-			logger.info("product:"+product);
-			
-			
-			
-			
-			
-			
-			
-			//logger.info("p_num:"+p_num+"/username:"+username);
-			return  new ResponseEntity<>(product, HttpStatus.OK);
-			
-		}
-		
-		
-		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 
 }

@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.used.example.config.JwtUtils;
+import com.used.example.domain.Auction;
 import com.used.example.domain.Like;
 import com.used.example.domain.Product;
+import com.used.example.service.AuctionService;
 import com.used.example.service.LikeService;
 import com.used.example.service.ProductService;
 
@@ -42,7 +44,7 @@ public class LikeController {
 	LikeService likeService;
 	
 	@Autowired
-	ProductService productService;
+	AuctionService auctionService;
 	
 	
 	@PostMapping
@@ -50,42 +52,24 @@ public class LikeController {
 
 		likeService.CreateLike(like);
 		
-		Product product = new Product();
+		int a_num= like.getA_num();
+		Auction auction= auctionService.AucDetail(a_num);
 		
-		product.setP_num(like.getP_num());
-		product.setUsername(like.getL_username());
-
 		
-		Product product_detail = productService.ProductDetail(product);
 		
-		//logger.info("product_detail:"+product_detail);
-		
-		return new ResponseEntity<>(product_detail, HttpStatus.OK);
+		return new ResponseEntity<>( auction, HttpStatus.OK);
 	}
-	@DeleteMapping("/{p_num}/{l_username}")
-	public ResponseEntity<?> DeleteLike(@PathVariable("p_num") int p_num , @PathVariable("l_username") String l_username){
+	@DeleteMapping("/{a_num}")
+	public ResponseEntity<?> DeleteLike(@PathVariable("a_num") int a_num ){
 		
-		Like like = new Like();
-		like.setL_username(l_username);
-		like.setP_num(p_num);
+		likeService.DeleteLike(a_num);
+		Auction auction= auctionService.AucDetail(a_num);
 		
-		likeService.DeleteLike(like);
 		
-		Product product = new Product();
-		
-		product.setP_num(p_num);
-		product.setUsername(l_username);
-
-		
-		Product product_detail = productService.ProductDetail(product);
-		
-		//logger.info("product_detail:"+product_detail);
-		
-		return new ResponseEntity<>(product_detail, HttpStatus.OK);
+		return new ResponseEntity<>( auction, HttpStatus.OK);
 	}
-	
-	
-	@GetMapping
+
+	@GetMapping("/")
 	public ResponseEntity<?> LikeList(HttpServletRequest request){
 		
 		token = request.getHeader("access_token");
@@ -95,13 +79,13 @@ public class LikeController {
 		String l_username = JwtUtils.getUserEmailFromToken(token);
 		
 		logger.info("l_username"+l_username);
-		List<Product> list =  likeService.LikeList(l_username);
 		
-		logger.info("likelist"+list);
+		List<Auction> likelist =  likeService.LikeList(l_username);
+		logger.info("likelist"+likelist);
 		
 		
 		
-		return new ResponseEntity<>(list, HttpStatus.OK);
+		return new ResponseEntity<>(likelist, HttpStatus.OK);
 	
 		
 		

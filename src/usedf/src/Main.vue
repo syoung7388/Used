@@ -20,12 +20,12 @@
             <i class="far fa-edit mb-2" style="font-size: x-large;"></i>
             </v-btn>
 
-            <v-btn router :to="{name:'SaleList'}" @click="getSaleList">
+            <v-btn router :to="{name:'SaleList'}" >
             <span style="opacity:0.5 font-weight:500; font-size: 15px">판매 리스트</span>
             <i class="fas fa-file-invoice-dollar mb-2" style="font-size: x-large;" ></i>
             </v-btn>
 
-            <v-btn router :to="{name:'AuctionList'}">
+            <v-btn router :to="{name:'BidList'}">
                 <span style="opacity:0.5 font-weight:500; font-size: 15px">내경매</span>
                 <i class="fas fa-hand-holding-usd mb-2" style="font-size: x-large;"></i>
             </v-btn>
@@ -45,10 +45,6 @@ import { mapActions, mapState } from 'vuex'
     },
     computed: {
         ...mapState(['removeBar'])
-    },
-    methods: {
-
-        ...mapActions(['getSaleList'])
     }
   }
 </script>

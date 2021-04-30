@@ -1,13 +1,20 @@
 package com.used.example.domain;
 
 public class Like {
-	private int p_num;
+	private int l_num;
+	private int a_num;
 	private String l_username;
-	public int getP_num() {
-		return p_num;
+	public int getL_num() {
+		return l_num;
 	}
-	public void setP_num(int p_num) {
-		this.p_num = p_num;
+	public void setL_num(int l_num) {
+		this.l_num = l_num;
+	}
+	public int getA_num() {
+		return a_num;
+	}
+	public void setA_num(int a_num) {
+		this.a_num = a_num;
 	}
 	public String getL_username() {
 		return l_username;
@@ -17,8 +24,17 @@ public class Like {
 	}
 	@Override
 	public String toString() {
-		return "Like [p_num=" + p_num + ", l_username=" + l_username + "]";
+		return "Like [l_num=" + l_num + ", a_num=" + a_num + ", l_username=" + l_username + "]";
 	}
+	
+	
+
+
+	
+	
+	
+	
+	
 	
 	
 

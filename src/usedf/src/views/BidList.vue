@@ -7,12 +7,12 @@
                 <v-list-item-group
                 active-class="primary--text"
                 >
-                    <template v-for="(item, index) in bidingList">
-                        <v-list-item :key="item.picture.pi_num"   @click="getAucDetail({p_num: item.p_num})">
+                    <template v-for="(item, index) in bidList_ing">
+                        <v-list-item :key="item.a_num"   @click="getBidDetail({a_num: item.a_num})">
                             <v-row>
                                 <v-col cols="4">
                                     <v-img
-                                    :src="require('@/assets/'+item.picture[0].pictureName)"
+                                    :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
                                     height="90"
                                     width="80"
                                     ></v-img>
@@ -26,15 +26,16 @@
                                 </v-col>
                                 <v-col cols="4" class="pl-0">
                                     <v-list-item-content>
-                                        <v-list-item-subtitle >D{{item.d_day}}</v-list-item-subtitle>
-                                        <v-list-item-title class="pt-2">{{item.topprice}}원</v-list-item-title>
-                                        <v-list-item-title class="pt-2">{{item.auction[0].price}}원</v-list-item-title>
+                                        <v-list-item-subtitle v-if="item.d_day > 0">D{{item.d_day}}</v-list-item-subtitle>
+                                        <v-list-item-subtitle v-else>입찰 선정중</v-list-item-subtitle>
+                                        <v-list-item-title class="pt-2">{{item.offer[0].topprice}}원</v-list-item-title>
+                                        <v-list-item-title class="pt-2">{{item.offer[0].price}}원</v-list-item-title>
                                     </v-list-item-content>
                                 </v-col>
                             </v-row>
                         </v-list-item>
                         <v-divider  
-                        v-if="index < bidingList.length"
+                        v-if="index < bidList_ing.length"
                         :key="index"
                         class="my-2"
                         ></v-divider>
@@ -45,11 +46,11 @@
                 active-class="primary--text"
                 >
                     <template v-for="(item, index) in payList">
-                        <v-list-item :key="item.picture.pi_num"   @click="getPayDetail({p_num: item.p_num})">
+                        <v-list-item :key="item.a_num"   @click="getPayDetail({a_num: item.a_num})">
                             <v-row>
                                 <v-col cols="4">
                                     <v-img
-                                    :src="require('@/assets/'+item.picture[0].pictureName)"
+                                    :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
                                     height="90"
                                     width="80"
                                     ></v-img>
@@ -57,7 +58,7 @@
                                 <v-col cols="6"  >
                                     <v-list-item-content>
                                         <v-list-item-subtitle >D-day</v-list-item-subtitle>
-                                        <v-list-item-title class="pt-2">{{item.auction[0].price}}원</v-list-item-title>
+                                        <v-list-item-title class="pt-2">{{item.offer[0].price}}원</v-list-item-title>
                                     </v-list-item-content>
                      
                                 </v-col>
@@ -77,14 +78,14 @@
                 <v-list-item-group
                 active-class="primary--text"
                 >
-                    <template v-for="(item, i) in bidList">
-                        <v-list-item :key="item.picture.pi_num"  @click="getAucDetail({p_num: item.p_num})">
+                    <template v-for="(item, i) in bidList_end">
+                        <v-list-item :key="item.a_num"  @click="getBidDetail({a_num: item.a_num})">
                             <v-row>
                                 <v-col cols="4">
                                     <v-img
-                                    :src="require('@/assets/'+item.picture[0].pictureName)"
-                                    height="90"
-                                    width="80"
+                                    :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
+                                    max-width="50"
+                                     max-height="70"
                                     ></v-img>
                                 </v-col>
                                 <v-col cols="3" class="pr-0" >
@@ -97,14 +98,14 @@
                                 <v-col cols="4" class="pl-0">
                                     <v-list-item-content>
                                         <v-list-item-subtitle v-html="item.p_date"></v-list-item-subtitle>
-                                        <v-list-item-title class="pt-2">{{item.topprice}}원</v-list-item-title>
-                                        <v-list-item-title class="pt-2">{{item.auction[0].price}}원</v-list-item-title>
+                                        <v-list-item-title class="pt-2">{{item.offer[0].topprice}}원</v-list-item-title>
+                                        <v-list-item-title class="pt-2">{{item.offer[0].price}}원</v-list-item-title>
                                     </v-list-item-content>
                                 </v-col>
                             </v-row>
                         </v-list-item>
                         <v-divider  
-                        v-if="i < bidList.length"
+                        v-if="i < bidList_end.length"
                         :key="i"
                         ></v-divider>
                     </template>
@@ -120,17 +121,15 @@
 import {mapState, mapActions} from 'vuex'
 export default {
     beforeCreate(){
-        this.$store.dispatch('getAuctionList')
-    
-    
+        this.$store.dispatch('getBidList')
 
 
     },
     computed: {
-        ...mapState( {bidingList: 'bidingList', bidList:'bidList', userInfo: 'userInfo', payList: 'payList'})
+        ...mapState( {bidList_ing: 'bidList_ing', bidList_end:'bidList_end', userInfo: 'userInfo', payList: 'payList'})
     },
     methods: {
-        ...mapActions(['getAucDetail', 'getPayDetail']),
+        ...mapActions(['getBidDetail', 'getPayDetail']),
         
     },
 

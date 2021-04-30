@@ -5,7 +5,7 @@
             height="260"
             >
                 <v-carousel-item
-                v-for="(item, i) in productInfo.picture"
+                v-for="(item, i) in beforeImage"
                 :key="i"
                 :src="require('@/assets/'+item.pictureName)"
                 reverse-transition="fade-transition"
@@ -37,13 +37,13 @@
                 </v-carousel-item>
             </v-carousel>
             <v-row class="ma-0">
-                <v-col cols="12" class="ma-0"  v-if="productInfo.sale=== 'false'" >   
+                <v-col cols="12" class="ma-0"  v-if="aucInfo.sale=== 'false'" >   
                     <v-list-item-title style="font-size: 15px; text-align: right;" class="primary--text">거래중</v-list-item-title>
-                    <v-list-item-subtitle v-html="productInfo.enddate" style="font-size: 12px; text-align: right;"></v-list-item-subtitle>
+                    <v-list-item-subtitle v-html="aucInfo.enddate" style="font-size: 12px; text-align: right;"></v-list-item-subtitle>
                 </v-col>
                 <v-col cols="3" v-else>   
                         <h1 style="font-size: 15px; text-align: right;" class="primary--text"> 거래완료</h1>
-                        <v-list-item-subtitle v-html="productInfo.enddate" style="font-size: 12px; text-align: right;"></v-list-item-subtitle>
+                        <v-list-item-subtitle v-html="aucInfo.enddate" style="font-size: 12px; text-align: right;"></v-list-item-subtitle>
                 </v-col>
             </v-row>
             <v-row class="ma-0" justify="center" > 
@@ -53,12 +53,12 @@
                         <v-expansion-panel-content>
                             <v-row>
                                 <v-col>
-                                    <h1 style="font-size: 20px">{{productInfo.title}}</h1>
+                                    <h1 style="font-size: 20px">{{aucInfo.title}}</h1>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col>
-                                    {{productInfo.content}}
+                                    {{aucInfo.content}}
                                 </v-col>
                             </v-row>
                         </v-expansion-panel-content>
@@ -80,7 +80,7 @@
 
                     <v-tab-item>
                         <v-card flat class="pa-3"> 
-                            <v-row v-for="(item, int) in productInfo.auction" :key="int" align="center" class="pt-3">
+                            <v-row v-for="(item, int) in offerInfo" :key="int" align="center" class="pt-3">
                                 <v-col cols="2" >
                                     <h1 style="font-size: 17px; text-align:center" >{{int+1}}등</h1>
                                 </v-col>
@@ -88,22 +88,22 @@
                                     <h1 style="font-size: 17px; text-align:center" >{{item.price}}원</h1>
                                 </v-col>
                                 <v-col cols="5" >
-                                    <h1 style="font-size: 17px; text-align:center">{{item.participant}}님</h1>
+                                    <h1 style="font-size: 17px; text-align:center">{{item.o_username}}님</h1>
                                 </v-col>
                             </v-row>
                         </v-card>
                     </v-tab-item>
                     <v-tab-item>
                         <v-card flat class="pa-3"> 
-                            <v-row v-for="(item, int) in productInfo.auction" :key="int" align="center" justify="center" >
-                                <v-col cols="5" v-show="item.participant === userInfo.username">
+                            <v-row v-for="(item, int) in offerInfo" :key="int" align="center" justify="center" >
+                                <v-col cols="5" v-show="item.o_username === userInfo.username">
                                     <h1 style="font-size: 17px; text-align:center" >{{item.price}}원</h1>
                                 </v-col>
-                                <v-col cols="4" v-show="item.participant === userInfo.username">
-                                    <h1 style="font-size: 14px; text-align:center">{{item.aTime}}</h1>
+                                <v-col cols="4" v-show="item.o_username === userInfo.username">
+                                    <h1 style="font-size: 14px; text-align:center">{{item.time}}</h1>
                                 </v-col>
-                                <v-col cols="3" v-show="item.participant === userInfo.username">
-                                    <v-btn text color="primary" @click="offerCancle({a_num: item.a_num, p_num: productInfo.p_num})">철회</v-btn>
+                                <v-col cols="3" v-show="item.o_username === userInfo.username && aucInfo.sale === 'false'">
+                                    <v-btn text color="primary" @click="OfferCancle({o_num: item.o_num, a_num: item.a_num})">철회</v-btn>
                                 </v-col>
                             </v-row>
                         </v-card>
@@ -115,19 +115,19 @@
                                     <tbody>
                                         <tr class="text-center">
                                             <td>종류</td>
-                                            <td>{{productInfo.kind}}</td>
+                                            <td>{{proInfo.kind}}</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td>업종</td>
-                                            <td>{{productInfo.industry}}</td>
+                                            <td>{{proInfo.industry}}</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td>브랜드</td>
-                                            <td>{{productInfo.brand}}</td>
+                                            <td>{{proInfo.brand}}</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td>연식</td>
-                                            <td>{{productInfo.year}}</td>
+                                            <td>{{proInfo.year}}</td>
                                         </tr>
                                     </tbody>
                                 </template>
@@ -142,7 +142,7 @@
                 >
                     <v-row class="ma-1 ">
                         <v-col cols="7" class="ma-0" >
-                            <v-text-field outlined dense v-model="price"></v-text-field>
+                            <v-text-field outlined dense v-model="price" ></v-text-field>
                         </v-col>
                         <v-col cols="1" class="pa-0 mt-4">
                             <h1 style="font-size: 20px">원</h1>
@@ -157,7 +157,7 @@
                                     <v-card-title class="black--text justify-center" style="font-size: 17px; text-align: center"> {{price}}원이 맞나요?</v-card-title>
                                     <v-card-actions>
                                         <v-btn text color="primary" x-small >
-                                            <span class="primary--text ma-1" @click="PriceOffer({p_num: productInfo.p_num, price: price})">확인</span>
+                                            <span class="primary--text ma-1" @click="PriceOffer_bid({a_num: aucInfo.a_num, price: price})">확인</span>
                                         </v-btn>
                                         <v-btn text color="primary" >
                                             <span class="primary--text ma-1" @click="Overlay">취소</span>
@@ -184,13 +184,15 @@ export default {
     data(){
         return{
             price: 0
+           
 
             
 
         }
     },
     computed: {
-        ...mapState([ 'productInfo', 'userInfo', 'overlay'])
+        
+        ...mapState([ 'overlay', 'userInfo', 'heart','aucInfo','likeInfo','proInfo', 'offerInfo','addrInfo','beforeImage'])
     },
     methods: {
 
@@ -198,20 +200,12 @@ export default {
             this.$store.state.overlay = !this.$store.state.overlay
 
         },
-        ...mapActions(['offerCancle']),
-        PriceOffer(payload){
-            this.$store.state.aucType= "cancle"
-            this.$store.dispatch('priceOffer', {
-                p_num: payload.p_num,
-                price: payload.price,
-                Type: "aucdetail"
-            })
-            this.price = 0
+        ...mapActions(['OfferCancle', 'PriceOffer_bid', 'OfferCancle']),
 
-        },
+
         Back(){
             this.$store.state.removeBar = false
-            this.$router.push({name: 'AuctionList'})
+            this.$router.push({name: 'BidList'})
         }
     },
  

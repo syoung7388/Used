@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace= "com.used.example.mapper.OfferMapper">
+
+	<resultMap type="Picture" id="ListPi">
+		<result property="p_num" column="p_num"/>
+		<result property="pi_num" column="pi_num"/>
+		<result property="pictureName" column="pi_name"/>
+	</resultMap>
+	<resultMap type="Product" id="ListPro">
+		<result property="p_num" column="p_num"/>
+		<result property="brand" column="p_brand"/>
+		<result property="kind" column="p_kind"/>
+		<result property="industry" column="p_industry"/>
+		<result property="year" column="p_year"/>
+		<collection property="picture" resultMap="ListPi"/>
+	</resultMap>
+	<resultMap type="Offer" id="ListOffer">
+		<result property="o_num" column="o_num"/>
+		<result property="a_num" column="a_num"/>
+		<result property="o_username" column="o_username"/>
+		<result property="price" column="o_price"/>
+		<result property="time" column="o_time"/>
+		<result property="topprice" column="topprice"/>
+	</resultMap>
+	<resultMap type="Like" id="ListLike">
+		
+		<result property="a_num" column="a_num"/>
+		<result property="l_username" column="l_username"/>
+	
+	</resultMap>
+	<resultMap id="ListMap" type="Auction">
+		<id property="a_num" column="a_num"/>
+		<result property="a_num" column="a_num"/>
+		<result property="a_username" column="a_username"/>
+		<result property="startdate" column="a_startdate"/>
+		<result property="d_day" column="a_enddate"/>
+		<result property="startprice" column="a_startprice"/>
+		<result property="sale" column="a_sale"/>
+		<result property="hits" column="a_hits"/>
+		<result property="title" column="a_title"/>
+		<result property="content" column="a_content"/>
+		<association property="address" javaType="Address">
+			<result property="ad_num" column="ad_num"/>
+			<result property="a_num" column="a_num"/>
+			<result property="lat" column="ad_lat"/>
+			<result property="lon" column="ad_lon"/>
+			<result property="addr" column="ad_addr"/>
+			<result property="town" column="ad_town"/>
+		</association>
+		<collection property="like"  resultMap="ListLike"/>
+		<collection property="offer" resultMap="ListOffer"/>
+		<collection property="product" resultMap="ListPro"/>
+	</resultMap>
+	
+	
+	
+	
+	
+	
+		<resultMap type="Picture" id="DetailPi">
+			<result property="p_num" column="p_num"/>
+			<result property="pi_num" column="pi_num"/>
+			<result property="pictureName" column="pi_name"/>
+		</resultMap>
+	<resultMap type="Product" id="DetailPro">
+		<result property="p_num" column="p_num"/>
+		<result property="brand" column="p_brand"/>
+		<result property="kind" column="p_kind"/>
+		<result property="industry" column="p_industry"/>
+		<result property="year" column="p_year"/>
+		<collection property="picture" resultMap="DetailPi"/>
+	</resultMap>
+	<resultMap type="Offer" id="DetailOffer">
+		<result property="o_num" column="o_num"/>
+		<result property="a_num" column="a_num"/>
+		<result property="o_username" column="o_username"/>
+		<result property="price" column="o_price"/>
+		<result property="time" column="o_time"/>
+	</resultMap>
+		<resultMap type="Like" id="DetailLike">
+			<result property="a_num" column="a_num"/>
+			<result property="l_username" column="l_username"/>	
+	</resultMap>
+	<resultMap id="DetailMap" type="Auction">
+		<id property="a_num" column="a_num"/>
+		<result property="a_num" column="a_num"/>
+		<result property="a_username" column="a_username"/>
+		<result property="startdate" column="a_startdate"/>
+		<result property="d_day" column="a_enddate"/>
+		<result property="startprice" column="a_startprice"/>
+		<result property="sale" column="a_sale"/>
+		<result property="hits" column="a_hits"/>
+		<result property="title" column="a_title"/>
+		<result property="content" column="a_content"/>
+		<association property="address" javaType="Address">
+			<result property="ad_num" column="ad_num"/>
+			<result property="a_num" column="a_num"/>
+			<result property="lat" column="ad_lat"/>
+			<result property="lon" column="ad_lon"/>
+			<result property="addr" column="ad_addr"/>
+			<result property="town" column="ad_town"/>
+		</association>
+		<collection property="like"  resultMap="DetailLike"/>
+		<collection property="offer" resultMap="DetailOffer"/>
+		<collection property="product" resultMap="DetailPro"/>
+	</resultMap>
+
+
+	<insert id="CreateOffer" parameterType="Offer">
+		insert into offer(a_num, o_username, o_price)
+		values(#{a_num}, #{o_username}, #{price}) on duplicate key update o_price= #{price}
+
+			
+	</insert>
+	<select id="BidList" parameterType="Bid_request" resultMap="ListMap" >
+	
+	
+
+			SELECT	*, 
+					(SELECT MAX(h.o_price)
+					 FROM offer h
+					 WHERE a.a_num = h.a_num)topprice
+			 
+			FROM offer a
+			LEFT JOIN auction b ON a.a_num = b.a_num
+			LEFT JOIN address c ON a.a_num = c.a_num
+			LEFT JOIN `like` d ON a.a_num = d.a_num 
+			LEFT JOIN auc_and_pro e ON a.a_num = e.a_num
+			LEFT JOIN product f ON e.p_num = f.p_num 
+			LEFT JOIN picture g ON f.p_num = g.p_num
+			WHERE a.o_username = #{o_username} AND b.a_sale = #{sale}
+			GROUP BY b.a_num
+	</select>
+	
+	<delete id="DeleteOffer" parameterType="int">
+		delete	
+		from	offer 
+		where 	o_num = #{o_num}
+	
+	</delete>
+	
+	<update id="SelectOffer" parameterType="String">
+		UPDATE 
+		offer a
+		INNER JOIN (
+						SELECT MAX(b.o_price)price,
+								 b.a_num
+						FROM	offer b
+						LEFT JOIN auction c ON	b.a_num = c.a_num
+						WHERE c.a_enddate = #{today}
+						GROUP BY b.a_num 
+					)ta ON	a.a_num= ta.a_num  AND	a.o_price = ta.price	
+		LEFT JOIN auction c on  ta.a_num  = c.a_num
+		SET	a.o_select = 1,
+			c.a_sale = 1
+			
+	
+	
+	
+	
+	
+	
+	
+	
+	</update>
+</mapper>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.used.example.domain.Auction;
 import com.used.example.domain.Like;
 import com.used.example.domain.Product;
 import com.used.example.mapper.LikeMapper;
@@ -26,14 +27,14 @@ public class LikeServiceImpl implements LikeService {
 
 
 	@Override
-	public void DeleteLike(Like like) {
-		likeMapper.DeleteLike(like);
+	public void DeleteLike(int a_num) {
+		likeMapper.DeleteLike(a_num);
 		
 	}
 
 
 	@Override
-	public List<Product> LikeList(String l_username) {
+	public List<Auction> LikeList(String l_username) {
 		return likeMapper.LikeList(l_username);
 	}
 

@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container class="pa-3" v-show="address_show === false">
+        <v-container class="pa-3" v-show="address_show === false" >
             <div v-show ="Edit_error === true">
                 <h1 class="red--text" style="font-size: 15px;">
                     입력하신걸 확인해 주세요!
@@ -13,7 +13,8 @@
                 class="d-flex"
                 >
                     <v-select
-                        v-model="productInfo.industry"
+                        :placeholder= proInfo.industry
+                        v-model="industry"
                         :items="industries"
                         single-line
                         dense
@@ -26,7 +27,8 @@
             
                 >
                     <v-select
-                        v-model="productInfo.kind"
+                        :placeholder= proInfo.kind
+                        v-model="kind"
                         :items="kinds"
                         single-line
                         dense
@@ -46,7 +48,8 @@
                  class="py-0"
                 >
                     <v-text-field
-                    v-model="productInfo.title"
+                    :placeholder= aucInfo.title
+                    v-model="title"
                     outlined
                     rows="1"
                     dense
@@ -65,7 +68,8 @@
                 class="py-0" 
                 >           
                     <v-textarea
-                    v-model="productInfo.content"
+                    :placeholder= aucInfo.content
+                    v-model="content"
                     outlined
                     rows="2"
                     >
@@ -85,7 +89,8 @@
                 class="py-0" 
                 >
                     <v-text-field
-                    v-model="productInfo.brand"
+                    :placeholder= proInfo.brand
+                    v-model="brand"
                     outlined
                     rows="1"
                     dense
@@ -109,8 +114,8 @@
                     single-line
                     dense
                     class="mt-0"
-                    v-model="productInfo.year"
-                    :placeholder= productInfo.year
+                    v-model="year"
+                    :placeholder="proInfo.year"
 
                     ></v-select>
                 </v-col>          
@@ -127,7 +132,7 @@
                 class="py-0"
                 >
                     <v-text-field
-                    v-model="productInfo.startprice"
+                    v-model="aucInfo.startprice"
                     outlined
                     rows="1"
                     dense
@@ -147,108 +152,36 @@
                 class="py-0"
                 >
                     <v-text-field
-                    v-model="productInfo.address"
+                    :placeholder= addrInfo.addr
+                    v-model="addr"
                     outlined
                     rows="1"
                     dense
                     height="2"
-                    @click="PAddress"
+                    @click="getAddress"
                     ></v-text-field>
                 </v-col>
             </v-row>
-             <v-row><!-- 달력 -->
+            <v-row>
                 <v-col
-                cols="6"
-                sm="6"
-                md="4"
+                cols="3"
+                class="py-0" 
                 >
-                <v-menu
-                    ref="menu"
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    :return-value.sync="date"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                >
-                    <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                        v-model="date"
-                        label="마감 일자"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                    ></v-text-field>
-                    </template>
-                    <v-date-picker
-                    v-model="date"
-                    no-title
-                    scrollable
-                    >
-                    <v-spacer></v-spacer>
-                    <v-btn
-                        text
-                        color="primary"
-                        @click="menu = false"
-                    >
-                        Cancel
-                    </v-btn>
-                    <v-btn
-                        text
-                        color="primary"
-                        @click="$refs.menu.save(date)"
-                    >
-                        OK
-                    </v-btn>
-                    </v-date-picker>
-                </v-menu>
+                    <h1 style="font-size: 15px">마감기한</h1>               
                 </v-col>
-                <v-col
-                cols="6"
-                sm="5"
-                >
-                <v-dialog
-                    ref="dialog"
-                    v-model="modal2"
-                    :return-value.sync="time"
-                    persistent
-                    width="290px"
-                >
-                    <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                        v-model="time"
-                        label="마감시간"
-                        prepend-icon="mdi-clock-time-four-outline"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                    ></v-text-field>
-                    </template>
-                    <v-time-picker
-                    v-if="modal2"
-                    v-model="time"
-                    full-width
-                    >
-                    <v-spacer></v-spacer>
-                    <v-btn
-                        text
-                        color="primary"
-                        @click="modal2 = false"
-                    >
-                        Cancel
-                    </v-btn>
-                    <v-btn
-                        text
-                        color="primary"
-                        @click="$refs.dialog.save(time)"
-                    >
-                        OK
-                    </v-btn>
-                    </v-time-picker>
-                </v-dialog>
-                </v-col>
-            </v-row>
+                
+                <v-col cols="7"  class="py-0">
+                    <v-select
+                    :items="item"
+                    label="최대 10일"
+                    v-model="day"
+                    dense
+                    class="mt-0"
+                    ></v-select>
+                
+                </v-col> 
+
+            </v-row >
             <h1 class="primary--text my-3" style="font-size: 15px;" >사진 등록은 필수입니다!</h1>
             <v-row align="center" class="pt-3">
                 <v-col
@@ -320,25 +253,27 @@
             <v-btn  
             class="primary mt-8"
             block
-            @click="DetailEditOK({
-                industry: productInfo.industry,
-                kind: productInfo.kind,
-                title: productInfo.title,
-                content: productInfo.content,
-                brand: productInfo.brand,
-                year: productInfo.year,
-                startprice: productInfo.startprice,
-                address: productInfo.address,
-                picture: files,
-                p_num: productInfo.p_num,
-                pi_numList: pi_numList,
-                date: date,
-                time: time
+            @click="DetailEdit({
+                a_num: aucInfo.a_num,
+                p_num: proInfo.p_num,
+                title,
+                content,
+                industry,
+                kind ,
+                brand,
+                year,
+                startprice: aucInfo.startprice,
+                files,
+                addr,
+                day,
+                town,
+                pi_numList
+
             })"
             >확인</v-btn>
         </v-container>
         <v-container v-show="address_show === true"> 
-            <EditAddress @Address="ResultAddress"></EditAddress>
+            <EditAddress @Addr="ResultAddress"></EditAddress>
         </v-container>
     </v-app>
     
@@ -351,20 +286,19 @@ export default{
     data() {
         
         return {
-
+            town: null,
+            addr: null,
             industry:null,
             kind: null,
             title: null,
             content: null,
             brand: null,
             year: null,
-            startprice: null,
+            startprice: 0,
             username: null,
-            
             showImage:[],// 일단 보여주기식 이미지
             files: [], //신규파일전체
     
-            writingInfo:{},
 
             pi_numList: [],
 
@@ -373,12 +307,8 @@ export default{
             select: null,
             industries: ['한식', '찜/탕','면요리','고기/구이','족발/ 보쌈','치킨','분식','중식','동남아식','회/초밥','일식/돈까스','피자/샐러드','호프/술집','카페/베이커리','배달전문점'],
             kinds: ['작업대','커피머신','그릴기','냉동 절육기','제빙기','오븐기','튀김기','기름 정제기','씽크대','소독기','가스렌지','냉장고/쇼케이스','보온통','에어컨','회전국솥','절단기','벽선단','기타'],
-
-            
-            date: null,
-            menu: false,
-            modal2: false,
-            time : null
+            item: [1,2, 3, 4, 5, 6, 7, 8, 9, 10],
+            day: null,
 
 
         }
@@ -388,19 +318,6 @@ export default{
 
     },
     mounted() {
-        var enddate= this.$store.state.productInfo.enddate
-        
-        if(enddate !== null){
-            var a= enddate.split(' ')
-            this.date = a[0]
-            this.time = a[1]
-            console.log(this.date)
-        }
-
-
-        this.year = this.$store.state.productInfo.year
-        
-
 
 
 
@@ -433,7 +350,7 @@ export default{
            
             this.beforeImage.splice(payload.idx, 1)
             this.pi_numList.push(payload.pi_num)
-            console.log(this.pi_numList)
+           // console.log(this.pi_numList)
             //console.log(this.beforeImage)
         },
         Nowdelete(i){
@@ -442,21 +359,27 @@ export default{
             //console.log( this.showImage)
             //console.log(this.files)
         },
-        PAddress(){
+        getAddress(){
             this.$store.state.address_show= true
         },
-        ResultAddress(address){
+        ResultAddress(payload){
 
+           
+            // this.$store.state.addrInfo.addr = payload.fulladdress
+            // this.$store.state.addrInfo.town= payload.town 
+            
             this.$store.state.address_show= false
-            this.$store.state.productInfo.address = address
+            this.addr = payload.fulladdress
+            this.town = payload.town
+            
 
         },
-        ...mapActions(['DetailEditOK'])
+        ...mapActions(['DetailEdit'])
         
        
     },
     computed: {
-        ...mapState({productInfo:'productInfo', beforeImage: 'beforeImage', address_show: 'address_show', Edit_error:'Edit_error'})
+        ...mapState({aucInfo:'aucInfo',likeInfo:'likeInfo', proInfo:'proInfo', offerInfo:'offerInfo', addrInfo: 'addrInfo' ,aucInfo:'aucInfo', beforeImage: 'beforeImage', address_show: 'address_show', Edit_error:'Edit_error'})
     },
     created(){
     }

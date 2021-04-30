@@ -37,12 +37,18 @@ export default new Vuex.Store({
     soldList:[],
     pictureList:[],
 
-    productInfo:[],
+
+    
+    likeInfo: [],
+    proInfo: [],
+    offerInfo: [],
+    addrInfo: [],
+    aucInfo:[],
     beforeImage:[],
 
 
 
-    writingInfo:[],
+
     
 
 
@@ -73,12 +79,11 @@ export default new Vuex.Store({
 
     kindList: [],
     backType: null,
-    editType: null,
     beforeType: null,
 
 
-    bidingList:[],
-    bidList:[],
+    bidList_ing:[],
+    bidList_end:[],
     payList:[], 
       
     aucType: null,
@@ -157,62 +162,112 @@ export default new Vuex.Store({
       router.push({name: 'App'})
 
     },
-    WritingFaile(state){
+    Writing_f(state){
       state.WritingError= true
     },
-    WritingSuccess(){
+    Writing_s(){
+
+
       router.push({name: 'Home'})
     },
-    getSaleListSuccess(state, payload){
-      state.saleList= payload.saleList
-      state.soldList= payload.soldList
-      // console.log(state.soldList)
-    },
-    Saledetail_s(state, payload){
-      state.list_show= !state.list_show
-      state.productInfo= payload
-      state.removeBar= true
-      state.beforeImage= payload.picture
+    SaleList_s(state, payload){
+    
+      state.saleList= payload.salelist
+      state.soldList= payload.soldlist
+      //console.log(state.saleList)
+      state.list_show = true
       
     },
-    SaleEdit_s(state){
-      state.edit_show = false
+    SaleList_f(state){
+
+
+    },
+    SaleDetail_s(state, payload){
+      //console.log(payload)
       state.list_show= !state.list_show
+      state.aucInfo= payload
+      state.likeInfo = payload.like
+
+      for(var i in payload.product){
+        state.proInfo = payload.product[i]
+      }
+     // console.log(state.proInfo)
+
+      
+      state.offerInfo= payload.offer
+      state.addrInfo = payload.address
+      state.removeBar= true
+      state.beforeImage= payload.product[0].picture
+      // router.push({name: 'SaleDetail'})
+      
+    },
+    SaleDetail_f(state){
+    
+    },
+    SaleEdit_s(state, payload){
+      //console.log(payload)      
+      state.edit_show = false
+      state.aucInfo= payload
+      state.likeInfo = payload.like
+
+      for(var i in payload.product){
+        state.proInfo = payload.product[i]
+      }
+      state.offerInfo= payload.offer
+      state.addrInfo = payload.address
+      state.removeBar= true
+      state.beforeImage= payload.product[0].picture
+
 
     },
 
     SaleEdit_f(state){
 
     },
-    LatLon_s(state, payload){
+    TopList_s(state, payload){
       state.topList = payload
       state.removeBar = false
       router.push({name: 'Home'})
     },
+    TopList_f(state){
+
+    },
     IndustryList_s(state, payload){
+      console.log(payload)
       state.industryList = payload
       state.I_list_show = true
       router.push({name: 'IndustryList'})
     },
-    Detail_s(state, payload){
-      state.removeBar = true
-      state.productInfo= payload
-      state.beforeImage= payload.picture
+    IndustryList_f(state, payload){
 
-
-
-      if(payload.like === null){ state.heart = false }else{ state.heart = true}
-
-      if(state.beforeType === "offer"){
-        
-        state.overlay = false
-        
-      }else{
-        console.log("DD")
-        router.push({name:'Detail'})
-      
-      }
     },
+    Detail_s(state, payload){
+     
+      //console.log(payload)
+      state.overlay = false
+      state.removeBar = true
+      state.aucInfo = payload
+      state.likeInfo = payload.like
+
+      for(var i in payload.product){
+        state.proInfo = payload.product[i]
+      }
+
+
+      
+      state.offerInfo= payload.offer
+      state.addrInfo = payload.address
+      state.beforeImage= payload.product[0].picture
+
+
+      for(var i in payload.like){
+        (state.userInfo.username === state.likeInfo[i].l_username)? state.heart = true : state.heart = false
+      }
+      
+      console.log(state.heart)
+      
+    },
+   
     DetailEdit_s(state, payload){
 
      setTimeout(()=>{
@@ -231,14 +286,29 @@ export default new Vuex.Store({
     KIDelete_f(){
 
     },
-    priceOffer_s(state, payload){
-      state.price =0
+    Offer_s(state, payload){
+      console.log(payload)
       state.overlay = false
-      state.productInfo = payload
-      state.beforeImage= payload.picture
+      state.removeBar = true
+      state.aucInfo = payload
+      state.likeInfo = payload.like
+
+      for(var i in payload.product){
+        state.proInfo = payload.product[i]
+      }
+     // console.log(state.proInfo)
+
       
+      state.offerInfo= payload.offer
+      state.addrInfo = payload.address
+      state.beforeImage= payload.product[0].picture
+      for(var i in payload.like){
+        (state.userInfo.username === state.likeInfo[i].l_username)? state.heart = true : state.heart = false
+      }
     },
-    priceOffer_f(state){
+    Offer_bid_f(state){
+    },
+    Offer_cancle_f(state){
     },
     KindList_s(state, payload){
       console.log(payload)
@@ -249,22 +319,41 @@ export default new Vuex.Store({
     KindList_f(state){
 
     },
-    AuctionList_s(state, payload){
-
-      state.bidingList = payload.bidinglist
-      //console.log( state.bidingList)
-      state.bidList = payload.bidlist
+    BidList_s(state, payload){
+      state.bidList_ing = payload.bidlist_ing
+      state.bidList_end = payload.bidlist_end
       state.payList = payload.paylist
     },
-    AucDetail_s(state,payload){
+    BidList_f(state){
+
+    },
+    BidDetail_s(state, payload){
+     
+      console.log(payload)
+
+      state.overlay = false
       state.removeBar = true
-      state.productInfo = payload
-      if(state.aucType === "cancle"){
-        state.overlay = false
-        state.aucType = null
-      }else{
-        router.push({name: 'AucDetail'})
+      
+      state.aucInfo = payload
+      state.likeInfo = payload.like
+
+      for(var i in payload.product){
+        state.proInfo = payload.product[i]
       }
+     // console.log(state.proInfo)
+
+      
+      state.offerInfo= payload.offer
+      state.addrInfo = payload.address
+      state.beforeImage=payload.product[0].picture
+      for(var i in payload.like){
+        (state.userInfo.username === state.likeInfo[i].l_username)? state.heart = true : state.heart = false
+      }
+      router.push({name: 'BidDetail'})
+
+    },
+    BidDetail_f(state){
+
     },
     RemoveHeart_s(state){
       state.heart = false
@@ -275,9 +364,20 @@ export default new Vuex.Store({
     Like_s(state, payload){
 
       console.log(payload)
-      state.heart = true
-      state.removeBar = true
-      state.productInfo= payload
+      state.likeInfo = payload.like
+      for(var i in payload.like){
+        (state.userInfo.username === state.likeInfo[i].l_username)? state.heart =true : state.heart = false
+      }
+
+      state.aucInfo = payload
+      
+      for(var i in payload.product){
+        state.proInfo = payload.product[i]
+      }
+      state.offerInfo= payload.offer
+      state.addrInfo = payload.address
+      state.beforeImage=payload.product[0].picture
+      
 
 
     },
@@ -289,18 +389,28 @@ export default new Vuex.Store({
       router.push({name: 'LikeList'})
 
     },
+    LikeList_f(state){
+
+    },
     PayDetail_s(state, payload){
 
       console.log(payload)
-      state.productInfo = payload
+      state.likeInfo = payload.like
+      state.aucInfo = payload
+      
+      for(var i in payload.product){
+        state.proInfo = payload.product[i]
+      }
+      state.offerInfo= payload.offer
+      state.addrInfo = payload.address
+      state.beforeImage=payload.product[0].picture
       state.removeBar = true
       router.push({name: 'PayDetail'})
     }
-
-
-
   },
-  actions: {
+
+
+  actions:{
 
     Alogin({state}){ //App.vue -> login페이지 전환
       state.Ashow =1
@@ -374,6 +484,7 @@ export default new Vuex.Store({
         localStorage.setItem("access_token", token)
         dispatch('getUserInfo')
         state.Ashow= 3 //다끝나고 Main으로 가라 !
+        dispatch('nowLatLon')
       })
       .catch(()=>
         commit('LoginFaile')
@@ -391,7 +502,6 @@ export default new Vuex.Store({
       .then( Ires =>{
         console.log(Ires.data)
         commit('LoginSuccess', Ires.data)
-        dispatch('nowLatLon')
       
       })
 
@@ -432,10 +542,11 @@ export default new Vuex.Store({
       
     },
 
+        ////////수정시작
 
 
-
-    WritingOK({state, commit}, payload){/// 게시물 작성 내용 DB전달
+    Writing({state, commit}, payload){/// 게시물 작성 내용 DB전달
+      
       console.log(payload)
 
       let token = localStorage.getItem("access_token")
@@ -451,53 +562,50 @@ export default new Vuex.Store({
 
       let lat = localStorage.getItem('lat')
       let lon = localStorage.getItem('lon')
-
-
-      var now = new Date()
-
-  
-
       let formData = new FormData()
+
+    
+
+      formData.append('title', payload.title)
+      formData.append('content',payload.content)
+      formData.append('startprice',payload.startprice)
+      formData.append('day', payload.day )
+      //auction
 
       formData.append('lat', lat)
       formData.append('lon', lon)
-      formData.append('title', payload.title)
-      formData.append('content',payload.content)
+      formData.append('addr', payload.address)
+      formData.append('town', payload.town)
+      // address
+
+
+
+
       formData.append('industry',payload.industry)
       formData.append('kind',payload.kind)
       formData.append('brand',payload.brand)
       formData.append('year',payload.year)
-      formData.append('startprice',payload.startprice)
-      formData.append('address', payload.address)
+      // product 
 
-      
-
-
-
-
-      //console.log(enddate)
-      formData.append('day', payload.day )
-      console.log(formData)
       for(let i=0; i< payload.files.length; i++){
-        formData.append('multipartfile',payload.files[i])
+        formData.append('img',payload.files[i])
       }
+      //picture
        
       axios
-      .post('http://localhost:9200/api/product' , formData, config)
-      .then(wres=>{
-        if(wres.data === "success"){
-          commit('WritingSuccess')
-        }
+      .post('http://localhost:9200/api/auction' , formData, config)
+      .then(Res => {
+        (Res.data === "success" )? commit('Writing_s'): commit('Writing_f') 
+
       })
-      .catch(()=>{
-        commit('WritingFaile')
-      })
+    
+   
     },
 
 
 
-    getSaleList({state ,commit}){
-      state.list_show =  true
+    getSaleList({commit}){
+      //state.list_show =  true
       let token = localStorage.getItem("access_token")
       let config={
         headers: {
@@ -505,43 +613,38 @@ export default new Vuex.Store({
         }
       }
       axios
-      .get('http://localhost:9200/api/product/salelist', config)
-      .then(lres=> {
-        commit('getSaleListSuccess', lres.data)
-        
-        
-      })
-      .catch(()=>{
-        alert("오류")
-      })
-    },
-    getSaledetail({state, commit}, payload){
-
-
-      let token= localStorage.getItem("access_token")
-      let config= {
-        headers:{
-          "access_token": token,
-          'Content-Type': 'multipart/form-data',
-          'Access-Control-Allow-Origin': '*'
-        }
-      }
-  
-
-      axios
-      .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`, config)
-      .then(Dres =>{
-        commit('Saledetail_s', Dres.data)
-      })
-      .catch(()=>{
-        alert("오류")
+      .get('http://localhost:9200/api/auction/sale', config)
+      .then(Res => {
+        //console.log(Res.data)
+        (Res.data !== null)? commit('SaleList_s', Res.data): commit('SaleList_f') 
       })
     },
 
-
-
-    DetailEditOK({dispatch, commit, state},payload){
     
+    getSaleDetail({state, commit}, payload){
+
+
+      let token= localStorage.getItem("access_token")
+      let config= {
+        headers:{
+          "access_token": token
+        }
+      }
+      alert(payload.a_num)
+  
+      axios
+      .get(`http://localhost:9200/api/auction/${payload.a_num}`, config)
+      .then(Res =>{
+        (Res.data !== null)? commit('SaleDetail_s', Res.data) :commit('SaleDetail_f') 
+      })
+    
+    },
+
+
+
+    DetailEdit({dispatch, commit, state},payload){
+    
+      //console.log(payload)
 
       let token= localStorage.getItem("access_token")
       let config= {
@@ -553,98 +656,109 @@ export default new Vuex.Store({
       }
 
 
-      let formData= new FormData()
-      formData.append('title', payload.title)
-      formData.append('content', payload.content)
-      formData.append('industry', payload.industry)
-      formData.append('kind', payload.kind)
-      formData.append('brand', payload.brand)
-      formData.append('year', payload.year)
-      formData.append('startprice', payload.startprice)
-      formData.append('p_num', payload.p_num)
-      formData.append('address', payload.address)
+      let lat = localStorage.getItem('lat')
+      let lon = localStorage.getItem('lon')
+      let formData = new FormData()
 
-      for(let i=0 ; i< payload.picture.length ; i++){
-        formData.append('multipartfile', payload.picture[i])
-      }
+    
+      formData.append('a_num', payload.a_num)
+      formData.append('title', payload.title)
+      formData.append('content',payload.content)
+      formData.append('startprice',payload.startprice)
+      formData.append('day', payload.day )
+      //auction
+
+
+      // formData.append('address', {lat: lat})
+      // formData.append('address', {lon: lon})
+      // formData.append('address', {addr: payload.addr})
+      // formData.append('address', {town: payload.town})
+
+
+      
+
+      formData.append('lat', lat)
+      formData.append('lon', lon)
+      formData.append('addr', payload.addr)
+      formData.append('town', payload.town)
+      // // address
+
+      // let pro = new FormData()
+   
+      // pro.append('industry',payload.industry)
+      // pro.append('kind',payload.kind)
+      // pro.append('brand',payload.brand)
+      // pro.append('year',payload.year)
+
+      // formData.append('pro', pro)// 실패
+ 
+
+
+      formData.append('industry',payload.industry)
+      formData.append('kind',payload.kind)
+      formData.append('brand',payload.brand)
+      formData.append('year',payload.year)
+      // product 
+
+      formData.append('p_num', payload.p_num)
+      for(let i=0; i< payload.files.length; i++){
+        formData.append('img',payload.files[i])
+      }      
       for(let i=0; i< payload.pi_numList.length; i++){
         formData.append('pi_nums', payload.pi_numList[i])
       }
+      //picture
+
       axios
-      .post('http://localhost:9200/api/product/edit',  formData, config)
-      .then(Seres =>{
-        if(Seres.data === "success"){
-          let p_num = payload.p_num
+      .put('http://localhost:9200/api/auction', formData, config)
+      .then(Res =>{
+        //console.log(Res.data)
+        (Res.data !== null)? commit('SaleEdit_s', Res.data): commit('SaleEdit_f') 
 
-          if(state.editType === "Sale"){
-            dispatch('getSaledetail', {p_num: p_num})
-            commit('SaleEdit_s')
-            alert("sale")
-          }else{
-            dispatch('getDetail', {p_num: p_num, detailType: 'edit'})
-          }
-          
-
-        }
-      })
-      .catch(()=>{
-        commit('SaleEdit_f')
       })
     },
 
-    SaleDeleteOK({dispatch, state}, payload){
-      let p_num = payload.p_num
+    SaleDelete({dispatch, commit, state}, payload){
+      let a_num = payload.a_num
       axios
-      .delete(`http://localhost:9200/api/product/${p_num}`)
-      .then(Dres =>{
-        if(Dres.data === "success"){
-          router.push({name: 'SaleList'})
-          state.removeBar = false
-          dispatch('getSaleList')
-        }
-      })
-      .catch(()=>{
-        alert("삭제 오류")
+      .delete(`http://localhost:9200/api/auction/${a_num}`)
+      .then(Res =>{
+        (Res.data === "success")? dispatch('getSaleList'): commit('SaleDelete_f')
+        state.removeBar = false
+        router.push({name: 'SaleList'})
       })
 
     },
     nowLatLon({dispatch}){
-      // const script = document.createElement('script')
-      // script.onload //= () => kakao.maps.load(this.initMap)
-      // script.src = 'https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=e4ae1156e9644814145b77eeb30b26b0c&libraries=services'
-      // document.head.appendChild(script)
       if(navigator.geolocation){
          navigator.geolocation.getCurrentPosition(function(position){
               let lat = position.coords.latitude
               let lon = position.coords.longitude
          localStorage.setItem('lat',lat)
          localStorage.setItem('lon',lon)
-         console.log(localStorage.getItem('lat'))
-         console.log(localStorage.getItem('lon'))
+        //  console.log(localStorage.getItem('lat'))
+        //  console.log(localStorage.getItem('lon'))
 
          })
       }
-      dispatch('LatLonOK')
+      dispatch('getTopList')
     },
 
 
 
 
-    LatLonOK({commit}){
+    getTopList({commit}){
       let lat = localStorage.getItem('lat')
       let lon = localStorage.getItem('lon')
-      console.log(lat)
-      console.log(lon)
+      // console.log(lat)
+      // console.log(lon)
 
       axios
-      .get(`http://localhost:9200/api/product/${lat}/${lon}`)
+      .get(`http://localhost:9200/api/auction/top/${lat}/${lon}`)
       .then(Tres => {
-        console.log(Tres.data)
-        commit('LatLon_s', Tres.data)
+        //console.log(Tres.data)
+        (Tres.data !== null)? commit('TopList_s', Tres.data): commit('TopList_f')
 
-      })
-      .catch(()=>{
-        commit('LatLon_f')
       })
 
     },
@@ -656,21 +770,30 @@ export default new Vuex.Store({
       let industry= encodeURI(payload.industry)
 
       axios
-      .get(`http://localhost:9200/api/product/industry?lat=${lat}&lon=${lon}&industry=${industry}`)
-      .then(Ires =>{
-        if(Ires.data === "null"){
-          commit('Listnull')
-          console.log(Ires.data)
-        }else{
-          commit('IndustryList_s', Ires.data)
-          console.log(Ires.data)
-        }
+      .get(`http://localhost:9200/api/auction/industry?lat=${lat}&lon=${lon}&industry=${industry}`)
+      .then(Res =>{
+        (Res.data !== "null") ? commit('IndustryList_s', Res.data): commit('IndustryList_f')
+  
       })
 
     },
+
+    getKindList({commit}, payload){
+      // alert(payload.kind)
+       let lat = localStorage.getItem("lat")
+       let lon = localStorage.getItem("lon")
+     
+       let kind = encodeURI(payload.kind)
+       console.log(kind)
+       axios
+       .get(`http://localhost:9200/api/auction/kind?lat=${lat}&lon=${lon}&kind=${kind}`)
+       .then(Res=>{
+         (Res.data !== null) ? commit('KindList_s', Res.data): commit('KindList_f')
+       })
+       
+     },
+ 
     getDetail({commit,dispatch}, payload){
-
-
 
       let token = localStorage.getItem("access_token")
 
@@ -679,40 +802,28 @@ export default new Vuex.Store({
           "access_token": token
         }
       }
-      
-
-
       axios
-      .get(`http://localhost:9200/api/product?p_num=${payload.p_num}`, config)
+      .get(`http://localhost:9200/api/auction/${payload.a_num}`, config)
       .then(Dres =>{
 
-        if(payload.detailType === 'edit'){ // Edit후 Reload할경우
-          commit('DetailEdit_s',Dres.data)
-            
-        } else {
-          console.log(Dres.data)
-          commit('Detail_s', Dres.data) // 제일 처음에 Detail 정보 가져올 경우  
-        }
-      })
-      .catch(()=>{
-        alert("오류")
+
+        (Dres.data !== null)? commit('Detail_s', Dres.data): commit('Detail_f')
+        router.push({name:'Detail'})
       })
     },
 
-
-    KIDeleteOK({commit},payload){
-      let p_num = payload.p_num
+    RemainDelete({commit, dispatch},payload){
+      
       axios
-      .delete(`http://localhost:9200/api/product/${p_num}`)
-      .then(Dres=>{
-        if(Dres.data === "success"){
-          commit('KIDelete_s')
-        }else{
-          commit('KIDelete_f')
-        }
+      .delete(`http://localhost:9200/api/auction/${payload.a_num}`)
+      .then(Res=>{
+        (Res.data === "success")? dispatch('nowLatLon'):commit('RemainDelete_f')
+      
+
       })
     },
-    priceOffer({commit, dispatch, state}, payload){
+
+    PriceOffer({commit, dispatch, state}, payload){
 
       let token = localStorage.getItem("access_token")
       let config = {
@@ -720,45 +831,55 @@ export default new Vuex.Store({
           'access_token': token
         }
       }
-      console.log(payload)
-      let p_num = payload.p_num
-      state.beforeType = "offer"
       axios
-      .post('http://localhost:9200/api/auction',payload, config)
-      .then(Pres => {
-        if(Pres.data === "success"){
-          if(payload.Type === "aucdetail"){
-            dispatch('getAucDetail', {p_num: p_num })
-
-          }else{
-            dispatch('getDetail', {p_num: p_num })
-          }
-          
-        }else {
-          commit('priceOffer_f')
-        }
+      .post('http://localhost:9200/api/offer',payload, config)
+      .then(Res => { 
+        //console.log(Res.data)
+        (Res.data !== null) ? commit('Detail_s', Res.data): commit('Detail_f')   
       })
     },
-    getKindList({commit}, payload){
-     // alert(payload.kind)
-      let lat = localStorage.getItem("lat")
-      let lon = localStorage.getItem("lon")
-    
-      let kind = encodeURI(payload.kind)
-      console.log(kind)
-      axios
-      .get(`http://localhost:9200/api/product/${lat}/${lon}/${kind}`)
-      .then(Kres=>{
-        if(Kres.data !== null){
-          commit('KindList_s', Kres.data)
-        } else{
-          commit('KindList_f')
-        }
-      })
+    PriceOffer_bid({commit}, payload){
       
+      let token = localStorage.getItem("access_token")
+      let config = {
+        headers: {
+          'access_token': token
+        }
+      }
+      axios
+      .post('http://localhost:9200/api/offer',payload, config)
+      .then(Res => { 
+        //console.log(Res.data)
+        (Res.data !== null) ? commit('Offer_s', Res.data): commit('Offer_bid_f')   
+      })
+  
+
+
     },
-    getAuctionList({commit}){
-     
+
+    OfferCancle({state, commit}, payload){
+      axios
+      .delete(`http://localhost:9200/api/offer/${payload.o_num}/${payload.a_num}`)
+      .then(Res =>{
+        (Res.data !== null)? commit('Offer_s', Res.data):commit('Offer_cancle_f')
+      })
+    },
+    getBidList({commit}){
+ 
+      let token = localStorage.getItem("access_token")
+      let config= {
+        headers: {
+          "access_token": token
+        }
+      }
+      axios
+      .get('http://localhost:9200/api/offer', config)
+      .then(Res =>{
+        (Res.data !== null) ? commit('BidList_s', Res.data): commit('BidList_f')
+      })
+
+    },
+    getBidDetail({commit},payload){
 
 
       let token = localStorage.getItem("access_token")
@@ -767,57 +888,33 @@ export default new Vuex.Store({
           "access_token": token
         }
       }
+ 
       axios
-      .get('http://localhost:9200/api/auction', config)
-      .then(Ares =>{
-        if(Ares.data !== null){
-          commit('AuctionList_s', Ares.data)
-        }else{
-          console.log("AuctionList=>null")
-        }
-      })
+      .get(`http://localhost:9200/api/offer/${payload.a_num}`, config)
+      .then(Res =>{
+        
+        (Res.data !== null)? commit('BidDetail_s', Res.data): commit('BidDetail_f')
 
-    },
-    getAucDetail({commit},payload){
-      axios
-      .get(`http://localhost:9200/api/auction/${payload.p_num}`)
-      .then(Ares =>{
-        if(Ares.data !== null){
-          
-          commit('AucDetail_s', Ares.data)
-          
-          //console.log(Ares.data)
-        }else{
-          //console.log("err")
-        }
       })
     },
-    offerCancle({state, dispatch}, payload){
-      axios
-      .delete(`http://localhost:9200/api/auction/${payload.a_num}`)
-      .then(Ores =>{
-        if(Ores.data === "success"){
-          state.aucType = "cancle"
-          dispatch('getAucDetail',{p_num: payload.p_num})
-        }
-      })
-    },
+
+
+
+
     Like({commit, state}, payload){
       axios
       .post('http://localhost:9200/api/like', payload)
-      .then(Lres =>{
-
-        console.log(Lres.data)
-        // (Lres.data === null)? commit('Like_f'): commit('Like_s', Lres.data)
+      .then(Res =>{
+        (Res.data !== null)? commit('Like_s', Res.data): commit('Like_f')
         
       })
 
     },
     RemoveLike({commit}, payload){
       axios
-      .delete(`http://localhost:9200/api/like/${payload.p_num}/${payload.l_username}`)
-      .then(Hres =>{
-        (Hres.data === "success")? commit('RemoveHeart_s') : commit('RemoveHeart_f')
+      .delete(`http://localhost:9200/api/like/${payload.a_num}`)
+      .then(Res =>{
+        (Res.data !== null)? commit('Like_s', Res.data) : commit('Like_f')
       })
     },
     getLikeList({commit}){
@@ -831,9 +928,9 @@ export default new Vuex.Store({
 
 
       axios
-      .get('http://localhost:9200/api/like', config)
-      .then(Lres => {
-        (Lres.data === null)? commit('LikeList_f',Lres.data ) : commit('LikeList_s',Lres.data )
+      .get('http://localhost:9200/api/like/', config)
+      .then(Res => {
+        (Res.data !== null)? commit('LikeList_s',Res.data ) : commit('LikeList_f' )
       })
     },
     getPayDetail({commit}, payload){
@@ -846,15 +943,16 @@ export default new Vuex.Store({
         }
       }
       axios
-      .get(`http://localhost:9200/api/payment/${payload.p_num}`, config)
-      .then(Pres => {
-        (Pres.data !== null)? commit('PayDetail_s' , Pres.data):commit('PayDetail_f' , Pres.data) 
+      .get(`http://localhost:9200/api/auction/${payload.a_num}`, config)
+      .then(Res => {
+        (Res.data !== null)? commit('PayDetail_s' , Res.data):commit('PayDetail_f' , Res.data) 
       })
-
+    },
+    Kakao({commit}, payload){
+      console.log(payload)
+      axios
+      .post('http://localhost:9200/api/payment', payload)
+     
     }
-
-
-
-
   }
 })

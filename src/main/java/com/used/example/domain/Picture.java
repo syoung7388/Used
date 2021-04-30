@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Picture {
-	private List<MultipartFile> multipartfile;// 받아오는거
+	private List<MultipartFile> img;// 받아오는거
 	
 
 	private int p_num;
@@ -29,11 +29,11 @@ public class Picture {
 	public void setPictureNames(List<String> pictureNames) {
 		this.pictureNames = pictureNames;
 	}
-	public List<MultipartFile> getMultipartfile() {
-		return multipartfile;
-	}
-	public void setMultipartfile(List<MultipartFile> multipartfile) {
-		this.multipartfile = multipartfile;
+
+	@Override
+	public String toString() {
+		return "Picture [img=" + img + ", p_num=" + p_num + ", pi_num=" + pi_num + ", pictureName=" + pictureName
+				+ ", pictureNames=" + pictureNames + ", pi_nums=" + pi_nums + "]";
 	}
 	public int getP_num() {
 		return p_num;
@@ -61,10 +61,12 @@ public class Picture {
 	public void setPi_nums(List<Integer> pi_nums) {
 		this.pi_nums = pi_nums;
 	}
-	@Override
-	public String toString() {
-		return "Picture [multipartfile=" + multipartfile + ", p_num=" + p_num + ", pi_num=" + pi_num + ", pictureName="
-				+ pictureName + ", pictureNames=" + pictureNames + ", pi_nums=" + pi_nums + "]";
+
+	public List<MultipartFile> getImg() {
+		return img;
+	}
+	public void setImg(List<MultipartFile> img) {
+		this.img = img;
 	}
 	
 	

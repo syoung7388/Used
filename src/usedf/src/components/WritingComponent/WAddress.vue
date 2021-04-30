@@ -20,6 +20,7 @@ export default {
             address: null,
             title: null,
             data:[],
+            town: null
 
          
 
@@ -58,11 +59,16 @@ export default {
                     fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '')
 
                     //console.log(fullAddress)
+                    var town = null
+                    if(e.bname === ''){
+                        town = e.bname1
+                    }else{
+                        town = e.bname
+                    }
 
+                    
+                    this.$emit('Addr', {fulladdress: fullAddress , town: town})
 
-                    this.$emit('fullAddress', fullAddress)
-              
-                   
                     
                 
                     fullAddress= ''

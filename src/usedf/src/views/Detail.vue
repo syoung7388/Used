@@ -1,11 +1,11 @@
 <template>
     <v-app class="ma-0">
-        <v-container class="pa-0" v-show="detail_show === true">
+        <v-container class="pa-0" v-show="edit_show === false">
             <v-carousel            
             height="300"
             >
                 <v-carousel-item
-                v-for="(item, i) in productInfo.picture"
+                v-for="(item, i) in beforeImage"
                 :key="i"
                 :src="require('@/assets/'+item.pictureName)"
                 reverse-transition="fade-transition"
@@ -30,7 +30,7 @@
                                 </v-btn>
                             </v-col>
                             
-                            <v-col cols="2" v-if="userInfo.username === productInfo.username">
+                            <v-col cols="2" v-if="userInfo.username === aucInfo.a_username">
                                 <v-btn style="font-size: large;" icon v-bind="attrs" v-on="on">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </v-btn>
@@ -43,7 +43,7 @@
                         </v-list-item >
                         <v-divider></v-divider>
                         <v-list-item class="mx-3" dense > 
-                            <v-list-item-title style="font-size: 15px" @click="KIDeleteOK({p_num: productInfo.p_num})">삭제</v-list-item-title>
+                            <v-list-item-title style="font-size: 15px" @click="RemainDelete({a_num: aucInfo.a_num})">삭제</v-list-item-title>
                         </v-list-item>
                     </v-list>
                     </v-menu>
@@ -51,11 +51,11 @@
             </v-carousel>
             <v-row class="ma-0">
                 <v-col cols="6" class="ma-0">    
-                    <h1 style="font-size: 16px; text-align: left">D{{productInfo.d_day}}</h1>
+                    <h1 style="font-size: 16px; text-align: left">D{{aucInfo.d_day}}</h1>
                 </v-col>
                 <v-col cols="6" class="ma-0">
                     <v-list-item-title style="font-size: 11px; text-align: right">마감기간</v-list-item-title>      
-                    <v-list-item-title v-html="productInfo.enddate" style="font-size: 11px; text-align: right"></v-list-item-title>
+                    <v-list-item-title v-html="aucInfo.enddate" style="font-size: 11px; text-align: right"></v-list-item-title>
                 </v-col>         
             </v-row>
             <v-divider></v-divider>
@@ -77,19 +77,19 @@
                                     <tbody>
                                         <tr class="text-center">
                                             <td style="font-size: 17px">종류</td>
-                                            <td style="font-size: 17px">{{productInfo.kind}}</td>
+                                            <td style="font-size: 17px">{{proInfo.kind}}</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td style="font-size: 17px">업종</td>
-                                            <td style="font-size: 17px">{{productInfo.industry}}</td>
+                                            <td style="font-size: 17px">{{proInfo.industry}}</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td style="font-size: 17px">브랜드</td>
-                                            <td style="font-size: 17px">{{productInfo.brand}}</td>
+                                            <td style="font-size: 17px">{{proInfo.brand}}</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td style="font-size: 17px">연식</td>
-                                            <td style="font-size: 17px">{{productInfo.year}}</td>
+                                            <td style="font-size: 17px">{{proInfo.year}}</td>
                                         </tr>
                                     </tbody>
                                 </template>
@@ -103,10 +103,10 @@
                                 <template>
                                     <tbody>
                                         <tr>
-                                            <td style="font-weight: bold; font-size: 16px">{{productInfo.title}}</td>
+                                            <td style="font-weight: bold; font-size: 16px">{{aucInfo.title}}</td>
                                         </tr>
                                         <tr>
-                                            <td  class="pt-5">{{productInfo.content}}</td>
+                                            <td  class="pt-5">{{aucInfo.content}}</td>
                                         </tr>
                                     </tbody>
                                 </template>
@@ -114,19 +114,19 @@
                         </v-card>          
                     </v-tab-item>
                     <v-tab-item>
-                        <v-card flat class="pa-5"> 
-                            <v-row v-for="(item, int) in productInfo.auction" :key="int">
+                        <v-card flat class="pa-5" > 
+                            <v-row v-for="(item, int) in offerInfo" :key="int">
                                 <v-col cols="2" >
-                                    <h1 style="font-size: 15px;" >{{int+1}}등</h1>
+                                    <h1 style="font-size: 15px; text-align: center">{{int+1}}등</h1>
                                 </v-col>
-                                <v-col cols="5" >
-                                    <h1 style="font-size: 15px;" >{{item.price}}원</h1>
-                                </v-col>
-                                <v-col cols="2">
-                                    <p style="font-size: 15px;">{{item.participant}}님</p>
+                                <v-col cols="4" >
+                                    <h1 style="font-size: 15px; text-align: center" >{{item.price}}원</h1>
                                 </v-col>
                                 <v-col cols="3">
-                                    <p style="font-size: 10px;">{{item.aTime}}</p>
+                                    <p style="font-size: 15px;text-align: center">{{item.o_username}}님</p>
+                                </v-col>
+                                <v-col cols="3">
+                                    <p style="font-size: 10px; text-align: center">{{item.time}}</p>
                                 </v-col>
                             </v-row>
                         </v-card>
@@ -138,13 +138,13 @@
                 fixed  
                 >
 
-                    <v-row class="ma-2" v-if="productInfo.username === userInfo.username">
+                    <v-row class="ma-2" v-if="aucInfo.a_username === userInfo.username">
                         <v-col cols="5">
                             <h1 style="font-size: 20px; text-align:center;" class="primary--text">최고가</h1>
                         </v-col>
                         <v-col cols="7" >
-                            <h1 style="font-size: 20px; text-align:center;" v-if="productInfo.auction.length ===0">0원</h1>
-                            <h1 v-else style="font-size: 20px; text-align:center;">{{productInfo.auction[0].price}}원</h1>
+                            <h1 style="font-size: 20px; text-align:center;" v-if="offerInfo.length ===0">0원</h1>
+                            <h1 v-else style="font-size: 20px; text-align:center;">{{offerInfo[0].price}}원</h1>
                         </v-col>
                     </v-row>
                     <v-row class="my-1 mr-1" v-else>
@@ -153,7 +153,7 @@
                             <v-btn 
                             icon
                             class="mt-1 mr-1" 
-                            @click="like({p_num: productInfo.p_num, l_username: userInfo.username})"
+                            @click="Like({a_num: aucInfo.a_num, l_username: userInfo.username})"
                             v-show="heart === false" 
                             >
                                 <v-icon color="grey">mdi-heart</v-icon>
@@ -162,7 +162,7 @@
                             icon 
                             class="mt-1 mr-1"
                             v-show="heart === true" 
-                            @click="remove_like({p_num: productInfo.p_num, l_username: userInfo.username})"
+                            @click="RemoveLike({a_num: aucInfo.a_num})"
                             >
                             <v-icon color="red">mdi-heart</v-icon>
                             </v-btn> 
@@ -184,8 +184,8 @@
                                     <v-card-title class="black--text justify-center" style="font-size: 17px; text-align: center"> {{price}}원이 맞나요?</v-card-title>
                                     <v-card-actions>
                                         <v-btn text color="primary" x-small 
-                                        @click="PriceOffer({
-                                        p_num: productInfo.p_num,
+                                        @click="priceOffer({
+                                        a_num: aucInfo.a_num,
                                         price: price
 
                                         })">
@@ -203,7 +203,7 @@
                     </v-row>
                 </v-bottom-navigation>     
         </v-container>
-        <div v-show="detail_show === false">
+        <div v-show="edit_show === true">
             <Edit></Edit>
         </div>
 
@@ -221,13 +221,12 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['KIDeleteOK']),
+        ...mapActions(['RemainDelete', 'Like', 'RemoveLike']),
         
     
 
         Edit(){
-            this.$store.state.editType = "I/K"
-            this.$store.state.detail_show = false
+            this.$store.state.edit_show = true
         },
         ListBack(){
             this.$store.state.removeBar= false
@@ -248,30 +247,20 @@ export default {
             this.$store.state.overlay = !this.$store.state.overlay
 
         },
-        PriceOffer(payload){
-            this.$store.dispatch('priceOffer',{
-                                            p_num: payload.p_num,
-                                            price: payload.price
-                                            })
+        priceOffer(payload){
+            this.$store.dispatch('PriceOffer',payload)
             this.price = 0
         },
-        like(payload){
-            this.$store.state.heart = true
-            this.$store.dispatch('Like', payload)
-        },
-        remove_like(payload){
-            this.$store.state.heart = false
-            this.$store.dispatch('RemoveLike', payload)
 
-        }
 
 
 
     },
     computed: { 
 
+        ...mapState(['edit_show', 'overlay', 'userInfo', 'heart','aucInfo','likeInfo','proInfo', 'offerInfo','addrInfo','beforeImage'])
+      
 
-        ...mapState({productInfo: 'productInfo' , detail_show: 'detail_show' , overlay: 'overlay', userInfo: 'userInfo', heart:'heart'}),
     },
     components: {
         Edit

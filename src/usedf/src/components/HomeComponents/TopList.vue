@@ -8,8 +8,8 @@
                     v-for="(item, int) in topList"
                     >
                         <v-list-item
-                        :key ="item.p_num"
-                        @click="TopDetail(item.p_num)"
+                        :key ="item.a_num"
+                        @click="TopDetail(item.a_num)"
                         >
                             <v-row align="center">
                                 <v-col cols="3" class="py-5">
@@ -17,7 +17,7 @@
                                     width="90"
                                     >
                                     <v-img
-                                    :src="require('@/assets/'+item.picture[0].pictureName)"
+                                    :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
                                     max-width="90"
                                     height="90" 
                                     aspect-ratio="2"
@@ -28,7 +28,7 @@
                                 <v-col cols="9">
                                     <v-list-item-content>
                                         <v-list-item-title v-html="item.title" class="mb-3" style="font-weight: bold"></v-list-item-title>
-                                        <v-list-item-title v-html="item.address" style="font-size: 12px"></v-list-item-title>
+                                        <v-list-item-title v-html="item.address.town" style="font-size: 12px"></v-list-item-title>
                                         <v-list-item-subtitle style="text-align: right" class="mr-3">D{{item.d_day}}</v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-col>
@@ -62,9 +62,10 @@ export default {
     methods: {
         TopDetail(payload){
             this.$store.state.backType= "top"
-            this.$store.dispatch('getDetail',{p_num: payload})
+            this.$store.dispatch('getDetail',{a_num: payload})
         }
-    }
+    },
+
     
 }
 </script>

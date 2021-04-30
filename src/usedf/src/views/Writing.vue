@@ -205,7 +205,7 @@
              <v-btn  
             class="primary mt-5"
             block
-            @click="WritingOK({
+            @click="Writing({
                 
                 title,
                 content,
@@ -216,7 +216,8 @@
                 startprice,
                 files,
                 address,
-                day
+                day,
+                town
 
             })"
             >다음</v-btn>
@@ -226,7 +227,7 @@
             ></v-virtual-scroll>     
         </v-container>
         <div v-show=" Writingshow=== false" >
-            <WAddress @fullAddress ="result_Address" ></WAddress> 
+            <WAddress  @Addr ="result_Addr" ></WAddress> 
         </div>
     </v-app>
 </template>
@@ -249,9 +250,10 @@ export default{
             username: null,
             file: null,
             address: null,
-            code: null,
+            town: null,
             showImage:[],
             files:[],
+
 
             writingInfo:{},
             day: null,
@@ -303,9 +305,13 @@ export default{
             let image = URL.createObjectURL(file)
             this.showImage.push({image})
         },
-        result_Address(address){
+ 
+        result_Addr(payload){
+            console.log(payload)
             this.Writingshow= true  
-            this.address = address
+            this.address =payload.fulladdress
+            this.town = payload.town
+      
         },
         Address(){
             this.Writingshow= false
@@ -313,7 +319,7 @@ export default{
         },
     
 
-        ...mapActions(['WritingOK']),
+        ...mapActions(['Writing']),
 
 
     },

@@ -2,7 +2,7 @@
     <v-app>
 
         <div id= "map" style="width:500px;height:400px;"></div>
-        <v-btn @click="LatLonOK" >확인</v-btn>
+        <v-btn @click="getTopList" >확인</v-btn>
     </v-app>
 </template>
 <script>
@@ -107,7 +107,7 @@ export default {
         
         
         },
-        ...mapActions(['LatLonOK'])
+        ...mapActions(['getTopList'])
  
     } ///클릭한 위치 지도로 전환
 

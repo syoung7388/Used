@@ -14,14 +14,14 @@
                     >  
                         <v-list-item 
                         :key="item.p_num" 
-                        @click="getSaledetail({
-                            p_num: item.p_num
+                        @click="getSaleDetail({
+                         a_num: item.a_num
                         })" 
                         router :to="{name:'SaleDetail'}">      
                                 <v-row>
                                     <v-col cols="5">
                                         <v-img 
-                                        :src="require('@/assets/'+item.picture[0].pictureName)"
+                                        :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
                                         max-height="80"
                                         max-width="80"
                                         ></v-img>
@@ -29,7 +29,7 @@
                                     <v-col cols="6">
                                     <v-list-item-content>
                                         <v-list-item-title v-html="item.title"></v-list-item-title>
-                                        <v-list-item-subtitle v-html="item.p_date"></v-list-item-subtitle>
+                                        <v-list-item-subtitle>D-{{item.d_day}}</v-list-item-subtitle>
                                     </v-list-item-content>
                                     </v-col>    
                                 </v-row>
@@ -46,15 +46,17 @@
                 >  
                     <v-list-item 
                     :key="item.p_num"
-                    @click="getSaledetail({
-                    p_num: item.p_num
+                    @click="getSaleDetail({
+                    a_num: item.a_num
                     })"
-                    router :to="{name:'SaleDetail'}">       
+                    router :to="{name:'SaleDetail'}"
+                    
+                    >       
     
                             <v-row>
                                     <v-col cols="5">
                                         <v-img 
-                                        :src="require('@/assets/'+item.picture[0].pictureName)"
+                                        :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
                                         max-height="80"
                                         max-width="80"
                                         ></v-img>
@@ -62,7 +64,6 @@
                                     <v-col cols="6">
                                     <v-list-item-content>
                                         <v-list-item-title v-html="item.title"></v-list-item-title>
-                                        <v-list-item-subtitle v-html="item.p_date"></v-list-item-subtitle>
                                     </v-list-item-content>
                                     </v-col>    
                                 </v-row>
@@ -90,6 +91,9 @@ export default {
            
         }
     },
+    beforeCreate(){
+        this.$store.dispatch('getSaleList')
+    },
     computed: {
         ...mapState({
             saleList: 'saleList',
@@ -99,7 +103,7 @@ export default {
             })
     },
     methods: {
-        ...mapActions(['getSaledetail'])
+        ...mapActions(['getSaleDetail'])
     }
  
 }

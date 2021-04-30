@@ -5,8 +5,8 @@
                 <v-list-item-group active-class="primary--text">
                     <template v-for="(item, int) in kindList">
                         <v-list-item 
-                        :key="item.p_num" 
-                        @click="KindDetail(item.p_num)">
+                        :key="item.a_num" 
+                        @click="KindDetail(item.a_num)">
                             <v-row>
                                 <v-col cols="5" class="my-5 mx-0">
                                     <v-card
@@ -14,7 +14,7 @@
                                     max-height="80"
                                     >
                                         <v-img
-                                        :src="require('@/assets/'+item.picture[0].pictureName)"
+                                        :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
                                         max-width="80"
                                         max-height="80"
                                         ></v-img>
@@ -22,8 +22,9 @@
                                 </v-col>
                                 <v-col cols="6">
                                     <v-list-item-content>
-                                        <v-list-item-title v-html="item.title"></v-list-item-title>
-                                        <v-list-item-subtitle v-html="item.p_date"></v-list-item-subtitle>
+                                       <v-list-item-title v-html="item.title" class="mb-3" style="font-weight: bold"></v-list-item-title>
+                                        <v-list-item-title v-html="item.address.town" style="font-size: 12px"></v-list-item-title>
+                                        <v-list-item-subtitle  style="text-align: right">D-{{item.d_day}}</v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-col>
                             </v-row>
@@ -53,7 +54,7 @@ export default {
     methods: {
         KindDetail(payload){
             this.$store.state.backType = "kind"
-            this.$store.dispatch('getDetail',{p_num: payload})
+            this.$store.dispatch('getDetail',{a_num: payload})
 
         }
     }

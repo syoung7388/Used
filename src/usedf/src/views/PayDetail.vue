@@ -5,7 +5,7 @@
             height="260"
             >
                 <v-carousel-item
-                v-for="(item, i) in productInfo.picture"
+                v-for="(item, i) in beforeImage"
                 :key="i"
                 :src="require('@/assets/'+item.pictureName)"
                 reverse-transition="fade-transition"
@@ -44,12 +44,12 @@
                         <v-expansion-panel-content>
                             <v-row>
                                 <v-col>
-                                    <h1 style="font-size: 20px">{{productInfo.title}}</h1>
+                                    <h1 style="font-size: 20px">{{aucInfo.title}}</h1>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col>
-                                    {{productInfo.content}}
+                                    {{aucInfo.content}}
                                 </v-col>
                             </v-row>
                         </v-expansion-panel-content>
@@ -78,7 +78,7 @@
                                     <h1 style="font-size: 20px; text-align:center" >결제 금액 : </h1>
                                 </v-col>
                                 <v-col cols="6"> 
-                                    <h1 style="font-size: 20px; text-align:center" >{{productInfo.auction[0].price}}원</h1>
+                                    <h1 style="font-size: 20px; text-align:center" >{{offerInfo[0].price}}원</h1>
                                 </v-col>
                             </v-row>
                             <v-row justify="center" class="mt-10">
@@ -93,19 +93,19 @@
                                     <tbody>
                                         <tr class="text-center">
                                             <td>종류</td>
-                                            <td>{{productInfo.kind}}</td>
+                                            <td>{{proInfo.kind}}</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td>업종</td>
-                                            <td>{{productInfo.industry}}</td>
+                                            <td>{{proInfo.industry}}</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td>브랜드</td>
-                                            <td>{{productInfo.brand}}</td>
+                                            <td>{{proInfo.brand}}</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td>연식</td>
-                                            <td>{{productInfo.year}}</td>
+                                            <td>{{proInfo.year}}</td>
                                         </tr>
                                     </tbody>
                                 </template>
@@ -133,16 +133,16 @@ export default {
         }
     },
     computed: {
-        ...mapState([ 'productInfo', 'userInfo'])
+        ...mapState([ 'userInfo', 'aucInfo','likeInfo','proInfo', 'offerInfo','addrInfo','beforeImage'])
     },
     methods: {
 
         Back(){
             this.$store.state.removeBar = false
-            this.$router.push({name: 'AuctionList'})
+            this.$router.push({name: 'BidList'})
         },
         PayBtn(){
-            alert("pay")
+            this.$router.push({name: 'PayMethod'})
         }
     },
  

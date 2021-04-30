@@ -5,7 +5,7 @@
             height="300"
             >
                 <v-carousel-item
-                v-for="(item, i) in productInfo.picture"
+                v-for="(item, i) in beforeImage"
                 :key="i"
                 :src="require('@/assets/'+item.pictureName)"
                 reverse-transition="fade-transition"
@@ -43,20 +43,21 @@
                         </v-list-item >
                         <v-divider></v-divider>
                         <v-list-item class="mx-3" dense > 
-                            <v-list-item-title style="font-size: 15px" @click="SaleDeleteOK({p_num: productInfo.p_num})">삭제</v-list-item-title>
+                            <v-list-item-title style="font-size: 15px" @click="SaleDelete({a_num: aucInfo.a_num})">삭제</v-list-item-title>
                         </v-list-item>
                     </v-list>
                     </v-menu>
                 </v-carousel-item>
+              
             </v-carousel>
             <v-row class="ma-0">
-                <v-col cols="12" class="ma-0"  v-if="productInfo.sale=== 'false'" >   
+                <v-col cols="12" class="ma-0"  v-if="aucInfo.sale=== 'false'" >   
                     <v-list-item-title style="font-size: 15px; text-align:right" class="primary--text">거래중</v-list-item-title>
-                    <v-list-item-subtitle v-html="productInfo.enddate" style="font-size: 12px; text-align:right"></v-list-item-subtitle>
+                    <v-list-item-subtitle v-html="aucInfo.enddate" style="font-size: 12px; text-align:right"></v-list-item-subtitle>
                 </v-col>
                 <v-col cols="12" v-else>   
                     <h1 style="font-size: 15px; text-align:right" class="primary--text"> 거래완료</h1>
-                    <v-list-item-subtitle v-html="productInfo.enddate" style="font-size: 12px; text-align:right"></v-list-item-subtitle>
+                    <v-list-item-subtitle v-html="aucInfo.enddate" style="font-size: 12px; text-align:right"></v-list-item-subtitle>
                 </v-col>
             </v-row>
             <v-divider></v-divider>
@@ -73,7 +74,7 @@
                     <v-tab class="ml-0" style="font-size: 15px;">제품정보</v-tab>
 
                     <v-tab-item>
-                        <v-card class="pa-10" flat v-if="productInfo.auction.length === 0">
+                        <v-card class="pa-10" flat v-if="offerInfo.length === 0">
                             <v-row>
                                 <v-col>
                                     <h1 style="font-size: 15px; text-align: center" class="grey--text">현재 요청 대기중입니다.</h1>
@@ -81,7 +82,7 @@
                             </v-row>
                         </v-card>
                         <v-card flat class="pa-5" v-else> 
-                            <v-row v-for="(item, int) in productInfo.auction" :key="int">
+                            <v-row v-for="(item, int) in offerInfo" :key="int">
                                 <v-col cols="2" >
                                     <h1 style="font-size: 15px;" >{{int+1}}등</h1>
                                 </v-col>
@@ -89,10 +90,10 @@
                                     <h1 style="font-size: 15px;" >{{item.price}}원</h1>
                                 </v-col>
                                 <v-col cols="2">
-                                    <p style="font-size: 15px;">{{item.participant}}님</p>
+                                    <p style="font-size: 15px;">{{item.o_username}}님</p>
                                 </v-col>
                                 <v-col cols="3">
-                                    <p style="font-size: 10px;">{{item.aTime}}</p>
+                                    <p style="font-size: 10px;">{{item.time}}</p>
                                 </v-col>
                             </v-row>
                         </v-card>
@@ -103,10 +104,10 @@
                                 <template>
                                     <tbody>
                                         <tr>
-                                            <td style="font-weight: bold; font-size: 16px">{{productInfo.title}}</td>
+                                            <td style="font-weight: bold; font-size: 16px">{{aucInfo.title}}</td>
                                         </tr>
                                         <tr>
-                                            <td  class="pt-5">{{productInfo.content}}</td>
+                                            <td  class="pt-5">{{aucInfo.content}}</td>
                                         </tr>
                                     </tbody>
                                 </template>
@@ -114,25 +115,25 @@
                         </v-card>          
                     </v-tab-item>
                     <v-tab-item>
-                        <v-card flat class="px-5 py-5">
+                        <v-card flat class="px-5 py-5" >
                             <v-simple-table>
-                                <template>
+                                <template  >
                                     <tbody>
                                         <tr class="text-center">
                                             <td style="font-size: 17px">종류</td>
-                                            <td style="font-size: 17px">{{productInfo.kind}}</td>
+                                            <td style="font-size: 17px">{{proInfo.kind}}</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td style="font-size: 17px">업종</td>
-                                            <td style="font-size: 17px">{{productInfo.industry}}</td>
+                                            <td style="font-size: 17px">{{proInfo.industry}}</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td style="font-size: 17px">브랜드</td>
-                                            <td style="font-size: 17px">{{productInfo.brand}}</td>
+                                            <td style="font-size: 17px">{{proInfo.brand}}</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td style="font-size: 17px">연식</td>
-                                            <td style="font-size: 17px">{{productInfo.year}}</td>
+                                            <td style="font-size: 17px">{{proInfo.year}}</td>
                                         </tr>
                                     </tbody>
                                 </template>
@@ -156,15 +157,15 @@ export default {
 
     data(){
         return{
+ 
 
         }
     },
     computed: {
-        ...mapState([ 'productInfo','userInfo', 'edit_show', 'RemoveBar'])
+        ...mapState([ 'aucInfo','likeInfo', 'proInfo', 'offerInfo', 'addrInfo' ,'userInfo', 'edit_show', 'RemoveBar', 'beforeImage'])
     },
     methods: {
         Edit(){
-            this.$store.state.editType = "Sale"
             this.$store.state.edit_show = true
         },
         ListBack(){
@@ -172,7 +173,7 @@ export default {
             this.$store.state.removeBar= false
             this.$router.push({name: 'SaleList'})
         },
-        ...mapActions(['SaleDeleteOK'])
+        ...mapActions(['SaleDelete'])
     },
     components: {
         Edit

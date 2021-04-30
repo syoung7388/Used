@@ -47,10 +47,7 @@ public class ProductServiceImpl implements ProductService {
 		return productMapper.getSoldList(username);
 	}
 
-	@Override
-	public Product ProductDetail(Product product) {
-		return productMapper.ProductDetail(product);
-	}
+
 
 	@Override
 	public List<Auction> getAuction(int p_num) {

@@ -1,12 +1,12 @@
 <template>
-<v-app >
-    <div id="daum_postcode"  style="position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;" ></div>
+<v-app>
+    <div id="daum_postcode"  style="position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;"></div>
+    <div id="map_a" hidden></div>
+
 </v-app>
-
-
-
-
 </template>
+
+
 <script>
 export default {
 
@@ -17,9 +17,12 @@ export default {
             extraAddress: '',
             bname: null,
             buildingName: null,
-            address: {},
+            address: null,
             title: null,
             data:[],
+            town: null
+
+         
 
         }
     },
@@ -28,79 +31,110 @@ export default {
         const script = document.createElement('script')
         script.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
         document.head.appendChild(script)
+
+        const scr = document.createElement('script')   
+        scr.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=e4ae1156e9644814145b77eeb30b26b0&libraries=services'
+        document.head.appendChild(scr)
+
         
-        script.onload = function(){
+        script.onload = ()=>{
+            
             var PostcodContainer = document.getElementById('daum_postcode')
             new daum.Postcode({
 
-                oncomplete: function(data){
-                    this.data = data
-                    console.log(this.data)
+            oncomplete: (e)=>{
+                //console.log(e)
+            
+                var fullAddress = e.address
+                var extraAddress = ''
 
-                   
+                //console.log(this.fullAddress)
+                if (e.addressType === 'R') {
+                    if (e.bname !== '') {
+                        extraAddress += e.bname
+                    }
+                    if (e.buildingName !== '') {
+                        extraAddress += (extraAddress !== '' ? `, ${e.buildingName}` : e.buildingName)
+                    }
+                    fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '')
 
+                    //console.log(fullAddress)
+                    var town = null
+                    if(e.bname === ''){
+                        town = e.bname1
+                    }else{
+                        town = e.bname
+                    }
+
+                    
+                    this.$emit('Addr', {fulladdress: fullAddress , town: town})
+
+                    
+                
+                    fullAddress= ''
+                    extraAddress= ''
+
+                    if(e.address !== ''){
+                        var mapContainer = document.getElementById('map')
+
+
+                        var geocoder = new kakao.maps.services.Geocoder()
+                        geocoder.addressSearch(e.address, function(result, status){
+                        if(status === kakao.maps.services.Status.OK){
+
+
+                            console.log(result)
+                    
+                            localStorage.setItem('lat', result[0].y)
+                            localStorage.setItem('lon', result[0].x) 
+                            
+                            // console.log(coords)
+                            console.log(localStorage.getItem('lon'))
+                            // console.log(localStorage.getItem('lat'))
+
+                            }
+
+                        })
+
+                    }
+
+            
                 }
 
-            }).embed(PostcodContainer)
+
+               
+
+            },
+
+            onresize : function(size) {
+            PostcodContainer.style.height = 900+'px';
+            PostcodContainer.style.width = 350+'px';
+            },
+
+            
+            
+        }).embed(PostcodContainer)
+
+
+        scr.onload =() =>kakao.maps.load(this.L)
         }
+        
 
         
     },
-    methods:{
-        // initLayerPosition(){
-        //     var width = 300
-        //     var height = 300
-        //     PostcodContainer.style.
-
-        // },
-        handleResult(){
-            console.log("주소 나쁜새끼")
-            
-            
-            var e = this.data
-            console.log(this.data)
-            this.fullAddress = e.address
-            console.log(this.fullAddress)
-            if (e.addressType === 'R') {
-                if (e.bname !== '') {
-                    this.extraAddress += e.bname
-                }
-                if (e.buildingName !== '') {
-                    this.extraAddress += (this.extraAddress !== '' ? `, ${e.buildingName}` : e.buildingName)
-                }
-                this.fullAddress += (this.extraAddress !== '' ? ` (${this.extraAddress})` : '')
-                console.log(this.fullAddress)
-                this.$emit('Address', this.fullAddress);
-                this.fullAddress= null
-                this.extraAddress= null
-
-                if(e.address !== null){
 
 
-                    var geocoder = new kakao.maps.services.Geocoder();
-                    geocoder.addressSearch(e.address, function(result, status){
-                    if(status === kakao.maps.services.Status.OK){
-                        var coords= new kakao.maps.LatLng(result[0].y, result[0].x)
-                    // console.log(coords)
-                        localStorage.setItem('lat', result[0].y)
-                        localStorage.setItem('lon', result[0].x)
-                        // console.log(localStorage.getItem('lon'))
-                        // console.log(localStorage.getItem('lat'))
-            
-                    }
-
-                })
-
-                }
-                
-
+    methods: {
+        L(){
+            var mapContainer = document.getElementById('map_a'),
+            mapOption = {
+                center: new kakao.maps.LatLng(35.918423, 128.285210),
+                level: 3
             }
-        },
+            var map = new kakao.maps.Map(mapContainer, mapOption)
 
-
+        }
     }
-
-
 
     
 }

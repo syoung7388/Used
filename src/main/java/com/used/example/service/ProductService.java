@@ -18,7 +18,7 @@ public interface ProductService {
 
 	public List<Product> getSoldList(String username);
 
-	public Product ProductDetail(Product product);
+	
 
 	public List<Auction> getAuction(int p_num);
 
