@@ -5,11 +5,23 @@
                 <v-col>
                     <h1 style="font-size: 20px; text-align: center">입력한 정보가 맞다면</h1>
                     <h1 style="font-size: 20px; text-align: center">아래의 확인 버튼을 눌러주세요.</h1>
+                    <h1 v-show="err_show === true" class="red--text mt-7" style="font-size: 15px; text-align: center">입력하신 정보를 다시 확인해 주세요.</h1>
+                </v-col>
+            </v-row>
+            <v-row align="center" justify="center" class="mt-2">
+                <v-col cols="6"  v-show="username_dup === true">
+                    <h1 style="font-size: 12px;" class="primary--text">이미 가입된 e-mail이 있습니다</h1>
+                </v-col>
+                <v-col cols="6"  v-show="name_dup === true">
+                    <h1 style="font-size: 12px;" class="primary--text">이미 가입된 닉네임이 있습니다</h1>
+                </v-col>
+            </v-row>
+            <v-row align="center">
+                <v-col>
                     <v-text-field
                      v-model="username"
                      height=40
                      required
-                     :rules="emailRules"
                      label="e-mail"
                      class="mt-10"
                     ></v-text-field>
@@ -17,7 +29,6 @@
                      height=40
                      v-model="password"
                      required
-                     :rules= "passwordRules"
                      :type="p"
                      label="비밀번호"
                      hint="8~16자 (영문 대 소문자, 숫자, 특수문자 사용가능)"
@@ -28,10 +39,8 @@
                      height=40
                      v-model="name"
                      required
-                     :rules="nameRules"
                      label="닉네임" 
                     ></v-text-field> 
-                     <!-- 중복확인 버튼 -->
                 </v-col>
             </v-row>
             <v-row>
@@ -41,11 +50,11 @@
                     label="주소"
                     class="ml-3"
                     v-model="address"
-                ></v-text-field>
-                <v-btn @click="Asearch" class=" ml-2 mr-3 mt-7" small>검색하기</v-btn>    
+                    @click="Address"
+                ></v-text-field>   
             </v-row>
             <div class="text-center pt-10 pr-5 pl-5">
-                <v-btn @click="signup({
+                <v-btn @click="CheckSignup({
                     address,
                     username,
                     name,
@@ -53,14 +62,15 @@
                     phone  
                 })"
                 block
-                x-large
+                large
                 class="primary"
                 >확인</v-btn>
             </div>
         </v-container>
         <v-container v-show="Ashow=== true">
-            <!-- <Address @Address="Aresult"></Address> -->
+            <Address @Addr="Aresult"></Address>
         </v-container>
+
     </v-form>
 
 </template>
@@ -77,34 +87,48 @@ export default{
             name: null,
             Ashow: false,
             p: 'Password',
-            nameRules:[
-                v => !!v || "필수입력란"
-            ],
-            emailRules:[
-                v => !!v || "필수입력란",
-                v => /.+@.+/.test(v) || "유효하지 않은 이메일"
-            ],
-            passwordRules:[
-                v => !!v || "필수입력란",
-                v => v && v.length >= 8 || "최소 8자부터 입력가능"
-            ],
-            items: ['foo', 'bar', 'fizz', 'buzz'],            
+            // nameRules:[
+            //     v => !!v || "필수입력란"
+            // ],
+            // emailRules:[
+            //     v => !!v || "필수입력란",
+            //     v => /.+@.+/.test(v) || "유효하지 않은 이메일"
+            // ],
+            // passwordRules:[
+            //     v => !!v || "필수입력란",
+            //     v => v && v.length >= 8 || "최소 8자부터 입력가능"
+            // ]
+            err_show: false
                 
+            
         }
     },
     methods: {
-        Asearch(){
-            this.Ashow = !this.Ashow
+        Address(){
+            this.Ashow = true
         },
-        Aresult(address){
-            this.address = address
-            this.Ashow= !this.Ashow
+        Aresult(payload){
+            this.address = payload.fulladdress
+            this.Ashow= false
         },
-        ...mapActions(['signup']),
+        CheckSignup(payload){
+            
+            (/.+@.+/.test(payload.username))? 
+            (payload.name != null)? 
+            (payload.password != null && 7 < payload.password.length) ?
+            (payload.address != null)?
+            this.$store.dispatch('Signup', payload) 
+            :this.err_show = true
+            :this.err_show = true
+            :this.err_show = true
+            :this.err_show = true
+            
+        }
+        
         
     },
     computed: {
-        ...mapState(['phone'])
+        ...mapState(['phone', 'username_dup', 'name_dup'])
     }
 }
 </script>

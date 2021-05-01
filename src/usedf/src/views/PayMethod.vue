@@ -21,12 +21,16 @@
                     max-width="70"
                     max-height="70"
                     @click="Kakao({
-                        a_num: offerInfo.a_num,
-                        o_num: offerInfo.o_num,
-                        o_username: offerInfo.o_username,
-                        price: offerInfo.price,
+                        offer: [{
+                            a_num: offerInfo[0].a_num,
+                            o_num: offerInfo[0].o_num,
+                            o_username: offerInfo[0].o_username,
+                            price: offerInfo[0].price,
+                        }],
+                        product: [{
                         p_num: proInfo.p_num,
                         kind: proInfo.kind
+                        }]
                     })"
                     >
                         <v-img

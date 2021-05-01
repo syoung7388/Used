@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -87,6 +89,20 @@ public class UserController{
 	@PostMapping("/signup")
 	public ResponseEntity<?> Signup(@RequestBody User user){
 		
+		Map<String, Integer> check = new HashMap<>();
+		
+		check = userService.Check(user);
+		//logger.info("check:"+check.get("check_username"));
+		int check_username = Integer.parseInt( String.valueOf(check.get("check_username")));
+		int check_name = Integer.parseInt( String.valueOf(check.get("check_name")));
+		if(check_username == 1 || check_name== 1) {
+			logger.info("집가고 싶다 ㅎㅎ");
+			
+			return new ResponseEntity<>(check, HttpStatus.OK);
+		
+		}else {
+		
+		
 		String encodedPassword= new BCryptPasswordEncoder().encode(user.getPassword());
 		user.setPassword(encodedPassword);
 		user.setisAccountNonExpired(true);
@@ -100,6 +116,7 @@ public class UserController{
 	    
 		
 		return new ResponseEntity<>("success", HttpStatus.OK);
+		}
 		
 	}
 	//로그인

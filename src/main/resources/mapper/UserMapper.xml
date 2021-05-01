@@ -2,6 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.used.example.mapper.UserMapper">
 
+	
+
+
+	<select id="Check" parameterType="User" resultType="hashmap">
+		SELECT  
+		COUNT(*) AS check_username, 
+		(SELECT COUNT(*) 
+		from user
+		WHERE u_name = #{name})check_name
+		FROM user
+		WHERE u_username = #{username}
+	</select>
+
 	<insert id= "createUser" parameterType= "com.used.example.domain.User">
 		insert into user(
 			u_name,
@@ -25,7 +38,6 @@
 			#{isEnabled}
 
 		)
-	
 	</insert>
 	
 	<insert id= "createAuthority"  parameterType= "com.used.example.domain.User">

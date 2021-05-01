@@ -2,7 +2,7 @@
 <v-app>
         <v-container v-show="Eshow===false">
             <v-btn icon @click="Homeback">
-                <i class="fas fa-angle-double-left" style="font-size: large;"></i>
+                <i class="fas fa-arrow-left" style="font-size: large;"></i>
             </v-btn>
             <h1 class="mb-10 mt-2" style="font-size: 20px; text-align: center">{{userInfo.name}}님 안녕하세요</h1>
             <v-list two-line>
@@ -53,7 +53,7 @@
             </v-list-item>
             <v-divider></v-divider>
         </v-list>
-        <v-list two-line>
+        <v-list three-line>
             <v-list-item @click="Edit" router :to="{name: 'AddressEdit'}">
                 <v-list-item-content>
                 <v-list-item-title class="primary--text mb-3">주소</v-list-item-title> 
@@ -64,10 +64,21 @@
                 </v-list-item-icon>       
             </v-list-item>
             <v-divider class="mb-5"></v-divider>
-            <v-btn text @click="Edit" router :to="{name: 'UserDelete'}">
-                <p style="font-size:8px;" class="grey--text" >계정삭제를 원하시면 클릭해주세요</p>
-            </v-btn>
         </v-list>
+         <v-row justify="center">
+                <v-col cols="4">
+                    <v-btn outlined small color="grey" @click="Logout"> 
+                        <span class="black--text">로그아웃</span>
+                    </v-btn>
+                </v-col>
+            </v-row>
+            <v-row justify="center">
+                <v-col cols="8">
+                    <v-btn text @click="Edit" router :to="{name: 'UserDelete'}">
+                        <p style="font-size:10px;" class="grey--text" >계정삭제를 원하시면 클릭해주세요</p>
+                    </v-btn>
+                </v-col>
+            </v-row>
         </v-container>
         <v-container v-show="Eshow === true">
             <router-view></router-view>
@@ -94,7 +105,7 @@ export default {
             this.$store.state.Eshow = true
             this.$store.state.removeBar= true
         },
-        ...mapActions(['Homeback'])
+        ...mapActions(['Homeback', 'Logout'])
 
 
 

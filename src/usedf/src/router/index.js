@@ -94,6 +94,12 @@ const routes = [
 
   },
   {
+    path: '/payready',
+    name: 'PayReady',
+    component: () => import(/* webpackChunkName: "payready" */'@/views/PayReady.vue')
+
+  },
+  {
     path: '/mypage',
     name: 'MyPage',
     component: MyPage,

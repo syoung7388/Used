@@ -2,6 +2,7 @@ package com.used.example.mapper;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,6 +32,8 @@ public interface UserMapper {
 //	public void AuthEdit(int u_num);
 
 	public void UserDelete(String username);
+
+	public Map<String, Integer> Check(User user);
 
 	
 	

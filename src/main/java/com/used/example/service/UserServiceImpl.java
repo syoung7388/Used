@@ -13,6 +13,7 @@ import com.used.example.mapper.UserMapper;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 
@@ -116,6 +117,12 @@ public class UserServiceImpl implements UserService {
 	public void UserDelete(String username) {
 		userMapper.UserDelete(username);
 		
+	}
+
+
+	@Override
+	public Map<String, Integer> Check(User user) {
+		return userMapper.Check(user);
 	}
 
 

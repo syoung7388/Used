@@ -95,6 +95,9 @@ export default new Vuex.Store({
 
     likeList: [],
     Writingshow: true,
+    payUrl: null,
+    username_dup : false,
+    name_dup: false,
 
 
   
@@ -117,6 +120,22 @@ export default new Vuex.Store({
     },
     certiFaile(state){
       state.certiError= true
+
+    },
+    Signup_s(state){
+      state.Ashow = 0
+    },
+    Duplication(state, payload){
+      if(payload.check_username = '1'){
+        state.username_dup = true
+        if(payload.check_name = '1'){
+          state.name_dup = true
+        }else{
+          state.username_dup = false 
+        }
+      }else{
+        state.name_dup = false
+      }
 
     },
     setPhone(state, payload){
@@ -142,6 +161,12 @@ export default new Vuex.Store({
 
     LoginFaile(state){
       state.isLoginError=true
+    },
+    logout(state){
+     
+      state.Ashow = 0
+      router.push({name: 'App'}) 
+      state.userInfo = null
     },
     EditSuccess(state, payload){
       state.userInfo= {
@@ -329,7 +354,7 @@ export default new Vuex.Store({
     },
     BidDetail_s(state, payload){
      
-      console.log(payload)
+      // console.log(payload)
 
       state.overlay = false
       state.removeBar = true
@@ -340,10 +365,13 @@ export default new Vuex.Store({
       for(var i in payload.product){
         state.proInfo = payload.product[i]
       }
+
+     
      // console.log(state.proInfo)
 
       
-      state.offerInfo= payload.offer
+      state.offerInfo= payload.offer 
+      console.log(offerInfo)
       state.addrInfo = payload.address
       state.beforeImage=payload.product[0].picture
       for(var i in payload.like){
@@ -370,7 +398,6 @@ export default new Vuex.Store({
       }
 
       state.aucInfo = payload
-      
       for(var i in payload.product){
         state.proInfo = payload.product[i]
       }
@@ -406,6 +433,12 @@ export default new Vuex.Store({
       state.beforeImage=payload.product[0].picture
       state.removeBar = true
       router.push({name: 'PayDetail'})
+    },
+    Kakao_s(state, payload){
+      state.payUrl = payload.next_redirect_pc_url
+      console.log(state.payUrl)
+      router.push({name: 'PayReady'})
+
     }
   },
 
@@ -456,20 +489,14 @@ export default new Vuex.Store({
         commit('certiFaile')
       }
     },
-    signup({state}, payload){ //회원가입 정보 백엔드로 보내는 함수
+    Signup({commit}, payload){ //회원가입 정보 백엔드로 보내는 함수
 
       console.log(payload)
       axios
       .post('http://localhost:9200/api/user/signup', payload)
-      .then( Sres => {
-        if(Sres.data === "success"){
-          console.log("성공")
-          state.Ashow = 0
+      .then( Res => {
 
-        }
-      })
-      .catch(()=> {
-        alert("오류")
+        (Res.data !== "success")? commit('Duplication', Res.data) : commit('Signup_s') 
       })
     },
     login({dispatch, commit , state}, payload){ //Login.vue에서 login요청하는 함수
@@ -489,6 +516,10 @@ export default new Vuex.Store({
       .catch(()=>
         commit('LoginFaile')
       )
+    },
+    Logout({commit}){
+      commit('logout')
+
     },
     getUserInfo({commit, dispatch}){ //토큰 이용해서 유저정보 얻어오기
       let token= localStorage.getItem("access_token")
@@ -949,9 +980,15 @@ export default new Vuex.Store({
       })
     },
     Kakao({commit}, payload){
-      console.log(payload)
       axios
       .post('http://localhost:9200/api/payment', payload)
+      .then(Res =>{
+      
+        // var redy = Res.data.next_redirect_pc_url
+        // window.open(redy)
+        
+
+      })
      
     }
   }

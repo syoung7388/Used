@@ -1,6 +1,7 @@
 package com.used.example.service;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,6 +26,8 @@ public interface UserService extends UserDetailsService {
 
 
 	public void UserDelete(String username);
+
+	public Map<String, Integer> Check(User user);
 
 //	public void AuthEdit(User user);
 

@@ -36,6 +36,8 @@ export default {
         scr.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=e4ae1156e9644814145b77eeb30b26b0&libraries=services'
         document.head.appendChild(scr)
 
+        scr.onload =() =>kakao.maps.load(this.L)
+
         
         script.onload = ()=>{
             
@@ -116,7 +118,7 @@ export default {
         }).embed(PostcodContainer)
 
 
-        scr.onload =() =>kakao.maps.load(this.L)
+        
         }
         
 
@@ -131,7 +133,7 @@ export default {
                 center: new kakao.maps.LatLng(35.918423, 128.285210),
                 level: 3
             }
-            var map = new kakao.maps.Map(mapContainer, mapOption)
+            new kakao.maps.Map(mapContainer, mapOption)
 
         }
     }
