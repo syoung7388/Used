@@ -6,6 +6,7 @@
 
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
     name: 'PayReady',
     data(){
@@ -26,11 +27,23 @@ export default {
     methods: {
         Back(){
             // opener.document.getElementById("p_token").value 
-            var a= document.getElementById("c_token").value
-            localStorage.setItem('k_token', a)
+            let k_token= document.getElementById("c_token").value
+            console.log(k_token)
+            // localStorage.removeItem('k_token')
+            // localStorage.setItem('k_token', a)
+            this.$store.dispatch('ApprovalDetail', {k_token: k_token
+              
+
+
             
-           // self.close();
+            })
+
+
+            self.close();
         }
+    },
+    computed: {
+        ...mapState({payInfo:'payInfo'})
     }
     
 

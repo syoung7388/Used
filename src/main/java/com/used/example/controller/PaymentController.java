@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.ui.Model;
@@ -35,10 +40,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.used.example.config.JwtUtils;
 import com.used.example.domain.Auction;
+import com.used.example.domain.KakaoPay_res;
 import com.used.example.domain.Offer;
 import com.used.example.domain.Payment;
 import com.used.example.domain.Product;
@@ -63,90 +70,80 @@ public class PaymentController {
 	@Autowired
 	AuctionService auctionService;
 	
+	private static final String HOST = "https://kapi.kakao.com";
+	
 	
 	
 	
 	
 	@PostMapping
 	@ResponseBody
-	public String KakaoPay(@RequestBody Auction auction){
+	public ResponseEntity<?> KakaoPay(@RequestBody Payment payment){
 		//logger.info("auction:"+auction);
 		
+
+        RestTemplate restTemplate = new RestTemplate();
+ 
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "KakaoAK " + "7824d85f0892e82e54e73144138aba0a");
+        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
+        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+      
+        
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.add("cid", "TC0ONETIME");
+        params.add("partner_order_id", Integer.toString(payment.getA_num()));
+        params.add("partner_user_id", payment.getO_username());
+        params.add("item_name", payment.getKind());
+        params.add("quantity", "1");
+        params.add("total_amount", Long.toString(payment.getPrice()));
+        params.add("tax_free_amount", "0");
+        params.add("approval_url", "http://localhost:8080/payapproval");
+        params.add("cancel_url", "http://localhost:8080/payapproval");
+        params.add("fail_url", "http://localhost:8080/payapproval");
+        
+        
+        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+        
+        
+        
+        
+        try {
+        	KakaoPay_res res= restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPay_res.class);
+        	
+        	payment.setRes(res);
+        	
+        
+        	
+        	logger.info("payment: "+payment);
+        	return new ResponseEntity<>( payment, HttpStatus.OK);
+        	
+        }catch(URISyntaxException e) {
+        	e.printStackTrace();
+        }
 		
-		Product product= auction.getProduct().get(0);
-		Offer offer = auction.getOffer().get(0);
+
 
 		
+	
 		
-		try {
-			
+		return new ResponseEntity<>( HttpStatus.OK);
 		
-			URL url= new URL("https://kapi.kakao.com/v1/payment/ready");
-			HttpURLConnection connection= (HttpURLConnection)url.openConnection();
-			connection.setRequestMethod("POST");
-			connection.setRequestProperty("Authorization", "KakaoAK 7824d85f0892e82e54e73144138aba0a" );
-			connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-			connection.setDoOutput(true);
-			
-			StringBuilder parameter = new StringBuilder();
-			parameter.append("cid="+"TC0ONETIME");
-			parameter.append("&partner_order_id="+offer.getA_num());
-			parameter.append("&partner_user_id="+offer.getO_username());
-			parameter.append("&item_name="+product.getKind());
-			parameter.append("&item_code="+product.getP_num());
-			parameter.append("&quantity=1");
-			parameter.append("&total_amount="+offer.getPrice());
-			parameter.append("&tax_free_amount=0");
-			parameter.append("&approval_url=http://localhost:8080/payapproval");
-			parameter.append("&cancel_url=http://localhost:8080/payapproval");
-			parameter.append("&fail_url=http://localhost:8080/payapproval");
-			
-			String param = parameter.toString();
-			logger.info("param:"+param);
-			
-			
-			OutputStream output = connection.getOutputStream();
-			DataOutputStream doutput = new DataOutputStream(output);
-			doutput.writeBytes(param);
-			doutput.close();
-			
-			int result = connection.getResponseCode();
-			logger.info("result:"+result);
-			
-			InputStream input;
-			if(result == 200) {
-				input = connection.getInputStream();
-			}else {
-				input = connection.getErrorStream();
-			}
-			
-			
-			InputStreamReader reader = new InputStreamReader(input);
-			BufferedReader breader = new BufferedReader(reader);
-			
-
-			return breader.readLine();
-			
-	}catch(MalformedURLException e) {
-		e.printStackTrace();
-	}catch(IOException e) {
-		e.printStackTrace();
+		
+		
 	}
+	@PostMapping("/approval")
+	public ResponseEntity<?> ApprovalDetail(@RequestBody Payment payment){
 		
-		return "err";
 		
-		
+		logger.info("payment"+ payment);
+		return new ResponseEntity<>("success", HttpStatus.OK);
 		
 	}
 	
 	
-	@GetMapping("/success")
-	public void Suc(@RequestParam("pg_token") String pg_token) {
-		logger.info("approval");
-		logger.info("pg_token"+pg_token);
 
-		
-	}
 	
 	
 	

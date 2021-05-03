@@ -98,6 +98,7 @@ export default new Vuex.Store({
     payUrl: null,
     username_dup : false,
     name_dup: false,
+    payInfo:[]
 
 
   
@@ -434,9 +435,9 @@ export default new Vuex.Store({
       router.push({name: 'PayDetail'})
     },
     KakaoReady_s(state, payload){
-      state.payUrl = payload.next_redirect_pc_url
-      console.log(state.payUrl)
-      router.push({name: 'PayReady'})
+     
+      state.payInfo = payload
+      console.log(state.payInfo)
 
     }
   },
@@ -982,12 +983,43 @@ export default new Vuex.Store({
       axios
       .post('http://localhost:9200/api/payment', payload)
       .then(Res =>{
+        
         (Res.data !== null)? commit('KakaoReady_s', Res.data) : commit('KakaoReady_f')
-      
-
+        //console.log(Res.data)
+        var url = Res.data.res.next_redirect_pc_url
+        //console.log(url)
+        window.open(url)
+    
+        
+        
+        
       })
      
     },
+    ApprovalDetail({commit, state}, payload){
+      let pay = {
+        "k_token": payload.k_token,
+        // "tid": state.payInfo.res.tid,
+        // "o_num" : state.payInfo.o_num,
+        // "o_username" : state.payInfo.o_username,
+        // "price" : state.payInfo. price,
+        // "p_num" : state.payInfo.p_num,
+        // "kind" : state.payInfo.kind,
+        // "a_num" : state.payInfo.a_num
+       }
+ 
+    // console.log(pay)
+
+      axios
+      .post(`http://localhost:9200/api/payment/approval`, pay)
+      .then(Res=>{
+        if(Res.data=== "success") {
+          console.log("wl")
+          router.push({name: 'Home'})
+        } 
+
+      })
+    }
   
   }
 })

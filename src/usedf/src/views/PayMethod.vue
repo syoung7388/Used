@@ -21,16 +21,14 @@
                     max-width="70"
                     max-height="70"
                     @click="KakaoReady({
-                        offer: [{
-                            a_num: offerInfo[0].a_num,
-                            o_num: offerInfo[0].o_num,
-                            o_username: offerInfo[0].o_username,
-                            price: offerInfo[0].price,
-                        }],
-                        product: [{
+                  
+                        a_num: offerInfo[0].a_num,
+                        o_num: offerInfo[0].o_num,
+                        o_username: offerInfo[0].o_username,
+                        price: offerInfo[0].price,
                         p_num: proInfo.p_num,
                         kind: proInfo.kind
-                        }]
+                   
                     })"
                     >
                         <v-img
