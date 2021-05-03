@@ -56,15 +56,15 @@ CREATE TABLE IF NOT EXISTS `auction` (
 DELETE FROM `auction`;
 /*!40000 ALTER TABLE `auction` DISABLE KEYS */;
 INSERT INTO `auction` (`a_num`, `a_username`, `a_startdate`, `a_enddate`, `a_startprice`, `a_sale`, `a_hits`, `a_title`, `a_content`) VALUES
-	(20, 'kk@kk', '2021-04-29', '2021-04-30', 13000, 1, 0, '안녕하세용갈', 'ㅇ'),
-	(22, 'kk@kk', '2021-04-29', '2021-04-30', 62222, 1, 2, '하잉', 'null'),
+	(20, 'kk@kk', '2021-04-29', '2021-04-30', 13000, 1, 3, '안녕하세용갈', 'ㅇ'),
+	(22, 'kk@kk', '2021-04-29', '2021-04-30', 62222, 1, 3, '하잉', 'null'),
 	(26, 'kk@kk', '2021-04-29', '2021-04-30', 200000, 1, 0, '안녕하세요 족발 @@', '안녕하세요 족발 @@'),
 	(27, 'kk@kk', '2021-04-29', '2021-04-30', 1230000, 1, 0, '쪽발', '쪽발'),
-	(28, 'kk@kk', '2021-04-29', '2021-04-30', 130000, 0, 0, '떡뽁이 먹고싶당', '떡뽁이 먹고싶당'),
-	(29, 'c@c', '2021-04-30', '2021-05-10', 120000, 0, 0, '꼬기 먹고싶당', '꼬기 먹고싶당'),
-	(30, 'c@c', '2021-04-30', '2021-05-10', 1300000, 0, 0, '네네치킨', '네네치킨'),
-	(31, 'c@c', '2021-04-30', '2021-05-10', 1500000, 0, 0, '핸즈커피', '핸즈커피'),
-	(32, 'c@c', '2021-04-30', '2021-05-10', 11, 0, 0, '11', '11');
+	(28, 'kk@kk', '2021-04-29', '2021-05-10', 130000, 0, 43, '떡뽁이 먹고싶당', '떡뽁이 먹고싶당'),
+	(29, 'c@c', '2021-04-30', '2021-05-10', 120000, 0, 21, '꼬기 먹고싶당', '꼬기 먹고싶당'),
+	(30, 'c@c', '2021-04-30', '2021-05-10', 1300000, 0, 3, '네네치킨', '네네치킨'),
+	(31, 'c@c', '2021-04-30', '2021-05-10', 1500000, 0, 6, '핸즈커피', '핸즈커피'),
+	(32, 'c@c', '2021-04-30', '2021-05-10', 11, 0, 9, '11', '11');
 /*!40000 ALTER TABLE `auction` ENABLE KEYS */;
 
 -- 테이블 used.auc_and_pro 구조 내보내기
@@ -118,17 +118,21 @@ INSERT INTO `auth` (`u_username`, `u_auth`) VALUES
 CREATE TABLE IF NOT EXISTS `like` (
   `a_num` int(11) NOT NULL,
   `l_username` varchar(50) NOT NULL,
-  PRIMARY KEY (`a_num`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `l_num` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`l_num`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 used.like:~4 rows (대략적) 내보내기
+-- 테이블 데이터 used.like:~7 rows (대략적) 내보내기
 DELETE FROM `like`;
 /*!40000 ALTER TABLE `like` DISABLE KEYS */;
-INSERT INTO `like` (`a_num`, `l_username`) VALUES
-	(22, 'c@c'),
-	(26, 'c@c'),
-	(27, 'c@c'),
-	(28, 'c@c');
+INSERT INTO `like` (`a_num`, `l_username`, `l_num`) VALUES
+	(22, 'c@c', 1),
+	(26, 'c@c', 2),
+	(27, 'c@c', 3),
+	(31, '1@1', 5),
+	(29, '1@1', 6),
+	(22, '1@1', 7),
+	(28, 'c@c', 11);
 /*!40000 ALTER TABLE `like` ENABLE KEYS */;
 
 -- 테이블 used.offer 구조 내보내기
@@ -142,21 +146,21 @@ CREATE TABLE IF NOT EXISTS `offer` (
   `o_skip` tinyint(4) NOT NULL DEFAULT 0,
   `o_pay` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`o_num`) USING BTREE,
-  KEY `a_num` (`a_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
+  KEY `a_num` (`a_num`),
+  KEY `o_username` (`o_username`)
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 used.offer:~8 rows (대략적) 내보내기
+-- 테이블 데이터 used.offer:~7 rows (대략적) 내보내기
 DELETE FROM `offer`;
 /*!40000 ALTER TABLE `offer` DISABLE KEYS */;
 INSERT INTO `offer` (`o_num`, `a_num`, `o_username`, `o_price`, `o_time`, `o_select`, `o_skip`, `o_pay`) VALUES
-	(61, 20, 'c@c', 30000000000, '2021-04-29 15:22:30', 0, 0, 0),
-	(63, 26, 'c@c', 1200000, '2021-04-29 15:52:02', 1, 0, 0),
-	(64, 27, 'c@c', 120000, '2021-04-29 15:58:12', 1, 0, 0),
-	(65, 20, 'f@f', 150000000, '2021-04-29 18:18:59', 0, 0, 0),
-	(71, 22, 'c@c', 1300000, '2021-04-30 10:26:29', 1, 0, 0),
-	(72, 22, 'c@c', 14000, '2021-04-30 10:26:41', 0, 0, 0),
-	(73, 26, 'c@c', 150000, '2021-04-30 10:26:52', 0, 0, 0),
-	(74, 20, 'f@f', 400000000000000, '2021-04-30 11:02:51', 1, 0, 0);
+	(61, 20, 'c@c', 1000000, '2021-04-29 15:22:30', 0, 0, 0),
+	(63, 26, 'c@c', 1000000, '2021-04-29 15:52:02', 1, 0, 0),
+	(64, 27, 'c@c', 1000000, '2021-04-29 15:58:12', 1, 0, 0),
+	(71, 22, 'c@c', 1000000, '2021-04-30 10:26:29', 1, 0, 0),
+	(73, 26, 'c@c', 900000, '2021-04-30 10:26:52', 0, 0, 0),
+	(74, 20, 'f@f', 900000, '2021-04-30 11:02:51', 1, 0, 0),
+	(81, 28, 'c@c', 17000000, '2021-05-03 12:33:28', 0, 0, 0);
 /*!40000 ALTER TABLE `offer` ENABLE KEYS */;
 
 -- 테이블 used.payment 구조 내보내기
@@ -271,7 +275,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `u_isCredentialsNonExpired` tinyint(4) DEFAULT NULL,
   `u_isEnabled` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`u_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 used.user:~16 rows (대략적) 내보내기
 DELETE FROM `user`;
@@ -282,8 +286,6 @@ INSERT INTO `user` (`u_num`, `u_password`, `u_name`, `u_username`, `u_address`, 
 	(31, '$2a$10$NKtEw8DcbnlWxv3qXbL3tewYF6xLehkklG.HE/qrrUmVbH0eI1Ozu', '10', '10@10', '경기 화성시 10용사로 49 (병점동)', '10', 1, 1, 1, 1),
 	(32, '$2a$10$eEmKevWXhD.wZAZurlHYxOjATEeRdBO0e3eNngj6GVvzNjB//F7hy', '15', '15@15', '서울 강서구 곰달래로15가길 15 (화곡동, 해오름빌)', '1515', 1, 1, 1, 1),
 	(33, '$2a$10$714FWROcOZXnXeeeb2xnru2aijjg8olOojgPfUzl2tgS7dIgx4Q.m', '16', '16@16', '서울 광진구 영화사로16가길 4 (구의동, 둥지하이츠)', '1616', 1, 1, 1, 1),
-	(34, '$2a$10$hKeMvk22l9oQid29JnVjD.73V4zKSODXty9GzzJIlSKcc9a31dXAm', '1', '1@1', '충북 청주시 상당구 1순환로 1202-2 (방서동)', '11', 1, 1, 1, 1),
-	(35, '$2a$10$mIwRXzO0hBvqQO2B9MJypuXTW7PYbQ7Aihw1LXkgzTyLNcC0BGmBO', '1', '1@1', '충북 청주시 상당구 1순환로 1202-2 (방서동)', '11', 1, 1, 1, 1),
 	(36, '$2a$10$OpHmhNnRwmzgUf0dewz1i.t1BwtpGzRZHwaIYqNU9AqHIPWqWsWMy', '2', '22@22', '광주 광산구 2순환로 2482 (신가동)', '2', 1, 1, 1, 1),
 	(37, '$2a$10$VoxetuHEZnnJ5iJrQGZYtu0gL8XdRD0M5EHYTkKT.SySYbyd8WziO', 'yy', 'y@y', '서울 강북구 덕릉로10길 23 (수유동, H.Y하우스)', '010888888888', 1, 1, 1, 1),
 	(38, '$2a$10$Z6gYnqwcySwtX.YgYsmbrOeVbNPcdSPJvlcL2CqzFefpU8o27cqm2', 'a', 'a@a', '서울 강서구 강서로 375 (마곡동)', '01083747388', 1, 1, 1, 1),
@@ -293,7 +295,8 @@ INSERT INTO `user` (`u_num`, `u_password`, `u_name`, `u_username`, `u_address`, 
 	(42, '$2a$10$qDdJQC9Dd.k5cbnaRqLPwOxGHhPbi.Bgq4bNbpOyZn5IFnEFgfXl2', '10', '10@10', '경기 화성시 10용사로 49 (병점동)', '01088888888', 1, 1, 1, 1),
 	(43, '$2a$10$SrHFjMeelAKY1VENABSz7O9vf9HjLfl54mH.2185.gRuPHluXsQXG', 'g', 'g@g', '서울 강남구 헌릉로 569 (세곡동)', '1111111111', 1, 1, 1, 1),
 	(44, '$2a$10$KsF9bzpypIlMFKVpxAxz1.ee1j1ozFes.w6NGg7xSsyJAFu8EAG8G', 'f', 'f@f', '인천 서구 로봇랜드로 33 (원창동)', '01083747388', 1, 1, 1, 1),
-	(45, '$2a$10$Kl634SUZJqbvmwI0BjcanOOOvsw4VfRH3dSOZ1qG7HqN7f4V/WAH2', 'c', 'c@c', '서울 강남구 도산대로 402-2 (청담동)', '123444', 1, 1, 1, 1);
+	(45, '$2a$10$Kl634SUZJqbvmwI0BjcanOOOvsw4VfRH3dSOZ1qG7HqN7f4V/WAH2', 'c', 'c@c', '서울 강남구 도산대로 402-2 (청담동)', '123444', 1, 1, 1, 1),
+	(46, '$2a$10$3pL1MP4FqZpyW.CL6QNJAO2hoN4zXyeQ9u/6LqvZEUS79s6/f2uJu', '1', '1@1', '충북 청주시 청원구 1순환로 42 (율량동, 화장실)', '01083747388', 1, 1, 1, 1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

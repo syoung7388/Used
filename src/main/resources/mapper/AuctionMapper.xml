@@ -141,6 +141,7 @@
 		<result property="hits" column="a_hits"/>
 		<result property="title" column="a_title"/>
 		<result property="content" column="a_content"/>
+		<result property="topprice" column="topprice"/>
 		<association property="address" javaType="Address">
 			<result property="ad_num" column="ad_num"/>
 			<result property="a_num" column="a_num"/>
@@ -155,9 +156,21 @@
 	</resultMap>
 	
 	
+	<update id="Hits" parameterType="int">
+		UPDATE	auction
+		SET	a_hits = (	SELECT a_hits
+							 	FROM auction
+							 	WHERE a_num = #{a_num}
+						)+1
+		WHERE a_num = #{a_num}
+	</update>
+	
 	
 	<select id="AucDetail" parameterType="int" resultMap="DetailMap">
-		SELECT *
+		SELECT	*,
+				(SELECT MAX(h.o_price)
+				FROM offer h
+				WHERE a.a_num = h.a_num)topprice
 		FROM auction a
 		LEFT JOIN offer b ON a.a_num = b.a_num
 		LEFT JOIN address c ON a.a_num = c.a_num
@@ -190,6 +203,7 @@
 		
 	
 	</update>
+	
 	<delete id="AucDelete" parameterType="int">
 		DELETE a.*, b.*, c.*, d.*, e.*, f.*, g.*
 		FROM auction a
@@ -221,6 +235,7 @@
 		LEFT JOIN auc_and_pro c ON  c.a_num = a.a_num
 		LEFT JOIN product d ON d.p_num = c.p_num
 		LEFT JOIN picture e ON e.p_num = d.p_num
+		WHERE a.a_sale = 0
 		HAVING DISTANCE &lt; 300
 		ORDER BY distance ASC, a.a_hits DESC
 		LIMIT 10
@@ -245,7 +260,7 @@
 		LEFT JOIN auc_and_pro c ON  c.a_num = a.a_num
 		LEFT JOIN product d ON d.p_num = c.p_num
 		LEFT JOIN picture e ON e.p_num = d.p_num
-		WHERE d.p_industry = #{industry}
+		WHERE d.p_industry = #{industry} AND a.a_sale = 0
 		ORDER BY distance ASC
 		LIMIT 10
 	</select>
@@ -269,7 +284,7 @@
 		LEFT JOIN auc_and_pro c ON  c.a_num = a.a_num
 		LEFT JOIN product d ON d.p_num = c.p_num
 		LEFT JOIN picture e ON e.p_num = d.p_num
-		WHERE d.p_kind = #{kind}
+		WHERE d.p_kind = #{kind} AND a.a_sale = 0
 		ORDER BY distance ASC
 		LIMIT 10
 	</select>

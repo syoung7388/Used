@@ -37,13 +37,15 @@
                 </v-carousel-item>
             </v-carousel>
             <v-row class="ma-0">
-                <v-col cols="12" class="ma-0"  v-if="aucInfo.sale=== 'false'" >   
-                    <v-list-item-title style="font-size: 15px; text-align: right;" class="primary--text">거래중</v-list-item-title>
-                    <v-list-item-subtitle v-html="aucInfo.enddate" style="font-size: 12px; text-align: right;"></v-list-item-subtitle>
+                <v-col cols="6" class="ma-0">
+                    <v-list-item-title style="font-size: 16px; text-align: left">시작가: &nbsp; <span style="font-weight: bold">{{aucInfo.startprice| comma}}원</span></v-list-item-title>      
+                    <v-list-item-title style="font-size: 16px; text-align: left">최고가: &nbsp;<span style="font-weight: bold">{{aucInfo.topprice| comma}}원</span></v-list-item-title>
                 </v-col>
-                <v-col cols="3" v-else>   
-                        <h1 style="font-size: 15px; text-align: right;" class="primary--text"> 거래완료</h1>
-                        <v-list-item-subtitle v-html="aucInfo.enddate" style="font-size: 12px; text-align: right;"></v-list-item-subtitle>
+                <v-col cols="6" class="ma-0">
+                    <v-list-item-title style="font-size: 11px; text-align: right">마감기간: &nbsp; {{aucInfo.enddate}}</v-list-item-title>      
+                    <v-list-item-title style="font-size: 11px; text-align: right">조회수: &nbsp;{{aucInfo.hits}}</v-list-item-title>
+                    <v-list-item-title v-if="aucInfo.d_day < 0" style="font-size: 11px; text-align: right">d-day: &nbsp;D{{aucInfo.d_day}}</v-list-item-title>
+                    <v-list-item-title v-else style="font-size: 11px; text-align: right">d-day: &nbsp;거래완료</v-list-item-title>
                 </v-col>
             </v-row>
             <v-row class="ma-0" justify="center" > 
@@ -85,7 +87,7 @@
                                     <h1 style="font-size: 17px; text-align:center" >{{int+1}}등</h1>
                                 </v-col>
                                 <v-col cols="5" >
-                                    <h1 style="font-size: 17px; text-align:center" >{{item.price}}원</h1>
+                                    <h1 style="font-size: 17px; text-align:center" >{{item.price|comma}}원</h1>
                                 </v-col>
                                 <v-col cols="5" >
                                     <h1 style="font-size: 17px; text-align:center">{{item.o_username}}님</h1>
@@ -97,12 +99,12 @@
                         <v-card flat class="pa-3"> 
                             <v-row v-for="(item, int) in offerInfo" :key="int" align="center" justify="center" >
                                 <v-col cols="5" v-show="item.o_username === userInfo.username">
-                                    <h1 style="font-size: 17px; text-align:center" >{{item.price}}원</h1>
+                                    <h1 style="font-size: 17px; text-align:center" >{{item.price|comma}}원</h1>
                                 </v-col>
                                 <v-col cols="4" v-show="item.o_username === userInfo.username">
                                     <h1 style="font-size: 14px; text-align:center">{{item.time}}</h1>
                                 </v-col>
-                                <v-col cols="3" v-show="item.o_username === userInfo.username && aucInfo.sale === 'false'">
+                                <v-col cols="3" v-show="item.o_username === userInfo.username && aucInfo.sale === 0">
                                     <v-btn text color="primary" @click="OfferCancle({o_num: item.o_num, a_num: item.a_num})">철회</v-btn>
                                 </v-col>
                             </v-row>
@@ -141,23 +143,45 @@
                 fixed   
                 >
                     <v-row class="ma-1 ">
-                        <v-col cols="7" class="ma-0" >
-                            <v-text-field outlined dense v-model="price" ></v-text-field>
+                         <v-col cols="2">
+                            <v-btn 
+                            icon
+                            class="mt-1 mr-1" 
+                            @click="Like({a_num: aucInfo.a_num, l_username: userInfo.username})"
+                            v-show="heart === false" 
+                            >
+                                <v-icon color="grey">mdi-heart</v-icon>
+                            </v-btn>
+                            <v-btn
+                            icon 
+                            class="mt-1 mr-1"
+                            v-show="heart === true" 
+                            @click="RemoveLike({a_num: aucInfo.a_num})"
+                            >
+                            <v-icon color="red">mdi-heart</v-icon>
+                            </v-btn> 
+
+                        </v-col> 
+                        <v-col cols="6" class="ma-0" >
+                             <input type="text" v-model="c_price" v-on="comma(c_price)"  style="font-size:17px;  text-align: left ; " class="mt-1 mx-2" placeholder="가격 입력란">
                         </v-col>
-                        <v-col cols="1" class="pa-0 mt-4">
-                            <h1 style="font-size: 20px">원</h1>
-                        </v-col>
+
                         <v-col cols="4" >
                             <v-btn large class="primary mt-1" block>
                                 <span style="font-size:15px;" class="white--text ma-2" @click="Overlay">가격제안</span>
                             </v-btn>
                             <v-overlay :value="overlay">
-                                <v-card color="white" >
+                                <v-card color="white" v-if="over_err === false" >
                                     <v-card-title class="black--text justify-center" style="font-size: 17px;">입력하신 금액 </v-card-title>
-                                    <v-card-title class="black--text justify-center" style="font-size: 17px; text-align: center"> {{price}}원이 맞나요?</v-card-title>
+                                    <v-card-title class="black--text justify-center" style="font-size: 17px; text-align: center"> {{c_price}}원이 맞나요?</v-card-title>
                                     <v-card-actions>
-                                        <v-btn text color="primary" x-small >
-                                            <span class="primary--text ma-1" @click="PriceOffer_bid({a_num: aucInfo.a_num, price: price})">확인</span>
+                                        <v-btn text color="primary" x-small 
+                                        @click="priceOffer({
+                                        a_num: aucInfo.a_num,
+                                        price: price
+
+                                        })">
+                                            <span class="primary--text ma-1">확인</span>
                                         </v-btn>
                                         <v-btn text color="primary" >
                                             <span class="primary--text ma-1" @click="Overlay">취소</span>
@@ -165,6 +189,9 @@
                                     </v-card-actions>
 
                                     
+                                </v-card>
+                                <v-card v-else color="white">
+                                    <v-card-text class="black--text">입력금액이 시작가 혹은 최고가 보다 낮습니다.</v-card-text>
                                 </v-card>
                             </v-overlay>
                         </v-col>
@@ -183,12 +210,20 @@ export default {
 
     data(){
         return{
-            price: 0
-           
-
+            c_price: '',
+            price: 0,
+            over_err: false
             
 
         }
+    },
+    filters:{
+            comma(pri){
+            var num = new Number(pri)
+            return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g,"$1,")
+        }
+
+                
     },
     computed: {
         
@@ -197,10 +232,39 @@ export default {
     methods: {
 
         Overlay(){
+            var aucInfo = this.$store.state.aucInfo
             this.$store.state.overlay = !this.$store.state.overlay
 
+            if(this.price > aucInfo.topprice && this.price > aucInfo.startprice){
+                this.over_err = false
+            }else{
+                this.over_err = true
+                setTimeout(()=>{
+                    this.$store.state.overlay = false
+                    this.over_err = false
+                    this.c_price = ''
+                    this.price=0
+                }, 2000)
+            }
+
         },
-        ...mapActions(['OfferCancle', 'PriceOffer_bid', 'OfferCancle']),
+        priceOffer(payload){
+            this.$store.dispatch('PriceOffer_bid',payload)
+            this.price = 0
+        },
+        comma(price){
+            
+            var n = price.replace(/\D/g,"")
+            this.price = n
+            var reg = /(^[+-]?\d+)(\d{3})/
+            n += ''
+            while(reg.test(n)){
+                n= n.replace(reg, '$1'+','+'$2') 
+            }
+            this.c_price = n
+           
+        },
+        ...mapActions(['OfferCancle', 'PriceOffer_bid', 'RemainDelete', 'Like', 'RemoveLike']),
 
 
         Back(){

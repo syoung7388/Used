@@ -42,6 +42,8 @@ public interface AuctionMapper {
 
 	public List<Auction> KindList(@Param("lat")String lat,@Param("lon") String lon, @Param("kind") String kind);
 
+	public void Hits(int a_num);
+
 
 
 }

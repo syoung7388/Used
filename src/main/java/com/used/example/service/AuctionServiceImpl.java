@@ -94,6 +94,12 @@ public class AuctionServiceImpl implements AuctionService {
 		return auctionMapper.KindList(lat, lon, kind);
 	}
 
+	@Override
+	public void Hits(int a_num) {
+		auctionMapper.Hits(a_num);
+		
+	}
+
 
 
 }

@@ -371,7 +371,6 @@ export default new Vuex.Store({
 
       
       state.offerInfo= payload.offer 
-      console.log(offerInfo)
       state.addrInfo = payload.address
       state.beforeImage=payload.product[0].picture
       for(var i in payload.like){

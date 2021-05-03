@@ -27,6 +27,7 @@ public class Auction {
 	private List<Offer> offer;
 	private Address address;
 	private Product pro;
+	private long topprice;
 	
 	
 	public int getDay() {
@@ -52,6 +53,8 @@ public class Auction {
 		return d_day;
 	}
 	public void setD_day(String d_day) throws Exception {
+		
+		this.enddate = d_day;
 		
 		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");	
 		String today= form.format(new Date());
@@ -162,13 +165,20 @@ public class Auction {
 	public void setPro(Product pro) {
 		this.pro = pro;
 	}
+	public long getTopprice() {
+		return topprice;
+	}
+	public void setTopprice(long topprice) {
+		this.topprice = topprice;
+	}
 	@Override
 	public String toString() {
 		return "Auction [a_num=" + a_num + ", a_username=" + a_username + ", startdate=" + startdate + ", enddate="
 				+ enddate + ", startprice=" + startprice + ", sale=" + sale + ", hits=" + hits + ", day=" + day
 				+ ", d_day=" + d_day + ", title=" + title + ", content=" + content + ", product=" + product + ", like="
-				+ like + ", offer=" + offer + ", address=" + address + ", pro=" + pro + "]";
+				+ like + ", offer=" + offer + ", address=" + address + ", pro=" + pro + ", topprice=" + topprice + "]";
 	}
+	
 	
 	
 	

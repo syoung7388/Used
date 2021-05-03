@@ -28,7 +28,7 @@
                                     <v-list-item-content>
                                         <v-list-item-subtitle v-if="item.d_day > 0">D{{item.d_day}}</v-list-item-subtitle>
                                         <v-list-item-subtitle v-else>입찰 선정중</v-list-item-subtitle>
-                                        <v-list-item-title class="pt-2">{{item.offer[0].topprice}}원</v-list-item-title>
+                                        <v-list-item-title class="pt-2">{{item.topprice}}원</v-list-item-title>
                                         <v-list-item-title class="pt-2">{{item.offer[0].price}}원</v-list-item-title>
                                     </v-list-item-content>
                                 </v-col>
@@ -98,7 +98,7 @@
                                 <v-col cols="4" class="pl-0">
                                     <v-list-item-content>
                                         <v-list-item-subtitle v-html="item.p_date"></v-list-item-subtitle>
-                                        <v-list-item-title class="pt-2">{{item.offer[0].topprice}}원</v-list-item-title>
+                                        <v-list-item-title class="pt-2">{{item.topprice}}원</v-list-item-title>
                                         <v-list-item-title class="pt-2">{{item.offer[0].price}}원</v-list-item-title>
                                     </v-list-item-content>
                                 </v-col>

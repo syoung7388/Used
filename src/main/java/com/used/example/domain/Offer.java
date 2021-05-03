@@ -12,16 +12,12 @@ public class Offer {
 	private String o_username;
 	private long price;
 	private String time;
-	private long topprice;
+	
 	private int select;
 	private int pay;
 	private int skip;
-	@Override
-	public String toString() {
-		return "Offer [o_num=" + o_num + ", a_num=" + a_num + ", o_username=" + o_username + ", price=" + price
-				+ ", time=" + time + ", topprice=" + topprice + ", select=" + select + ", pay=" + pay + ", skip=" + skip
-				+ "]";
-	}
+	private int count;
+
 	public int getO_num() {
 		return o_num;
 	}
@@ -52,12 +48,7 @@ public class Offer {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	public long getTopprice() {
-		return topprice;
-	}
-	public void setTopprice(long topprice) {
-		this.topprice = topprice;
-	}
+
 	public int getSelect() {
 		return select;
 	}
@@ -75,6 +66,17 @@ public class Offer {
 	}
 	public void setSkip(int skip) {
 		this.skip = skip;
+	}
+	@Override
+	public String toString() {
+		return "Offer [o_num=" + o_num + ", a_num=" + a_num + ", o_username=" + o_username + ", price=" + price
+				+ ", time=" + time + ", select=" + select + ", pay=" + pay + ", skip=" + skip + "]";
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 

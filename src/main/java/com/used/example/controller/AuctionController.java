@@ -42,7 +42,7 @@ import com.used.example.service.AuctionService;
 import com.used.example.service.ProductService;
 import com.used.example.utility.MakeThumbnail;
 
-@CrossOrigin(origins="*", maxAge= 3600)
+@CrossOrigin(origins="*", maxAge= 5000)
 @RestController
 @RequestMapping("/api/auction")
 public class AuctionController {
@@ -165,8 +165,8 @@ public class AuctionController {
 	@GetMapping("/{a_num}")
 	public ResponseEntity<?> AucDetail(@PathVariable("a_num") int a_num, HttpServletRequest request){
 		
-		
-		
+		auctionService.Hits(a_num);
+
 		token = request.getHeader("access_token");
 		if(StringUtils.hasText(token)&& token.startsWith("Bearer")) {
 			token = token.substring(7, token.length());

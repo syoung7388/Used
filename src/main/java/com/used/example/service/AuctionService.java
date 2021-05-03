@@ -36,6 +36,8 @@ public interface AuctionService {
 
 	public List<Auction> KindList(String lat, String lon, String kind);
 
+	public void Hits(int a_num);
+
 	
 
 	;

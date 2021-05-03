@@ -20,7 +20,6 @@
 		<result property="o_username" column="o_username"/>
 		<result property="price" column="o_price"/>
 		<result property="time" column="o_time"/>
-		<result property="topprice" column="topprice"/>
 	</resultMap>
 	<resultMap type="Like" id="ListLike">
 		
@@ -39,6 +38,7 @@
 		<result property="hits" column="a_hits"/>
 		<result property="title" column="a_title"/>
 		<result property="content" column="a_content"/>
+		<result property="topprice" column="topprice"/>
 		<association property="address" javaType="Address">
 			<result property="ad_num" column="ad_num"/>
 			<result property="a_num" column="a_num"/>
@@ -107,8 +107,24 @@
 
 
 	<insert id="CreateOffer" parameterType="Offer">
-		insert into offer(a_num, o_username, o_price)
-		values(#{a_num}, #{o_username}, #{price}) on duplicate key update o_price= #{price}
+		<selectKey keyProperty="count" resultType="int" order="BEFORE" >
+			select  COUNT(*) 
+			from offer
+			where a_num = #{a_num} and o_username = #{o_username}
+		</selectKey>
+		
+		<choose>
+			<when test="count == 0">
+				insert into offer(a_num, o_username, o_price)
+				values(#{a_num}, #{o_username}, #{price}) 
+			</when>
+			<otherwise>
+				update offer
+				set  o_price= #{price}
+				where a_num = #{a_num} and o_username = #{o_username}
+			
+			</otherwise>
+		</choose>
 
 			
 	</insert>
