@@ -433,7 +433,7 @@ export default new Vuex.Store({
       state.removeBar = true
       router.push({name: 'PayDetail'})
     },
-    Kakao_s(state, payload){
+    KakaoReady_s(state, payload){
       state.payUrl = payload.next_redirect_pc_url
       console.log(state.payUrl)
       router.push({name: 'PayReady'})
@@ -978,17 +978,16 @@ export default new Vuex.Store({
         (Res.data !== null)? commit('PayDetail_s' , Res.data):commit('PayDetail_f' , Res.data) 
       })
     },
-    Kakao({commit}, payload){
+    KakaoReady({commit}, payload){
       axios
       .post('http://localhost:9200/api/payment', payload)
       .then(Res =>{
+        (Res.data !== null)? commit('KakaoReady_s', Res.data) : commit('KakaoReady_f')
       
-        // var redy = Res.data.next_redirect_pc_url
-        // window.open(redy)
-        
 
       })
      
-    }
+    },
+  
   }
 })

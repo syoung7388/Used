@@ -97,9 +97,9 @@ public class PaymentController {
 			parameter.append("&quantity=1");
 			parameter.append("&total_amount="+offer.getPrice());
 			parameter.append("&tax_free_amount=0");
-			parameter.append("&approval_url=http://localhost:8080/payready");
-			parameter.append("&cancel_url=http://localhost:8080/payready");
-			parameter.append("&fail_url=http://localhost:8080/payready");
+			parameter.append("&approval_url=http://localhost:8080/payapproval");
+			parameter.append("&cancel_url=http://localhost:8080/payapproval");
+			parameter.append("&fail_url=http://localhost:8080/payapproval");
 			
 			String param = parameter.toString();
 			logger.info("param:"+param);

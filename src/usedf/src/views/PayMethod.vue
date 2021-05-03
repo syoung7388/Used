@@ -20,7 +20,7 @@
                     <v-card
                     max-width="70"
                     max-height="70"
-                    @click="Kakao({
+                    @click="KakaoReady({
                         offer: [{
                             a_num: offerInfo[0].a_num,
                             o_num: offerInfo[0].o_num,
@@ -53,7 +53,7 @@ export default {
 
     },
     methods:{
-        ...mapActions(['Kakao']),
+        ...mapActions(['KakaoReady']),
         Toss(){
             
         }
