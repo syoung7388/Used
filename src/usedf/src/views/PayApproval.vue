@@ -7,6 +7,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import eventBus from '@/main'
 export default {
     name: 'PayReady',
     data(){
@@ -28,18 +29,22 @@ export default {
         Back(){
             // opener.document.getElementById("p_token").value 
             let k_token= document.getElementById("c_token").value
-            console.log(k_token)
+            //console.log(k_token)
             // localStorage.removeItem('k_token')
             // localStorage.setItem('k_token', a)
-            this.$store.dispatch('ApprovalDetail', {k_token: k_token
-              
+            //this.$store.dispatch('ApprovalDetail', {k_token: k_token}
+            //eventBus.$emit('k_token', k_token)
+            //opener.k_token()
+           // opener.$store.dispatch('ApprovalDetail', {k_token: k_token})
+           //window.opener.document.k_token
+            //opener.parent.k_token()
+           // window.opener.app.$root.$store.commit("KakaoReady_s", 'gg');
+           
+           
+           window.opener.postMessage({k_token: k_token}, '*')
 
 
-            
-            })
-
-
-            self.close();
+            //self.close();
         }
     },
     computed: {
@@ -48,4 +53,7 @@ export default {
     
 
 }
+opener.popup = this
+
+
 </script>

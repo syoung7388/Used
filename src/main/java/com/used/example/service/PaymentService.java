@@ -3,7 +3,7 @@ package com.used.example.service;
 import java.util.List;
 
 import com.used.example.domain.Auction;
-import com.used.example.domain.Payment;
+import com.used.example.domain.KaKaoReady;
 import com.used.example.domain.Product;
 
 public interface PaymentService {
@@ -12,8 +12,8 @@ public interface PaymentService {
 
 	public List<Auction> PayList(String o_username);
 
-	public void CreatePayment(List<Payment> list);
+	public void CreatePayment(List<KaKaoReady> list);
 
-	public List<Payment> SelectPaymenet(String today);
+	public List<KaKaoReady> SelectPaymenet(String today);
 
 }

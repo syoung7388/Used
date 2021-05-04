@@ -1,14 +1,13 @@
 package com.used.example.domain;
 
-public class Payment {
+public class KaKaoReady {
 	private int a_num;
 	private int o_num;
 	private String o_username;
 	private long price;
 	private int p_num;
 	private String kind;
-	private String k_token;
-	private KakaoPay_res res;
+	private KakaoReady_R kready_r;
 
 	
 	
@@ -49,22 +48,17 @@ public class Payment {
 	public void setKind(String kind) {
 		this.kind = kind;
 	}
-	public String getK_token() {
-		return k_token;
+
+	public KakaoReady_R getKready_r() {
+		return kready_r;
 	}
-	public void setK_token(String k_token) {
-		this.k_token = k_token;
-	}
-	public KakaoPay_res getRes() {
-		return res;
-	}
-	public void setRes(KakaoPay_res res) {
-		this.res = res;
+	public void setKready_r(KakaoReady_R kready_r) {
+		this.kready_r = kready_r;
 	}
 	@Override
 	public String toString() {
-		return "Payment [a_num=" + a_num + ", o_num=" + o_num + ", o_username=" + o_username + ", price=" + price
-				+ ", p_num=" + p_num + ", kind=" + kind + ", k_token=" + k_token + ", res=" + res + "]";
+		return "KaKaoReady [a_num=" + a_num + ", o_num=" + o_num + ", o_username=" + o_username + ", price=" + price
+				+ ", p_num=" + p_num + ", kind=" + kind + ", kready_r=" + kready_r + "]";
 	}
 
 	

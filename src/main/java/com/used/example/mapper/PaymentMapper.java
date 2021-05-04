@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.used.example.domain.Auction;
-import com.used.example.domain.Payment;
+import com.used.example.domain.KaKaoReady;
 import com.used.example.domain.Product;
 
 @Mapper
@@ -16,8 +16,8 @@ public interface PaymentMapper {
 
 	public List<Auction> PayList(String o_username);
 
-	public void CreatePayment(List<Payment> list);
+	public void CreatePayment(List<KaKaoReady> list);
 
-	public List<Payment> SelectPaymenet(String today);
+	public List<KaKaoReady> SelectPaymenet(String today);
 
 }

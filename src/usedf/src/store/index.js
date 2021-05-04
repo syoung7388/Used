@@ -435,7 +435,7 @@ export default new Vuex.Store({
       router.push({name: 'PayDetail'})
     },
     KakaoReady_s(state, payload){
-     
+
       state.payInfo = payload
       console.log(state.payInfo)
 
@@ -979,17 +979,37 @@ export default new Vuex.Store({
         (Res.data !== null)? commit('PayDetail_s' , Res.data):commit('PayDetail_f' , Res.data) 
       })
     },
-    KakaoReady({commit}, payload){
+    KakaoReady({commit,state, dispatch}, payload){
       axios
-      .post('http://localhost:9200/api/payment', payload)
+      .post('http://localhost:9200/api/kready', payload)
       .then(Res =>{
         
         (Res.data !== null)? commit('KakaoReady_s', Res.data) : commit('KakaoReady_f')
         //console.log(Res.data)
-        var url = Res.data.res.next_redirect_pc_url
+        var url = Res.data.kready_r.next_redirect_pc_url
         //console.log(url)
-        window.open(url)
-    
+        var d= window.open(url)
+
+
+        window.addEventListener('message', (e)=>{
+          console.log(e.data.k_token)
+          dispatch('ApprovalDetail', {
+           
+            o_num: state.payInfo.o_num,
+            o_username : state.payInfo.o_username,
+            price : state.payInfo. price,
+            p_num : state.payInfo.p_num,
+            kind : state.payInfo.kind,
+            a_num : state.payInfo.a_num,
+            kready_r: {
+              tid: state.payInfo.res.tid,
+              k_token: e.data.k_token
+            }
+
+          
+          })
+        })
+        
         
         
         
@@ -997,25 +1017,12 @@ export default new Vuex.Store({
      
     },
     ApprovalDetail({commit, state}, payload){
-      let pay = {
-        "k_token": payload.k_token,
-        // "tid": state.payInfo.res.tid,
-        // "o_num" : state.payInfo.o_num,
-        // "o_username" : state.payInfo.o_username,
-        // "price" : state.payInfo. price,
-        // "p_num" : state.payInfo.p_num,
-        // "kind" : state.payInfo.kind,
-        // "a_num" : state.payInfo.a_num
-       }
- 
-    // console.log(pay)
 
       axios
-      .post(`http://localhost:9200/api/payment/approval`, pay)
+      .post(`http://localhost:9200/api/payment/kapproval`, payload)
       .then(Res=>{
         if(Res.data=== "success") {
-          console.log("wl")
-          router.push({name: 'Home'})
+          
         } 
 
       })

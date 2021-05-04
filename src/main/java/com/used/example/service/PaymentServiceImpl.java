@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.used.example.domain.Auction;
-import com.used.example.domain.Payment;
+import com.used.example.domain.KaKaoReady;
 import com.used.example.domain.Product;
 import com.used.example.mapper.PaymentMapper;
 
@@ -30,13 +30,13 @@ public class PaymentServiceImpl implements PaymentService{
 	}
 
 	@Override
-	public void CreatePayment(List<Payment> list) {
+	public void CreatePayment(List<KaKaoReady> list) {
 		paymentMapper.CreatePayment(list);
 		
 	}
 
 	@Override
-	public List<Payment> SelectPaymenet(String today) {
+	public List<KaKaoReady> SelectPaymenet(String today) {
 		return paymentMapper.SelectPaymenet(today);
 	}
 	

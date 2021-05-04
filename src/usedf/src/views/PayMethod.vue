@@ -39,11 +39,13 @@
                     </v-card>
                 </v-col>
             </v-row>
+            <!-- <v-btn @click="k_token"></v-btn> -->
         </v-container>
     </v-app>   
 </template>
 <script>
 import {mapActions, mapState} from 'vuex'
+import eventBus from '@/main'
 export default {
     computed:{
 
@@ -52,9 +54,19 @@ export default {
     },
     methods:{
         ...mapActions(['KakaoReady']),
-        Toss(){
-            
-        }
-    }
+        Toss(){ 
+        },
+  
+    },
+    created(){
+
+
+
+     }
 }
+function k_token(){
+            console.log("k_token")
+        
+}
+
 </script>
