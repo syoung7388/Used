@@ -44,7 +44,7 @@ export default {
            window.opener.postMessage({k_token: k_token}, '*')
 
 
-            //self.close();
+            self.close();
         }
     },
     computed: {

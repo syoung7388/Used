@@ -47,9 +47,12 @@ import org.springframework.web.client.RestTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.used.example.config.JwtUtils;
+import com.used.example.domain.Amount;
 import com.used.example.domain.Auction;
+import com.used.example.domain.Card;
 import com.used.example.domain.KakaoReady_R;
 import com.used.example.domain.Offer;
+import com.used.example.domain.Payment;
 import com.used.example.domain.KaKaoReady;
 import com.used.example.domain.KakaoAmount;
 import com.used.example.domain.KakaoApproval;
@@ -149,13 +152,13 @@ public class PaymentController {
 		
         RestTemplate restTemplate = new RestTemplate();
         
-        // 서버로 요청할 Header
+
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "KakaoAK " + "7824d85f0892e82e54e73144138aba0a");
         headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
  
-        // 서버로 요청할 Body
+
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
         params.add("tid", ready.getKready_r().getTid());
@@ -169,31 +172,58 @@ public class PaymentController {
         try {
             approval = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoApproval.class);
             logger.info("" + approval);
+            
+            
+            Payment payment = new Payment();
+            payment.setA_num(approval.getPartner_order_id());
+            payment.setCop("kakao");
+            payment.setKind(approval.getItem_name());
+            payment.setMethod(approval.getPayment_method_type());
+            payment.setP_num(approval.getItem_code());
+            payment.setPa_username(approval.getPartner_user_id());
+            payment.setQuantity(approval.getQuantity());
+            payment.setPatime(approval.getApproved_at());
+            paymentService.CreatePayment(payment);
+           
+            int pa_num= payment.getPa_num();
+            if(approval.getCard_info() != null) {
+            	logger.info("집 언제가지?");
+            	
+            	Card card = new Card();
+            	card.setBin(approval.getCard_info().getBin());
+            	card.setInstall_month(approval.getCard_info().getInstall_month());
+            	card.setInterest_free_install(approval.getCard_info().getInterest_free_install());
+            	card.setType(approval.getCard_info().getCard_type());
+            	card.setApproved_id(approval.getCard_info().getApproved_id());
+            	card.setPa_num(pa_num);
+            	card.setMid(approval.getCard_info().getCard_mid());
+            	
+            	paymentService.CreateCard(card);
+            	
+            }
+            
+            Amount amount = new Amount();
+            amount.setPa_num(pa_num);
+            amount.setDiscount(approval.getAmount().getDiscount());
+            amount.setPoint(approval.getAmount().getPoint());
+            amount.setTax_free(approval.getAmount().getTax_free());
+            amount.setTotal(approval.getAmount().getTotal());
+            amount.setVat(approval.getAmount().getVat());
+            paymentService.CreateAmount(amount);
+            
+           int a_num = payment.getA_num();
+           auctionService.AucEnd(a_num);
+           Auction  aucdetail= auctionService.AucDetail(a_num);
+           Payment paydetail = paymentService.PaymentDetail(pa_num);
          
 
-         
-         approval.setCop("kakao");
-         paymentService.CreatePayment(approval);
+           Map<String, Object> map = new HashMap<String, Object>();
+           map.put("aucdetail", aucdetail);
+           map.put("paydetail", paydetail);
+           
+            
           
-         
-         int pa_num = approval.getPa_num();
-         
-
-         KakaoCardInfo cardInfo =approval.getCard_info();
-         if(cardInfo != null) {
-        	 cardInfo.setPa_num(pa_num);
-        	 paymentService.CreateCard(cardInfo);
-         }
-         
-         
-         KakaoAmount amount = approval.getAmount();
-         if(amount != null) {
-        	 amount.setPa_num(pa_num);
-        	 paymentService.CreateAmount(amount);
-         }
-
-          
-            return new ResponseEntity<>(  HttpStatus.OK);
+            return new ResponseEntity<>( map, HttpStatus.OK);
         
         } catch (RestClientException e) {
          

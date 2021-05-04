@@ -38,11 +38,6 @@ public class AuctionServiceImpl implements AuctionService {
 		
 	}
 
-	@Override
-	public void AuctionEnd(String today) {
-		auctionMapper.AuctionEnd(today);
-		
-	}
 
 	@Override
 	public void createPayment() {
@@ -97,6 +92,12 @@ public class AuctionServiceImpl implements AuctionService {
 	@Override
 	public void Hits(int a_num) {
 		auctionMapper.Hits(a_num);
+		
+	}
+
+	@Override
+	public void AucEnd(int a_num) {
+		auctionMapper.AucEnd(a_num);
 		
 	}
 

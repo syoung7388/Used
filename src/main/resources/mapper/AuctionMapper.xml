@@ -289,5 +289,11 @@
 		LIMIT 10
 	</select>
 	
+	<update id="AucEnd" parameterType="int">
+		update auction
+		set a_sale = 2
+		where a_num = #{a_num}
+	</update>
+	
 
 </mapper>

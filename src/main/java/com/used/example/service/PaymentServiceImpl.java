@@ -5,11 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.used.example.domain.Amount;
 import com.used.example.domain.Auction;
+import com.used.example.domain.Card;
 import com.used.example.domain.KaKaoReady;
 import com.used.example.domain.KakaoAmount;
 import com.used.example.domain.KakaoApproval;
 import com.used.example.domain.KakaoCardInfo;
+import com.used.example.domain.Payment;
 import com.used.example.domain.Product;
 import com.used.example.mapper.PaymentMapper;
 
@@ -23,8 +26,8 @@ public class PaymentServiceImpl implements PaymentService{
 	PaymentMapper paymentMapper;
 
 	@Override
-	public Product PaymentDetail(int p_num) {
-		return paymentMapper.PaymentDetail(p_num);
+	public Payment PaymentDetail(int pa_num) {
+		return paymentMapper.PaymentDetail(pa_num);
 	}
 
 	@Override
@@ -33,8 +36,8 @@ public class PaymentServiceImpl implements PaymentService{
 	}
 
 	@Override
-	public void CreatePayment(KakaoApproval approval) {
-		paymentMapper.CreatePayment(approval);
+	public void CreatePayment(Payment payment) {
+		paymentMapper.CreatePayment(payment);
 		
 	}
 
@@ -44,13 +47,13 @@ public class PaymentServiceImpl implements PaymentService{
 	}
 
 	@Override
-	public void CreateCard(KakaoCardInfo cardInfo) {
-		paymentMapper.CreateCard(cardInfo);
+	public void CreateCard(Card card) {
+		paymentMapper.CreateCard(card);
 		
 	}
 
 	@Override
-	public void CreateAmount(KakaoAmount amount) {
+	public void CreateAmount(Amount amount) {
 		paymentMapper.CreateAmount(amount);
 		
 	}

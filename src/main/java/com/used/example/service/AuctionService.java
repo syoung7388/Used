@@ -16,7 +16,6 @@ public interface AuctionService {
 
 	public void AucDelete(int a_num);
 
-	public void AuctionEnd(String today);
 
 	public void createPayment();
 
@@ -37,6 +36,8 @@ public interface AuctionService {
 	public List<Auction> KindList(String lat, String lon, String kind);
 
 	public void Hits(int a_num);
+
+	public void AucEnd(int a_num);
 
 	
 

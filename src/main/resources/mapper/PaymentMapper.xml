@@ -82,27 +82,70 @@
 		ORDER BY a.a_num ASC 
 				 
 	</select>
-	<insert id="CreatePayment" parameterType="KakaoApproval">
-	insert into payment(pa_username, pa_method, pa_amount, pa_kind, pa_quantity, pa_time, a_num, p_num, pa_cop) 
-	values (#{partner_user_id},#{payment_method_type},#{amount},#{item_name},#{quantity},#{approved_at},#{partner_order_id},#{item_code},#{cop})
+	<insert id="CreatePayment" parameterType="Payment">
+	insert into payment(pa_username, pa_method, pa_kind, pa_quantity, pa_time, a_num, p_num, pa_cop) 
+	values (#{pa_username},#{method},#{kind},#{quantity},#{Patime},#{a_num},#{p_num},#{cop})
 		<selectKey resultType= "int" keyProperty="pa_num" order="AFTER" >
 			select last_insert_id()
 		</selectKey>
 	
 	</insert>
-	<insert id = "CreateCard" parameterType="KakaoCardInfo" >
-		insert into card(c_bin, c_type, c_install_month, c_approved_id, c_mid, c_code, c_interest_free_install, c_item_code, pa_num)
-		values((#{bin},#{card_type},#{install_month},#{approved_id},#{card_mid},#{card_item_code},#{interest_free_install},#{pa_num})
+	<insert id = "CreateCard" parameterType="Card" >
+		insert into card(c_bin, c_type, c_install_month, c_approved_id, c_mid, c_interest_free_install, pa_num)
+		values(#{bin},#{type},#{install_month},#{approved_id},#{mid},#{interest_free_install},#{pa_num})
 	
 	
 	
 	</insert>
-	<insert id = "CreateAmount" parameterType="com.used.example.domain.KakaoAmount" >
-		insert into amount(am_tax_free,am_vat, am_point, am_discount, am_total, am_pa_num)
-		values((#{tax_free},#{vat},#{point},#{discount},#{total},#{pa_num})
+	<insert id = "CreateAmount" parameterType="Amount" >
+		insert into amount(am_tax_free,am_vat, am_point, am_discount, am_total, pa_num)
+		values(#{tax_free},#{vat},#{point},#{discount},#{total},#{pa_num})
 	
 	
 	</insert>
+	
+	<resultMap id="DetailMap" type="Payment">
+		<result property="pa_num" column="pa_num"/>
+		<result property="pa_username" column="pa_username"/>
+		<result property="method" column="pa_method"/>
+		<result property="kind" column="pa_kind"/>
+		<result property="quantity" column="pa_quantity"/>
+		<result property="Patime" column="pa_time"/>
+		<result property="a_num" column="a_num"/>
+		<result property="p_num" column="p_num"/>
+		<result property="cop" column="pa_cop"/>
+		
+		<association property = "card" javaType="Card">
+			<result property="c_num" column="c_num"/>
+			<result property="bin" column="c_bin"/>
+			<result property="type" column="c_type"/>
+			<result property="install_month" column="c_install_month"/>
+			<result property="approved_id" column="c_approved_id"/>
+			<result property="mid" column="c_mid"/>
+			<result property="interest_free_install" column="c_interest_free_install"/>
+			<result property="pa_num" column="pa_num"/>
+		</association>
+		<association property = "amount" javaType="Amount">
+			<result property="tax_free" column="am_tax_free"/>
+			<result property="vat" column="am_vat"/>
+			<result property="point" column="am_point"/>
+			<result property="discount" column="am_discount"/>
+			<result property="total" column="am_total"/>
+			<result property="pa_num" column="pa_num"/>		
+		</association>		
+	</resultMap>
+	
+	
+	
+	
+	
+	<select id= "PaymentDetail" parameterType="int" resultMap="DetailMap">
+		SELECT *
+		FROM payment a
+		LEFT JOIN amount b ON a.pa_num = b.pa_num
+		LEFT JOIN card c ON a.pa_num = c.pa_num 
+		WHERE a.pa_num = #{pa_num}
+	</select>
 	
 	
 

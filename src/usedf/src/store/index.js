@@ -98,6 +98,7 @@ export default new Vuex.Store({
     payUrl: null,
     username_dup : false,
     name_dup: false,
+    payreadyInfo:[],
     payInfo:[]
 
 
@@ -436,8 +437,29 @@ export default new Vuex.Store({
     },
     KakaoReady_s(state, payload){
 
-      state.payInfo = payload
-      console.log(state.payInfo)
+      state.payreadyInfo = payload
+     // console.log(state.payInfo)
+
+    },
+    KakaoApprove_s(state, payload){
+      console.log(payload)
+      var aucdetail = payload.aucdetail
+      state.payInfo = payload.paydetail
+      state.aucInfo = aucdetail
+      state.likeInfo = aucdetail.like
+      
+      
+      for(var i in aucdetail.product){
+        state.proInfo = aucdetail.product[i]
+      }
+      state.offerInfo= aucdetail.offer
+      state.addrInfo = aucdetail.address
+      state.beforeImage=aucdetail.product[0].picture
+      state.removeBar = true
+      router.push({name: 'PayDetail'})
+
+    },
+    KakaoApprove_f(state){
 
     }
   },
@@ -993,16 +1015,16 @@ export default new Vuex.Store({
 
         window.addEventListener('message', (e)=>{
           console.log(e.data.k_token)
-          dispatch('ApprovalDetail', {
+          dispatch('KakaoApprove', {
            
-            o_num: state.payInfo.o_num,
-            o_username : state.payInfo.o_username,
-            price : state.payInfo. price,
-            p_num : state.payInfo.p_num,
-            kind : state.payInfo.kind,
-            a_num : state.payInfo.a_num,
+            o_num: state.payreadyInfo.o_num,
+            o_username : state.payreadyInfo.o_username,
+            price : state.payreadyInfo. price,
+            p_num : state.payreadyInfo.p_num,
+            kind : state.payreadyInfo.kind,
+            a_num : state.payreadyInfo.a_num,
             kready_r: {
-              tid: state.payInfo.kready_r.tid,
+              tid: state.payreadyInfo.kready_r.tid,
               k_token: e.data.k_token
             }
 
@@ -1016,15 +1038,13 @@ export default new Vuex.Store({
       })
      
     },
-    ApprovalDetail({commit, state}, payload){
+    KakaoApprove({commit, state}, payload){
       console.log(payload)
 
       axios
       .post(`http://localhost:9200/api/payment/kapproval`, payload)
       .then(Res=>{
-        if(Res.data=== "success") {
-          
-        } 
+        (Res.data !== null)? commit('KakaoApprove_s', Res.data): commit('KakaoApprove_f')
 
       })
     }

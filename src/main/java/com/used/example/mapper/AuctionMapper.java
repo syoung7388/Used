@@ -23,7 +23,7 @@ public interface AuctionMapper {
 
 	public void AucDelete(int a_num);
 
-	public void AuctionEnd(String today);
+
 
 	public void createPayment();
 
@@ -43,6 +43,8 @@ public interface AuctionMapper {
 	public List<Auction> KindList(@Param("lat")String lat,@Param("lon") String lon, @Param("kind") String kind);
 
 	public void Hits(int a_num);
+
+	public void AucEnd(int a_num);
 
 
 

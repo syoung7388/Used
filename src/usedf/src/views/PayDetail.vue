@@ -69,7 +69,7 @@
                     <v-tab class="ml-0" style="font-size: 15px;">결제</v-tab>
                     <v-tab class="ml-0" style="font-size: 15px;">제품 정보</v-tab>
                     <v-tab-item>
-                        <v-card flat class="pa-10"> 
+                        <v-card flat class="pa-10" v-if="aucInfo.sale === 1"> 
                             <v-row class="mt-10" justify="center">
                                 <h1 style="font-size: 14px; text-align:center" class="grey--text">결제를 원하시면 아래의 버튼을 눌러주세요</h1>
                             </v-row>
@@ -84,6 +84,29 @@
                             <v-row justify="center" class="mt-10">
                                 <v-btn large dense class="primary" @click="PayBtn">결제하기</v-btn>
                             </v-row>
+                        </v-card>
+                        <v-card v-else-if="aucInfo.sale === 2">
+                            <v-row class="mt-10" justify="center">
+                                <h1 style="font-size: 14px; text-align:center" class="grey--text">결제를 완료하셨습니다</h1>
+                            </v-row>
+                            <v-simple-table>
+                                <template>
+                                    <tbody>
+                                        <tr class="text-center">
+                                            <td>결제 금액</td>
+                                            <td>{{payInfo.amount.total}}</td>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <td>결제 시간</td>
+                                            <td>{{payInfo.Patime}}</td>
+                                        </tr>
+                                        <tr class="text-center">
+                                            <td>결제 수단</td>
+                                            <td>{{payInfo.cop}}</td>
+                                        </tr>
+                                    </tbody>
+                                </template>
+                            </v-simple-table>
                         </v-card>
                     </v-tab-item>
                     <v-tab-item>
@@ -133,7 +156,7 @@ export default {
         }
     },
     computed: {
-        ...mapState([ 'userInfo', 'aucInfo','likeInfo','proInfo', 'offerInfo','addrInfo','beforeImage'])
+        ...mapState([ 'userInfo', 'aucInfo','likeInfo','proInfo', 'offerInfo','addrInfo','beforeImage', 'payInfo'])
     },
     methods: {
 
