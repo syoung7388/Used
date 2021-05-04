@@ -1,6 +1,8 @@
 package com.used.example.controller;
 
 import java.io.BufferedReader;
+
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +51,9 @@ import com.used.example.domain.Auction;
 import com.used.example.domain.KakaoReady_R;
 import com.used.example.domain.Offer;
 import com.used.example.domain.KaKaoReady;
+import com.used.example.domain.KakaoAmount;
+import com.used.example.domain.KakaoApproval;
+import com.used.example.domain.KakaoCardInfo;
 import com.used.example.domain.Product;
 import com.used.example.service.AuctionService;
 import com.used.example.service.PaymentService;
@@ -71,6 +77,9 @@ public class PaymentController {
 	AuctionService auctionService;
 	
 	private static final String HOST = "https://kapi.kakao.com";
+	private KakaoApproval approval;
+	
+
 	
 	
 	
@@ -95,6 +104,8 @@ public class PaymentController {
         params.add("cid", "TC0ONETIME");
         params.add("partner_order_id", Integer.toString(kakao.getA_num()));
         params.add("partner_user_id", kakao.getO_username());
+        params.add("item_code", Integer.toString(kakao.getP_num()));
+ 
         params.add("item_name", kakao.getKind());
         params.add("quantity", "1");
         params.add("total_amount", Long.toString(kakao.getPrice()));
@@ -110,6 +121,7 @@ public class PaymentController {
         
         
         try {
+        	
         	KakaoReady_R res= restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoReady_R.class);
         	
         	kakao.setKready_r(res);
@@ -124,9 +136,6 @@ public class PaymentController {
         }
 		
 
-
-		
-	
 		
 		return new ResponseEntity<>( HttpStatus.OK);
 		
@@ -134,51 +143,69 @@ public class PaymentController {
 		
 	}
 	@PostMapping("/kapproval")
-	public ResponseEntity<?> KaKaoApproval(@RequestBody KaKaoReady kakao){
-		
-		RestTemplate r_template = new RestTemplate();
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization","KaKaoAK"+"7824d85f0892e82e54e73144138aba0a");
-		headers.add("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
+	@ResponseBody
+	public ResponseEntity<?> KaKaoApproval(@RequestBody KaKaoReady ready) {
 		
 		
-		MultiValueMap<String, String> param = new LinkedMultiValueMap<String, String>();
-		
-		param.add("cid", "TC0ONETIME");
-		param.add("tid", kakao.getKready_r().getTid());
-		param.add("partner_order_id", Integer.toString(kakao.getA_num()));
-		param.add("partner_user_id", kakao.getO_username());
-		param.add("pg_token", kakao.getKready_r().getK_token());
-		param.add("total_amount", Long.toString(kakao.getPrice()));
-		
-		HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(param, headers);		
-		//restTemplate.postForObject(new URI(HOST+"/v1/payment/approve"), body);
-		
-		headers.add("Authorization", HOST);
-		
-		return new ResponseEntity<>("success", HttpStatus.OK);
-		
-	}
-	
-	
+        RestTemplate restTemplate = new RestTemplate();
+        
+        // 서버로 요청할 Header
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "KakaoAK " + "7824d85f0892e82e54e73144138aba0a");
+        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
+        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+ 
+        // 서버로 요청할 Body
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.add("cid", "TC0ONETIME");
+        params.add("tid", ready.getKready_r().getTid());
+        params.add("partner_order_id", Integer.toString(ready.getA_num()));
+        params.add("partner_user_id", ready.getO_username());
+        params.add("pg_token", ready.getKready_r().getK_token());
+        params.add("total_amount", Long.toString(ready.getPrice()));
+        
+        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+        
+        try {
+            approval = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoApproval.class);
+            logger.info("" + approval);
+         
 
-	
-	
-	
-	
-	
-	
+         
+         approval.setCop("kakao");
+         paymentService.CreatePayment(approval);
+          
+         
+         int pa_num = approval.getPa_num();
+         
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+         KakaoCardInfo cardInfo =approval.getCard_info();
+         if(cardInfo != null) {
+        	 cardInfo.setPa_num(pa_num);
+        	 paymentService.CreateCard(cardInfo);
+         }
+         
+         
+         KakaoAmount amount = approval.getAmount();
+         if(amount != null) {
+        	 amount.setPa_num(pa_num);
+        	 paymentService.CreateAmount(amount);
+         }
+
+          
+            return new ResponseEntity<>(  HttpStatus.OK);
+        
+        } catch (RestClientException e) {
+         
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(  HttpStatus.OK);
+        
+    
+  }
 	
 	
 

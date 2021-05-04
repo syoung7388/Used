@@ -1,5 +1,9 @@
 package com.used.example.domain;
 
+import lombok.Data;
+
+
+@Data
 public class KakaoApproval {
 	private  String aid;
 	private String tid;
@@ -14,6 +18,7 @@ public class KakaoApproval {
 	private int item_code;//p_num
 	private int quantity;
 	private String approved_at;
-	
+	private int pa_num;
+	private String cop;
 
 }

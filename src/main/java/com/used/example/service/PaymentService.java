@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.used.example.domain.Auction;
 import com.used.example.domain.KaKaoReady;
+import com.used.example.domain.KakaoAmount;
+import com.used.example.domain.KakaoApproval;
+import com.used.example.domain.KakaoCardInfo;
 import com.used.example.domain.Product;
 
 public interface PaymentService {
@@ -12,8 +15,12 @@ public interface PaymentService {
 
 	public List<Auction> PayList(String o_username);
 
-	public void CreatePayment(List<KaKaoReady> list);
+	public void CreatePayment(KakaoApproval approvaly);
 
 	public List<KaKaoReady> SelectPaymenet(String today);
+
+	public void CreateCard(KakaoCardInfo cardInfo);
+
+	public void CreateAmount(KakaoAmount amount);
 
 }

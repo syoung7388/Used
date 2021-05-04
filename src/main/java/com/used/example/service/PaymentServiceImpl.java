@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.used.example.domain.Auction;
 import com.used.example.domain.KaKaoReady;
+import com.used.example.domain.KakaoAmount;
+import com.used.example.domain.KakaoApproval;
+import com.used.example.domain.KakaoCardInfo;
 import com.used.example.domain.Product;
 import com.used.example.mapper.PaymentMapper;
 
@@ -30,14 +33,26 @@ public class PaymentServiceImpl implements PaymentService{
 	}
 
 	@Override
-	public void CreatePayment(List<KaKaoReady> list) {
-		paymentMapper.CreatePayment(list);
+	public void CreatePayment(KakaoApproval approval) {
+		paymentMapper.CreatePayment(approval);
 		
 	}
 
 	@Override
 	public List<KaKaoReady> SelectPaymenet(String today) {
 		return paymentMapper.SelectPaymenet(today);
+	}
+
+	@Override
+	public void CreateCard(KakaoCardInfo cardInfo) {
+		paymentMapper.CreateCard(cardInfo);
+		
+	}
+
+	@Override
+	public void CreateAmount(KakaoAmount amount) {
+		paymentMapper.CreateAmount(amount);
+		
 	}
 	
 	

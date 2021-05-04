@@ -1,14 +1,10 @@
 package com.used.example.domain;
 
+import lombok.Data;
+
+@Data
 public class KakaoCardInfo {
-	private String purchase_corp;
-	private String purchase_corp_code;
-	private String issuer_corp;
-	private String issuer_corp_code;
-	private String kakaopay_purchase_corp;
-	private String kakaopay_purchase_corp_code;
-	private String kakaopay_issuer_corp;
-	private String kakaopay_issuer_corp_code;
+
 	private String bin;
 	private String card_type;
 	private String install_month;
@@ -16,6 +12,8 @@ public class KakaoCardInfo {
 	private String card_mid;
 	private String interest_free_install;
 	private String card_item_code;
+	private int pa_num;
+
 	
 
 }

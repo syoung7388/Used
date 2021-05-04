@@ -981,7 +981,7 @@ export default new Vuex.Store({
     },
     KakaoReady({commit,state, dispatch}, payload){
       axios
-      .post('http://localhost:9200/api/kready', payload)
+      .post('http://localhost:9200/api/payment/kready', payload)
       .then(Res =>{
         
         (Res.data !== null)? commit('KakaoReady_s', Res.data) : commit('KakaoReady_f')
@@ -1002,7 +1002,7 @@ export default new Vuex.Store({
             kind : state.payInfo.kind,
             a_num : state.payInfo.a_num,
             kready_r: {
-              tid: state.payInfo.res.tid,
+              tid: state.payInfo.kready_r.tid,
               k_token: e.data.k_token
             }
 
@@ -1017,6 +1017,7 @@ export default new Vuex.Store({
      
     },
     ApprovalDetail({commit, state}, payload){
+      console.log(payload)
 
       axios
       .post(`http://localhost:9200/api/payment/kapproval`, payload)
