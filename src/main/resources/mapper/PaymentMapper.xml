@@ -74,10 +74,10 @@
 		LEFT JOIN auction b ON	a.a_num= b.a_num
 		LEFT JOIN address c ON b.a_num = c.a_num
 		LEFT JOIN `like` d ON c.a_num= d.a_num
-		LEFT JOIN auc_and_pro e ON d.a_num = e.a_num
+		LEFT JOIN auc_and_pro e ON b.a_num = e.a_num
 		LEFT JOIN product f ON  e.p_num =f.p_num
 		LEFT JOIN picture g ON f.p_num = g.p_num
-		WHERE a.o_username= #{o_username} AND a.o_select=1 AND a.o_skip=0
+		WHERE a.o_username=#{o_username} AND b.a_sale = 1
 		GROUP BY a.a_num 
 		ORDER BY a.a_num ASC 
 				 
@@ -144,7 +144,7 @@
 		FROM payment a
 		LEFT JOIN amount b ON a.pa_num = b.pa_num
 		LEFT JOIN card c ON a.pa_num = c.pa_num 
-		WHERE a.pa_num = #{pa_num}
+		WHERE a.a_num = #{a_num}
 	</select>
 	
 	

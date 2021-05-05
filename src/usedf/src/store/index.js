@@ -64,6 +64,8 @@ export default new Vuex.Store({
 
 
     topList:[],
+    toplimit: 0,
+    topcount: 0,
     industryList: [],
     I_list_show: false,
 
@@ -253,8 +255,11 @@ export default new Vuex.Store({
     },
     TopList_s(state, payload){
       state.topList = payload
+      console.log(payload)
+
       state.removeBar = false
       router.push({name: 'Home'})
+
     },
     TopList_f(state){
 
@@ -423,26 +428,6 @@ export default new Vuex.Store({
     PayDetail_s(state, payload){
 
       console.log(payload)
-      state.likeInfo = payload.like
-      state.aucInfo = payload
-      
-      for(var i in payload.product){
-        state.proInfo = payload.product[i]
-      }
-      state.offerInfo= payload.offer
-      state.addrInfo = payload.address
-      state.beforeImage=payload.product[0].picture
-      state.removeBar = true
-      router.push({name: 'PayDetail'})
-    },
-    KakaoReady_s(state, payload){
-
-      state.payreadyInfo = payload
-     // console.log(state.payInfo)
-
-    },
-    KakaoApprove_s(state, payload){
-      console.log(payload)
       var aucdetail = payload.aucdetail
       state.payInfo = payload.paydetail
       state.aucInfo = aucdetail
@@ -457,8 +442,14 @@ export default new Vuex.Store({
       state.beforeImage=aucdetail.product[0].picture
       state.removeBar = true
       router.push({name: 'PayDetail'})
+    },
+    KakaoReady_s(state, payload){
+
+      state.payreadyInfo = payload
+     // console.log(state.payInfo)
 
     },
+
     KakaoApprove_f(state){
 
     }
@@ -665,6 +656,7 @@ export default new Vuex.Store({
           "access_token": token
         }
       }
+
       axios
       .get('http://localhost:9200/api/auction/sale', config)
       .then(Res => {
@@ -800,17 +792,19 @@ export default new Vuex.Store({
 
 
 
-    getTopList({commit}){
+    getTopList({commit, state}){
       let lat = localStorage.getItem('lat')
       let lon = localStorage.getItem('lon')
+      let limit = state.toplimit
+      
       // console.log(lat)
       // console.log(lon)
 
       axios
-      .get(`http://localhost:9200/api/auction/top/${lat}/${lon}`)
-      .then(Tres => {
+      .get(`http://localhost:9200/api/auction/top?limit=${limit}&lat=${lat}&lon=${lon}`)
+      .then(Res => {
         //console.log(Tres.data)
-        (Tres.data !== null)? commit('TopList_s', Tres.data): commit('TopList_f')
+        (Res.data !== null)? commit('TopList_s', Res.data): commit('TopList_f')
 
       })
 
@@ -996,7 +990,7 @@ export default new Vuex.Store({
         }
       }
       axios
-      .get(`http://localhost:9200/api/auction/${payload.a_num}`, config)
+      .get(`http://localhost:9200/api/payment/${payload.a_num}`, config)
       .then(Res => {
         (Res.data !== null)? commit('PayDetail_s' , Res.data):commit('PayDetail_f' , Res.data) 
       })
@@ -1044,7 +1038,7 @@ export default new Vuex.Store({
       axios
       .post(`http://localhost:9200/api/payment/kapproval`, payload)
       .then(Res=>{
-        (Res.data !== null)? commit('KakaoApprove_s', Res.data): commit('KakaoApprove_f')
+        (Res.data !== null)? commit('PayDetail_s', Res.data): commit('KakaoApprove_f')
 
       })
     }

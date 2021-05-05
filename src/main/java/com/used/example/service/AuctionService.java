@@ -1,6 +1,7 @@
 package com.used.example.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.used.example.domain.Address;
 import com.used.example.domain.Auc_Pro;
@@ -38,6 +39,8 @@ public interface AuctionService {
 	public void Hits(int a_num);
 
 	public void AucEnd(int a_num);
+
+	public List<Auction> AddTopList(Map<String, Object> map);
 
 	
 

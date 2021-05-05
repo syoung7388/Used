@@ -14,7 +14,7 @@ import com.used.example.domain.Product;
 
 public interface PaymentService {
 
-	public Payment PaymentDetail(int pa_num);
+	public Payment PaymentDetail(int a_num);
 
 	public List<Auction> PayList(String o_username);
 

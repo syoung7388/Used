@@ -68,6 +68,8 @@
 		<result property="hits" column="a_hits"/>
 		<result property="title" column="a_title"/>
 		<result property="content" column="a_content"/>
+		<result property="count" column="count"/>
+		
 		<association property="address" javaType="Address">
 			<result property="ad_num" column="ad_num"/>
 			<result property="a_num" column="a_num"/>
@@ -229,16 +231,48 @@
 			      	* sin( radians( ad_lat ) )
 			    	)
 			   
-				) AS distance
+				) AS distance,
+				(SELECT COUNT(*)
+					from auction
+					WHERE a_sale = 0
+				)count  
 		FROM auction a
 		LEFT JOIN address b ON b.a_num = a.a_num
 		LEFT JOIN auc_and_pro c ON  c.a_num = a.a_num
 		LEFT JOIN product d ON d.p_num = c.p_num
 		LEFT JOIN picture e ON e.p_num = d.p_num
 		WHERE a.a_sale = 0
-		HAVING DISTANCE &lt; 300
 		ORDER BY distance ASC, a.a_hits DESC
-		LIMIT 10
+		LIMIT 0, 6
+	
+	</select>
+	
+	<select id="AddTopList" parameterType="map" resultMap="ListMap">
+		SELECT	*,
+						
+			  	(
+			      	6371 * acos (
+			      	cos ( radians(#{lat}) )
+			      	* cos( radians( ad_lat ) )
+			      	* cos( radians( ad_lon ) - radians(#{lon}) )
+			      	+ sin ( radians(#{lat}) )
+			      	* sin( radians( ad_lat ) )
+			    	)
+			   
+				) AS distance,
+				(SELECT COUNT(*)
+					from auction
+					WHERE a_sale = 0
+				)count 
+		FROM auction a
+		LEFT JOIN address b ON b.a_num = a.a_num
+		LEFT JOIN auc_and_pro c ON  c.a_num = a.a_num
+		LEFT JOIN product d ON d.p_num = c.p_num
+		LEFT JOIN picture e ON e.p_num = d.p_num
+		WHERE a.a_sale = 0
+		GROUP BY a.a_num
+		ORDER BY distance ASC, a.a_hits DESC
+		LIMIT #{limit},6
 	
 	</select>
 	<select id="IndustryList" parameterType="String" resultMap="ListMap">

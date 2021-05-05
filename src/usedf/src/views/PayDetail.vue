@@ -85,55 +85,78 @@
                                 <v-btn large dense class="primary" @click="PayBtn">결제하기</v-btn>
                             </v-row>
                         </v-card>
-                        <v-card v-else-if="aucInfo.sale === 2">
-                            <v-row class="mt-10" justify="center">
-                                <h1 style="font-size: 14px; text-align:center" class="grey--text">결제를 완료하셨습니다</h1>
+                        <v-card v-else-if="aucInfo.sale === 2" flat class="px-10 py-7">
+                            <v-row>
+                                <v-col>
+                                    <h1 style="font-size: 17px; text-align:center" class="ml-3 mb-2">결제정보 <span class="grey--text">(결제완료)</span></h1>
+                                    <v-divider></v-divider>
+                                </v-col>
                             </v-row>
-                            <v-simple-table>
-                                <template>
-                                    <tbody>
-                                        <tr class="text-center">
-                                            <td>결제 금액</td>
-                                            <td>{{payInfo.amount.total}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td>결제 시간</td>
-                                            <td>{{payInfo.Patime}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td>결제 수단</td>
-                                            <td>{{payInfo.cop}}</td>
-                                        </tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
+                            <v-row >
+                                <v-col cols="6" >
+                                    <h1 style="font-size: 15px; text-align:center" class="ml-3">결제 총액</h1>
+                                </v-col>
+                                <v-col cols="6">
+                                    <h1 style="font-size: 15px; text-align:center" class="ml-3">{{payInfo.amount.total}}원</h1>
+                                </v-col>
+                            </v-row>
+                            <v-row class="px-16">
+                                <v-col cols="12" class="pa-0">
+                                    <p style="font-size: 15px; text-align:left">&nbsp;ㄴ  할인 금액: {{payInfo.amount.discount}}원</p>
+                                </v-col>
+                                <v-col cols="12" class="pa-0">
+                                    <p style="font-size: 15px; text-align:left">ㄴ  포인트사용액: {{payInfo.amount.point}}원</p>
+                                </v-col>
+                            </v-row>
+                            <v-row >
+                                <v-col cols="6" >
+                                    <h1 style="font-size: 15px; text-align:center" class="ml-3">결제 수단</h1>
+                                </v-col>
+                                <v-col cols="6">
+                                    <h1 style="font-size: 15px; text-align:center" class="ml-3">{{payInfo.cop}}</h1>
+                                </v-col>
+                            </v-row>
+                            <v-row >
+                                <v-col cols="6" >
+                                    <h1 style="font-size: 15px; text-align:center" class="ml-3">결제 방법</h1>
+                                </v-col>
+                                <v-col cols="6">
+                                    <h1 style="font-size: 15px; text-align:center" class="ml-3">{{payInfo.method}}</h1>
+                                </v-col>
+                            </v-row>
+                            <v-row justify="center" class="mt-5">
+                                <v-col cols="8">
+                                    <v-btn larges class="primary">판매자님과 대화 연결하기</v-btn>
+                                </v-col>
+                            </v-row>
                         </v-card>
                     </v-tab-item>
                     <v-tab-item>
-                        <v-card flat class="pa-5">
-                            <v-simple-table>
+                        <v-card class="pa-3">
+                            <v-simple-table :height="500">
                                 <template>
                                     <tbody>
-                                        <tr class="text-center">
-                                            <td>종류</td>
-                                            <td>{{proInfo.kind}}</td>
+                                        <tr class="text-center" >
+                                            <td style="font-size: 18px" >종류</td>
+                                            <td style="font-size: 18px">{{proInfo.kind}}</td>
                                         </tr>
                                         <tr class="text-center">
-                                            <td>업종</td>
-                                            <td>{{proInfo.industry}}</td>
+                                            <td style="font-size: 18px">업종</td>
+                                            <td style="font-size: 18px">{{proInfo.industry}}</td>
                                         </tr>
                                         <tr class="text-center">
-                                            <td>브랜드</td>
-                                            <td>{{proInfo.brand}}</td>
+                                            <td style="font-size: 18px">브랜드</td>
+                                            <td style="font-size: 18px">{{proInfo.brand}}</td>
                                         </tr>
                                         <tr class="text-center">
-                                            <td>연식</td>
-                                            <td>{{proInfo.year}}</td>
+                                            <td style="font-size: 18px">연식</td>
+                                            <td style="font-size: 18px">{{proInfo.year}}</td>
                                         </tr>
                                     </tbody>
                                 </template>
                             </v-simple-table>
                         </v-card>
+               
                     </v-tab-item>
                 </v-tabs>
         </v-container>
@@ -171,3 +194,6 @@ export default {
  
 }
 </script>
+<style>
+
+</style>

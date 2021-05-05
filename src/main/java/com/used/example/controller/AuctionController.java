@@ -250,17 +250,32 @@ public class AuctionController {
 		
 	}
 	
-	@GetMapping("/top/{lat}/{lon}")
-	public ResponseEntity<?> TopList(@PathVariable("lat") String lat, @PathVariable("lon") String lon){
+//	@GetMapping("/top/{lat}/{lon}")
+//	public ResponseEntity<?> TopList(@PathVariable("lat") String lat, @PathVariable("lon") String lon){
+//		
+//		Address address= new Address();
+//		address.setLat(lat);
+//		address.setLon(lon);
+//		
+//		List<Auction> toplist= auctionService.TopList(address);
+//		
+//		logger.info("toplist:"+ toplist);
+//		return new ResponseEntity<>(toplist, HttpStatus.OK);
+//		
+//	}
+	
+	
+	@GetMapping("/top")
+	public ResponseEntity<?> TopList(@RequestParam("lat") String lat, @RequestParam("lon") String lon, @RequestParam("limit") int limit){
 		
-		Address address= new Address();
-		address.setLat(lat);
-		address.setLon(lon);
+		Map<String, Object> map = new HashMap<>();
+		map.put("lat", lat);
+		map.put("lon", lon);
+		map.put("limit", limit);
+		List<Auction> addtoplist= auctionService.AddTopList(map);
 		
-		List<Auction> toplist= auctionService.TopList(address);
-		
-		logger.info("toplist:"+ toplist);
-		return new ResponseEntity<>(toplist, HttpStatus.OK);
+		logger.info("addtoplist:"+ addtoplist);
+		return new ResponseEntity<>(addtoplist, HttpStatus.OK);
 		
 	}
 	

@@ -1,6 +1,6 @@
 <template>
 <v-app class="pl-1">
-    <div id="daum_postcode"  style="position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;"></div>
+    <div id="daum_post"  style="position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;"></div>
     <div id="map_a" hidden></div>
 
 </v-app>
@@ -39,7 +39,7 @@ export default {
         
         script.onload = ()=>{
             
-            var PostcodContainer = document.getElementById('daum_postcode')
+            var PostcodContainer = document.getElementById('daum_post')
             new daum.Postcode({
 
             oncomplete: (e)=>{

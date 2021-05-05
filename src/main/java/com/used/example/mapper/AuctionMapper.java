@@ -1,6 +1,7 @@
 package com.used.example.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -45,6 +46,8 @@ public interface AuctionMapper {
 	public void Hits(int a_num);
 
 	public void AucEnd(int a_num);
+
+	public List<Auction> AddTopList(Map<String, Object> map);
 
 
 

@@ -176,7 +176,7 @@ public class PaymentController {
             
             Payment payment = new Payment();
             payment.setA_num(approval.getPartner_order_id());
-            payment.setCop("kakao");
+            payment.setCop("KAKAOPAY");
             payment.setKind(approval.getItem_name());
             payment.setMethod(approval.getPayment_method_type());
             payment.setP_num(approval.getItem_code());
@@ -214,12 +214,13 @@ public class PaymentController {
            int a_num = payment.getA_num();
            auctionService.AucEnd(a_num);
            Auction  aucdetail= auctionService.AucDetail(a_num);
-           Payment paydetail = paymentService.PaymentDetail(pa_num);
+           Payment paydetail = paymentService.PaymentDetail(a_num);
          
 
            Map<String, Object> map = new HashMap<String, Object>();
            map.put("aucdetail", aucdetail);
            map.put("paydetail", paydetail);
+           logger.info("map"+map);
            
             
           
@@ -235,7 +236,25 @@ public class PaymentController {
         return new ResponseEntity<>(  HttpStatus.OK);
         
     
-  }
+	}
+	
+	
+	@GetMapping("/{a_num}")
+	public ResponseEntity<?> PayDetail(@PathVariable("a_num") int a_num){
+		
+		Payment paydetail = paymentService.PaymentDetail(a_num);
+		Auction aucdetail = auctionService.AucDetail(a_num);
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("paydetail", paydetail);
+		map.put("aucdetail", aucdetail);
+		logger.info("map:"+map);
+		return new ResponseEntity<>(map , HttpStatus.OK);
+		
+		
+	}
+	
+	
 	
 	
 

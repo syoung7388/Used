@@ -1,6 +1,7 @@
 package com.used.example.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,6 +100,11 @@ public class AuctionServiceImpl implements AuctionService {
 	public void AucEnd(int a_num) {
 		auctionMapper.AucEnd(a_num);
 		
+	}
+
+	@Override
+	public List<Auction> AddTopList(Map<String, Object> map) {
+		return auctionMapper.AddTopList(map);
 	}
 
 

@@ -70,6 +70,7 @@ export default {
 
         },
         Back(){
+            this.$store.state.removeBar = false
             this.$router.push({name: 'Home'})
         }
     }

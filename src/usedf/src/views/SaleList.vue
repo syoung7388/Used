@@ -18,13 +18,17 @@
                          a_num: item.a_num
                         })" 
                         router :to="{name:'SaleDetail'}">      
-                                <v-row>
-                                    <v-col cols="5">
-                                        <v-img 
-                                        :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
-                                        max-height="80"
-                                        max-width="80"
-                                        ></v-img>
+                                <v-row align="center"> 
+                                    <v-col cols="5"  class="py-5">
+                                        <v-card
+                                        width="90"
+                                        >
+                                            <v-img 
+                                            :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
+                                            max-width="90"
+                                            height="90" 
+                                            ></v-img>
+                                        </v-card>
                                     </v-col>
                                     <v-col cols="6">
                                     <v-list-item-content>
@@ -53,20 +57,24 @@
                     
                     >       
     
-                            <v-row>
-                                    <v-col cols="5">
+                        <v-row align="center">
+                                <v-col cols="5"  class="py-5">
+                                    <v-card
+                                    width="90"
+                                    >
                                         <v-img 
                                         :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
-                                        max-height="80"
-                                        max-width="80"
+                                        max-width="90"
+                                        height="90" 
                                         ></v-img>
-                                    </v-col>
-                                    <v-col cols="6">
-                                    <v-list-item-content>
-                                        <v-list-item-title v-html="item.title"></v-list-item-title>
-                                    </v-list-item-content>
-                                    </v-col>    
-                                </v-row>
+                                    </v-card>
+                                </v-col>
+                                <v-col cols="6">
+                                <v-list-item-content>
+                                    <v-list-item-title v-html="item.title"></v-list-item-title>
+                                </v-list-item-content>
+                                </v-col>    
+                            </v-row>
                     </v-list-item>
                     <v-divider
                         v-if="index < soldList.length- 1"

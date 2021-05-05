@@ -28,6 +28,7 @@ public class Auction {
 	private Address address;
 	private Product pro;
 	private long topprice;
+	private int count;
 	
 	
 	public int getDay() {
@@ -171,12 +172,20 @@ public class Auction {
 	public void setTopprice(long topprice) {
 		this.topprice = topprice;
 	}
+
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	@Override
 	public String toString() {
 		return "Auction [a_num=" + a_num + ", a_username=" + a_username + ", startdate=" + startdate + ", enddate="
 				+ enddate + ", startprice=" + startprice + ", sale=" + sale + ", hits=" + hits + ", day=" + day
 				+ ", d_day=" + d_day + ", title=" + title + ", content=" + content + ", product=" + product + ", like="
-				+ like + ", offer=" + offer + ", address=" + address + ", pro=" + pro + ", topprice=" + topprice + "]";
+				+ like + ", offer=" + offer + ", address=" + address + ", pro=" + pro + ", topprice=" + topprice
+				+ ", count=" + count + "]";
 	}
 	
 	

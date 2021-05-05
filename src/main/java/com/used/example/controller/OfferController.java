@@ -129,7 +129,7 @@ public class OfferController {
 		map.put("paylist", paylist);
 		
 
-		//logger.info("paylist"+paylist);
+		logger.info("paylist"+paylist);
 		//logger.info("bidlist_ing:"+bidlist_ing);
 		//logger.info("bidlist_end:"+bidlist_end);
 		return new ResponseEntity<>( map, HttpStatus.OK);

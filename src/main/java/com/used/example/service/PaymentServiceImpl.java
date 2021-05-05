@@ -26,8 +26,8 @@ public class PaymentServiceImpl implements PaymentService{
 	PaymentMapper paymentMapper;
 
 	@Override
-	public Payment PaymentDetail(int pa_num) {
-		return paymentMapper.PaymentDetail(pa_num);
+	public Payment PaymentDetail(int a_num) {
+		return paymentMapper.PaymentDetail(a_num);
 	}
 
 	@Override

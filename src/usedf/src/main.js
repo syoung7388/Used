@@ -4,11 +4,10 @@ import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify';
 import '@fortawesome/fontawesome-free/js/all.js';
-import VueDaumPostcode from "vue-daum-postcode";
 import ExportTypography from 'antd/lib/typography/Typography';
 
  
-Vue.use(VueDaumPostcode)
+
 
 export const eventBus  = new Vue()
 // window.addEventListener('message', function(e){

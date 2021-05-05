@@ -222,7 +222,7 @@
             })"
             >다음</v-btn>
             <v-virtual-scroll
-            height="300"
+            height="1000"
             item-height="20"
             ></v-virtual-scroll>     
         </v-container>
@@ -315,7 +315,6 @@ export default{
         },
         Address(){
             this.Writingshow= false
-            
         },
     
 

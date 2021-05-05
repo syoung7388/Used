@@ -9,13 +9,17 @@
                 >
                     <template v-for="(item, index) in bidList_ing">
                         <v-list-item :key="item.a_num"   @click="getBidDetail({a_num: item.a_num})">
-                            <v-row>
-                                <v-col cols="4">
-                                    <v-img
-                                    :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
-                                    height="90"
-                                    width="80"
-                                    ></v-img>
+                            <v-row align="center">
+                                <v-col cols="4" class="py-5">
+                                    <v-card
+                                    width="90"
+                                    >
+                                        <v-img
+                                        :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
+                                        max-width="90"
+                                        height="90" 
+                                        ></v-img>
+                                    </v-card>
                                 </v-col>
                                 <v-col cols="3" class="pr-0" >
                                      <v-list-item-content>
@@ -47,13 +51,17 @@
                 >
                     <template v-for="(item, index) in payList">
                         <v-list-item :key="item.a_num"   @click="getPayDetail({a_num: item.a_num})">
-                            <v-row>
-                                <v-col cols="4">
-                                    <v-img
-                                    :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
-                                    height="90"
-                                    width="80"
-                                    ></v-img>
+                            <v-row align="center">
+                                <v-col cols="4" class="py-5">
+                                    <v-card
+                                    width="90"
+                                    >
+                                        <v-img
+                                        :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
+                                        max-width="90"
+                                        height="90" 
+                                        ></v-img>
+                                    </v-card>
                                 </v-col>
                                 <v-col cols="6"  >
                                     <v-list-item-content>
@@ -79,27 +87,23 @@
                 active-class="primary--text"
                 >
                     <template v-for="(item, i) in bidList_end">
-                        <v-list-item :key="item.a_num"  @click="getBidDetail({a_num: item.a_num})">
-                            <v-row>
-                                <v-col cols="4">
-                                    <v-img
-                                    :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
-                                    max-width="50"
-                                     max-height="70"
-                                    ></v-img>
+                        <v-list-item :key="item.a_num"  @click="getPayDetail({a_num: item.a_num})">
+                            <v-row align="center"> 
+                                <v-col cols="4" class="py-5">
+                                    <v-card
+                                    width="90"
+                                    >
+                                        <v-img
+                                        :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
+                                        max-width="90"
+                                        height="90" 
+                                        ></v-img>
+                                    </v-card>
                                 </v-col>
                                 <v-col cols="3" class="pr-0" >
                                      <v-list-item-content>
-                                        <v-list-item-subtitle>남은 기간</v-list-item-subtitle>
-                                        <v-list-item-title class="pt-2">최고가</v-list-item-title>
-                                        <v-list-item-title class="pt-2">My가격</v-list-item-title>
-                                    </v-list-item-content>
-                                </v-col>
-                                <v-col cols="4" class="pl-0">
-                                    <v-list-item-content>
-                                        <v-list-item-subtitle v-html="item.p_date"></v-list-item-subtitle>
+                                        <v-list-item-subtitle>거래 완료</v-list-item-subtitle>
                                         <v-list-item-title class="pt-2">{{item.topprice}}원</v-list-item-title>
-                                        <v-list-item-title class="pt-2">{{item.offer[0].price}}원</v-list-item-title>
                                     </v-list-item-content>
                                 </v-col>
                             </v-row>

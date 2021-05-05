@@ -20,7 +20,7 @@
                         <i class="far fa-heart" style="font-size: x-large;"></i>            
                     </v-btn>
                     <v-btn icon>
-                        <i class="far fa-bell" style="font-size: x-large;"></i>            
+                        <i class="far fa-comment-alt" style="font-size: x-large;"></i>            
                     </v-btn>
                     <v-btn 
                      icon 
