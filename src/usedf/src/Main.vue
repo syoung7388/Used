@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <v-app class="pa-0">
         <router-view></router-view>
 
         <v-bottom-navigation

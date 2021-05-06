@@ -229,7 +229,7 @@ export default {
         }
     },
     filters:{
-            comma(price){
+        comma(price){
             var num = new Number(price)
             return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g,"$1,")
         }

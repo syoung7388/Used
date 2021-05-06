@@ -209,9 +209,10 @@ export default new Vuex.Store({
     },
     SaleList_s(state, payload){
     
+    
       state.saleList= payload.salelist
       state.soldList= payload.soldlist
-      //console.log(state.saleList)
+      console.log(state.saleList)
       state.list_show = true
       
     },
@@ -667,9 +668,10 @@ export default new Vuex.Store({
           "access_token": token
         }
       }
+      let limit = 0
 
       axios
-      .get('http://localhost:9200/api/auction/sale', config)
+      .get('http://localhost:9200/api/auction/sale/limit=${limit}', config)
       .then(Res => {
         //console.log(Res.data)
         (Res.data !== null)? commit('SaleList_s', Res.data): commit('SaleList_f') 

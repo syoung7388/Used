@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container class="pa-0"  v-scroll.self = onScroll>
+        <v-container  v-scroll.self = onScroll  class="pa-0">
             <v-card>
                 <v-app-bar
                     color="white"
@@ -34,6 +34,7 @@
                             align-with-title
                             fixed-tabs
                             height="50"
+                
                         >
                             
                             <v-tabs-slider primary></v-tabs-slider>
@@ -55,7 +56,7 @@
             </v-card>
 
             <v-virtual-scroll
-            height="3000"
+            height="2000"
             item-height="20"
             ></v-virtual-scroll> 
         </v-container>

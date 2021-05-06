@@ -138,8 +138,8 @@ public class AuctionController {
 	}
 	
 
-	@GetMapping("/sale")
-	public ResponseEntity<?> SaleList(HttpServletRequest request){
+	@GetMapping("/sale/{limit}")
+	public ResponseEntity<?> SaleList(HttpServletRequest request , @PathVariable("limit")int limit){
 		
 		String token= request.getHeader("access_token");
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
@@ -149,6 +149,7 @@ public class AuctionController {
 		Map<String,Object> map= new HashMap<>();
 		
 		Auction auction = new Auction();
+		auction.setLimit(limit);
 		auction.setA_username(username);
 		auction.setSale(0);
 		List<Auction> salelist = auctionService.SaleList(auction);

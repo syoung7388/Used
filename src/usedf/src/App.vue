@@ -1,6 +1,6 @@
 <template>
   <v-app>
-      <v-container id="container" v-show="Ashow === 0">
+      <v-container id="C" v-show="Ashow === 0">
         <v-row align="center" class="Arow">
           <v-col>
             <div class="text-center">                   
@@ -54,7 +54,7 @@ export default {
 }
 </script>
 <style>
-.container{
+.C{
   width: 100%;
   height: 100%;
 }
