@@ -8,7 +8,7 @@ public class Pagination {
 	int count;
 	
 	
-	public static final int perPage=12;
+	public static final int perPage=6;
 	@Override
 	public String toString() {
 		return "Pagenation [limit=" + limit + ", nowpage=" + nowpage + ", allpage=" + allpage + ", count=" + count

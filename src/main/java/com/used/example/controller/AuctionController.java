@@ -105,8 +105,8 @@ public class AuctionController {
 			List<MultipartFile> imgList= picture.getImg();
 			if(imgList != null) {
 			List<String> pictureNames= new ArrayList<String>();
-		        String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
-				//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
+		        //String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
+				String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
 				for(int i=0; i<imgList.size(); i++) {
 					
 					String filename= imgList.get(i).getOriginalFilename();
@@ -251,19 +251,6 @@ public class AuctionController {
 		
 	}
 	
-//	@GetMapping("/top/{lat}/{lon}")
-//	public ResponseEntity<?> TopList(@PathVariable("lat") String lat, @PathVariable("lon") String lon){
-//		
-//		Address address= new Address();
-//		address.setLat(lat);
-//		address.setLon(lon);
-//		
-//		List<Auction> toplist= auctionService.TopList(address);
-//		
-//		logger.info("toplist:"+ toplist);
-//		return new ResponseEntity<>(toplist, HttpStatus.OK);
-//		
-//	}
 	
 	
 	@GetMapping("/top")
@@ -290,39 +277,90 @@ public class AuctionController {
 			map.put("listsort", 0);
 			int count = auctionService.Count(map);
 			pagination = new Pagination(count, page);
-			logger.info("pagination:"+pagination );
+			//logger.info("pagination:"+pagination );
 			topmap.put("pagination", pagination);
 			
 		}
 
-		logger.info("topmap:"+ topmap);
+		//logger.info("topmap:"+ topmap);
 		return new ResponseEntity<>( topmap, HttpStatus.OK);
 		
 	}
 	
 	@GetMapping("/industry")
-	public ResponseEntity<?> IndustryList(@RequestParam("lat")String lat, @RequestParam("lon")String lon, @RequestParam("industry")String industry){
+	public ResponseEntity<?> IndustryList(@RequestParam("lat")String lat, @RequestParam("lon")String lon, @RequestParam("industry")String industry, @RequestParam("page") int page){
 		
 		
-		List<Auction> industryList = auctionService.IndustryList(lat, lon, industry);
+		Pagination pagination = new Pagination();
+		Map<String ,Object> map = new HashMap<>();
+		map.put("lat", lat);
+		map.put("lon", lon);
+		map.put("industry", industry);
+		map.put("limit", page*pagination.getPerpage());
+		List<Auction> industrylist = auctionService.IndustryList(map);
+		
+		
+		Map<String ,Object> industrymap = new HashMap<>();
+		industrymap.put("industrylist", industrylist);
 		
 		
 		
-		//logger.info("industryList:"+ industryList);
+		
+		
+		if(page == 0) {
+			map.put("listsort", 1);
+			int count = auctionService.Count(map);
+			pagination = new Pagination(count, page);
+			industrymap.put("pagination", pagination);
+			
+		}
+		
+		
+		
+		
+		
+		
+		logger.info("industrymap:"+ industrymap);
 
-			return new ResponseEntity<>(industryList, HttpStatus.OK);
+		return new ResponseEntity<>(industrymap, HttpStatus.OK);
 	
 	}
 	
 	@GetMapping("/kind")
-	public ResponseEntity<?> KindList(@RequestParam("lat")String lat, @RequestParam("lon")String lon, @RequestParam("kind")String kind){
+	public ResponseEntity<?> KindList(@RequestParam("lat")String lat, @RequestParam("lon")String lon, @RequestParam("kind")String kind ,@RequestParam("page") int page ){
+		Pagination pagination = new Pagination();
+		Map<String ,Object> map = new HashMap<>();
+		map.put("lat", lat);
+		map.put("lon", lon);
+		map.put("kind", kind);
+		map.put("limit", page*pagination.getPerpage());
+		List<Auction> kindlist = auctionService.KindList(map);
+		
+		
+		Map<String ,Object> kindmap = new HashMap<>();
+		kindmap.put("kindlist", kindlist);
 		
 		
 		
 		
-		List<Auction> kindlist= auctionService.KindList(lat, lon, kind);
-		//logger.info("kindlist:"+kindlist);
-		return new ResponseEntity<>(kindlist, HttpStatus.OK);
+		
+		if(page == 0) {
+			map.put("listsort", 2);
+			int count = auctionService.Count(map);
+			pagination = new Pagination(count, page);
+			kindmap.put("pagination", pagination);
+			
+		}
+		
+		
+		
+		
+		
+		
+		logger.info("kindmap:"+ kindmap);
+
+		return new ResponseEntity<>(kindmap, HttpStatus.OK);
+	
 	}
 	
 

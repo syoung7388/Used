@@ -4,14 +4,13 @@
         class="px-0" 
     
         >
-<!-- 
-            <infinite-loading  @infinite="plusList" spinner="circles"></infinite-loading > -->
-            <v-row justify="center" class="pt-2">
+
+            <v-row class="pt-2" justify="center">
                 <v-col cols="5"  v-for="(item, int) in topList" :key="int" class="py-1">
                     <v-card 
                     width="170"
                     flat
-                    @click="getdetail({a_num: item.a_num})"
+                    @click="getDetail({a_num: item.a_num})"
                     >
                         <v-img
                         :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
@@ -70,14 +69,11 @@ export default {
 
 
     methods: {
-        TopDetail(payload){
-            this.$store.state.backType= "top"
-            this.$store.dispatch('getDetail',{a_num: payload})
-        },
+
         async plusList($state){
             
-            console.log("+후")
-            if(this.$store.state.pagination.allpage === this.$store.state.toppage){
+            //console.log("+후")
+            if(this.$store.state.toppagination.allpage === this.$store.state.toppage){
                 $state.complete()            
             }else{
 
@@ -103,10 +99,10 @@ export default {
 
         },
         ...mapActions(['getDetail']),
-        getdetail(payload){
-            window.history.scrollRestoration = "manual"
-            this.$store.dispatch('getDetail', payload)
-        }
+        // getdetail(payload){
+        //     window.history.scrollRestoration = "manual"
+        //     this.$store.dispatch('getDetail', payload)
+        // }
    
         
 

@@ -69,6 +69,7 @@
 		<result property="title" column="a_title"/>
 		<result property="content" column="a_content"/>
 		<result property="count" column="count"/>
+		<result property="topprice" column="topprice"/>
 		
 		<association property="address" javaType="Address">
 			<result property="ad_num" column="ad_num"/>
@@ -86,7 +87,10 @@
 	
 	
 	<select id="SaleList" parameterType="Auction" resultMap="ListMap">
-		SELECT *
+		SELECT *,
+				(SELECT MAX(h.o_price)
+				FROM offer h
+				WHERE a.a_num = h.a_num)topprice
 		FROM auction a
 		LEFT JOIN offer b ON a.a_num = b.a_num
 		LEFT JOIN address c ON a.a_num = c.a_num
@@ -226,6 +230,28 @@
 				from auction
 				WHERE a_sale = 0
 			</when>
+			<when test="listsort == 1">
+
+				SELECT COUNT(*)
+				FROM 				
+				(SELECT      DISTINCT a.a_num
+				FROM			auction a
+				INNER JOIN 	auc_and_pro b ON a.a_num = b.a_num
+				INNER JOIN	product c ON b.p_num = c.p_num
+				WHERE 		a.a_sale = 0 
+				AND 			c.p_industry =#{industry})ta
+			</when>
+			<when test="listsort == 2">
+
+				SELECT COUNT(*)
+				FROM 				
+				(SELECT      DISTINCT a.a_num
+				FROM			auction a
+				INNER JOIN 	auc_and_pro b ON a.a_num = b.a_num
+				INNER JOIN	product c ON b.p_num = c.p_num
+				WHERE 		a.a_sale = 0 
+				AND 			c.p_industry =#{kind})ta
+			</when>
 		</choose>
 		
 
@@ -254,10 +280,10 @@
 		WHERE a.a_sale = 0
 		GROUP BY a.a_num
 		ORDER BY distance ASC, a.a_hits DESC
-		LIMIT #{limit}, 12
+		LIMIT #{limit}, 6
 	
 	</select>
-	<select id="IndustryList" parameterType="String" resultMap="ListMap">
+	<select id="IndustryList" parameterType="map" resultMap="ListMap">
 	
 	
 			SELECT	*,
@@ -277,11 +303,12 @@
 		LEFT JOIN product d ON d.p_num = c.p_num
 		LEFT JOIN picture e ON e.p_num = d.p_num
 		WHERE d.p_industry = #{industry} AND a.a_sale = 0
+		GROUP BY a.a_num
 		ORDER BY distance ASC
-		LIMIT 10
+		LIMIT #{limit}, 6
 	</select>
 	
-	<select id="KindList" parameterType="String" resultMap="ListMap">
+	<select id="KindList" parameterType="map" resultMap="ListMap">
 	
 	
 			SELECT	*,
@@ -301,8 +328,9 @@
 		LEFT JOIN product d ON d.p_num = c.p_num
 		LEFT JOIN picture e ON e.p_num = d.p_num
 		WHERE d.p_kind = #{kind} AND a.a_sale = 0
+		GROUP BY a.a_num
 		ORDER BY distance ASC
-		LIMIT 10
+		LIMIT #{limit}, 6
 	</select>
 	
 	<update id="AucEnd" parameterType="int">

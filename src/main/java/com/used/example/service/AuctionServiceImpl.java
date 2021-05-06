@@ -78,16 +78,6 @@ public class AuctionServiceImpl implements AuctionService {
 
 
 	@Override
-	public List<Auction> IndustryList(String lat, String lon, String industry) {
-		return auctionMapper.IndustryList(lat, lon, industry);
-	}
-
-	@Override
-	public List<Auction> KindList(String lat, String lon, String kind) {
-		return auctionMapper.KindList(lat, lon, kind);
-	}
-
-	@Override
 	public void Hits(int a_num) {
 		auctionMapper.Hits(a_num);
 		
@@ -108,6 +98,16 @@ public class AuctionServiceImpl implements AuctionService {
 	@Override
 	public List<Auction> TopList(Map<String, Object> map) {
 		return auctionMapper.TopList(map);
+	}
+
+	@Override
+	public List<Auction> IndustryList(Map<String, Object> map) {
+		return auctionMapper.IndustryList(map);
+	}
+
+	@Override
+	public List<Auction> KindList(Map<String, Object> map) {
+		return auctionMapper.KindList(map);
 	}
 
 

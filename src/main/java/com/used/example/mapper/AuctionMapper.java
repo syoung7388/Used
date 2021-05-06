@@ -37,11 +37,7 @@ public interface AuctionMapper {
 
 	public void AucEdit( Auction auction);
 
-	
 
-	public List<Auction> IndustryList(@Param("lat")String lat,@Param("lon") String lon, @Param("industry") String industry);
-
-	public List<Auction> KindList(@Param("lat")String lat,@Param("lon") String lon, @Param("kind") String kind);
 
 	public void Hits(int a_num);
 
@@ -52,6 +48,10 @@ public interface AuctionMapper {
 	public int Count(Map<String, Object> map);
 
 	public List<Auction> TopList(Map<String, Object> map);
+
+	public List<Auction> IndustryList(Map<String, Object> map);
+
+	public List<Auction> KindList(Map<String, Object> map);
 
 
 

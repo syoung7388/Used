@@ -64,12 +64,16 @@ export default new Vuex.Store({
 
 
     topList:[],
-    pagination: [], 
     toppage: 0,
+    toppagination: [], 
 
- 
+
+
+    indpagination :[], 
     industryList: [],
+    industrypage: 0,
     I_list_show: false,
+    industry: null,
 
 
 
@@ -80,8 +84,10 @@ export default new Vuex.Store({
     price: 0 ,
     
     
-
+    kindpagination :[], 
     kindList: [],
+    kindpage: 0, 
+    kind: null,
     backType: null,
     beforeType: null,
 
@@ -256,9 +262,9 @@ export default new Vuex.Store({
 
     },
     TopList_s(state, payload){
-      console.log(payload)
+      //console.log(payload)
       state.topList = payload.toplist
-      state.pagination = payload.pagination      
+      state.toppagination = payload.pagination      
       state.removeBar = false
       router.push({name: 'Home'})
 
@@ -268,8 +274,10 @@ export default new Vuex.Store({
     },
     IndustryList_s(state, payload){
       console.log(payload)
-      state.industryList = payload
+      state.industryList = payload.industrylist
+      state.indpagination = payload.pagination  
       state.I_list_show = true
+      state.removeBar = true
       router.push({name: 'IndustryList'})
     },
     IndustryList_f(state, payload){
@@ -346,7 +354,8 @@ export default new Vuex.Store({
     },
     KindList_s(state, payload){
       console.log(payload)
-      state.kindList = payload
+      state.kindpagination = payload.pagination
+      state.kindList = payload.kindlist
       state.removeBar = false
       router.push({name: 'KindList'})
     },
@@ -812,14 +821,16 @@ export default new Vuex.Store({
 
     },
 
-    getIndustryList({commit}, payload){
+    getIndustryList({commit, state}, payload){
       
       let lat =localStorage.getItem('lat')
       let lon= localStorage.getItem('lon')
+      state.industry = payload.industry
       let industry= encodeURI(payload.industry)
+      let page = state.industrypage
 
       axios
-      .get(`http://localhost:9200/api/auction/industry?lat=${lat}&lon=${lon}&industry=${industry}`)
+      .get(`http://localhost:9200/api/auction/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${page}`)
       .then(Res =>{
         (Res.data !== "null") ? commit('IndustryList_s', Res.data): commit('IndustryList_f')
   
@@ -827,15 +838,16 @@ export default new Vuex.Store({
 
     },
 
-    getKindList({commit}, payload){
+    getKindList({commit, state}, payload){
       // alert(payload.kind)
        let lat = localStorage.getItem("lat")
        let lon = localStorage.getItem("lon")
-     
+       let page = state.kindpage
+       state.kind = payload.kind
        let kind = encodeURI(payload.kind)
        console.log(kind)
        axios
-       .get(`http://localhost:9200/api/auction/kind?lat=${lat}&lon=${lon}&kind=${kind}`)
+       .get(`http://localhost:9200/api/auction/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${page}`)
        .then(Res=>{
          (Res.data !== null) ? commit('KindList_s', Res.data): commit('KindList_f')
        })

@@ -38,7 +38,7 @@
                 </v-col>     
             </v-row>
         </v-container>
-        <v-container v-show="I_list_show === true" class="px-0">
+        <v-container v-show="I_list_show === true" class="pa-0">
             <router-view/>
         </v-container>
     </v-app>

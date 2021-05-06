@@ -31,9 +31,9 @@ public interface AuctionService {
 	public void AucEdit(Auction auction);
 
 	
-	public List<Auction> IndustryList(String lat, String lon, String industry);
+	public List<Auction> IndustryList(Map<String, Object> map);
 
-	public List<Auction> KindList(String lat, String lon, String kind);
+	public List<Auction> KindList(Map<String, Object> map);
 
 	public void Hits(int a_num);
 
