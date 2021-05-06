@@ -30,7 +30,6 @@ public interface AuctionService {
 
 	public void AucEdit(Auction auction);
 
-	public List<Auction> TopList(Address address);
 	
 	public List<Auction> IndustryList(String lat, String lon, String industry);
 
@@ -40,7 +39,10 @@ public interface AuctionService {
 
 	public void AucEnd(int a_num);
 
-	public List<Auction> AddTopList(Map<String, Object> map);
+
+	public int Count(Map<String, Object> map);
+
+	public List<Auction> TopList(Map<String, Object> map);
 
 	
 

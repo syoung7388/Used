@@ -229,8 +229,8 @@ export default {
         }
     },
     filters:{
-            comma(pri){
-            var num = new Number(pri)
+            comma(price){
+            var num = new Number(price)
             return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g,"$1,")
         }
 
@@ -247,15 +247,8 @@ export default {
         ListBack(){
             this.$store.state.removeBar= false
             this.$store.state.I_list_show = true
-            if(this.$store.state.backType === "kind"){
-                this.$router.push({name : 'KindList'})
-            }else if(this.$store.state.backType === "industry"){
-                this.$router.push({name: 'IndustryList'})
-            }else if(this.$store.state.backType === "like"){
-                this.$router.push({name: 'LikeList'})
-            } else{
-                this.$router.push({name: 'Home'})
-            }
+            this.$router.go(-1)
+        
 
             
         },

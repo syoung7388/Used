@@ -64,8 +64,10 @@ export default new Vuex.Store({
 
 
     topList:[],
-    toplimit: 0,
-    topcount: 0,
+    pagination: [], 
+    toppage: 0,
+
+ 
     industryList: [],
     I_list_show: false,
 
@@ -254,9 +256,9 @@ export default new Vuex.Store({
 
     },
     TopList_s(state, payload){
-      state.topList = payload
       console.log(payload)
-
+      state.topList = payload.toplist
+      state.pagination = payload.pagination      
       state.removeBar = false
       router.push({name: 'Home'})
 
@@ -795,13 +797,13 @@ export default new Vuex.Store({
     getTopList({commit, state}){
       let lat = localStorage.getItem('lat')
       let lon = localStorage.getItem('lon')
-      let limit = state.toplimit
+      let page= 0
       
       // console.log(lat)
       // console.log(lon)
 
       axios
-      .get(`http://localhost:9200/api/auction/top?limit=${limit}&lat=${lat}&lon=${lon}`)
+      .get(`http://localhost:9200/api/auction/top?page=${page}&lat=${lat}&lon=${lon}`)
       .then(Res => {
         //console.log(Tres.data)
         (Res.data !== null)? commit('TopList_s', Res.data): commit('TopList_f')
@@ -855,7 +857,7 @@ export default new Vuex.Store({
 
 
         (Dres.data !== null)? commit('Detail_s', Dres.data): commit('Detail_f')
-        router.push({name:'Detail'})
+         router.push({name:'Detail'})
       })
     },
 

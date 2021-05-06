@@ -8,9 +8,7 @@
             grow
             height="75"
             :value="value"
-          
-
-         
+            fixed
         >
             <v-btn router :to="{name: 'Home'}">
                 <span style="opacity:0.5 font-weight:500; font-size: 15px">홈</span>

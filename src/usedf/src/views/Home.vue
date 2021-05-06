@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container class="pa-0">
+        <v-container class="pa-0"  v-scroll.self = onScroll>
             <v-card>
                 <v-app-bar
                     color="white"
@@ -53,6 +53,11 @@
                     </template>
                 </v-app-bar>
             </v-card>
+
+            <v-virtual-scroll
+            height="3000"
+            item-height="20"
+            ></v-virtual-scroll> 
         </v-container>
         <router-view/>
     </v-app>
@@ -73,7 +78,8 @@ export default{
     data(){
         return{
             latitude: 0,
-            longitude: 0
+            longitude: 0,
+            scrollInvoked: 0,
 
         
 
@@ -92,7 +98,11 @@ export default{
         sort(){
             this.$store.state.I_list_show= false
         },
-        ...mapActions(['getLikeList'])
+        ...mapActions(['getLikeList']),
+        onScroll(){
+            this.scrollInvoked++
+            console.log("aa")
+        }
 
     },
     components: {

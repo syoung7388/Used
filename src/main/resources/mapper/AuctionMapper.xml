@@ -218,36 +218,22 @@
 		WHERE a.a_num = #{a_num}
 
 	</delete>
-	
-	<select id="TopList" parameterType="address" resultMap="ListMap">
-		SELECT	*,
-						
-			  	(
-			      	6371 * acos (
-			      	cos ( radians(#{lat}) )
-			      	* cos( radians( ad_lat ) )
-			      	* cos( radians( ad_lon ) - radians(#{lon}) )
-			      	+ sin ( radians(#{lat}) )
-			      	* sin( radians( ad_lat ) )
-			    	)
-			   
-				) AS distance,
-				(SELECT COUNT(*)
-					from auction
-					WHERE a_sale = 0
-				)count  
-		FROM auction a
-		LEFT JOIN address b ON b.a_num = a.a_num
-		LEFT JOIN auc_and_pro c ON  c.a_num = a.a_num
-		LEFT JOIN product d ON d.p_num = c.p_num
-		LEFT JOIN picture e ON e.p_num = d.p_num
-		WHERE a.a_sale = 0
-		ORDER BY distance ASC, a.a_hits DESC
-		LIMIT 0, 6
-	
+	<select id="Count" parameterType="map" resultType="int">
+		
+		<choose>
+			<when test="listsort == 0">
+				SELECT COUNT(*) as count
+				from auction
+				WHERE a_sale = 0
+			</when>
+		</choose>
+		
+
 	</select>
 	
-	<select id="AddTopList" parameterType="map" resultMap="ListMap">
+
+	
+	<select id="TopList" parameterType="map" resultMap="ListMap">
 		SELECT	*,
 						
 			  	(
@@ -259,11 +245,7 @@
 			      	* sin( radians( ad_lat ) )
 			    	)
 			   
-				) AS distance,
-				(SELECT COUNT(*)
-					from auction
-					WHERE a_sale = 0
-				)count 
+				) AS distance
 		FROM auction a
 		LEFT JOIN address b ON b.a_num = a.a_num
 		LEFT JOIN auc_and_pro c ON  c.a_num = a.a_num
@@ -272,7 +254,7 @@
 		WHERE a.a_sale = 0
 		GROUP BY a.a_num
 		ORDER BY distance ASC, a.a_hits DESC
-		LIMIT #{limit},6
+		LIMIT #{limit}, 12
 	
 	</select>
 	<select id="IndustryList" parameterType="String" resultMap="ListMap">

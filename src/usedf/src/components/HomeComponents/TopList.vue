@@ -1,12 +1,17 @@
 <template>
     <v-app>
         <v-container 
-        class="px-0" >
+        class="px-0" 
+    
+        >
+<!-- 
+            <infinite-loading  @infinite="plusList" spinner="circles"></infinite-loading > -->
             <v-row justify="center" class="pt-2">
                 <v-col cols="5"  v-for="(item, int) in topList" :key="int" class="py-1">
                     <v-card 
                     width="170"
                     flat
+                    @click="getdetail({a_num: item.a_num})"
                     >
                         <v-img
                         :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
@@ -23,21 +28,18 @@
                                     <p style="text-align: left" class="black--text">{{item.address.town}}</p>
                                 </v-col>
                                 <v-col cols="7" class="pa-1">
-                                    <p style="text-align: right; font-weight:bolder;" class="black--text">{{item.startprice}}원</p>
+                                    <p style="text-align: right; font-weight:bolder;" class="black--text">{{item.startprice | comma}}원</p>
                                 </v-col>
                             </v-row>
                         </v-card-text>
-                    
-                    
                     </v-card>
                 </v-col>                
             </v-row>
 
             <infinite-loading  @infinite="plusList" spinner="circles"></infinite-loading >
-       
- 
         </v-container>
-
+  
+   
     </v-app>
 </template>
 <script>
@@ -45,14 +47,25 @@ import InfiniteLoading from 'vue-infinite-loading';
 import{mapActions, mapState} from 'vuex'
 import axios from 'axios'
 
+
 export default {
     data(){
         return{
             selecteditem: 1,
             heart: false
+          
             
             
         }
+        
+    },
+    filters:{
+            comma(price){
+            var num = new Number(price)
+            return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g,"$1,")
+        }
+
+                
     },
 
 
@@ -61,35 +74,42 @@ export default {
             this.$store.state.backType= "top"
             this.$store.dispatch('getDetail',{a_num: payload})
         },
-        plusList($state){
+        async plusList($state){
             
             console.log("+후")
-            if(this.$store.state.topList[0].count !== this.$store.state.topList.length){
+            if(this.$store.state.pagination.allpage === this.$store.state.toppage){
+                $state.complete()            
+            }else{
+
                 var lat = localStorage.getItem("lat")
                 var lon = localStorage.getItem("lon")
-                var limit = this.$store.state.toplimit
+                this.$store.state.toppage += 1
+                var page = this.$store.state.toppage
                 axios
-                .get(`http://localhost:9200/api/auction/top?limit=${limit}&lat=${lat}&lon=${lon}`)
+                .get(`http://localhost:9200/api/auction/top?page=${page}&lat=${lat}&lon=${lon}`)
                 .then(Res => {
-                    setTimeout(()=>{    
-                        console.log(Res.data)
-                        for(var i =0; i<Res.data.length; i++){
-                            this.$store.state.topList.push(Res.data[i])
+                    setTimeout(()=>{
+                        var list = Res.data.toplist     
+                        for(var i =0; i<list.length; i++){
+                            this.$store.state.topList.push(list[i])
                         }
-                        this.$store.state.toplimit += 6
+                     
                         $state.loaded();
                     }, 1000)
 
                 })
-                    
                 
-            }else{
-                $state.complete()
             }
 
-            
-
         },
+        ...mapActions(['getDetail']),
+        getdetail(payload){
+            window.history.scrollRestoration = "manual"
+            this.$store.dispatch('getDetail', payload)
+        }
+   
+        
+
         
      
     },

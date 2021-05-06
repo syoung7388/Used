@@ -37,6 +37,7 @@ import com.used.example.config.JwtUtils;
 import com.used.example.domain.Address;
 import com.used.example.domain.Auc_Pro;
 import com.used.example.domain.Auction;
+import com.used.example.domain.Pagination;
 import com.used.example.domain.Picture;
 import com.used.example.domain.Product;
 import com.used.example.service.AuctionService;
@@ -266,16 +267,36 @@ public class AuctionController {
 	
 	
 	@GetMapping("/top")
-	public ResponseEntity<?> TopList(@RequestParam("lat") String lat, @RequestParam("lon") String lon, @RequestParam("limit") int limit){
+	public ResponseEntity<?> TopList(@RequestParam("lat") String lat, @RequestParam("lon") String lon, @RequestParam("page") int page){
 		
 		Map<String, Object> map = new HashMap<>();
+		Pagination pagination = new Pagination();
+		
 		map.put("lat", lat);
 		map.put("lon", lon);
-		map.put("limit", limit);
-		List<Auction> addtoplist= auctionService.AddTopList(map);
+		map.put("limit", page*pagination.getPerpage());
 		
-		logger.info("addtoplist:"+ addtoplist);
-		return new ResponseEntity<>(addtoplist, HttpStatus.OK);
+		List<Auction> toplist= auctionService.TopList(map);
+		
+		Map<String, Object> topmap = new HashMap<>();
+		
+		topmap.put("toplist", toplist);
+	
+	
+		
+		
+		if(page == 0) {
+			
+			map.put("listsort", 0);
+			int count = auctionService.Count(map);
+			pagination = new Pagination(count, page);
+			logger.info("pagination:"+pagination );
+			topmap.put("pagination", pagination);
+			
+		}
+
+		logger.info("topmap:"+ topmap);
+		return new ResponseEntity<>( topmap, HttpStatus.OK);
 		
 	}
 	

@@ -75,10 +75,7 @@ public class AuctionServiceImpl implements AuctionService {
 		
 	}
 
-	@Override
-	public List<Auction> TopList(Address address) {
-		return auctionMapper.TopList(address);
-	}
+
 
 	@Override
 	public List<Auction> IndustryList(String lat, String lon, String industry) {
@@ -102,9 +99,15 @@ public class AuctionServiceImpl implements AuctionService {
 		
 	}
 
+
 	@Override
-	public List<Auction> AddTopList(Map<String, Object> map) {
-		return auctionMapper.AddTopList(map);
+	public int Count(Map<String, Object> map) {
+		return auctionMapper.Count(map);
+	}
+
+	@Override
+	public List<Auction> TopList(Map<String, Object> map) {
+		return auctionMapper.TopList(map);
 	}
 
 
