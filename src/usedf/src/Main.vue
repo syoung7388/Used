@@ -20,12 +20,12 @@
             <i class="far fa-edit mb-2" style="font-size: x-large;"></i>
             </v-btn>
 
-            <v-btn router :to="{name:'SaleList'}" >
+            <v-btn router :to="{name:'Sale'}" >
             <span style="opacity:0.5 font-weight:500; font-size: 15px">판매 리스트</span>
             <i class="fas fa-file-invoice-dollar mb-2" style="font-size: x-large;" ></i>
             </v-btn>
 
-            <v-btn router :to="{name:'BidList'}">
+            <v-btn router :to="{name:'Bid'}">
                 <span style="opacity:0.5 font-weight:500; font-size: 15px">내경매</span>
                 <i class="fas fa-hand-holding-usd mb-2" style="font-size: x-large;"></i>
             </v-btn>

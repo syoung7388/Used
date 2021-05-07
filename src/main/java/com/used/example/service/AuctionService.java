@@ -6,6 +6,7 @@ import java.util.Map;
 import com.used.example.domain.Address;
 import com.used.example.domain.Auc_Pro;
 import com.used.example.domain.Auction;
+import com.used.example.domain.Count;
 import com.used.example.domain.Product;
 
 
@@ -40,9 +41,13 @@ public interface AuctionService {
 	public void AucEnd(int a_num);
 
 
-	public int Count(Map<String, Object> map);
+	public int TotalCount(Map<String, Object> map);
 
 	public List<Auction> TopList(Map<String, Object> map);
+
+	public Count SaleCount(String username);
+
+
 
 	
 

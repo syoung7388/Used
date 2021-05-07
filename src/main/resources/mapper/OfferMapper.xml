@@ -128,6 +128,28 @@
 
 			
 	</insert>
+	
+	<select id="BidCount" parameterType="String" resultType="Count">
+		SELECT 
+			(SELECT COUNT(*)	
+			FROM	offer a
+			LEFT JOIN auction b ON a.a_num = b.a_num
+			WHERE b.a_sale = 0 AND a.o_username=#{o_username})salecount,
+			(SELECT COUNT(*)	
+			FROM	offer a
+			LEFT JOIN auction b ON a.a_num = b.a_num
+			WHERE b.a_sale = 1 AND a.o_username=#{o_username})paycount,
+			(SELECT COUNT(*)		
+			FROM	offer a
+			LEFT JOIN auction b ON a.a_num = b.a_num
+			WHERE b.a_sale = 2 AND a.o_username=#{o_username})soldcount
+	</select>
+	
+	
+	
+	
+	
+	
 	<select id="BidList" parameterType="Bid_request" resultMap="ListMap" >
 	
 	

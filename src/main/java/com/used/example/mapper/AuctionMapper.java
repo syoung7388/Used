@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.used.example.domain.Address;
 import com.used.example.domain.Auc_Pro;
 import com.used.example.domain.Auction;
+import com.used.example.domain.Count;
 import com.used.example.domain.Product;
 
 
@@ -45,13 +46,15 @@ public interface AuctionMapper {
 
 
 
-	public int Count(Map<String, Object> map);
+	public int TotalCount(Map<String, Object> map);
 
 	public List<Auction> TopList(Map<String, Object> map);
 
 	public List<Auction> IndustryList(Map<String, Object> map);
 
 	public List<Auction> KindList(Map<String, Object> map);
+
+	public Count SaleCount(String username);
 
 
 

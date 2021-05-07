@@ -99,10 +99,22 @@
 		LEFT JOIN product f ON e.p_num = f.p_num 
 		LEFT JOIN picture g ON f.p_num = g.p_num
 		WHERE a_sale = #{sale} and a_username = #{a_username}
-		ORDER BY a.a_num DESC
-		<if test = "limit == 0">
-			limit 0, 2
-		</if>	
+		ORDER BY a.a_num DESC	
+	</select>
+	
+	
+	<select id="SaleCount" parameterType="String" resultType="Count">
+		SELECT
+		(SELECT COUNT(*)
+		FROM auction 
+		WHERE a_sale = 0 AND a_username = #{username})salecount,
+		(SELECT COUNT(*)
+		FROM auction 
+		WHERE a_sale = 1 AND a_username = #{username})paycount,
+		(SELECT COUNT(*)
+		FROM auction 
+		WHERE a_sale = 2 AND a_username = #{username})soldcount
+	
 	</select>
 	
 	
@@ -225,7 +237,7 @@
 		WHERE a.a_num = #{a_num}
 
 	</delete>
-	<select id="Count" parameterType="map" resultType="int">
+	<select id="TotalCount" parameterType="map" resultType="int">
 		
 		<choose>
 			<when test="listsort == 0">

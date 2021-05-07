@@ -34,8 +34,8 @@ export default new Vuex.Store({
 
     userInfo: {},
     saleList: [],
-    soldList:[],
     pictureList:[],
+    count:[],
 
 
     
@@ -92,9 +92,8 @@ export default new Vuex.Store({
     beforeType: null,
 
 
-    bidList_ing:[],
-    bidList_end:[],
-    payList:[], 
+    bidList:[],
+  
       
     aucType: null,
 
@@ -207,13 +206,24 @@ export default new Vuex.Store({
 
       router.push({name: 'Home'})
     },
+
+    SaleCount_s(state, payload){
+      console.log(payload)
+      state.count = payload
+
+
+    },
+    SaleCount_f(state){
+
+
+    },
     SaleList_s(state, payload){
     
     
-      state.saleList= payload.salelist
-      state.soldList= payload.soldlist
+      state.saleList= payload
       console.log(state.saleList)
-      state.list_show = true
+      state.removeBar = true
+      router.push({name: 'SaleList'})
       
     },
     SaleList_f(state){
@@ -236,7 +246,7 @@ export default new Vuex.Store({
       state.addrInfo = payload.address
       state.removeBar= true
       state.beforeImage= payload.product[0].picture
-      // router.push({name: 'SaleDetail'})
+      router.push({name: 'SaleDetail'})
       
     },
     SaleDetail_f(state){
@@ -363,10 +373,16 @@ export default new Vuex.Store({
     KindList_f(state){
 
     },
+    BidCount_s(state, payload){
+      state.count = payload
+    },
+    BidCount_f(){
+
+    },
     BidList_s(state, payload){
-      state.bidList_ing = payload.bidlist_ing
-      state.bidList_end = payload.bidlist_end
-      state.payList = payload.paylist
+      state.removeBar = true
+      state.bidList= payload
+      router.push({name: 'BidList'})
     },
     BidList_f(state){
 
@@ -385,7 +401,6 @@ export default new Vuex.Store({
         state.proInfo = payload.product[i]
       }
 
-     
      // console.log(state.proInfo)
 
       
@@ -659,19 +674,35 @@ export default new Vuex.Store({
     },
 
 
-
-    getSaleList({commit}){
-      //state.list_show =  true
+    getSaleCount({commit}){
       let token = localStorage.getItem("access_token")
       let config={
-        headers: {
+        headers: {  
           "access_token": token
         }
       }
-      let limit = 0
+      axios
+      .get('http://localhost:9200/api/auction/sale', config)
+      .then(Res => {
+        (Res.data !== null)? commit('SaleCount_s', Res.data): commit('SaleCount_f') 
+      })
+
+    },
+
+
+
+    getSaleList({commit}, payload){
+      //state.list_show =  true
+      let token = localStorage.getItem("access_token")
+      let config={
+        headers: {  
+          "access_token": token
+        }
+      }
+
 
       axios
-      .get('http://localhost:9200/api/auction/sale/limit=${limit}', config)
+      .get(`http://localhost:9200/api/auction/sale/${payload.sale}`, config)
       .then(Res => {
         //console.log(Res.data)
         (Res.data !== null)? commit('SaleList_s', Res.data): commit('SaleList_f') 
@@ -927,7 +958,21 @@ export default new Vuex.Store({
         (Res.data !== null)? commit('Offer_s', Res.data):commit('Offer_cancle_f')
       })
     },
-    getBidList({commit}){
+
+    getBidCount({commit}, payload){
+      let token = localStorage.getItem("access_token")
+      let config= {
+        headers: {
+          "access_token": token
+        }
+      }
+      axios
+      .get('http://localhost:9200/api/offer/count', config)
+      .then(Res =>{
+        (Res.data !== null) ? commit('BidCount_s', Res.data): commit('BidCount_f')
+      })
+    },
+    getBidList({commit}, payload){
  
       let token = localStorage.getItem("access_token")
       let config= {
@@ -936,12 +981,13 @@ export default new Vuex.Store({
         }
       }
       axios
-      .get('http://localhost:9200/api/offer', config)
+      .get(`http://localhost:9200/api/offer?sale=${payload.sale}`, config)
       .then(Res =>{
         (Res.data !== null) ? commit('BidList_s', Res.data): commit('BidList_f')
       })
 
     },
+
     getBidDetail({commit},payload){
 
 

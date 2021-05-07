@@ -24,7 +24,7 @@
                                 style="font-size: large;" 
                                 icon
                                 v-on="on"
-                                @click="Back" 
+                                @click="ListBack" 
                                 >
                                     <i class="fas fa-arrow-left" style="font-size: large;"></i>
                                 </v-btn>
@@ -40,7 +40,7 @@
             <v-row class="ma-0" justify="center" > 
                 <v-expansion-panels flat>
                     <v-expansion-panel>
-                        <v-expansion-panel-header class="secondary--text">게시물 상세보기</v-expansion-panel-header>
+                        <v-expansion-panel-header class="grey--text">게시물 상세보기</v-expansion-panel-header>
                         <v-expansion-panel-content>
                             <v-row>
                                 <v-col>
@@ -183,9 +183,10 @@ export default {
     },
     methods: {
 
-        Back(){
-            this.$store.state.removeBar = false
-            this.$router.push({name: 'BidList'})
+        ListBack(){
+            this.$store.state.removeBar = true
+            this.$router.go(-1)
+            
         },
         PayBtn(){
             this.$router.push({name: 'PayMethod'})

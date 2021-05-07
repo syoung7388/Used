@@ -169,9 +169,9 @@ export default {
             this.$store.state.edit_show = true
         },
         ListBack(){
-            this.$store.state.list_show =true
-            this.$store.state.removeBar= false
-            this.$router.push({name: 'SaleList'})
+ 
+            this.$store.state.removeBar= true
+            this.$router.go(-1)
         },
         ...mapActions(['SaleDelete'])
     },

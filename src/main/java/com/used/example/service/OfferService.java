@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.used.example.domain.Auction;
 import com.used.example.domain.Bid_request;
+import com.used.example.domain.Count;
 import com.used.example.domain.Offer;
 
 public interface OfferService {
@@ -15,6 +16,8 @@ public interface OfferService {
 	public void DeleteOffer(int o_num);
 
 	public void SelectOffer(String today);
+
+	public Count BidCount(String o_username);
 
 	
 

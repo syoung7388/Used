@@ -37,6 +37,7 @@ import com.used.example.config.JwtUtils;
 import com.used.example.domain.Address;
 import com.used.example.domain.Auc_Pro;
 import com.used.example.domain.Auction;
+import com.used.example.domain.Count;
 import com.used.example.domain.Pagination;
 import com.used.example.domain.Picture;
 import com.used.example.domain.Product;
@@ -137,9 +138,24 @@ public class AuctionController {
 
 	}
 	
+	
+	@GetMapping("/sale")
+	public ResponseEntity<?> SaleCount(HttpServletRequest request){
+		String token= request.getHeader("access_token");
+		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
+			token= token.substring(7, token.length());
+		}
+		String username= JwtUtils.getUserEmailFromToken(token);
+		
+		Count count = auctionService.SaleCount(username);
+		
+		return new ResponseEntity<>(count, HttpStatus.OK);
+		
+	}
+	
 
-	@GetMapping("/sale/{limit}")
-	public ResponseEntity<?> SaleList(HttpServletRequest request , @PathVariable("limit")int limit){
+	@GetMapping("/sale/{sale}")
+	public ResponseEntity<?> SaleList(HttpServletRequest request, @PathVariable("sale") int sale){
 		
 		String token= request.getHeader("access_token");
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
@@ -149,20 +165,11 @@ public class AuctionController {
 		Map<String,Object> map= new HashMap<>();
 		
 		Auction auction = new Auction();
-		auction.setLimit(limit);
 		auction.setA_username(username);
-		auction.setSale(0);
+		auction.setSale(sale);
 		List<Auction> salelist = auctionService.SaleList(auction);
-		
-		auction.setSale(1);
-		List<Auction> soldlist= auctionService.SaleList(auction);
-		
-		map.put("salelist", salelist);
-		map.put("soldlist", soldlist);
-		
-		
-		logger.info("salelist:"+ salelist);
-		return new ResponseEntity<>(map, HttpStatus.OK);
+
+		return new ResponseEntity<>(salelist, HttpStatus.OK);
 		
 	}
 	@GetMapping("/{a_num}")
@@ -276,7 +283,7 @@ public class AuctionController {
 		if(page == 0) {
 			
 			map.put("listsort", 0);
-			int count = auctionService.Count(map);
+			int count = auctionService.TotalCount(map);
 			pagination = new Pagination(count, page);
 			//logger.info("pagination:"+pagination );
 			topmap.put("pagination", pagination);
@@ -310,7 +317,7 @@ public class AuctionController {
 		
 		if(page == 0) {
 			map.put("listsort", 1);
-			int count = auctionService.Count(map);
+			int count = auctionService.TotalCount(map);
 			pagination = new Pagination(count, page);
 			industrymap.put("pagination", pagination);
 			
@@ -347,7 +354,7 @@ public class AuctionController {
 		
 		if(page == 0) {
 			map.put("listsort", 2);
-			int count = auctionService.Count(map);
+			int count = auctionService.TotalCount(map);
 			pagination = new Pagination(count, page);
 			kindmap.put("pagination", pagination);
 			

@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.used.example.config.JwtUtils;
 import com.used.example.domain.Auction;
 import com.used.example.domain.Bid_request;
+import com.used.example.domain.Count;
 import com.used.example.domain.Like;
 import com.used.example.domain.Offer;
 import com.used.example.domain.Picture;
@@ -53,8 +54,7 @@ import com.used.example.utility.MakeThumbnail;
 @RequestMapping("/api/offer")
 public class OfferController {
 	
-	///https://purumae.tistory.com/198 
-	///https://dba.stackexchange.com/questions/33410/whats-the-difference-between-pointx-y-and-geomfromtextpointx-y
+	
 	
 	@Autowired
 	OfferService offerService;
@@ -92,10 +92,26 @@ public class OfferController {
 		
 		return new ResponseEntity<>(auction,HttpStatus.OK); 
 	}
+
+	@GetMapping("/count")
+	public ResponseEntity<?> BidCount(HttpServletRequest request){
+		token = request.getHeader("access_token");	
+		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
+			token = token.substring(7, token.length());
+		}
+		String o_username = JwtUtils.getUserEmailFromToken(token);
+		
+		Count count = offerService.BidCount(o_username);
+		
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
+	
+
+
 	
 	
 	@GetMapping
-	public ResponseEntity<?> BidList(HttpServletRequest request){
+	public ResponseEntity<?> BidList(HttpServletRequest request, @RequestParam("sale")int sale){
 		
 		token = request.getHeader("access_token");
 		
@@ -108,31 +124,15 @@ public class OfferController {
 		
 		Bid_request bid_r= new Bid_request();
 		bid_r.setO_username(o_username);
-		bid_r.setSale(0);
+		bid_r.setSale(sale);
 
-		List<Auction> bidlist_ing =offerService.BidList(bid_r);
+		List<Auction> bidlist =offerService.BidList(bid_r);
 		
 		
-		
-		
-		
-		bid_r.setSale(2);
-		List<Auction> bidlist_end =offerService.BidList(bid_r);
-		
-		
-		List<Auction> paylist = paymentService.PayList(o_username);
-		
-		
-		Map<String, Object> map= new HashMap<>();
-		map.put("bidlist_ing",bidlist_ing);
-		map.put("bidlist_end", bidlist_end);
-		map.put("paylist", paylist);
 		
 
-		logger.info("paylist"+paylist);
-		//logger.info("bidlist_ing:"+bidlist_ing);
-		//logger.info("bidlist_end:"+bidlist_end);
-		return new ResponseEntity<>( map, HttpStatus.OK);
+		logger.info("bidlist"+bidlist);
+		return new ResponseEntity<>( bidlist, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{a_num}")

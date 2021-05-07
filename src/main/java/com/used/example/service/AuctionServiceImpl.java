@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.used.example.domain.Address;
 import com.used.example.domain.Auc_Pro;
 import com.used.example.domain.Auction;
+import com.used.example.domain.Count;
 import com.used.example.domain.Product;
 import com.used.example.mapper.AuctionMapper;
 
@@ -91,8 +92,8 @@ public class AuctionServiceImpl implements AuctionService {
 
 
 	@Override
-	public int Count(Map<String, Object> map) {
-		return auctionMapper.Count(map);
+	public int TotalCount(Map<String, Object> map) {
+		return auctionMapper.TotalCount(map);
 	}
 
 	@Override
@@ -108,6 +109,11 @@ public class AuctionServiceImpl implements AuctionService {
 	@Override
 	public List<Auction> KindList(Map<String, Object> map) {
 		return auctionMapper.KindList(map);
+	}
+
+	@Override
+	public Count SaleCount(String username) {
+		return auctionMapper.SaleCount(username);
 	}
 
 

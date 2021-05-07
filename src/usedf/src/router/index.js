@@ -29,18 +29,22 @@ const routes = [
     name: 'Writing',
     component: () => import(/* webpackChunkName: "writing" */'@/views/Writing.vue')
   },
+
+  {
+    path: '/sale',
+    name: 'Sale',
+    component: () => import(/* webpackChunkName: "sale" */'@/views/Sale.vue')
+
+  },
   {
     path: '/salelist',
     name: 'SaleList',
     component: () => import(/* webpackChunkName: "salelist" */'@/views/SaleList.vue'),
-    children:[
-      {      
-        path: '/saledetail',
-        name: 'SaleDetail',
-        component: () => import(/* webpackChunkName: "saledetail" */'@/views/SaleDetail.vue'),
-    
-      },
-    ]
+  },
+  {      
+    path: '/saledetail',
+    name: 'SaleDetail',
+    component: () => import(/* webpackChunkName: "saledetail" */'@/views/SaleDetail.vue'),
 
   },
   {
@@ -60,6 +64,12 @@ const routes = [
     path: '/kindlist',
     name: 'KindList',
     component: () => import(/* webpackChunkName: "kindlist" */'@/views/KindList.vue')
+
+  },
+  {
+    path: '/bid',
+    name: 'Bid',
+    component: () => import(/* webpackChunkName: "bid" */'@/views/Bid.vue')
 
   },
 

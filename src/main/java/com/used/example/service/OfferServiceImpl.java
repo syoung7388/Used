@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.used.example.domain.Auction;
 import com.used.example.domain.Bid_request;
+import com.used.example.domain.Count;
 import com.used.example.domain.Offer;
 import com.used.example.mapper.OfferMapper;
 
@@ -39,6 +40,11 @@ public class OfferServiceImpl implements OfferService{
 	public void SelectOffer(String today) {
 		offerMapper.SelectOffer(today);
 		
+	}
+
+	@Override
+	public Count BidCount(String o_username) {
+		return offerMapper.BidCount(o_username);
 	}
 
 
