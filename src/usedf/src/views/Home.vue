@@ -19,7 +19,7 @@
                     <v-btn icon  @click="getLikeList">
                         <i class="far fa-heart" style="font-size: x-large;"></i>            
                     </v-btn>
-                    <v-btn icon>
+                    <v-btn icon @click="getChatList">
                         <i class="far fa-comment-alt" style="font-size: x-large;"></i>            
                     </v-btn>
                     <v-btn 
@@ -103,9 +103,11 @@ export default{
         onScroll(){
             this.scrollInvoked++
             console.log("aa")
-        }
+        },
+        ...mapActions(['getChatList'])
 
     },
+
     components: {
         TopList,
         IndustrySort,

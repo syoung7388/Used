@@ -7,11 +7,12 @@
                 </v-col>
             </v-row>
             <div v-for=" (item, int) in message" :key="int">
-                <v-row justify="end" v-if="item.m_username = userInfo.username">
+                <v-row justify="end" v-if="item.m_username === userInfo.username">
                     <v-col cols="8">
                         <v-card color="skyblue white--text">
                             <p class="ma-1">{{item.content}}</p>
                         </v-card>
+                        <p class="grey--text" style="font-size: 10px; text-align:right">{{item.time}}</p>
                     </v-col>
                 </v-row>
                 <v-row justify="start" v-else>
@@ -19,6 +20,7 @@
                         <v-card>
                             <p class="ma-1">{{item.content}}</p>
                         </v-card>
+                        <p class="grey--text" style="font-size: 10px; text-align:left">{{item.time}}</p>
                     </v-col>
                 </v-row>
             </div>
@@ -33,12 +35,19 @@
                         <v-btn class="primary" small
                         @click="SendMsg({
                         m_username: userInfo.username,
-                        content : sendmsg                   
+                        content : sendmsg,
+                        ch_num : $route.params.num
                         })"
                         ><span class="ma-2  white--text" >전송</span></v-btn>
                     </v-col>
                 </v-row>
+
             </v-bottom-navigation>
+            <v-overlay :value="overlay" >
+                <v-card color="white">
+                    <v-card-text class="black--text">전송오류</v-card-text>
+                </v-card>
+            </v-overlay>
         </v-container>
     </v-app>
     
@@ -50,45 +59,41 @@ export default {
     data(){
         return{
             readyOK: null,
-            message: [],
             sendmsg: null
 
 
         }
     },
     beforeCreate(){
-        var roomInfo = this.$store.state.roomInfo
-        var num = this.$route.params.num
-
         console.log(this.$route.params.num)
         this.$socket.emit('createRoom', {
-            seller: roomInfo.seller,
-            buyer: roomInfo.buyer,
-            num : num
+            seller: this.$route.params.seller,
+            buyer: this.$route.params.buyer,
+            num :this.$route.params.num
         })
     },
     methods: {
         SendMsg(payload){
+            this.$socket.emit('sendMsg', payload , ()=>{
+                console.log("aa")
+                this.$store.dispatch('Message', payload)
+                this.sendmsg = ''
+            })
+
 
             
-         
-            this.message.push(payload)
-            this.$socket.emit('sendMsg',payload)
-            this.sendmsg = ''
         }
     },
     created (){
-        this.$socket.on('roomOK', (data)=>{
-            this.readyOK = data.msg
-        })
         this.$socket.on('getMsg', (data)=>{
             if(data !== null){
-                this.message += data
+                console.log(data)
+      
             }
         })
     },
     computed: {
-        ...mapState(['userInfo'])
+        ...mapState(['userInfo', 'message', 'chatInfo', 'overlay', ])
     }
 }
 </script>

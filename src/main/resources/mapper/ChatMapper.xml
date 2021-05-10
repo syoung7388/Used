@@ -17,6 +17,39 @@
 		from chat
 		where a_num = #{a_num}
 	</select>
+	
+	<select id="ChatList" parameterType= "String" resultType="Chat">
+			select	a_num as a_num,
+				ch_num as ch_num,
+				ch_seller as seller,
+				ch_buyer as buyer
+			from chat
+			where ch_buyer =#{username} OR ch_seller = #{username}
+	</select>
+	
+	<resultMap type="Chat" id="Detail">
+		<result property="ch_num" column="ch_num"/>
+		<result property="a_num" column="a_num"/>
+		<result property="seller" column="ch_seller"/>
+		<result property="buyer" column="ch_buyer"/>
+		<collection property="message" resultMap="MsgDetail"></collection>
+	</resultMap>
+	<resultMap id="MsgDetail" type="Message">
+		<result property="m_num" column="m_num"/>
+		<result property="m_username" column="m_username"/>
+		<result property="content" column="m_content"/>
+		<result property="time" column="m_time"/>
+	</resultMap>
+	
+	
+	
+	<select id="MsgDetail" parameterType="int" resultMap="Detail">
+		SELECT *
+		FROM chat a
+		LEFT JOIN message b ON a.ch_num = b.ch_num
+		WHERE a.ch_num = #{ch_num}
+		ORDER BY b.m_num ASC  
+	</select>
 
 </mapper>
 

@@ -6,6 +6,7 @@ import colors from 'vuetify/lib/util/colors'
 import Form from 'antd/lib/form/Form'
 
 
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -116,6 +117,8 @@ export default new Vuex.Store({
 
     roomInfo:[],
     room_num: null,
+    chatList: [],
+    msg_err: false,
 
 
   
@@ -490,11 +493,34 @@ export default new Vuex.Store({
     },
     Room_s(state, payload){
 
-      router.push({name: 'Chat', params: {num: payload}})
+      router.push({name: 'Chat', params: {num: payload.ch_num, seller: state.chatInfo.seller, buyer: state.chatInfo.buyer}})
 
     },
     Room_f(state){
 
+    },
+    ChatList_s(state, payload){
+      state.chatList =payload
+      router.push({name: 'ChatList'})
+
+    },
+    ChatList_f(state){
+
+    },
+    ChatDetail_s(state,payload){
+      state.message = payload.message
+      state.removeBar = true
+      router.push({name: 'Chat', params: {num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
+    },
+    Message_s(state, payload){
+      state.message.put(payload)
+    },
+    Message_f(state){
+      state.overlay = true
+      setTimeout(()=>{
+        state.overlay = false
+    }, 2000)
+      
     }
   },
 
@@ -1132,6 +1158,39 @@ export default new Vuex.Store({
  
       })
 
+    },
+    getChatList({commit}){
+      let token = localStorage.getItem("access_token")
+      let config = {
+        headers:{
+          "access_token": token
+        }
+      }
+      axios
+      .get('http://localhost:9200/api/chat', config)
+      .then(Res =>{
+
+        (Res.data !== null)? commit('ChatList_s', Res.data): commit('ChatList_f')
+        
+      })
+
+    }, 
+    getChatDetail({commit}, payload){
+      axios
+      .get(`http://localhost:9200/api/chat/${payload.ch_num}`)
+      .then(Res =>{
+        (Res.data !== null)? commit('ChatDetail_s', Res.data): commit('ChatDetail_f')
+        
+      })
+    }, 
+    Message({commit}, payload){
+      // console.log(payload)
+      axios
+      .post("http://localhost:9200/api/chat/msg", payload)
+      .then(Res =>{
+        (Res.data === success)?commit('Message_s', payload): commit('Message_f')
+        
+      })
     }
   
   }
