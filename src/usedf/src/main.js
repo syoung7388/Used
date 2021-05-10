@@ -5,7 +5,8 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 import '@fortawesome/fontawesome-free/js/all.js';
 import ExportTypography from 'antd/lib/typography/Typography';
-
+import io  from 'socket.io-client';
+//npm install vue-socket.io 설치 필수 인듯
  
 
 
@@ -15,6 +16,9 @@ export const eventBus  = new Vue()
 //     eventBus.$emit('warranty-order-finalize', e.data.data)
 //   }
 // })
+
+const socket = io('http://localhost:7000')
+Vue.prototype.$socket = socket
 
 
 Vue.config.productionTip = false

@@ -116,6 +116,20 @@ const routes = [
 
   },
   {
+    path: '/chat',
+    name: 'Chat',
+    component: () => import(/* webpackChunkName: "chat" */'@/views/Chat.vue')
+
+  },
+  {
+    path: '/chatlist',
+    name: 'ChatList',
+    component: () => import(/* webpackChunkName: "chatlist" */'@/views/ChatList.vue')
+
+  },
+  
+
+  {
     path: '/mypage',
     name: 'MyPage',
     component: MyPage,

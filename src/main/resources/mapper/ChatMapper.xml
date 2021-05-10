@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.used.example.mapper.ChatMapper">
+
+	<insert id="CreateChat" parameterType="Chat">
+		insert into chat(ch_seller, ch_buyer, a_num)
+					values(#{seller}, #{buyer}, #{a_num})
+		<selectKey keyProperty="ch_num" resultType="int" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	<select id="ChatDetail" parameterType="int" resultType="Chat">
+		select	a_num as a_num,
+				ch_num as ch_num,
+				ch_seller as seller,
+				ch_buyer as buyer
+		from chat
+		where a_num = #{a_num}
+	</select>
+
+</mapper>
+

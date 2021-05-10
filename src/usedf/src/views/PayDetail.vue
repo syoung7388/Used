@@ -124,9 +124,13 @@
                                     <h1 style="font-size: 15px; text-align:center" class="ml-3">{{payInfo.method}}</h1>
                                 </v-col>
                             </v-row>
-                            <v-row justify="center" class="mt-5">
+                            <v-row justify="center" class="mt-5" v-show="chatInfo === null">
                                 <v-col cols="8">
-                                    <v-btn larges class="primary">판매자님과 대화 연결하기</v-btn>
+                                    <v-btn larges class="primary" @click="Room({
+                                        seller:aucInfo.a_username,
+                                        buyer: userInfo.username,
+                                        a_num: aucInfo.a_num
+                                    })">판매자님과 대화 연결하기</v-btn>
                                 </v-col>
                             </v-row>
                         </v-card>
@@ -179,7 +183,7 @@ export default {
         }
     },
     computed: {
-        ...mapState([ 'userInfo', 'aucInfo','likeInfo','proInfo', 'offerInfo','addrInfo','beforeImage', 'payInfo'])
+        ...mapState([ 'userInfo', 'aucInfo','likeInfo','proInfo', 'offerInfo','addrInfo','beforeImage', 'payInfo', 'chatInfo'])
     },
     methods: {
 
@@ -190,8 +194,16 @@ export default {
         },
         PayBtn(){
             this.$router.push({name: 'PayMethod'})
-        }
+        },
+        ...mapActions(['Room'])
+
     },
+
+    created (){
+        this.$socket.on('roomOK', (data)=>{
+            console.log(data.room_msg)
+        })
+    }
  
 }
 </script>

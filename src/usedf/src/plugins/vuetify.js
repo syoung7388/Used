@@ -19,6 +19,7 @@ export default new Vuetify({
         aa: '#66CCCC',
         skygreen: '#90EE90',
         purple: '#9999FF',
+        
 
       },
     },

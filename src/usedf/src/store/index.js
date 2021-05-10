@@ -44,6 +44,7 @@ export default new Vuex.Store({
     offerInfo: [],
     addrInfo: [],
     aucInfo:[],
+    chatInfo: [],
     beforeImage:[],
 
 
@@ -108,7 +109,13 @@ export default new Vuex.Store({
     username_dup : false,
     name_dup: false,
     payreadyInfo:[],
-    payInfo:[]
+    payInfo:[], 
+
+
+
+
+    roomInfo:[],
+    room_num: null,
 
 
   
@@ -458,6 +465,7 @@ export default new Vuex.Store({
       var aucdetail = payload.aucdetail
       state.payInfo = payload.paydetail
       state.aucInfo = aucdetail
+      state.chatInfo = payload.chatdetail
       state.likeInfo = aucdetail.like
       
       
@@ -478,6 +486,14 @@ export default new Vuex.Store({
     },
 
     KakaoApprove_f(state){
+
+    },
+    Room_s(state, payload){
+
+      router.push({name: 'Chat', params: {num: payload}})
+
+    },
+    Room_f(state){
 
     }
   },
@@ -1103,6 +1119,19 @@ export default new Vuex.Store({
         (Res.data !== null)? commit('PayDetail_s', Res.data): commit('KakaoApprove_f')
 
       })
+    },
+    Room({commit, state}, payload){
+
+      state.roomInfo = payload
+      console.log(payload)
+      axios
+      .post(`http://localhost:9200/api/chat`, payload)
+      .then(Res =>{
+               
+        (Res.data !== null)? commit('Room_s', Res.data): commit('Room_f')
+ 
+      })
+
     }
   
   }

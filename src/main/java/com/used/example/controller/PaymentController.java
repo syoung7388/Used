@@ -50,6 +50,7 @@ import com.used.example.config.JwtUtils;
 import com.used.example.domain.Amount;
 import com.used.example.domain.Auction;
 import com.used.example.domain.Card;
+import com.used.example.domain.Chat;
 import com.used.example.domain.KakaoReady_R;
 import com.used.example.domain.Offer;
 import com.used.example.domain.Payment;
@@ -59,6 +60,7 @@ import com.used.example.domain.KakaoApproval;
 import com.used.example.domain.KakaoCardInfo;
 import com.used.example.domain.Product;
 import com.used.example.service.AuctionService;
+import com.used.example.service.ChatService;
 import com.used.example.service.PaymentService;
 
 
@@ -78,6 +80,9 @@ public class PaymentController {
 	
 	@Autowired
 	AuctionService auctionService;
+	
+	@Autowired
+	ChatService chatService;
 	
 	private static final String HOST = "https://kapi.kakao.com";
 	private KakaoApproval approval;
@@ -244,10 +249,13 @@ public class PaymentController {
 		
 		Payment paydetail = paymentService.PaymentDetail(a_num);
 		Auction aucdetail = auctionService.AucDetail(a_num);
+		Chat chatdetail = chatService.ChatDetail(a_num);
+		
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("paydetail", paydetail);
 		map.put("aucdetail", aucdetail);
+		map.put("chatdetail", chatdetail);
 		logger.info("map:"+map);
 		return new ResponseEntity<>(map , HttpStatus.OK);
 		
