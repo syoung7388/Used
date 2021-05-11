@@ -25,6 +25,14 @@
                     </v-list-item>
                     <v-list-item @click="getSaleList({sale:2})">
                         <v-list-item-icon>
+                            <i class="far fa-handshake skygreen--text" style="font-size: 25px" ></i>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title style="font-size: 18px; font-weight: bold">거래 중 ({{count.tradecount}})</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item @click="getSaleList({sale:3})">
+                        <v-list-item-icon>
                             <i class="far fa-check-circle primary--text" style="font-size: 25px"></i>
                         </v-list-item-icon>
                         <v-list-item-content>

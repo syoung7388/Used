@@ -1,6 +1,13 @@
 <template>
     <v-app>
         <v-container class="px-0">
+            <v-row justify="start">
+                <v-col cols="3" class="pb-0">
+                    <v-btn style="font-size: large;" icon @click="Back">
+                        <i class="fas fa-arrow-left" style="font-size: large;"></i>
+                    </v-btn>
+                </v-col>
+            </v-row>
             <template v-for=" (item, index) in chatList" >
                 <v-list-item one-line :key="item.ch_num" @click="getChatDetail({ch_num : item.ch_num})">
                     <v-list-item-content>
@@ -32,7 +39,11 @@ export default {
         ...mapState(['chatList', 'userInfo'])
     },
     methods: {
-        ...mapActions(['getChatDetail'])
+        ...mapActions(['getChatDetail']),
+        Back(){
+            this.$store.state.removeBar = false
+            this.$router.go(-1)
+        },
     }
     
 }

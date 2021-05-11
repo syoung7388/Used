@@ -2,9 +2,10 @@ package com.used.example.service;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.used.example.domain.Message;
 import com.used.example.domain.Chat;
 import com.used.example.mapper.ChatMapper;
 
@@ -36,6 +37,13 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public Chat MsgDetail(int ch_num) {
 		return chatMapper.MsgDetail(ch_num);
+	}
+
+
+	@Override
+	public void CreateMessage(Message message) {
+		chatMapper.CreateMessage(message);
+		
 	}
 
 }

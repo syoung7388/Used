@@ -131,18 +131,16 @@
 	
 	<select id="BidCount" parameterType="String" resultType="Count">
 		SELECT 
-			(SELECT COUNT(*)	
-			FROM	offer a
-			LEFT JOIN auction b ON a.a_num = b.a_num
-			WHERE b.a_sale = 0 AND a.o_username=#{o_username})salecount,
-			(SELECT COUNT(*)	
-			FROM	offer a
-			LEFT JOIN auction b ON a.a_num = b.a_num
-			WHERE b.a_sale = 1 AND a.o_username=#{o_username})paycount,
-			(SELECT COUNT(*)		
-			FROM	offer a
-			LEFT JOIN auction b ON a.a_num = b.a_num
-			WHERE b.a_sale = 2 AND a.o_username=#{o_username})soldcount
+		COUNT(case when a.a_sale = 0 then 1 END) AS salecount,
+		COUNT(case when a.a_sale = 1 then 1 END) AS paycount,
+		COUNT(case when a.a_sale = 2 then 1 END) AS tradecount,
+		COUNT(case when a.a_sale = 3 then 1 END) AS soldcount
+		from auction a
+		LEFT JOIN 
+				(SELECT *
+				FROM offer 
+				GROUP BY a_num)b on a.a_num = b.a_num
+		WHERE b.o_username =  #{a.o_username}
 	</select>
 	
 	

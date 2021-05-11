@@ -36,26 +36,6 @@
                     </v-menu>
                 </v-carousel-item>
             </v-carousel>
-
-            <v-row class="ma-0" justify="center" > 
-                <v-expansion-panels flat>
-                    <v-expansion-panel>
-                        <v-expansion-panel-header class="grey--text">게시물 상세보기</v-expansion-panel-header>
-                        <v-expansion-panel-content>
-                            <v-row>
-                                <v-col>
-                                    <h1 style="font-size: 20px">{{aucInfo.title}}</h1>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col>
-                                    {{aucInfo.content}}
-                                </v-col>
-                            </v-row>
-                        </v-expansion-panel-content>
-                    </v-expansion-panel>
-                </v-expansion-panels>       
-            </v-row>
             <v-divider></v-divider>
                 <v-tabs
                 align-with-title
@@ -127,7 +107,7 @@
                             <v-row justify="center" class="mt-5" v-show="chatInfo === null">
                                 <v-col cols="8">
                                     <v-btn larges class="primary" @click="Room({
-                                        seller:aucInfo.a_username,
+                                        seller: aucInfo.a_username,
                                         buyer: userInfo.username,
                                         a_num: aucInfo.a_num
                                     })">판매자님과 대화 연결하기</v-btn>
@@ -135,9 +115,20 @@
                             </v-row>
                         </v-card>
                     </v-tab-item>
-                    <v-tab-item>
-                        <v-card class="pa-3">
-                            <v-simple-table :height="500">
+                    <v-tab-item class="my-5">
+                        <v-row justify="start" class="mx-2">
+                            <v-col cols="10">
+                                <h1 style="font-size: 20px">{{aucInfo.title}}</h1>
+                            </v-col>
+                        </v-row>
+                        <v-row justify="start"  class="mx-2">
+                            <v-col cols="10">
+                                {{aucInfo.content}}
+                            </v-col>
+                        </v-row>
+                        <v-card color="secondary" height="25" id="sale" flat tile class="my-4"></v-card>
+                        <v-card flat>
+                            <v-simple-table >
                                 <template>
                                     <tbody>
                                         <tr class="text-center" >

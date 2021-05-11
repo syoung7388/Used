@@ -492,8 +492,9 @@ export default new Vuex.Store({
 
     },
     Room_s(state, payload){
+      console.log(payload)
 
-      router.push({name: 'Chat', params: {num: payload.ch_num, seller: state.chatInfo.seller, buyer: state.chatInfo.buyer}})
+      router.push({name: 'Chat', params: {num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
 
     },
     Room_f(state){
@@ -513,13 +514,10 @@ export default new Vuex.Store({
       router.push({name: 'Chat', params: {num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
     },
     Message_s(state, payload){
-      state.message.put(payload)
+
     },
     Message_f(state){
-      state.overlay = true
-      setTimeout(()=>{
-        state.overlay = false
-    }, 2000)
+
       
     }
   },
@@ -1148,13 +1146,17 @@ export default new Vuex.Store({
     },
     Room({commit, state}, payload){
 
-      state.roomInfo = payload
-      console.log(payload)
+      //state.roomInfo = payload
+      //console.log(payload)
       axios
       .post(`http://localhost:9200/api/chat`, payload)
       .then(Res =>{
                
-        (Res.data !== null)? commit('Room_s', Res.data): commit('Room_f')
+        (Res.data !== null)? commit('Room_s', {
+          seller: payload.seller,
+          buyer: payload.buyer,
+          ch_num: Res.data
+        }): commit('Room_f')
  
       })
 
@@ -1183,14 +1185,25 @@ export default new Vuex.Store({
         
       })
     }, 
-    Message({commit}, payload){
-      // console.log(payload)
+    Message({state}, payload){
+
       axios
       .post("http://localhost:9200/api/chat/msg", payload)
       .then(Res =>{
-        (Res.data === success)?commit('Message_s', payload): commit('Message_f')
-        
+        if(Res.data !== 'success'){
+          localStorage.setItem('err', true)
+          state.overlay = true
+          setTimeout(()=>{
+          state.overlay = false
+          }, 2000)
+        }else{
+          localStorage.setItem('err', false)
+        }
+
+
       })
+    
+      
     }
   
   }

@@ -48,15 +48,15 @@
                     </v-list>
                     </v-menu>
                 </v-carousel-item>
-              
             </v-carousel>
+
             <v-row class="ma-0">
-                <v-col cols="12" class="ma-0"  v-if="aucInfo.sale=== 'false'" >   
-                    <v-list-item-title style="font-size: 15px; text-align:right" class="primary--text">거래중</v-list-item-title>
+                <v-col cols="12" class="ma-0"  v-if="aucInfo.sale=== '0'" >   
+                    <v-list-item-title style="font-size: 15px; text-align:right" class="primary--text">경매중</v-list-item-title>
                     <v-list-item-subtitle v-html="aucInfo.enddate" style="font-size: 12px; text-align:right"></v-list-item-subtitle>
                 </v-col>
                 <v-col cols="12" v-else>   
-                    <h1 style="font-size: 15px; text-align:right" class="primary--text"> 거래완료</h1>
+                    <h1 style="font-size: 15px; text-align:right" class="primary--text"> 경매완료</h1>
                     <v-list-item-subtitle v-html="aucInfo.enddate" style="font-size: 12px; text-align:right"></v-list-item-subtitle>
                 </v-col>
             </v-row>
@@ -69,11 +69,12 @@
         
                 >
                     <v-tabs-slider></v-tabs-slider>
-                    <v-tab class="ml-0" style="font-size: 15px;">경매순위</v-tab>
+                    <v-tab class="ml-0" style="font-size: 15px;" v-if="aucInfo === 0">경매순위</v-tab>
+                    <v-tab class="ml-0" style="font-size: 15px;" v-else>진행현황</v-tab>
                     <v-tab class="ml-0" style="font-size: 15px;">게시물</v-tab>
                     <v-tab class="ml-0" style="font-size: 15px;">제품정보</v-tab>
 
-                    <v-tab-item>
+                    <v-tab-item  v-if="aucInfo === 0">
                         <v-card class="pa-10" flat v-if="offerInfo.length === 0">
                             <v-row>
                                 <v-col>
@@ -98,6 +99,11 @@
                             </v-row>
                         </v-card>
                     </v-tab-item>
+                    <v-tab-item v-else>
+                        
+
+                    </v-tab-item>
+                        
                     <v-tab-item>
                          <v-card class="px-4 py-5" flat>
                             <v-simple-table>

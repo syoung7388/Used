@@ -347,11 +347,6 @@ public class AuctionController {
 		
 		Map<String ,Object> kindmap = new HashMap<>();
 		kindmap.put("kindlist", kindlist);
-		
-		
-		
-		
-		
 		if(page == 0) {
 			map.put("listsort", 2);
 			int count = auctionService.TotalCount(map);
@@ -359,12 +354,6 @@ public class AuctionController {
 			kindmap.put("pagination", pagination);
 			
 		}
-		
-		
-		
-		
-		
-		
 		logger.info("kindmap:"+ kindmap);
 
 		return new ResponseEntity<>(kindmap, HttpStatus.OK);

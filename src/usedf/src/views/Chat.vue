@@ -1,12 +1,19 @@
 <template>
     <v-app>
         <v-container >
+            <v-row justify="start">
+                <v-col cols="3" class="pb-0">
+                    <v-btn style="font-size: large;" icon @click="Back">
+                        <i class="fas fa-arrow-left" style="font-size: large;"></i>
+                    </v-btn>
+                </v-col>
+            </v-row>
             <v-row justify="center">
-                <v-col cols="5">
+                <v-col cols="5" class="pb-0">
                     <p style="font-size: 15px" class="grey--text">{{readyOK}}</p>
                 </v-col>
             </v-row>
-            <div v-for=" (item, int) in message" :key="int">
+            <div v-for=" (item, index) in nowmsg" :key="index">
                 <v-row justify="end" v-if="item.m_username === userInfo.username">
                     <v-col cols="8">
                         <v-card color="skyblue white--text">
@@ -36,14 +43,16 @@
                         @click="SendMsg({
                         m_username: userInfo.username,
                         content : sendmsg,
-                        ch_num : $route.params.num
+                        ch_num : $route.params.num,
+                        time: time
+                 
                         })"
                         ><span class="ma-2  white--text" >전송</span></v-btn>
                     </v-col>
                 </v-row>
 
             </v-bottom-navigation>
-            <v-overlay :value="overlay" >
+            <v-overlay :value="overlay">
                 <v-card color="white">
                     <v-card-text class="black--text">전송오류</v-card-text>
                 </v-card>
@@ -53,13 +62,16 @@
     
 </template>
 <script>
+import dayjs from 'dayjs'
 import { mapState } from 'vuex'
 export default {
 
     data(){
         return{
             readyOK: null,
-            sendmsg: null
+            sendmsg: null,
+            nowmsg: [], 
+            time: dayjs().format("YYYY-MM-DD HH:mm:ss"),
 
 
         }
@@ -71,29 +83,42 @@ export default {
             buyer: this.$route.params.buyer,
             num :this.$route.params.num
         })
+        
     },
     methods: {
         SendMsg(payload){
-            this.$socket.emit('sendMsg', payload , ()=>{
-                console.log("aa")
-                this.$store.dispatch('Message', payload)
-                this.sendmsg = ''
+            this.$store.dispatch('Message', payload)
+            .then(()=>{
+                if( localStorage.getItem("err") === 'false'){
+                    console.log("sss")
+                    this.$socket.emit('sendMsg', payload)
+                    this.sendmsg = ''
+                }else{
+                    this.$store.state.msg_err = false
+                    this.sendmsg = ''
+                }
             })
-
-
-            
-        }
+        }, 
+        Back(){
+            this.$store.state.removeBar = true
+            this.$router.go(-1)
+        },
     },
-    created (){
+    mounted(){
         this.$socket.on('getMsg', (data)=>{
-            if(data !== null){
-                console.log(data)
-      
-            }
+            console.log(data)
+            this.nowmsg.push(data)
+          
         })
+
+
+
+    },
+    created(){
+        this.nowmsg = this.$store.state.message
     },
     computed: {
-        ...mapState(['userInfo', 'message', 'chatInfo', 'overlay', ])
+        ...mapState(['userInfo', 'message', 'chatInfo', 'overlay' ])
     }
 }
 </script>

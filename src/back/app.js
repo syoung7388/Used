@@ -38,9 +38,10 @@ io.on('connection', function(socket){
   socket.on('sendMsg', function(data) {
     console.log('Message from'+data.m_username+'님'+data.content);
 
-    socket.broadcast.to(data.ch_num).emit('getMsg', {
+    io.in(data.ch_num).emit('getMsg', {
       m_username : data.m_username,
-      content: data.content
+      content: data.content, 
+      time: data.time
     })
     console.log("메세지 보내기 끝")
   });

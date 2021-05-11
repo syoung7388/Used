@@ -50,6 +50,12 @@
 		WHERE a.ch_num = #{ch_num}
 		ORDER BY b.m_num ASC  
 	</select>
+	
+	<insert id="CreateMessage" parameterType="Message">
+		insert into message(ch_num, m_username, m_content, m_time )
+					values(#{ch_num},#{m_username}, #{content}, #{time})
+	
+	</insert>
 
 </mapper>
 
