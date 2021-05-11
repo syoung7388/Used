@@ -188,6 +188,7 @@ public class PaymentController {
             payment.setPa_username(approval.getPartner_user_id());
             payment.setQuantity(approval.getQuantity());
             payment.setPatime(approval.getApproved_at());
+            logger.info(""+payment);
             paymentService.CreatePayment(payment);
            
             int pa_num= payment.getPa_num();
@@ -217,7 +218,7 @@ public class PaymentController {
             paymentService.CreateAmount(amount);
             
            int a_num = payment.getA_num();
-           auctionService.AucEnd(a_num);
+           auctionService.AucStep(a_num);
            Auction  aucdetail= auctionService.AucDetail(a_num);
            Payment paydetail = paymentService.PaymentDetail(a_num);
          
@@ -226,7 +227,7 @@ public class PaymentController {
            map.put("aucdetail", aucdetail);
            map.put("paydetail", paydetail);
            logger.info("map"+map);
-           
+          
             
           
             return new ResponseEntity<>( map, HttpStatus.OK);

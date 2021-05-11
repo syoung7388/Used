@@ -9,40 +9,43 @@
                 <template 
                 v-for="(item, index) in bidList"
                 >  
-                    <v-list-item 
-                    :key="item.a_num"
-                    @click="selectDetail({
-                    a_num: item.a_num,
-                    sale: item.sale
-                    })"
-                    > 
-                        <v-row justify="start" align="center">
-                                <v-col cols="3"  class="py-5">
-                                    <v-card
-                                    width="90"
-                                    >
-                                        <v-img 
-                                        :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
-                                        max-width="90"
-                                        height="90" 
-                                        ></v-img>
-                                    </v-card>
-                                </v-col>
-                                <v-col cols="6">
-                                <v-list-item-content class="ml-4">
-                                    <v-list-item-title v-html="item.title" style="font-weight: bold"></v-list-item-title>
-                                    <v-list-item-title style="font-weight: bold" class="mt-3">{{item.topprice|comma}} 원</v-list-item-title>
-                                </v-list-item-content>
-                                </v-col>
-                                <v-col class="mt-5" v-if="item.sale === 2">
-                                    <v-btn class="primary" small >확인</v-btn>    
-                                </v-col>
-                                <v-col cols="3" align-self="start" class="mt-5" v-else>
-                                    <v-list-item-title  style="text-align: right; font-size: 15px" v-show="item.sale === 0">D{{item.d_day}}</v-list-item-title>
-                                    <v-list-item-title  style="text-align: right; font-size: 15px" v-show="item.sale === 1">D-day</v-list-item-title>                    
-                                </v-col>    
-                        </v-row>
-                    </v-list-item>
+                    <v-row justify="start" align="center" :key="item.a_num">
+                        <v-col cols="9"> 
+                            <v-list-item 
+                            @click="selectDetail({
+                            a_num: item.a_num,
+                            sale: item.sale
+                            })">
+                                <v-row justify="start" align="center">
+                                    <v-col cols="5"  class="py-5">
+                                        <v-card
+                                        width="90"
+                                        >
+                                            <v-img 
+                                            :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
+                                            max-width="90"
+                                            height="90" 
+                                            >                        
+                                                <p style="text-align: left; font-size: 10px" class="white--text ml-1" v-if="item.d_day === 0">D-day</p>
+                                                <p style="text-align: left; font-size: 10px" class="white--text ml-1" v-else-if="item.d_day < 0">D-{{item.d_day}}</p>                  
+                                            </v-img>
+                                        </v-card>
+                                    </v-col>
+                                    <v-col cols="7">
+                                    <v-list-item-content class="ml-4">
+                                        <v-list-item-title v-html="item.title" style="font-weight: bold"></v-list-item-title>
+                                        <v-list-item-title style="font-weight: bold" class="mt-3">{{item.topprice|comma}} 원</v-list-item-title>
+                                    </v-list-item-content>
+                                    </v-col>
+                                </v-row>
+                            </v-list-item>
+                        </v-col>
+                        <v-col  v-show="item.sale === 2" cols="3" class="pa-0">
+                            <v-btn class="primary" small  @click="AucEnd({a_num: item.a_num})">확인</v-btn>    
+                        </v-col>   
+       
+                    </v-row>
+                  
                     <v-divider
                         v-if="index < bidList.length-1"
                         :key="index"
@@ -68,7 +71,7 @@ export default {
       }
     },
     methods: {
-        ...mapActions(['getBidDetail', 'getPayDetail']),
+        ...mapActions(['getBidDetail', 'getPayDetail', 'AucEnd']),
         BidBack(){
             this.$store.state.removeBar = false
             this.$router.go(-1)

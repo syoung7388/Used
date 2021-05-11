@@ -513,12 +513,14 @@ export default new Vuex.Store({
       state.removeBar = true
       router.push({name: 'Chat', params: {num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
     },
-    Message_s(state, payload){
+
+    AucEnd_s(state, payload){
+
+      state.bidList= payload
 
     },
-    Message_f(state){
+    AucEnd_f(){
 
-      
     }
   },
 
@@ -1136,7 +1138,7 @@ export default new Vuex.Store({
     },
     KakaoApprove({commit, state}, payload){
       console.log(payload)
-
+      localStorage.setItem("back", "pay")
       axios
       .post(`http://localhost:9200/api/payment/kapproval`, payload)
       .then(Res=>{
@@ -1203,6 +1205,23 @@ export default new Vuex.Store({
 
       })
     
+      
+    },
+    AucEnd({commit, dispatch}, payload){
+      let token = localStorage.getItem("access_token")
+      let config = {
+        headers:{
+          "access_token": token
+        }
+      }
+      // console.log(config)
+      
+      axios
+      .put(`http://localhost:9200/api/auction/step?a_num${payload.a_num}`, config)
+      .then(Res =>{
+        (Res.data === "success")? commit('AucEnd_s', Res.data): ('AucEnd_f')
+
+      })
       
     }
   

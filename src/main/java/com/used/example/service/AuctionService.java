@@ -38,7 +38,7 @@ public interface AuctionService {
 
 	public void Hits(int a_num);
 
-	public void AucEnd(int a_num);
+	public void AucStep(int a_num);
 
 
 	public int TotalCount(Map<String, Object> map);

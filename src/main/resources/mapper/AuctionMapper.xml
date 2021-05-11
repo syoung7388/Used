@@ -349,10 +349,16 @@
 		LIMIT #{limit}, 6
 	</select>
 	
-	<update id="AucEnd" parameterType="int">
+	<update id="AucStep" parameterType="int">
 		update auction
-		set a_sale = 2
+		set a_sale = (	select a_sale
+						from auction 
+						where a_num = #{a_num}	
+					)+1	
 		where a_num = #{a_num}
+
+		
+		
 	</update>
 	
 

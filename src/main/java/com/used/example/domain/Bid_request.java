@@ -5,10 +5,7 @@ public class Bid_request {
 	
 	private String o_username;
 	private int sale;
-	@Override
-	public String toString() {
-		return "Auc_request [o_username=" + o_username + ", sale=" + sale + "]";
-	}
+
 	public String getO_username() {
 		return o_username;
 	}
@@ -21,5 +18,9 @@ public class Bid_request {
 	public void setSale(int sale) {
 		this.sale = sale;
 	}
-
+	@Override
+	public String toString() {
+		return "Bid_request [o_username=" + o_username + ", sale=" + sale + "]";
+	}
+	
 }

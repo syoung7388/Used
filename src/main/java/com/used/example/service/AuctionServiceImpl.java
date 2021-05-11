@@ -85,8 +85,8 @@ public class AuctionServiceImpl implements AuctionService {
 	}
 
 	@Override
-	public void AucEnd(int a_num) {
-		auctionMapper.AucEnd(a_num);
+	public void AucStep(int a_num) {
+		auctionMapper.AucStep(a_num);
 		
 	}
 

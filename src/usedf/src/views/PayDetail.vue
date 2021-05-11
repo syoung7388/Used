@@ -180,7 +180,15 @@ export default {
 
         ListBack(){
             this.$store.state.removeBar = true
-            this.$router.go(-1)
+            if(localStorage.getItem("back") === "pay"){
+                this.$store.state.removeBar = false
+                this.$router.push({name: 'Home'})
+                localStorage.setItem("back","else")
+            }else{
+                this.$router.go(-1)
+
+            }
+            
             
         },
         PayBtn(){

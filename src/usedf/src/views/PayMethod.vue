@@ -1,6 +1,13 @@
 <template>
-    <v-app class="pa-5">
+    <v-app >
         <v-container>
+            <v-row justify="start" class="mb-5">
+                <v-col cols="3">
+                    <v-btn style="font-size: large;" icon @click="Back" fixed>
+                        <i class="fas fa-arrow-left" style="font-size: large;"></i>
+                    </v-btn>
+                </v-col>
+            </v-row>
             <v-row justify="center" align="center">
                 <h1 style="font-size: 20px">원하시는 지불수단을 클릭해 주세요.</h1>
                 <v-col cols="3" class="mt-10">
@@ -56,6 +63,9 @@ export default {
         ...mapActions(['KakaoReady']),
         Toss(){ 
         },
+        Back(){
+            this.$router.go(-1)
+        }
   
     },
     created(){
@@ -64,9 +74,6 @@ export default {
 
      }
 }
-function k_token(){
-            console.log("k_token")
-        
-}
+
 
 </script>

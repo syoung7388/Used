@@ -32,6 +32,8 @@ npm install axios --save
 ### form-data
 ```
 npm install form-data --save
+
+ npm install --save dayjs
 ```
 
 

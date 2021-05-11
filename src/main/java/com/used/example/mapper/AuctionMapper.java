@@ -42,7 +42,7 @@ public interface AuctionMapper {
 
 	public void Hits(int a_num);
 
-	public void AucEnd(int a_num);
+	public void AucStep(int a_num);
 
 
 

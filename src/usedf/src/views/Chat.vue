@@ -3,7 +3,7 @@
         <v-container >
             <v-row justify="start">
                 <v-col cols="3" class="pb-0">
-                    <v-btn style="font-size: large;" icon @click="Back">
+                    <v-btn style="font-size: large;" icon @click="Back" fixed>
                         <i class="fas fa-arrow-left" style="font-size: large;"></i>
                     </v-btn>
                 </v-col>
@@ -16,7 +16,7 @@
             <div v-for=" (item, index) in nowmsg" :key="index">
                 <v-row justify="end" v-if="item.m_username === userInfo.username">
                     <v-col cols="8">
-                        <v-card color="skyblue white--text">
+                        <v-card color="skyblue white--text" max-width="600">
                             <p class="ma-1">{{item.content}}</p>
                         </v-card>
                         <p class="grey--text" style="font-size: 10px; text-align:right">{{item.time}}</p>
@@ -31,6 +31,7 @@
                     </v-col>
                 </v-row>
             </div>
+            <v-card height="80" flat class="ma-4"></v-card>
             <v-bottom-navigation
             fixed
             height="80">

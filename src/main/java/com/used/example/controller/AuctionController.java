@@ -24,6 +24,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,11 +38,13 @@ import com.used.example.config.JwtUtils;
 import com.used.example.domain.Address;
 import com.used.example.domain.Auc_Pro;
 import com.used.example.domain.Auction;
+import com.used.example.domain.Bid_request;
 import com.used.example.domain.Count;
 import com.used.example.domain.Pagination;
 import com.used.example.domain.Picture;
 import com.used.example.domain.Product;
 import com.used.example.service.AuctionService;
+import com.used.example.service.OfferService;
 import com.used.example.service.ProductService;
 import com.used.example.utility.MakeThumbnail;
 
@@ -58,6 +61,8 @@ public class AuctionController {
 	@Autowired
 	ProductService productService;
 	
+	@Autowired
+	OfferService offerService;
 	
 	private final Logger logger= LoggerFactory.getLogger(this.getClass());
 	
@@ -358,6 +363,33 @@ public class AuctionController {
 
 		return new ResponseEntity<>(kindmap, HttpStatus.OK);
 	
+	}
+	
+	@PutMapping("/sale/{a_num}")
+	public ResponseEntity<?> AucEnd(@PathVariable ("a_num") int a_num, HttpServletRequest request){
+		
+		
+		auctionService.AucStep(a_num);
+		
+		token = request.getHeader("access_token");
+		
+		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
+			token = token.substring(7, token.length());
+		}
+		
+		
+		String o_username = JwtUtils.getUserEmailFromToken(token);
+		
+		Bid_request bid_r= new Bid_request();
+		bid_r.setO_username(o_username);
+		bid_r.setSale(2);
+		
+		List<Auction> bidlist =offerService.BidList(bid_r);
+		
+		
+		
+		return new ResponseEntity<> (bidlist, HttpStatus.OK);
+		
 	}
 	
 
