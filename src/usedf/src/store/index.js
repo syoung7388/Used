@@ -883,11 +883,15 @@ export default new Vuex.Store({
       let lon = localStorage.getItem('lon')
       let page= 0
       
-      // console.log(lat)
-      // console.log(lon)
+      let token = localStorage.getItem("access_token")
+      let config= {
+        headers: {
+          "access_token": token
+        }
+      }
 
       axios
-      .get(`http://localhost:9200/api/auction/top?page=${page}&lat=${lat}&lon=${lon}`)
+      .get(`http://localhost:9200/api/auction/top?page=${page}&lat=${lat}&lon=${lon}`, config )
       .then(Res => {
         //console.log(Tres.data)
         (Res.data !== null)? commit('TopList_s', Res.data): commit('TopList_f')
@@ -1108,29 +1112,8 @@ export default new Vuex.Store({
         //console.log(Res.data)
         var url = Res.data.kready_r.next_redirect_pc_url
         //console.log(url)
-        var d= window.open(url)
+        var a = window.open(url)
 
-
-        window.addEventListener('message', (e)=>{
-          console.log(e.data.k_token)
-          dispatch('KakaoApprove', {
-           
-            o_num: state.payreadyInfo.o_num,
-            o_username : state.payreadyInfo.o_username,
-            price : state.payreadyInfo. price,
-            p_num : state.payreadyInfo.p_num,
-            kind : state.payreadyInfo.kind,
-            a_num : state.payreadyInfo.a_num,
-            kready_r: {
-              tid: state.payreadyInfo.kready_r.tid,
-              k_token: e.data.k_token
-            }
-
-          
-          })
-        })
-        
-        
         
         
       })
@@ -1139,12 +1122,13 @@ export default new Vuex.Store({
     KakaoApprove({commit, state}, payload){
       console.log(payload)
       localStorage.setItem("back", "pay")
-      axios
-      .post(`http://localhost:9200/api/payment/kapproval`, payload)
-      .then(Res=>{
-        (Res.data !== null)? commit('PayDetail_s', Res.data): commit('KakaoApprove_f')
+     
+      // axios
+      // .post(`http://localhost:9200/api/payment/kapproval`, payload)
+      // .then(Res=>{
+      //   (Res.data !== null)? commit('PayDetail_s', Res.data): commit('KakaoApprove_f')
 
-      })
+      // })
     },
     Room({commit, state}, payload){
 

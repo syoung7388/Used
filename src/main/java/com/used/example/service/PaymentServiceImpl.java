@@ -57,6 +57,12 @@ public class PaymentServiceImpl implements PaymentService{
 		paymentMapper.CreateAmount(amount);
 		
 	}
+
+	@Override
+	public void PayStep(Payment payment) {
+		paymentMapper.PayStep(payment);
+		
+	}
 	
 	
 	

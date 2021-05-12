@@ -30,4 +30,6 @@ public interface PaymentMapper {
 
 	public void CreateAmount(Amount amount);
 
+	public void PayStep(Payment payment);
+
 }

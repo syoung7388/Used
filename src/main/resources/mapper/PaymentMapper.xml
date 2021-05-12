@@ -83,20 +83,22 @@
 				 
 	</select>
 	<insert id="CreatePayment" parameterType="Payment">
-	insert into payment(pa_username, pa_method, pa_kind, pa_quantity, pa_time, a_num, p_num, pa_cop) 
-	values (#{pa_username},#{method},#{kind},#{quantity},#{Patime},#{a_num},#{p_num},#{cop})
-		<selectKey resultType= "int" keyProperty="pa_num" order="AFTER" >
-			select last_insert_id()
-		</selectKey>
-	
+			insert into payment(pa_username, pa_method, pa_kind, pa_quantity, pa_time, a_num, p_num, pa_cop) 
+			values (#{pa_username},#{method},#{kind},#{quantity},#{Patime},#{a_num},#{p_num},#{cop})
+		
+				<selectKey resultType= "int" keyProperty="pa_num" order="AFTER" >
+					select last_insert_id()
+				</selectKey>
 	</insert>
+	
+	
 	<insert id = "CreateCard" parameterType="Card" >
 		insert into card(c_bin, c_type, c_install_month, c_approved_id, c_mid, c_interest_free_install, pa_num)
 		values(#{bin},#{type},#{install_month},#{approved_id},#{mid},#{interest_free_install},#{pa_num})
-	
-	
-	
 	</insert>
+	
+	
+	
 	<insert id = "CreateAmount" parameterType="Amount" >
 		insert into amount(am_tax_free,am_vat, am_point, am_discount, am_total, pa_num)
 		values(#{tax_free},#{vat},#{point},#{discount},#{total},#{pa_num})
@@ -147,6 +149,12 @@
 		WHERE a.a_num = #{a_num}
 	</select>
 	
+	<update id="PayStep" parameterType="Payment">
+		UPDATE offer
+		SET o_pay = 1
+		WHERE a_num = #{a_num} 
+		AND o_username = #{pa_username}
+	</update>
 	
 
 

@@ -179,7 +179,8 @@ public class AuctionController {
 		
 	}
 	
-//	@Secured({"ROLE_USER"})
+	
+	@Secured({"ROLE_USER"})
 	@GetMapping("/{a_num}")
 	public ResponseEntity<?> AucDetail(@PathVariable("a_num") int a_num, HttpServletRequest request){
 		
@@ -273,7 +274,7 @@ public class AuctionController {
 	
 	
 	@GetMapping("/top")
-	public ResponseEntity<?> TopList(@RequestParam("lat") String lat, @RequestParam("lon") String lon, @RequestParam("page") int page){
+	public ResponseEntity<?> TopList(@RequestParam("lat") String lat, @RequestParam("lon") String lon, @RequestParam("page") int page, HttpServletRequest request){
 		
 		Map<String, Object> map = new HashMap<>();
 		Pagination pagination = new Pagination();

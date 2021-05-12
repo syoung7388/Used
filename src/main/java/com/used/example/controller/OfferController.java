@@ -157,18 +157,18 @@ public class OfferController {
 	
 	
 	
-	@Scheduled(cron="0/10 * * * * *")
-	public void SelectOffer() {
-		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
-		String today = form.format(new Date());
-		
+//	@Scheduled(cron="0/10 * * * * *")
+//	public void SelectOffer() {
+//		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
+//		String today = form.format(new Date());
+//		
 //		if(today != null) {
 //			logger.info(today);
 //			
 //			offerService.SelectOffer(today);
 //		}
-	}
-	
+//	}
+//	
 	
 	
 
