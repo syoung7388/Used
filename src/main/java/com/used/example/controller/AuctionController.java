@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Producer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -177,6 +178,8 @@ public class AuctionController {
 		return new ResponseEntity<>(salelist, HttpStatus.OK);
 		
 	}
+	
+//	@Secured({"ROLE_USER"})
 	@GetMapping("/{a_num}")
 	public ResponseEntity<?> AucDetail(@PathVariable("a_num") int a_num, HttpServletRequest request){
 		
@@ -202,7 +205,10 @@ public class AuctionController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<?> AucEdit(Auction auction, Picture picture,Address address, Product product) throws IOException{
+	public ResponseEntity<?> AucEdit(Auction auction, Picture picture,Address address, Product product, HttpServletRequest request) throws IOException{
+		
+		token = request.getHeader("access_token");		
+		logger.info("token:"+token); // null
 		
 		
 		auction.setAddress(address);
@@ -365,13 +371,18 @@ public class AuctionController {
 	
 	}
 	
-	@PutMapping("/sale/{a_num}")
-	public ResponseEntity<?> AucEnd(@PathVariable ("a_num") int a_num, HttpServletRequest request){
+	@PutMapping("/step")
+	public ResponseEntity<?> AucEnd(@RequestBody Auction auction,  HttpServletRequest request){
+		
+		int a_num = auction.getA_num();
+		logger.info("a_num"+ a_num);
 		
 		
 		auctionService.AucStep(a_num);
 		
 		token = request.getHeader("access_token");
+		
+		logger.info("token:"+token); // null
 		
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
 			token = token.substring(7, token.length());

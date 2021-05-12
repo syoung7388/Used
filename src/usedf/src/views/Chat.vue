@@ -73,6 +73,7 @@ export default {
             sendmsg: null,
             nowmsg: [], 
             time: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+            test: 0,
 
 
         }
@@ -82,8 +83,10 @@ export default {
         this.$socket.emit('createRoom', {
             seller: this.$route.params.seller,
             buyer: this.$route.params.buyer,
-            num :this.$route.params.num
+            ch_num :this.$route.params.num
         })
+
+        
         
     },
     methods: {
@@ -91,7 +94,7 @@ export default {
             this.$store.dispatch('Message', payload)
             .then(()=>{
                 if( localStorage.getItem("err") === 'false'){
-                    console.log("sss")
+              
                     this.$socket.emit('sendMsg', payload)
                     this.sendmsg = ''
                 }else{
@@ -104,22 +107,52 @@ export default {
             this.$store.state.removeBar = true
             this.$router.go(-1)
         },
+        AA(data){
+            this.nowmsg.push(data)
+
+        }
     },
     mounted(){
+
         this.$socket.on('getMsg', (data)=>{
             console.log(data)
             this.nowmsg.push(data)
-          
+            this.sendmsg = ''
+   
         })
-
 
 
     },
     created(){
-        this.nowmsg = this.$store.state.message
+        console.log(this.message)
+        this.nowmsg = this.message
+   
     },
     computed: {
-        ...mapState(['userInfo', 'message', 'chatInfo', 'overlay' ])
+        ...mapState(['userInfo', 'message', 'chatInfo', 'overlay' ]),
+        // GetMessage(){
+        //     this.$socket.on('getMsg', (data)=>{
+        //         console.log(data)
+        //         this.message.push(data)
+        //         this.sendmsg = ''
+        //         // this.AA(data)
+
+        //         // this.nowmsg.push(data)
+        //         // this.$socket.emit('MsgEnd', "end")
+        //     })
+        //     return this.message
+        // },
+
+        
+        
+    },  
+    beforeDestroy() {
+        this.$socket.off('getMsg')
+    },
+
+    watch: {
+
+
     }
 }
 </script>

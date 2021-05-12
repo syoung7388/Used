@@ -1216,10 +1216,11 @@ export default new Vuex.Store({
       }
       // console.log(config)
       
+
       axios
-      .put(`http://localhost:9200/api/auction/step?a_num${payload.a_num}`, config)
+      .put('http://localhost:9200/api/auction/step', payload ,config )
       .then(Res =>{
-        (Res.data === "success")? commit('AucEnd_s', Res.data): ('AucEnd_f')
+        (Res.data !== null)? commit('AucEnd_s', Res.data): ('AucEnd_f')
 
       })
       
