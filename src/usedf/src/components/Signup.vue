@@ -1,6 +1,6 @@
 <template>
         <v-form id="form">
-        <v-container v-show="Ashow=== false" class="pt-15 pr-5 pl-5" >
+        <v-container v-show="addr_show=== false" class="pt-15 pr-5 pl-5" >
             <v-row align="center">
                 <v-col>
                     <h1 style="font-size: 20px; text-align: center">입력한 정보가 맞다면</h1>
@@ -67,7 +67,7 @@
                 >확인</v-btn>
             </div>
         </v-container>
-        <v-container v-show="Ashow=== true">
+        <v-container v-show="addr_show=== true">
             <Address @Addr="Aresult"></Address>
         </v-container>
 
@@ -85,19 +85,8 @@ export default{
             password: null,
             username: null,
             name: null,
-            Ashow: false,
+            addr_show: false,
             p: 'Password',
-            // nameRules:[
-            //     v => !!v || "필수입력란"
-            // ],
-            // emailRules:[
-            //     v => !!v || "필수입력란",
-            //     v => /.+@.+/.test(v) || "유효하지 않은 이메일"
-            // ],
-            // passwordRules:[
-            //     v => !!v || "필수입력란",
-            //     v => v && v.length >= 8 || "최소 8자부터 입력가능"
-            // ]
             err_show: false
                 
             
@@ -105,11 +94,11 @@ export default{
     },
     methods: {
         Address(){
-            this.Ashow = true
+            this.addr_show = true
         },
         Aresult(payload){
             this.address = payload.fulladdress
-            this.Ashow= false
+            this.addr_show= false
         },
         CheckSignup(payload){
             

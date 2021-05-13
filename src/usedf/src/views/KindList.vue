@@ -94,7 +94,7 @@ export default {
                 var kind = this.$store.state.kind
             
                 axios
-                .get(`http://localhost:9200/api/auction/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${page}`)
+                .get(`http://localhost:9200/api/all/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${page}`)
                 .then(Res => {
                     setTimeout(()=>{
                         var list = Res.data.kindlist     

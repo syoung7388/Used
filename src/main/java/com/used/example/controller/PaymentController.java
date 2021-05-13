@@ -29,6 +29,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -92,7 +93,7 @@ public class PaymentController {
 	
 	
 	
-	
+	@Secured({"ROLE_USER"})
 	@PostMapping("/kready")
 	@ResponseBody
 	public ResponseEntity<?> KaKaoReady(@RequestBody KaKaoReady kakao, HttpServletRequest request){
@@ -150,6 +151,10 @@ public class PaymentController {
 		
 		
 	}
+	
+	
+	
+	@Secured({"ROLE_USER"})
 	@PostMapping("/kapproval")
 	@ResponseBody
 	public ResponseEntity<?> KaKaoApproval(@RequestBody KaKaoReady ready, HttpServletRequest request) {
@@ -289,6 +294,8 @@ public class PaymentController {
 	}
 	
 	
+	
+	@Secured({"ROLE_USER"})
 	@GetMapping("/{a_num}")
 	public ResponseEntity<?> PayDetail(@PathVariable("a_num") int a_num, HttpServletRequest request){
 		

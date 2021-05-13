@@ -1,32 +1,10 @@
 <template>
   <v-app>
-      <v-container id="C" v-show="Ashow === 0">
-        <v-row align="center" class="Arow">
-          <v-col>
-            <div class="text-center">                   
-              <h2 class="primary--text" style="font-size: 70px; text-align: center" > 
-                Used
-              </h2>
-              <v-spacer></v-spacer>
-              <v-btn @click="Alogin" class="ml-2">로그인</v-btn>
-              <v-btn @click="Asignup" class="ml-2"> 회원가입</v-btn> 
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>    
-        <div v-show="Ashow=== 1">
-          <Login></Login>
-        </div>
-        <div v-show="Ashow=== 2">
-          <Phone></Phone>
-        </div>
-        <div v-show="Ashow=== 3">
+        <div>
           <Main></Main>
         </div>
   </v-app>
 </template>
-
-
 
 <script>
 

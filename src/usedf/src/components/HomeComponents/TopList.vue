@@ -82,7 +82,7 @@ export default {
                 this.$store.state.toppage += 1
                 var page = this.$store.state.toppage
                 axios
-                .get(`http://localhost:9200/api/auction/top?page=${page}&lat=${lat}&lon=${lon}`)
+                .get(`http://localhost:9200/api/all/top?page=${page}&lat=${lat}&lon=${lon}`)
                 .then(Res => {
                     setTimeout(()=>{
                         var list = Res.data.toplist     

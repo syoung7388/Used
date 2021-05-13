@@ -23,7 +23,7 @@ import com.used.example.service.UserService;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled= true)
+@EnableGlobalMethodSecurity(securedEnabled= true ,prePostEnabled= true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -62,9 +62,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		
 		
-		
-		http.csrf().disable().authorizeRequests()
-			.anyRequest().permitAll()
+	
+		http.cors().and().csrf().disable().authorizeRequests()
+			.antMatchers("/api/all/**").permitAll()
+			.anyRequest().authenticated()
 			.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()

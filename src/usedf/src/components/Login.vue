@@ -28,7 +28,7 @@
                v-model="password"
                required
                ></v-text-field>
-               <v-btn @click="login({
+               <v-btn @click="Login({
                   username,
                   password
                   })"
@@ -51,7 +51,7 @@ export default {
       }
    },
    methods: {
-      ...mapActions(['login'])
+      ...mapActions(['Login'])
    },
    computed: {
       ...mapState(['isLoginError'])

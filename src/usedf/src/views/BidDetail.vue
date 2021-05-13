@@ -29,8 +29,6 @@
                                     <i class="fas fa-arrow-left" style="font-size: large;"></i>
                                 </v-btn>
                             </v-col>
-            
-                           
                         </v-row>
                     </template>
                     </v-menu>

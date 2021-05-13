@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -72,13 +73,13 @@ public class OfferController {
 	
 	
 	
-	
+	@Secured({"ROLE_USER"})
 	@PostMapping
 	public ResponseEntity<?> CreateOffer(@RequestBody Offer offer, HttpServletRequest request){
 		
 		token= request.getHeader("access_token");
 		if(StringUtils.hasText(token)&& token.startsWith("Bearer") ) {
-			token = token.substring(7, token.length());
+			token = token.substring(6, token.length());
 		}
 		String o_username = JwtUtils.getUserEmailFromToken(token);
 		
@@ -92,12 +93,13 @@ public class OfferController {
 		
 		return new ResponseEntity<>(auction,HttpStatus.OK); 
 	}
-
+	
+	@Secured({"ROLE_USER"})
 	@GetMapping("/count")
 	public ResponseEntity<?> BidCount(HttpServletRequest request){
 		token = request.getHeader("access_token");	
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
-			token = token.substring(7, token.length());
+			token = token.substring(6, token.length());
 		}
 		String o_username = JwtUtils.getUserEmailFromToken(token);
 		
@@ -109,14 +111,14 @@ public class OfferController {
 
 
 	
-	
+	@Secured({"ROLE_USER"})
 	@GetMapping
 	public ResponseEntity<?> BidList(HttpServletRequest request, @RequestParam("sale")int sale){
 		
 		token = request.getHeader("access_token");
 		
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
-			token = token.substring(7, token.length());
+			token = token.substring(6, token.length());
 		}
 		
 		
@@ -135,6 +137,7 @@ public class OfferController {
 		return new ResponseEntity<>( bidlist, HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_USER"})
 	@GetMapping("/{a_num}")
 	public ResponseEntity<?> BidDetail(@PathVariable("a_num") int a_num){
 		
@@ -144,6 +147,8 @@ public class OfferController {
 		return new ResponseEntity<>(auction, HttpStatus.OK);
 		
 	}
+	
+	@Secured({"ROLE_USER"})
 	@DeleteMapping("/{o_num}/{a_num}")
 	public ResponseEntity<?> DeleteOffer(@PathVariable("o_num") int o_num, @PathVariable("a_num") int a_num){
 		

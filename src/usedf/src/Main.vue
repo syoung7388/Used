@@ -1,3 +1,4 @@
+  
 <template>
     <v-app class="pa-0">
         <router-view></router-view>
@@ -40,12 +41,13 @@ import { mapActions, mapState } from 'vuex'
         return{
             
             value: 1,
-
         }
+    },
+    beforeCreate(){
+        this.$store.dispatch('nowLatLon')
     },
     computed: {
         ...mapState(['removeBar'])
     }
   }
 </script>
- 

@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container  v-scroll.self = onScroll  class="pa-0">
+        <v-container class="pa-0">
             <v-card>
                 <v-app-bar
                     color="white"
@@ -9,24 +9,23 @@
                     height="70"
                 >
 
-                    <v-btn icon @click="getMap">
+                    <v-btn icon @click="GetMap">
                         <i class="fas fa-map-marker-alt" style="font-size: x-large;"></i>            
                     </v-btn>
                     <span style= "font-size:17px" black--text>대구 신천동</span>
 
                     <v-spacer></v-spacer>
 
-                    <v-btn icon  @click="getLikeList">
+                    <v-btn icon  @click="GetLikeList">
                         <i class="far fa-heart" style="font-size: x-large;"></i>            
                     </v-btn>
-                    <v-btn icon @click="getChatList">
+                    <v-btn icon @click="GetChatList">
                         <i class="far fa-comment-alt" style="font-size: x-large;"></i>            
                     </v-btn>
                     <v-btn 
                      icon 
-                     @click="RemoveBar" 
-                     
-                   > 
+                     @click="GetMyPage"
+                    > 
                         <i class="far fa-user" style="font-size: x-large;"></i>            
                     </v-btn>
                     <template v-slot:extension>
@@ -39,7 +38,7 @@
                             
                             <v-tabs-slider primary></v-tabs-slider>
                                 <v-tab class="ml-0" style="font-size:17px;">인기매물</v-tab>
-                                <v-tab style="font-size:17px;" @click="sort">업종별</v-tab>
+                                <v-tab style="font-size:17px;">업종별</v-tab>
                                 <v-tab style="font-size:17px;">제품별</v-tab>
                                 <v-tab-item>
                                     <TopList></TopList>
@@ -70,7 +69,8 @@
 import TopList from '@/components/HomeComponents/TopList.vue'
 import IndustrySort from '@/components/HomeComponents/IndustrySort.vue'
 import KindSort from '@/components/HomeComponents/KindSort.vue'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
+
 
 
 
@@ -78,34 +78,45 @@ import { mapActions, mapState } from 'vuex'
 export default{
     data(){
         return{
-            latitude: 0,
-            longitude: 0,
-            scrollInvoked: 0,
-
-        
+            check: 0
 
         }
     },
     methods: {
-        RemoveBar(){
-            this.$store.state.removeBar= true
-            this.$router.push({name: 'MyPage'})
-        },
-        getMap(){
-            this.$store.state.removeBar= true
-            this.$router.push({name: 'Map'})
-            
-        },
-        sort(){
-            this.$store.state.I_list_show= false
-        },
-        ...mapActions(['getLikeList']),
-        onScroll(){
-            this.scrollInvoked++
-            console.log("aa")
-        },
-        ...mapActions(['getChatList'])
 
+        GetMyPage(){
+            this.$store.state.removeBar = true
+            if(this.Role.length === 0){
+                this.$router.push({name: 'Auth'})
+            }else{
+                this.$router.push({name: 'MyPage'})
+            }
+        },
+        GetLikeList(){
+            this.$store.state.removeBar = true
+            if(this.Role.length === 0){
+                this.$router.push({name: 'Auth'})
+            }else{
+               this.$store.dispatch('getLikeList')
+            }
+                
+          
+        },
+        GetChatList(){
+            this.$store.state.removeBar = true
+            if(this.Role.length === 0){
+                this.$router.push({name: 'Auth'})
+            }else{
+               this.$store.dispatch('getChatList')
+            }
+        },
+
+        ...mapMutations(['GetMap']),
+
+
+    },
+    computed:{
+        ...mapState(['removeBar', 'Role'])
     },
 
     components: {

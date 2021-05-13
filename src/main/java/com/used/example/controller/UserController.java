@@ -63,96 +63,9 @@ public class UserController{
     AuthenticationManager authenticationManager;
     
 
- 
-    
-    
-    
-	//회원가입 인증 메세지 보내기
-	@PostMapping("/sendSMS")
-	public ResponseEntity<?> sendSMS(@RequestBody User user ) {
-		
-		String phoneNumber= user.getPhone();
-		Random rand= new Random();
-		String numStr="";
-		for(int i=0; i<4; i++) {
-			String ran= Integer.toString(rand.nextInt(10));
-			numStr += ran;
-		}
-		
-		System.out.println("폰번호:"+ phoneNumber);
-		System.out.println("인증번호:"+numStr);
-		user.setNumStr(numStr);
-	
 
-
-		return new ResponseEntity<>(user, HttpStatus.OK);
-	}
 	
-	@PostMapping("/signup")
-	public ResponseEntity<?> Signup(@RequestBody User user){
-		
-		Map<String, Integer> check = new HashMap<>();
-		
-		check = userService.Check(user);
-		//logger.info("check:"+check.get("check_username"));
-		int check_username = Integer.parseInt( String.valueOf(check.get("check_username")));
-		int check_name = Integer.parseInt( String.valueOf(check.get("check_name")));
-		if(check_username == 1 || check_name== 1) {
-			
-			return new ResponseEntity<>(check, HttpStatus.OK);
-		
-		}else {
-		
-		
-		String encodedPassword= new BCryptPasswordEncoder().encode(user.getPassword());
-		user.setPassword(encodedPassword);
-		user.setisAccountNonExpired(true);
-		user.setisAccountNonLocked(true);
-		user.setisCredentialsNonExpired(true);
-		user.setisEnabled(true);
-		user.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));
-		
-	    userService.createUser(user);
-	    userService.createAuthority(user);
-	    
-		
-		return new ResponseEntity<>("success", HttpStatus.OK);
-		}
-		
-	}
-	//로그인
-	@PostMapping("/login")
-	public ResponseEntity<?> Login(@RequestBody User user){
-		logger.info("넘어온 값" +user);
-		
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())); // AuthenticationManager 에 token 을 넘기면 UserDetailsService 가 받아 처리하도록 한다.
-
-		SecurityContextHolder.getContext().setAuthentication(authentication);  // 실제 SecurityContext 에 authentication 정보를 등록한다.
-
-		
-		String jwt = jwtUtils.generateJwtToken(authentication);
-		
-		user= (User) authentication.getPrincipal();
-		logger.info("authentication.getPrincipal():"+ authentication.getPrincipal());
-		
-		List<String> roles= user.getAuthorities().stream()
-								.map(item -> item.getAuthority())
-								.collect(Collectors.toList());
-		
-		logger.debug("debug");
-	    logger.info("info");
-	    logger.error("error");
-	    
-	    jwt="Bearer"+jwt;
-		
-		return ResponseEntity.ok(new JwtResponse(jwt,
-													user.getUsername(),
-													user.getName(),
-													roles));
-	}
-	
-	
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@GetMapping("/unpackToken")
 	public ResponseEntity<?> unpackToken(HttpServletRequest request){
 		
@@ -172,6 +85,11 @@ public class UserController{
 		UserInfo user= userService.readUser_token(username);
 		
 		user.setAuthorities(userService.readAuthorities_token(username));
+		
+		Collection<? extends GrantedAuthority> collection = user.getAuthorities();
+
+		
+		
 		logger.info("readUser_token:"+user);
 		
 		return new ResponseEntity<>( user, HttpStatus.OK);
@@ -179,16 +97,19 @@ public class UserController{
 	}
 	
 	
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@PostMapping("/edit")
-	public ResponseEntity<?> UserEdit(@RequestBody User user){
+	public ResponseEntity<?> UserEdit(@RequestBody User user, HttpServletRequest request){	
 		
 		userService.UserEidt(user);
-
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
+	
+	
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@ResponseBody
 	@DeleteMapping("/delete/{username}")
-	public ResponseEntity<?> UserDelete(@PathVariable("username") String username){
+	public ResponseEntity<?> UserDelete(@PathVariable("username") String username, HttpServletRequest request){
 		
 		
 		userService.UserDelete(username);

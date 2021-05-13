@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,6 +48,7 @@ public class LikeController {
 	AuctionService auctionService;
 	
 	
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@PostMapping
 	public ResponseEntity<?> CreateLike(@RequestBody Like like, HttpServletRequest request){
 
@@ -59,6 +61,8 @@ public class LikeController {
 		
 		return new ResponseEntity<>( auction, HttpStatus.OK);
 	}
+	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@DeleteMapping("/{a_num}")
 	public ResponseEntity<?> DeleteLike(@PathVariable("a_num") int a_num , HttpServletRequest request){
 		
@@ -68,13 +72,14 @@ public class LikeController {
 		
 		return new ResponseEntity<>( auction, HttpStatus.OK);
 	}
-
+	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@GetMapping("/")
 	public ResponseEntity<?> LikeList(HttpServletRequest request){
 		
 		token = request.getHeader("access_token");
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
-			token = token.substring(7, token.length());
+			token = token.substring(6, token.length());
 		}
 		String l_username = JwtUtils.getUserEmailFromToken(token);
 		

@@ -49,7 +49,7 @@ public class AuthTokenFilter extends  OncePerRequestFilter{
 		logger.info("token:"+token);
 		
 		if(StringUtils.hasText(token) && token.startsWith("Bearer") ) {
-			token= token.substring(7, token.length());
+			token= token.substring(6, token.length());
 			return token;
 		}
 

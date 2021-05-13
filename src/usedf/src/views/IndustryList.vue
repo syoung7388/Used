@@ -94,7 +94,7 @@ export default {
                 var industry = this.$store.state.industry
             
                 axios
-                .get(`http://localhost:9200/api/auction/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${page}`)
+                .get(`http://localhost:9200/api/all/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${page}`)
                 .then(Res => {
                     setTimeout(()=>{
                         var list = Res.data.industrylist     

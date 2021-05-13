@@ -33,7 +33,7 @@
                    <v-btn 
                      class="mt-5 primary"
                      small 
-                     @click="sms({phone})"
+                     @click="Sms({phone})"
                      
                      >인증문자받기</v-btn>
                     </div>
@@ -51,7 +51,7 @@
                         class="mt-3"
                         v-model="certinum"
                         >
-                        </v-text-field><v-btn class="ma-5 primary" small @click="certification({certinum})">인증번호확인</v-btn>
+                        </v-text-field><v-btn class="ma-5 primary" small @click="Certification({certinum})">인증번호확인</v-btn>
                     </div>
                 </v-col>
             </v-row>
@@ -87,7 +87,7 @@ export default{
         ...mapState (["Pshow", "certi", "Sshow",'phoneError','certiError'])
     },
     methods: {
-        ...mapActions(['sms', 'certification']),
+        ...mapActions(['Sms', 'Certification']),
     },
 }
 </script>

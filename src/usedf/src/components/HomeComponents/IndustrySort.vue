@@ -1,11 +1,6 @@
 <template>
     <v-app>
-        <v-container v-show="I_list_show === false">
-            <v-row>
-                <v-col>
-                    
-                </v-col>
-            </v-row>
+        <v-container>
             <v-row 
             v-for="(c, index) in cut"
             :key="index"
@@ -38,9 +33,8 @@
                 </v-col>     
             </v-row>
         </v-container>
-        <v-container v-show="I_list_show === true" class="pa-0">
-            <router-view/>
-        </v-container>
+        <router-view/>
+       
     </v-app>
 </template>
 <script>

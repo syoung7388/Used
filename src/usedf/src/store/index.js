@@ -11,9 +11,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    Role: [],
+
     Pshow: false,
     Sshow:false,
-    Ashow: 0,
+    auth_show: 0,
     removeBar: false,
     EPshow: false,
     Eshow: false,
@@ -124,7 +126,34 @@ export default new Vuex.Store({
   
   },
   mutations: {
-    phoneSuccess(state, payload){
+    //공통
+    Back_f(state){
+      router.go(-1)
+      state.removeBar = false
+    },
+    Back_t(state){
+      router.go(-1)
+      state.removeBar = true
+    },
+
+    //Home.vue
+    GetMap(state){
+      state.removeBar = true
+      router.push({name: 'Map'})
+
+    },
+
+
+    //Auth.vue
+    Auth_login(state){
+      state.auth_show = 1
+
+    },
+    Auth_signup(state){
+      state.auth_show = 2
+
+    },
+    Sms_s(state, payload){
       state.Pshow= true;
       state.EPshow= true;
       state.certi= payload.numStr;
@@ -136,15 +165,15 @@ export default new Vuex.Store({
       state.phoneError= true
     },
     
-    certiSuccess(state){
+    Certification_s(state){
       state.Sshow= true
     },
-    certiFaile(state){
+    Certification_f(state){
       state.certiError= true
 
     },
     Signup_s(state){
-      state.Ashow = 0
+      state.auth_show = 1
     },
     Duplication(state, payload){
       if(payload.check_username = '1'){
@@ -163,8 +192,16 @@ export default new Vuex.Store({
       state.phone = payload
       console.log(state.phone)
     },
-    LoginSuccess(state, payload){
-      
+    Login_s(state, payload){
+
+
+      for(var i=0; i< payload.authorities.length ; i++){
+        var roles = payload.authorities[i]
+        for(var j=0; j< roles.authorities.length; j++){
+          state.Role.push(roles.authorities[j].authority)
+        }
+      }
+      console.log(state.Role)
       state.userInfo= {
         name: payload.name,
         username: payload.username,
@@ -174,20 +211,19 @@ export default new Vuex.Store({
         u_num: payload.u_num
 
       }
-      console.log(state.userInfo)
-    
       state.isLoginError= false
 
     },
 
-    LoginFaile(state){
+    Login_f(state){
       state.isLoginError=true
     },
     logout(state){
-     
-      state.Ashow = 0
-      router.push({name: 'App'}) 
+      state.removeBar = true
+      router.push({name: 'Home'}) 
       state.userInfo = null
+      state.Role= []
+      localStorage.removeItem('access_token')
     },
     EditSuccess(state, payload){
       state.userInfo= {
@@ -527,12 +563,7 @@ export default new Vuex.Store({
 
   actions:{
 
-    Alogin({state}){ //App.vue -> login페이지 전환
-      state.Ashow =1
-    },
-    Asignup({state}){ //App.vue-> signup페이지 전환
-      state.Ashow =2
-    },
+
     RemoveBar({state}){ // 하단바 제거하는 함수
       state.removeBar= true
     },
@@ -545,65 +576,58 @@ export default new Vuex.Store({
       state.removeBar=false
       router.push({name: 'Home'})
     },
-
+    Back_f({state}){
+      router.go(-1)
+      state.removeBar = false
+    },
 
     ///////////////////////////////////////////////////////////////////////////////////////////////페이지 전환 함수 & 페이지 요소 조정 함수
 
-    sms({commit}, payload){//인증문자
+    Sms({commit}, payload){//인증문자
       axios
-      .post('http://localhost:9200/api/user/sendSMS', payload)
-      .then(res => {
-        commit('phoneSuccess', res.data)
-      })
-      .catch(()=>{
-        commit('phoneFaile')
+      .post('http://localhost:9200/api/all/sms', payload)
+      .then(Res => {
+        (Res.data !== null)? commit('Sms_s', Res.data): ('Sms_f')
       })
     },
-    certification({state, commit}, payload){//인증번호 (payload-user가 적음) = /!=  인증번호 (백에서 가져온거)   
-      
-      console.log(state.certi)
-      console.log(payload)
+    Certification({state, commit}, payload){  
+      // console.log(state.certi)
+      // console.log(payload)
 
-      if(payload.certinum === state.certi){
-        commit('certiSuccess')
 
-      } else{
-        commit('certiFaile')
-      }
+      (payload.certinum === state.certi)? commit('Certification_s') : commit('Certification_f')
     },
-    Signup({commit}, payload){ //회원가입 정보 백엔드로 보내는 함수
+    Signup({commit}, payload){ 
 
       console.log(payload)
       axios
-      .post('http://localhost:9200/api/user/signup', payload)
+      .post('http://localhost:9200/api/all/signup', payload)
       .then( Res => {
 
         (Res.data !== "success")? commit('Duplication', Res.data) : commit('Signup_s') 
       })
     },
-    login({dispatch, commit , state}, payload){ //Login.vue에서 login요청하는 함수
+    Login({dispatch, commit }, payload){ 
 
-      console.log(payload)
       axios
-      .post('http://localhost:9200/api/user/login', payload)
+      .post('http://localhost:9200/api/all/login', payload)
       .then(Lres =>{
-        console.log("로그인 완료")
-        let token = Lres.data.token
-        console.log(token)
-        localStorage.setItem("access_token", token)
-        dispatch('getUserInfo')
-        state.Ashow= 3 //다끝나고 Main으로 가라 !
-        dispatch('nowLatLon')
+
+        if(Lres.data != null){
+          let token = Lres.data.token
+          console.log(token)
+          localStorage.setItem("access_token", token)
+          dispatch('getUserInfo')
+
+        }else{
+          commit('Login_f')
+        }
+  
       })
-      .catch(()=>
-        commit('LoginFaile')
-      )
-    },
-    Logout({commit}){
-      commit('logout')
 
     },
-    getUserInfo({commit, dispatch}){ //토큰 이용해서 유저정보 얻어오기
+
+    getUserInfo({commit, dispatch}){ 
       let token= localStorage.getItem("access_token")
       let config= {
         headers: {
@@ -613,13 +637,17 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/user/unpackToken', config)
       .then( Ires =>{
-        //console.log(Ires.data)
-        commit('LoginSuccess', Ires.data)
+        (Ires.data !== null)? commit('Login_s', Ires.data): commit('Login_f')
+
+        dispatch('nowLatLon')
       
       })
 
     },
-    EditOK({state, commit}){///UserEdit마무리 
+    Logout({commit}){
+      commit('logout')
+    },
+    EditOK({state, commit}){ 
       let userInfo= state.userInfo
       //console.log(userInfo)
       let token= localStorage.getItem("access_token")
@@ -641,7 +669,7 @@ export default new Vuex.Store({
       })
 
     },
-    deleteOK({state,commit}){ ///삭제하러 가는 함수
+    deleteOK({state,commit}){ 
       let username= state.userInfo.username
       //console.log(username)
       let token= localStorage.getItem("access_token")
@@ -901,16 +929,8 @@ export default new Vuex.Store({
       let lat = localStorage.getItem('lat')
       let lon = localStorage.getItem('lon')
       let page= 0
-      
-      let token = localStorage.getItem("access_token")
-      let config= {
-        headers: {
-          "access_token": token
-        }
-      }
-
       axios
-      .get(`http://localhost:9200/api/auction/top?page=${page}&lat=${lat}&lon=${lon}`, config )
+      .get(`http://localhost:9200/api/all/top?page=${page}&lat=${lat}&lon=${lon}`)
       .then(Res => {
         //console.log(Tres.data)
         (Res.data !== null)? commit('TopList_s', Res.data): commit('TopList_f')
@@ -936,7 +956,7 @@ export default new Vuex.Store({
       }
 
       axios
-      .get(`http://localhost:9200/api/auction/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${page}`, config)
+      .get(`http://localhost:9200/api/all/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${page}`, config)
       .then(Res =>{
         (Res.data !== "null") ? commit('IndustryList_s', Res.data): commit('IndustryList_f')
   
@@ -959,7 +979,7 @@ export default new Vuex.Store({
         }
       }
        axios
-       .get(`http://localhost:9200/api/auction/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${page}`, config) 
+       .get(`http://localhost:9200/api/all/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${page}`, config) 
        .then(Res=>{
          (Res.data !== null) ? commit('KindList_s', Res.data): commit('KindList_f')
        })
@@ -976,7 +996,7 @@ export default new Vuex.Store({
         }
       }
       axios
-      .get(`http://localhost:9200/api/auction/${payload.a_num}`, config)
+      .get(`http://localhost:9200/api/all/detail/${payload.a_num}`, config)
       .then(Dres =>{
 
 

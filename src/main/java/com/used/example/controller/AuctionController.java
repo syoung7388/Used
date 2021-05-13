@@ -88,7 +88,7 @@ public class AuctionController {
 		token = request.getHeader("access_token");
 		
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
-			token = token.substring(7, token.length());
+			token = token.substring(6, token.length());
 		}
 		String username = JwtUtils.getUserEmailFromToken(token);
 		
@@ -158,7 +158,7 @@ public class AuctionController {
 	public ResponseEntity<?> SaleCount(HttpServletRequest request){
 		String token= request.getHeader("access_token");
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
-			token= token.substring(7, token.length());
+			token= token.substring(6, token.length());
 		}
 		String username= JwtUtils.getUserEmailFromToken(token);
 		
@@ -168,13 +168,14 @@ public class AuctionController {
 		
 	}
 	
-
+	
+	@Secured({"ROLE_USER"})
 	@GetMapping("/sale/{sale}")
 	public ResponseEntity<?> SaleList(HttpServletRequest request, @PathVariable("sale") int sale){
 		
 		String token= request.getHeader("access_token");
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
-			token= token.substring(7, token.length());
+			token= token.substring(6, token.length());
 		}
 		String username= JwtUtils.getUserEmailFromToken(token);
 		Map<String,Object> map= new HashMap<>();
@@ -189,38 +190,20 @@ public class AuctionController {
 	}
 	
 	
-	@GetMapping("/{a_num}")
-	public ResponseEntity<?> AucDetail(@PathVariable("a_num") int a_num, HttpServletRequest request){
-		
-		auctionService.Hits(a_num);
 
-		token = request.getHeader("access_token");
-		if(StringUtils.hasText(token)&& token.startsWith("Bearer")) {
-			token = token.substring(7, token.length());
-		}
-		String username = JwtUtils.getUserEmailFromToken(token);
-		if(username != null) {
-			Auction aucdetail= auctionService.AucDetail(a_num);
-			logger.info("aucdetail:"+aucdetail);
-			return new ResponseEntity<>(aucdetail, HttpStatus.OK);
-			
-		}else {
-			return new ResponseEntity<>( HttpStatus.OK);
-		}
-		
-		
-		//logger.info("a_num:"+a_num);
-		
-	}
 	
 	@Secured({"ROLE_USER"})
 	@PutMapping
 	public ResponseEntity<?> AucEdit(Auction auction, Picture picture,Address address, Product product, HttpServletRequest request) throws IOException{
 		
-		token = request.getHeader("access_token");		
-		logger.info("token:"+token); // null
 		
+		String token= request.getHeader("access_token");
+		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
+			token= token.substring(6, token.length());
+		}
+		String username= JwtUtils.getUserEmailFromToken(token);
 		
+
 		auction.setAddress(address);
 		auction.setPro(product);
 		auctionService.AucEdit(auction);
@@ -271,7 +254,13 @@ public class AuctionController {
 	@Secured({"ROLE_USER"})
 	@DeleteMapping("/{a_num}")
 	public ResponseEntity<?> AucDelete(@PathVariable("a_num") int a_num, HttpServletRequest request){
-		//logger.info("a_num:"+a_num);
+		
+		
+		String token= request.getHeader("access_token");
+		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
+			token= token.substring(6, token.length());
+		}
+		String username= JwtUtils.getUserEmailFromToken(token);
 		
 		auctionService.AucDelete(a_num);
 		
@@ -283,106 +272,7 @@ public class AuctionController {
 	}
 	
 	
-	
-	@GetMapping("/top")
-	public ResponseEntity<?> TopList(@RequestParam("lat") String lat, @RequestParam("lon") String lon, @RequestParam("page") int page, HttpServletRequest request){
-		
-		Map<String, Object> map = new HashMap<>();
-		Pagination pagination = new Pagination();
-		
-		map.put("lat", lat);
-		map.put("lon", lon);
-		map.put("limit", page*pagination.getPerpage());
-		
-		List<Auction> toplist= auctionService.TopList(map);
-		
-		Map<String, Object> topmap = new HashMap<>();
-		
-		topmap.put("toplist", toplist);
-	
-	
-		
-		
-		if(page == 0) {
-			
-			map.put("listsort", 0);
-			int count = auctionService.TotalCount(map);
-			pagination = new Pagination(count, page);
-			//logger.info("pagination:"+pagination );
-			topmap.put("pagination", pagination);
-			
-		}
 
-		//logger.info("topmap:"+ topmap);
-		return new ResponseEntity<>( topmap, HttpStatus.OK);
-		
-	}
-	
-	@GetMapping("/industry")
-	public ResponseEntity<?> IndustryList(@RequestParam("lat")String lat, @RequestParam("lon")String lon, @RequestParam("industry")String industry, @RequestParam("page") int page, HttpServletRequest request){
-		
-		
-		Pagination pagination = new Pagination();
-		Map<String ,Object> map = new HashMap<>();
-		map.put("lat", lat);
-		map.put("lon", lon);
-		map.put("industry", industry);
-		map.put("limit", page*pagination.getPerpage());
-		List<Auction> industrylist = auctionService.IndustryList(map);
-		
-		
-		Map<String ,Object> industrymap = new HashMap<>();
-		industrymap.put("industrylist", industrylist);
-		
-		
-		
-		
-		
-		if(page == 0) {
-			map.put("listsort", 1);
-			int count = auctionService.TotalCount(map);
-			pagination = new Pagination(count, page);
-			industrymap.put("pagination", pagination);
-			
-		}
-		
-		
-		
-		
-		
-		
-		logger.info("industrymap:"+ industrymap);
-
-		return new ResponseEntity<>(industrymap, HttpStatus.OK);
-	
-	}
-	
-	@GetMapping("/kind")
-	public ResponseEntity<?> KindList(@RequestParam("lat")String lat, @RequestParam("lon")String lon, @RequestParam("kind")String kind ,@RequestParam("page") int page , HttpServletRequest request){
-		Pagination pagination = new Pagination();
-		Map<String ,Object> map = new HashMap<>();
-		map.put("lat", lat);
-		map.put("lon", lon);
-		map.put("kind", kind);
-		map.put("limit", page*pagination.getPerpage());
-		List<Auction> kindlist = auctionService.KindList(map);
-		
-		
-		Map<String ,Object> kindmap = new HashMap<>();
-		kindmap.put("kindlist", kindlist);
-		if(page == 0) {
-			map.put("listsort", 2);
-			int count = auctionService.TotalCount(map);
-			pagination = new Pagination(count, page);
-			kindmap.put("pagination", pagination);
-			
-		}
-		logger.info("kindmap:"+ kindmap);
-
-		return new ResponseEntity<>(kindmap, HttpStatus.OK);
-	
-	}
-	
 	
 	
 	@Secured({"ROLE_USER"})

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,8 @@ public class ChatController {
 	private final Logger logger= LoggerFactory.getLogger(this.getClass());
 	private String token;
 	
+	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@PostMapping
 	public ResponseEntity<?> CreateChat(@RequestBody Chat chat){
 		
@@ -50,12 +53,13 @@ public class ChatController {
 		
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@GetMapping
 	public ResponseEntity<?> ChatList(HttpServletRequest request){
 		token = request.getHeader("access_token");
 		
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
-			token = token.substring(7, token.length());
+			token = token.substring(6, token.length());
 		}
 		String username = JwtUtils.getUserEmailFromToken(token);
 		
@@ -64,6 +68,7 @@ public class ChatController {
 		 return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@GetMapping("/{ch_num}")
 	public ResponseEntity<?> MsgDetail(@PathVariable("ch_num") int ch_num, HttpServletRequest request){
 		
@@ -72,6 +77,7 @@ public class ChatController {
 		return new ResponseEntity<>(chat, HttpStatus.OK);
 		
 	}
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@PostMapping("/msg")
 	public ResponseEntity<?> CreateMessage(@RequestBody Message message){
 		
