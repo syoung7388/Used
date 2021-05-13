@@ -98,7 +98,6 @@ public class UserController{
 		int check_username = Integer.parseInt( String.valueOf(check.get("check_username")));
 		int check_name = Integer.parseInt( String.valueOf(check.get("check_name")));
 		if(check_username == 1 || check_name== 1) {
-			logger.info("집가고 싶다 ㅎㅎ");
 			
 			return new ResponseEntity<>(check, HttpStatus.OK);
 		
@@ -136,7 +135,6 @@ public class UserController{
 		
 		user= (User) authentication.getPrincipal();
 		logger.info("authentication.getPrincipal():"+ authentication.getPrincipal());
-		logger.info("authentication.getPrincipal():"+ authentication.getPrincipal());
 		
 		List<String> roles= user.getAuthorities().stream()
 								.map(item -> item.getAuthority())
@@ -145,9 +143,8 @@ public class UserController{
 		logger.debug("debug");
 	    logger.info("info");
 	    logger.error("error");
-
-
-
+	    
+	    jwt="Bearer"+jwt;
 		
 		return ResponseEntity.ok(new JwtResponse(jwt,
 													user.getUsername(),
@@ -156,18 +153,21 @@ public class UserController{
 	}
 	
 	
-
 	@GetMapping("/unpackToken")
 	public ResponseEntity<?> unpackToken(HttpServletRequest request){
 		
 		String token= new String();
 		token= request.getHeader("access_token");
-		
+
 		if(StringUtils.hasText(token)&& token.startsWith("Bearer")) {
-			token= token.substring(7, token.length());
+			token= token.substring(6, token.length());
+			logger.info(token);
 		}
 		
+	
+		
 		String username= JwtUtils.getUserEmailFromToken(token);
+
 		
 		UserInfo user= userService.readUser_token(username);
 		

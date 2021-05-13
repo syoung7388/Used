@@ -44,9 +44,11 @@ import com.used.example.domain.Count;
 import com.used.example.domain.Pagination;
 import com.used.example.domain.Picture;
 import com.used.example.domain.Product;
+import com.used.example.domain.UserInfo;
 import com.used.example.service.AuctionService;
 import com.used.example.service.OfferService;
 import com.used.example.service.ProductService;
+import com.used.example.service.UserService;
 import com.used.example.utility.MakeThumbnail;
 
 @CrossOrigin(origins="*", maxAge= 5000)
@@ -65,7 +67,13 @@ public class AuctionController {
 	@Autowired
 	OfferService offerService;
 	
+	@Autowired
+	UserService userService;
+	
 	private final Logger logger= LoggerFactory.getLogger(this.getClass());
+	
+
+	
 	
 
 	
@@ -73,7 +81,7 @@ public class AuctionController {
 	private String token;
 	
 	
-	
+	@Secured({"ROLE_USER"})
 	@PostMapping
 	public ResponseEntity<?> CreateAuction(Auction auction, Product product, Picture picture, Address address, HttpServletRequest request) throws IOException{
 	
@@ -145,6 +153,7 @@ public class AuctionController {
 	}
 	
 	
+	@Secured({"ROLE_USER"})
 	@GetMapping("/sale")
 	public ResponseEntity<?> SaleCount(HttpServletRequest request){
 		String token= request.getHeader("access_token");
@@ -180,7 +189,6 @@ public class AuctionController {
 	}
 	
 	
-	@Secured({"ROLE_USER"})
 	@GetMapping("/{a_num}")
 	public ResponseEntity<?> AucDetail(@PathVariable("a_num") int a_num, HttpServletRequest request){
 		
@@ -205,6 +213,7 @@ public class AuctionController {
 		
 	}
 	
+	@Secured({"ROLE_USER"})
 	@PutMapping
 	public ResponseEntity<?> AucEdit(Auction auction, Picture picture,Address address, Product product, HttpServletRequest request) throws IOException{
 		
@@ -258,8 +267,10 @@ public class AuctionController {
 	}
 	
 	
+	
+	@Secured({"ROLE_USER"})
 	@DeleteMapping("/{a_num}")
-	public ResponseEntity<?> AucDelete(@PathVariable("a_num") int a_num){
+	public ResponseEntity<?> AucDelete(@PathVariable("a_num") int a_num, HttpServletRequest request){
 		//logger.info("a_num:"+a_num);
 		
 		auctionService.AucDelete(a_num);
@@ -308,7 +319,7 @@ public class AuctionController {
 	}
 	
 	@GetMapping("/industry")
-	public ResponseEntity<?> IndustryList(@RequestParam("lat")String lat, @RequestParam("lon")String lon, @RequestParam("industry")String industry, @RequestParam("page") int page){
+	public ResponseEntity<?> IndustryList(@RequestParam("lat")String lat, @RequestParam("lon")String lon, @RequestParam("industry")String industry, @RequestParam("page") int page, HttpServletRequest request){
 		
 		
 		Pagination pagination = new Pagination();
@@ -347,7 +358,7 @@ public class AuctionController {
 	}
 	
 	@GetMapping("/kind")
-	public ResponseEntity<?> KindList(@RequestParam("lat")String lat, @RequestParam("lon")String lon, @RequestParam("kind")String kind ,@RequestParam("page") int page ){
+	public ResponseEntity<?> KindList(@RequestParam("lat")String lat, @RequestParam("lon")String lon, @RequestParam("kind")String kind ,@RequestParam("page") int page , HttpServletRequest request){
 		Pagination pagination = new Pagination();
 		Map<String ,Object> map = new HashMap<>();
 		map.put("lat", lat);
@@ -372,34 +383,25 @@ public class AuctionController {
 	
 	}
 	
+	
+	
+	@Secured({"ROLE_USER"})
 	@PutMapping("/step")
 	public ResponseEntity<?> AucEnd(@RequestBody Auction auction,  HttpServletRequest request){
 		
 		int a_num = auction.getA_num();
 		logger.info("a_num"+ a_num);
-		
-		
-		auctionService.AucStep(a_num);
-		
-		token = request.getHeader("access_token");
-		
-		logger.info("token:"+token); // null
-		
+		auctionService.AucStep(a_num);		
+		token = request.getHeader("access_token");		
+		logger.info("token:"+token);
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
 			token = token.substring(7, token.length());
 		}
-		
-		
-		String o_username = JwtUtils.getUserEmailFromToken(token);
-		
+		String o_username = JwtUtils.getUserEmailFromToken(token);		
 		Bid_request bid_r= new Bid_request();
 		bid_r.setO_username(o_username);
 		bid_r.setSale(2);
-		
 		List<Auction> bidlist =offerService.BidList(bid_r);
-		
-		
-		
 		return new ResponseEntity<> (bidlist, HttpStatus.OK);
 		
 	}

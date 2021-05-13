@@ -48,7 +48,7 @@ public class LikeController {
 	
 	
 	@PostMapping
-	public ResponseEntity<?> CreateLike(@RequestBody Like like){
+	public ResponseEntity<?> CreateLike(@RequestBody Like like, HttpServletRequest request){
 
 		likeService.CreateLike(like);
 		
@@ -60,7 +60,7 @@ public class LikeController {
 		return new ResponseEntity<>( auction, HttpStatus.OK);
 	}
 	@DeleteMapping("/{a_num}")
-	public ResponseEntity<?> DeleteLike(@PathVariable("a_num") int a_num ){
+	public ResponseEntity<?> DeleteLike(@PathVariable("a_num") int a_num , HttpServletRequest request){
 		
 		likeService.DeleteLike(a_num);
 		Auction auction= auctionService.AucDetail(a_num);

@@ -95,7 +95,7 @@ public class PaymentController {
 	
 	@PostMapping("/kready")
 	@ResponseBody
-	public ResponseEntity<?> KaKaoReady(@RequestBody KaKaoReady kakao){
+	public ResponseEntity<?> KaKaoReady(@RequestBody KaKaoReady kakao, HttpServletRequest request){
 		//logger.info("auction:"+auction);
 		
 
@@ -152,7 +152,7 @@ public class PaymentController {
 	}
 	@PostMapping("/kapproval")
 	@ResponseBody
-	public ResponseEntity<?> KaKaoApproval(@RequestBody KaKaoReady ready) {
+	public ResponseEntity<?> KaKaoApproval(@RequestBody KaKaoReady ready, HttpServletRequest request) {
 		
 		
         RestTemplate restTemplate = new RestTemplate();
@@ -290,7 +290,7 @@ public class PaymentController {
 	
 	
 	@GetMapping("/{a_num}")
-	public ResponseEntity<?> PayDetail(@PathVariable("a_num") int a_num){
+	public ResponseEntity<?> PayDetail(@PathVariable("a_num") int a_num, HttpServletRequest request){
 		
 		Payment paydetail = paymentService.PaymentDetail(a_num);
 		Auction aucdetail = auctionService.AucDetail(a_num);

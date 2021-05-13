@@ -40,15 +40,20 @@ public class AuthTokenFilter extends  OncePerRequestFilter{
 	@Autowired
 	private UserService userService;
 	
+	
+	
 	//request의 헤더에서 Authorization 가져오고 가공한다. //아래에서 사용함
 	private String parseJwt(HttpServletRequest request) {
 		
-		String headerAuth = request.getHeader("Authorization");
+		String token = request.getHeader("access_token");
+		logger.info("token:"+token);
 		
-		if(StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer")){
-			return headerAuth.substring(7, headerAuth.length());
+		if(StringUtils.hasText(token) && token.startsWith("Bearer") ) {
+			token= token.substring(7, token.length());
+			return token;
 		}
-		
+
+//		logger.info("왜 널이야??");
 		return null;
 	}
 	
@@ -60,14 +65,17 @@ public class AuthTokenFilter extends  OncePerRequestFilter{
 		try {
 			
 			String jwt = parseJwt(request);
+
 			
-			if(jwt != null && jwtUtils.validateJwtToken(jwt)) {
+			
+			if(jwt != null && jwtUtils.validateJwtToken(jwt)) {//
 				
-				String username= jwtUtils.getUserNameFromJwtToken(jwt);
+				String username= jwtUtils.getUserEmailFromToken(jwt);
 				
 				UserDetails userDetails= userService.loadUserByUsername(username);
 				
-				logger.info("나 지금 AuthTokenFilter에 있어:"+ userDetails.getUsername());
+				logger.info("userDetail:"+userDetails);
+			
 				
 				
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -77,12 +85,14 @@ public class AuthTokenFilter extends  OncePerRequestFilter{
 				
 				SecurityContextHolder.getContext().setAuthentication(authentication);///???
 				
+
 			}
 		} catch (Exception e) {
 			logger.error("사용자의 authentication을 설정할수 없습니다: {}", e);
 		}
 		
 		filterChain.doFilter(request, response);
+
 	}
 	
 

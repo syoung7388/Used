@@ -1,5 +1,7 @@
 package com.used.example.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -23,6 +25,7 @@ import com.used.example.service.UserService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled= true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private UserService userService;
@@ -54,22 +57,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Override 
 	protected void configure(HttpSecurity http) throws Exception{
-		http.cors().and().csrf().disable()
-		          .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-		          .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-		          .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-		          .antMatchers("/api/test/**").permitAll()
-		          .antMatchers("/api/user/**").permitAll()
-		          .antMatchers("/api/offer/**").permitAll()
-		          .antMatchers("/api/image/**").permitAll()
-		         // .antMatchers("/api/auction/**").permitAll()//.access("hasRole('ROLE_ADMIN')")
-		          .antMatchers("/api/like/**").permitAll()
-		          .antMatchers("/api/payment/**").permitAll()
-		          .antMatchers("/api/chat/**").permitAll()
-		          .anyRequest().authenticated();
+
 		
+		
+		
+		
+		
+		http.csrf().disable().authorizeRequests()
+			.anyRequest().permitAll()
+			.and()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+			.formLogin()
+				.disable()
+			.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+			
+			
+		
+		
+//		          .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//		          .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//		          .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+//		          .antMatchers("/api/test/**").permitAll()
+//		          .antMatchers("/api/user/**").permitAll()
+//		          .antMatchers("/api/offer/**").permitAll()
+//		          .antMatchers("/api/image/**").permitAll()
+//		          .antMatchers("/api/auction/**").access("hasRole('ROLE_USER')")
+//		          .antMatchers("/api/like/**").permitAll()
+//		          .antMatchers("/api/payment/**").permitAll()
+//		          .antMatchers("/api/chat/**").permitAll()
+//		          .anyRequest().authenticated();
+//		
 		          
-		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);          
+		          
 		  
 		          
 		          

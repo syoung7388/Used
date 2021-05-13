@@ -65,7 +65,7 @@ public class ChatController {
 	}
 	
 	@GetMapping("/{ch_num}")
-	public ResponseEntity<?> MsgDetail(@PathVariable("ch_num") int ch_num){
+	public ResponseEntity<?> MsgDetail(@PathVariable("ch_num") int ch_num, HttpServletRequest request){
 		
 		Chat chat = chatService.MsgDetail(ch_num);
 		
