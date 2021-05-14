@@ -3,6 +3,8 @@ package com.used.example.domain;
 
 
 import java.util.Collection;
+import java.util.List;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,6 +30,10 @@ public class User implements UserDetails{
 	private boolean isAccountNonLocked;
 	private boolean isCredentialsNonExpired;
 	private boolean isEnabled;
+	
+	
+	
+	
 
 	
 	

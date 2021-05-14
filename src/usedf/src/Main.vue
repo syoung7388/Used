@@ -62,7 +62,7 @@ import { mapActions, mapState } from 'vuex'
         },
         Bid(){
             if(this.Role.length !== 0){
-                this.$router.push({name: 'Bid'})
+               this.$store.dispatch('getBidStatistic')
             }else{
                 this.$store.state.removeBar = true
                 this.$router.push({name:'Auth'})

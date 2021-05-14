@@ -142,8 +142,33 @@
 				GROUP BY a_num)b on a.a_num = b.a_num
 		WHERE b.o_username =  #{a.o_username}
 	</select>
+	<select id="BidRank" parameterType = "String" resultType="int">
+		SELECT		tc.rank
+		FROM (SELECT	ta.pa_username ,
+						(@rank := if(@ending > ta.total, @rank:= @rank+1,  @rank)) AS rank,
+						(@ending := total)			
+				FROM (SELECT 
+						a.pa_username,
+						SUM(b.am_total) AS total
+						FROM payment a
+						LEFT JOIN amount b ON  a.pa_num = b.pa_num
+						GROUP BY a.pa_username
+						ORDER BY total DESC)ta,
+						(SELECT  @last:=0, @rank:=1)AS tb)tc
+					
+		WHERE tc.pa_username = #{o_username}
+		
+	</select>
+	
+	<select id="KindCount" parameterType = "String" resultType="KindRate">
+		SELECT	pa_kind as kind,
+				COUNT(pa_kind)kindrate
+		FROM payment 
+		WHERE pa_username = #{o_username}
+		GROUP BY pa_kind
 	
 	
+	</select>
 	
 	
 	

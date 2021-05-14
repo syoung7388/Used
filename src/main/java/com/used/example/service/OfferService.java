@@ -5,6 +5,7 @@ import java.util.List;
 import com.used.example.domain.Auction;
 import com.used.example.domain.Bid_request;
 import com.used.example.domain.Count;
+import com.used.example.domain.KindRate;
 import com.used.example.domain.Offer;
 
 public interface OfferService {
@@ -18,6 +19,10 @@ public interface OfferService {
 	public void SelectOffer(String today);
 
 	public Count BidCount(String o_username);
+
+	public int BidRank(String o_username);
+
+	public List<KindRate> KindCount(String o_username);
 
 	
 

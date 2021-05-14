@@ -180,10 +180,6 @@ public class AuctionController {
 			month.add(sum.get(i).getMonth()+"월");
 			total.add(sum.get(i).getTotal());
 		}
-		
-		
-		
-		
 		map.put("count", count);
 		map.put("month", month);
 		map.put("total", total);

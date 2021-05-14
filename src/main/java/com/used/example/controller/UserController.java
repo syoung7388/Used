@@ -84,14 +84,21 @@ public class UserController{
 		
 		UserInfo user= userService.readUser_token(username);
 		
-		user.setAuthorities(userService.readAuthorities_token(username));
 		
-		Collection<? extends GrantedAuthority> collection = user.getAuthorities();
-
+		List<UserInfo> list = new ArrayList<>();
+		list = (List<UserInfo>) userService.readAuthorities_token(username);
+		
+		List <Object> role = new ArrayList<>();
+		for(int i=0 ; i<list.size(); i++) {
+			role.add(list.get(i).getAuthorities());	
+		}
+		logger.info("role"+role);
+		user.setRoles(role);
 		
 		
-		logger.info("readUser_token:"+user);
 		
+		
+	
 		return new ResponseEntity<>( user, HttpStatus.OK);
 		
 	}

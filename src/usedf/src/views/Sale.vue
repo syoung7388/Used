@@ -2,7 +2,6 @@
     <v-app>
         <v-container class="pa-0">
             <v-list class="px-0 py-2">
-                <v-subheader style="font-size: 16px;" >{{userInfo.username}}님의 판매내역</v-subheader>
                 <v-list-item-group 
                     color="primary"
                 >
@@ -41,10 +40,10 @@
                 </v-list-item-group>
             </v-list>
             <v-card color="secondary" height="25" id="sale" flat tile></v-card>
-                <v-card flat>
-                    <TotalChart :height="300"></TotalChart>
-                   
-                </v-card>
+            <div v-if="count.soldcount !== 0">
+                <TotalChart :height="320"  ></TotalChart>
+            </div>
+          
         </v-container> 
         <router-view/>      
     </v-app>

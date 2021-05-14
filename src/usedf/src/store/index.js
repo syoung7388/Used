@@ -126,6 +126,12 @@ export default new Vuex.Store({
     msg_err: false,
 
 
+    bidcount:[],
+    bidkind: [],
+    bidrate: [],
+    bidrank: null
+
+
   
   },
   mutations: {
@@ -197,14 +203,12 @@ export default new Vuex.Store({
     },
     Login_s(state, payload){
 
-
-      for(var i=0; i< payload.authorities.length ; i++){
-        var roles = payload.authorities[i]
-        for(var j=0; j< roles.authorities.length; j++){
-          state.Role.push(roles.authorities[j].authority)
-        }
+      if(payload.roles.length === 2){
+        console.log(payload.length)
+      }else{
+        console.log("zz")
       }
-      console.log(state.Role)
+     
 
       state.userInfo= {
         name: payload.name,
@@ -426,10 +430,14 @@ export default new Vuex.Store({
     KindList_f(state){
 
     },
-    BidCount_s(state, payload){
-      state.count = payload
+    BidStatistic_s(state, payload){
+      state.bidcount = payload.count
+      state.bidkind = payload.kind
+      state.bidrate = payload.rate
+      state.bidrank = payload.rank
+      router.push({name: 'Bid'})
     },
-    BidCount_f(){
+    BidStatistic_f(){
 
     },
     BidList_s(state, payload){
@@ -1078,7 +1086,7 @@ export default new Vuex.Store({
       })
     },
 
-    getBidCount({commit}, payload){
+    getBidStatistic({commit}, payload){
       let token = localStorage.getItem("access_token")
       let config= {
         headers: {
@@ -1088,7 +1096,7 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/offer/count', config)
       .then(Res =>{
-        (Res.data !== null) ? commit('BidCount_s', Res.data): commit('BidCount_f')
+        (Res.data !== null) ? commit('BidStatistic_s', Res.data): commit('BidStatistic_f')
       })
     },
     getBidList({commit}, payload){

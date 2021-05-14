@@ -1,6 +1,7 @@
 package com.used.example.domain;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -16,6 +17,7 @@ public class UserInfo {
 	private String auth;
 	private int u_num;
 	private String password;
+	private List<Object> roles;
 	
 	
 	public String getUsername() {
@@ -72,11 +74,18 @@ public class UserInfo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public List<Object> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<Object> roles) {
+		this.roles = roles;
+	}
 	@Override
 	public String toString() {
 		return "UserInfo [username=" + username + ", name=" + name + ", phone=" + phone + ", address=" + address
 				+ ", authorities=" + authorities + ", auth=" + auth + ", u_num=" + u_num + ", password=" + password
-				+ "]";
+				+ ", roles=" + roles + "]";
 	}
 	
 	

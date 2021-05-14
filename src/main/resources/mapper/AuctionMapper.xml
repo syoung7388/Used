@@ -118,12 +118,13 @@
 	
 	</select>
 	<select id="SaleSum" parameterType="String" resultType="MonthSum">
-		SELECT 
-		MONTH(a.pa_time) AS `month`,
-		SUM(b.am_total) AS total
-		FROM payment a 
-		LEFT JOIN  amount b ON a.pa_num =b.pa_num
-		GROUP BY `month`
+			SELECT 	MONTH(b.pa_time) AS `month`,
+						SUM(c.am_total) AS `total`
+			from auction a
+			INNER	JOIN payment b on a.a_num = b.a_num 
+			INNER JOIN amount c ON b.pa_num = c.pa_num
+			WHERE a.a_username = #{username} 
+			GROUP BY `month`
 	</select>
 	
 	
