@@ -11,6 +11,7 @@ import com.used.example.domain.Auc_Pro;
 import com.used.example.domain.Auction;
 import com.used.example.domain.Count;
 import com.used.example.domain.Product;
+import com.used.example.domain.MonthSum;
 import com.used.example.mapper.AuctionMapper;
 
 
@@ -114,6 +115,11 @@ public class AuctionServiceImpl implements AuctionService {
 	@Override
 	public Count SaleCount(String username) {
 		return auctionMapper.SaleCount(username);
+	}
+
+	@Override
+	public List<MonthSum> SaleSum(String username) {
+		return auctionMapper.SaleSum(username);
 	}
 
 

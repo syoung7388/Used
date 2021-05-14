@@ -44,6 +44,7 @@ import com.used.example.domain.Count;
 import com.used.example.domain.Pagination;
 import com.used.example.domain.Picture;
 import com.used.example.domain.Product;
+import com.used.example.domain.MonthSum;
 import com.used.example.domain.UserInfo;
 import com.used.example.service.AuctionService;
 import com.used.example.service.OfferService;
@@ -154,8 +155,8 @@ public class AuctionController {
 	
 	
 	@Secured({"ROLE_USER"})
-	@GetMapping("/sale")
-	public ResponseEntity<?> SaleCount(HttpServletRequest request){
+	@GetMapping("/statistic")
+	public ResponseEntity<?> SaleStatistic(HttpServletRequest request){
 		String token= request.getHeader("access_token");
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
 			token= token.substring(6, token.length());
@@ -164,7 +165,30 @@ public class AuctionController {
 		
 		Count count = auctionService.SaleCount(username);
 		
-		return new ResponseEntity<>(count, HttpStatus.OK);
+		List<MonthSum> sum = auctionService.SaleSum(username);
+		logger.info("sum:"+sum);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		
+		List<String> month = new ArrayList<>();
+		List<Long> total = new ArrayList<>();
+		List<String> labels = new ArrayList<>();
+		
+		
+		for(int i=0; i< sum.size(); i++) {
+			month.add(sum.get(i).getMonth()+"월");
+			total.add(sum.get(i).getTotal());
+		}
+		
+		
+		
+		
+		map.put("count", count);
+		map.put("month", month);
+		map.put("total", total);
+		
+		return new ResponseEntity<>( map, HttpStatus.OK);
 		
 	}
 	

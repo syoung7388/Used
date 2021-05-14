@@ -12,6 +12,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     Role: [],
+    
 
     Pshow: false,
     Sshow:false,
@@ -39,6 +40,8 @@ export default new Vuex.Store({
     saleList: [],
     pictureList:[],
     count:[],
+    month: [],
+    total: [],
 
 
     
@@ -202,6 +205,7 @@ export default new Vuex.Store({
         }
       }
       console.log(state.Role)
+
       state.userInfo= {
         name: payload.name,
         username: payload.username,
@@ -253,13 +257,16 @@ export default new Vuex.Store({
       router.push({name: 'Home'})
     },
 
-    SaleCount_s(state, payload){
+    SaleStatistic_s(state, payload){
       console.log(payload)
-      state.count = payload
+      state.count = payload.count
+      state.month = payload.month
+      state.total = payload.total
+      router.push({name: 'Sale'})
 
 
     },
-    SaleCount_f(state){
+    SaleStatistic_f(state){
 
 
     },
@@ -296,7 +303,7 @@ export default new Vuex.Store({
       
     },
     SaleDetail_f(state){
-    
+
     },
     SaleEdit_s(state, payload){
       //console.log(payload)      
@@ -613,7 +620,7 @@ export default new Vuex.Store({
       .post('http://localhost:9200/api/all/login', payload)
       .then(Lres =>{
 
-        if(Lres.data != null){
+        if(Lres.data !== null){
           let token = Lres.data.token
           console.log(token)
           localStorage.setItem("access_token", token)
@@ -757,7 +764,7 @@ export default new Vuex.Store({
     },
 
 
-    getSaleCount({commit}){
+    getSaleStatistic({commit}){
       let token = localStorage.getItem("access_token")
       let config={
         headers: {  
@@ -765,9 +772,9 @@ export default new Vuex.Store({
         }
       }
       axios
-      .get('http://localhost:9200/api/auction/sale', config)
+      .get('http://localhost:9200/api/auction/statistic', config)
       .then(Res => {
-        (Res.data !== null)? commit('SaleCount_s', Res.data): commit('SaleCount_f') 
+        (Res.data !== null)? commit('SaleStatistic_s', Res.data): commit('SaleStatistic_f') 
       })
 
     },

@@ -117,6 +117,14 @@
 		WHERE a.a_username =  #{username}
 	
 	</select>
+	<select id="SaleSum" parameterType="String" resultType="MonthSum">
+		SELECT 
+		MONTH(a.pa_time) AS `month`,
+		SUM(b.am_total) AS total
+		FROM payment a 
+		LEFT JOIN  amount b ON a.pa_num =b.pa_num
+		GROUP BY `month`
+	</select>
 	
 	
 	

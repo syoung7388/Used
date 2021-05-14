@@ -8,6 +8,7 @@ import com.used.example.domain.Auc_Pro;
 import com.used.example.domain.Auction;
 import com.used.example.domain.Count;
 import com.used.example.domain.Product;
+import com.used.example.domain.MonthSum;
 
 
 public interface AuctionService {
@@ -46,6 +47,8 @@ public interface AuctionService {
 	public List<Auction> TopList(Map<String, Object> map);
 
 	public Count SaleCount(String username);
+
+	public List<MonthSum> SaleSum(String username);
 
 
 

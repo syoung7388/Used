@@ -12,6 +12,7 @@ import com.used.example.domain.Auc_Pro;
 import com.used.example.domain.Auction;
 import com.used.example.domain.Count;
 import com.used.example.domain.Product;
+import com.used.example.domain.MonthSum;
 
 
 @Mapper
@@ -55,6 +56,8 @@ public interface AuctionMapper {
 	public List<Auction> KindList(Map<String, Object> map);
 
 	public Count SaleCount(String username);
+
+	public List<MonthSum> SaleSum(String username);
 
 
 

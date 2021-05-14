@@ -40,6 +40,10 @@ npm install form-data --save
 ### vue-infinite-loading
 ```
 npm install vue-infinite-loading --save
+
+
+npm install vue-chartjs chart.js --save
+
 ```
 
 

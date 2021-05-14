@@ -1,11 +1,10 @@
 <template>
     <v-app>
-        <v-container class="py-2 px-0">
+        <v-container class="pa-0">
             <v-list class="px-0 py-2">
                 <v-subheader style="font-size: 16px;" >{{userInfo.username}}님의 판매내역</v-subheader>
                 <v-list-item-group 
                     color="primary"
-
                 >
                     <v-list-item @click="getSaleList({sale:0})"> 
                         <v-list-item-icon style="text-align: center">
@@ -42,34 +41,40 @@
                 </v-list-item-group>
             </v-list>
             <v-card color="secondary" height="25" id="sale" flat tile></v-card>
+                <v-card flat>
+                    <TotalChart :height="300"></TotalChart>
+                   
+                </v-card>
         </v-container> 
         <router-view/>      
     </v-app>
 </template>
 <script>
-import Vue from 'vue'
+
+import TotalChart from '@/components/TotalChart.vue'
 import{mapActions, mapState} from 'vuex'
+
 export default {
     data(){
-        return{   
-          
-             
-           
+        return{
+
+       
         }
     },
 
-    beforeCreate(){
-        this.$store.dispatch('getSaleCount')
-    },
     computed: {
         ...mapState({
             userInfo: 'userInfo',
-            count : 'count'
-            })
+            count: 'count'
+        }),
+
     },
     methods: {
         ...mapActions(['getSaleList'])
     },
+    components:{
+        TotalChart     
+    }
 
 
 }
@@ -78,5 +83,6 @@ export default {
 .sale{
     width: 100%;
 }
+
 
 </style>

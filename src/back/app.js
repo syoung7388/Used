@@ -33,6 +33,9 @@ io.on('connection', function(socket){
       msg: '채팅을 연결 했습니다.'
     })
   })
+
+
+  console.log(room)
  
 
 
