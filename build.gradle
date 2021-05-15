@@ -47,6 +47,8 @@ dependencies {
 	implementation group: 'commons-fileupload.wso2', name: 'commons-fileupload', version: '1.2.0.wso2v1'
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	compile('com.google.code.gson:gson:2.8.2')
+
 	
 
 }

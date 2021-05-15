@@ -25,6 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -76,30 +77,11 @@ public class UserController{
 			token= token.substring(6, token.length());
 			logger.info(token);
 		}
-		
-	
-		
 		String username= JwtUtils.getUserEmailFromToken(token);
-
-		
-		UserInfo user= userService.readUser_token(username);
-		
-		
-		List<UserInfo> list = new ArrayList<>();
-		list = (List<UserInfo>) userService.readAuthorities_token(username);
-		
-		List <Object> role = new ArrayList<>();
-		for(int i=0 ; i<list.size(); i++) {
-			role.add(list.get(i).getAuthorities());	
-		}
-		logger.info("role"+role);
-		user.setRoles(role);
-		
-		
-		
-		
+		UserDetails userdetails = userService.loadUserByUsername(username);		
+		logger.info("userdetails"+userdetails);
 	
-		return new ResponseEntity<>( user, HttpStatus.OK);
+		return new ResponseEntity<>(userdetails , HttpStatus.OK);
 		
 	}
 	

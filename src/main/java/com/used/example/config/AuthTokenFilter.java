@@ -53,7 +53,6 @@ public class AuthTokenFilter extends  OncePerRequestFilter{
 			return token;
 		}
 
-//		logger.info("왜 널이야??");
 		return null;
 	}
 	
@@ -74,7 +73,7 @@ public class AuthTokenFilter extends  OncePerRequestFilter{
 				
 				UserDetails userDetails= userService.loadUserByUsername(username);
 				
-				logger.info("userDetail:"+userDetails);
+				logger.info("UserDetails:"+userDetails);
 			
 				
 				

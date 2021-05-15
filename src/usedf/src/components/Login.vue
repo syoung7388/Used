@@ -37,6 +37,32 @@
                 >확인</v-btn>
             </v-col>
          </v-row>
+         <v-snackbar
+         v-model="role_choose"
+         :multi-line="multiline"
+         class="pb-5"
+         >
+            <p>로그인할 계정을 선택 해 주세요.</p>
+
+            <template v-slot:action="{ attrs }">
+               <v-btn
+                  color="red"
+                  text
+                  v-bind="attrs"
+                  @click="Choose(`ROLE_USER`)"
+               >
+                  User
+               </v-btn>
+               <v-btn
+                  color="red"
+                  text
+                  v-bind="attrs"
+                  @click="Choose(`ROLE_ADMIN`)"
+               >
+                  ADMIN
+               </v-btn>
+            </template>
+         </v-snackbar>
 
       </v-container>
    </v-app>
@@ -48,13 +74,22 @@ export default {
       return{
          username: null,
          password: null,
+         multiline: true
       }
    },
    methods: {
-      ...mapActions(['Login'])
+      ...mapActions(['Login','nowLatLon']),
+      Choose(payload){
+         this.$store.state.role = payload
+         console.log(this.$store.state.role)
+         this.$store.state.role_choose = false
+         this.nowLatLon()
+      }
+
+
    },
    computed: {
-      ...mapState(['isLoginError'])
+      ...mapState(['isLoginError', 'role_choose', 'Roles', 'role'])
    },
 
 }

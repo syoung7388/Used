@@ -46,8 +46,7 @@ public class JwtUtils {
 	public String generateJwtToken(Authentication authentication) {
 
 		User user = (User)authentication.getPrincipal();
-		
-//		logger.info("1(username):"+user.getUsername());
+
 		
 		JwtBuilder builder = Jwts.builder()
 				.setHeader(CreateHeader())
@@ -57,7 +56,7 @@ public class JwtUtils {
 				.signWith(SignatureAlgorithm.HS256, CreatSecretKey());
 
 		
-		return builder.compact();// builder.compact();
+		return builder.compact();
 		
 		
 		
@@ -87,8 +86,6 @@ public class JwtUtils {
 		claims_map.put("username", user.getUsername());
 		claims_map.put("role", user.getAuthorities());
 		
-		System.out.println("3(claims_map):"+claims_map);
-		
 		return claims_map;
 	}
 
@@ -100,8 +97,6 @@ public class JwtUtils {
 		header.put("alg", "HS256");
 		header.put("regDate", System.currentTimeMillis());
 		
-		System.out.println("2(헤더):"+header);
-		
 		return header;
 	}
 	 
@@ -109,13 +104,7 @@ public class JwtUtils {
 	public boolean validateJwtToken(String authToken) {
 		try {
 			
-			logger.info("................................................. 토근 유효검사");
-			logger.info("authToken"+authToken);
 			Claims claims = getClaimsFromToken(authToken);
-		
-			
-			logger.info("2:"+claims.get("username"));
-			logger.info("3:"+claims.get("role"));
 			return true;
 		} catch (SignatureException e) {
 			logger.error("Invalid JWT signature: {}", e.getMessage());

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace= "com.used.example.mapper.AccountMapper">
+
+	<insert id="SaveAccount" parameterType="AccountList">
+			insert into account(account_nm,thstrm_nm , thstrm_amount, frmtrm_nm, frmtrm_amount)
+			values
+			<foreach collection="list" item="item" separator=",">
+				(#{item.account_nm},#{item.thstrm_nm},#{item.thstrm_amount},#{item.frmtrm_nm},#{item.frmtrm_amount})
+			</foreach>
+	
+	</insert>
+</mapper>

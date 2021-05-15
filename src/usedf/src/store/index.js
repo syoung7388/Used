@@ -11,7 +11,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    Role: [],
+    
     
 
     Pshow: false,
@@ -37,6 +37,10 @@ export default new Vuex.Store({
   
 
     userInfo: {},
+    Roles: [],
+    role: null,
+    role_choose: false,
+
     saleList: [],
     pictureList:[],
     count:[],
@@ -203,12 +207,6 @@ export default new Vuex.Store({
     },
     Login_s(state, payload){
 
-      if(payload.roles.length === 2){
-        console.log(payload.length)
-      }else{
-        console.log("zz")
-      }
-     
 
       state.userInfo= {
         name: payload.name,
@@ -217,11 +215,20 @@ export default new Vuex.Store({
         phone: payload.phone,
         address: payload.address,
         u_num: payload.u_num
+      },
 
+      
+      state.Roles = payload.authorities
+      if(state.Roles.length === 1){
+          state.role = state.Roles[0].authority
       }
       state.isLoginError= false
 
     },
+    ChooseRole(state){
+      state.role_choose = true
+    },
+
 
     Login_f(state){
       state.isLoginError=true
@@ -652,9 +659,20 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/user/unpackToken', config)
       .then( Ires =>{
-        (Ires.data !== null)? commit('Login_s', Ires.data): commit('Login_f')
+        
+        if(Ires.data !== null ){
+          commit('Login_s', Ires.data)
+          if(Ires.data.authorities.length === 1){
+            dispatch('nowLatLon')
+          }else{
+            commit('ChooseRole')
 
-        dispatch('nowLatLon')
+          }
+        
+        }else{
+          commit('Login_f')
+        }
+
       
       })
 

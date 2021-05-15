@@ -20,16 +20,23 @@
             <span  style="opacity:0.5 font-weight:500; font-size: 15px"> 글쓰기</span>
             <i class="far fa-edit mb-2" style="font-size: x-large;"></i>
             </v-btn>
-
-            <v-btn @click="Sale">
-            <span style="opacity:0.5 font-weight:500; font-size: 15px">판매 리스트</span>
-            <i class="fas fa-file-invoice-dollar mb-2" style="font-size: x-large;" ></i>
-            </v-btn>
-
-            <v-btn @click="Bid">
-                <span style="opacity:0.5 font-weight:500; font-size: 15px">내경매</span>
-                <i class="fas fa-hand-holding-usd mb-2" style="font-size: x-large;"></i>
-            </v-btn>
+                <v-btn v-if="role === 'ROLE_ADMIN'">
+                    <span style="opacity:0.5 font-weight:500; font-size: 15px">매출액</span>
+                    <i class="fas fa-chart-line mb-2" style="font-size: x-large;" ></i>
+                </v-btn>
+                <v-btn @click="Sale" v-else>
+                <span style="opacity:0.5 font-weight:500; font-size: 15px">판매 리스트</span>
+                <i class="fas fa-file-invoice-dollar mb-2" style="font-size: x-large;" ></i>
+                </v-btn>
+                <v-btn  v-if="role === 'ROLE_ADMIN'">
+                    <span style="opacity:0.5 font-weight:500; font-size: 15px">회계자료</span>
+                   <i class="fas fa-file-invoice mb-2" style="font-size: x-large;"></i>
+                </v-btn>
+                <v-btn @click="Bid" v-else>
+                    <span style="opacity:0.5 font-weight:500; font-size: 15px">내경매</span>
+                    <i class="fas fa-hand-holding-usd mb-2" style="font-size: x-large;"></i>
+                </v-btn>
+      
         </v-bottom-navigation>
 
     </v-app>
@@ -47,12 +54,12 @@ import { mapActions, mapState } from 'vuex'
         this.$store.dispatch('nowLatLon')
     },
     computed: {
-        ...mapState(['removeBar', 'Role'])
+        ...mapState(['removeBar', 'Roles' , 'role'])
     },
     methods:{
         Sale(){
             
-            if(this.Role.length !== 0){
+            if(this.Roles.length !== 0){
                 this.$store.dispatch('getSaleStatistic')
             }else{
                 this.$store.state.removeBar = true
@@ -61,7 +68,7 @@ import { mapActions, mapState } from 'vuex'
 
         },
         Bid(){
-            if(this.Role.length !== 0){
+            if(this.Roles.length !== 0){
                this.$store.dispatch('getBidStatistic')
             }else{
                 this.$store.state.removeBar = true
@@ -70,6 +77,7 @@ import { mapActions, mapState } from 'vuex'
 
         }
 
-    }
+    },
+
 }
 </script>

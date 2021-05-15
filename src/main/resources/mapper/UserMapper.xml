@@ -63,7 +63,9 @@
 	
 	<select id="readUser" parameterType= "String" resultType= "com.used.example.domain.User">
 	
-		select  u_username				as		username,
+		select  
+				u_num 					as 		u_num,
+				u_username				as		username,
 				u_password				as		password,
 				u_phone					as		phone,
 				u_name					as		name,

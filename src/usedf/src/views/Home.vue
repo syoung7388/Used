@@ -86,7 +86,7 @@ export default{
 
         GetMyPage(){
             this.$store.state.removeBar = true
-            if(this.Role.length === 0){
+            if(this.Roles.length === 0){
                 this.$router.push({name: 'Auth'})
             }else{
                 this.$router.push({name: 'MyPage'})
@@ -94,7 +94,7 @@ export default{
         },
         GetLikeList(){
             this.$store.state.removeBar = true
-            if(this.Role.length === 0){
+            if(this.Roles.length === 0){
                 this.$router.push({name: 'Auth'})
             }else{
                this.$store.dispatch('getLikeList')
@@ -104,7 +104,7 @@ export default{
         },
         GetChatList(){
             this.$store.state.removeBar = true
-            if(this.Role.length === 0){
+            if(this.Roles.length === 0){
                 this.$router.push({name: 'Auth'})
             }else{
                this.$store.dispatch('getChatList')
@@ -116,7 +116,7 @@ export default{
 
     },
     computed:{
-        ...mapState(['removeBar', 'Role'])
+        ...mapState(['removeBar', 'Roles'])
     },
 
     components: {
@@ -124,6 +124,10 @@ export default{
         IndustrySort,
         KindSort
     },
+
+    mounted(){
+        console.log(this.$store.state.Role)
+    }
 
 
 }
