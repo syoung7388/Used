@@ -26,6 +26,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -37,6 +38,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.used.example.domain.Account;
 import com.used.example.domain.AccountList;
+import com.used.example.domain.AccountInfo;
 import com.used.example.service.AccountService;
 
 
@@ -51,7 +53,7 @@ public class AccountController {
 	
 	private static final String Host ="https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json";
 	
-//	@Scheduled(cron="*/30 * * * * *")
+	//@Scheduled(cron="*/50 * * * * *")
 	public  ResponseEntity<?> getFinancialData() throws IOException {
 		
 		
@@ -63,26 +65,38 @@ public class AccountController {
 				.queryParam("crtfc_key", "e389c515c006192713568d140ad80d7ccba2086a")
 				.queryParam("corp_code", "00126380")
 				.queryParam("bsns_year", "2020")
-				.queryParam("reprt_code", "11012")
+				.queryParam("reprt_code", "11011")
 				.queryParam("fs_div", "OFS")
 				.build(false);
 		
 		ResponseEntity<AccountList> account = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, new HttpEntity<String>(headers), new ParameterizedTypeReference<AccountList>() {});
 		AccountList accountlist = account.getBody();
 
-//		System.out.println("list"+list);
+		//System.out.println("accountlist"+accountlist);
 		
 		
 		
 		
-		accountService.SaveAccount(accountlist);
+		
+		
+		//accountService.SaveAccount(accountlist);
 		
 		
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 		
-
 		
+	}
+	
+	
+	@GetMapping
+	public ResponseEntity<?> getAccountInfo(){
+		
+		
+		AccountInfo accountinfo = accountService.getAccountInfo();
+		
+		
+		return new ResponseEntity<>(accountinfo, HttpStatus.OK);
 		
 		
 	}

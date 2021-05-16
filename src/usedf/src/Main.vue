@@ -28,8 +28,8 @@
                 <span style="opacity:0.5 font-weight:500; font-size: 15px">판매 리스트</span>
                 <i class="fas fa-file-invoice-dollar mb-2" style="font-size: x-large;" ></i>
                 </v-btn>
-                <v-btn  v-if="role === 'ROLE_ADMIN'">
-                    <span style="opacity:0.5 font-weight:500; font-size: 15px">회계자료</span>
+                <v-btn  v-if="role === 'ROLE_ADMIN'" @click="getAccountInfo()" >
+                    <span style="opacity:0.5 font-weight:500; font-size: 15px">재무비율</span>
                    <i class="fas fa-file-invoice mb-2" style="font-size: x-large;"></i>
                 </v-btn>
                 <v-btn @click="Bid" v-else>
@@ -46,7 +46,6 @@ import { mapActions, mapState } from 'vuex'
   export default {
     data() {
         return{
-            
             value: 1,
         }
     },
@@ -75,7 +74,8 @@ import { mapActions, mapState } from 'vuex'
                 this.$router.push({name:'Auth'})
             }
 
-        }
+        },
+        ...mapActions(['getAccountInfo'])
 
     },
 

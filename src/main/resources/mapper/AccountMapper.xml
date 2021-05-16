@@ -3,11 +3,30 @@
 <mapper namespace= "com.used.example.mapper.AccountMapper">
 
 	<insert id="SaveAccount" parameterType="AccountList">
-			insert into account(account_nm,thstrm_nm , thstrm_amount, frmtrm_nm, frmtrm_amount)
+			insert into account(account_nm,thstrm_nm , thstrm_amount)
 			values
 			<foreach collection="list" item="item" separator=",">
-				(#{item.account_nm},#{item.thstrm_nm},#{item.thstrm_amount},#{item.frmtrm_nm},#{item.frmtrm_amount})
+				(#{item.account_nm},#{item.thstrm_nm},#{item.thstrm_amount})
 			</foreach>
-	
 	</insert>
+	<select id="getAccountInfo" resultType="AccountInfo">
+	SELECT	TRUNCATE(currentassets/currentdebt*100, 0)current_rate,
+			TRUNCATE(debt/capital*100, 0)debt_rate,
+			TRUNCATE(sales/capital,1)capital_turnover,
+			TRUNCATE(sales/storedassets,1)store_turnover,
+			TRUNCATE(sales/salecredit, 1)credit_turnover,
+			TRUNCATE(currentincome/sales * 100, 0)sale_income_rate
+	FROM 	(SELECT 
+				sum(case when account_nm = '유동자산' then thstrm_amount END) AS currentassets,
+				sum(case when account_nm = '유동부채' then thstrm_amount END) AS currentdebt,
+				sum(case when account_nm = '자본총계' then thstrm_amount END) AS capital,
+				sum(case when account_nm = '부채총계' then thstrm_amount END) AS debt,
+				sum(case when account_nm = '수익(매출액)' then thstrm_amount END) AS sales ,
+				sum(case when account_nm = '재고자산' then thstrm_amount END) AS storedassets,
+				sum(case when account_nm = '매출채권' then thstrm_amount END) AS salecredit,
+				sum(case when account_nm = '당기순이익' then thstrm_amount END) AS currentincome,
+				sum(case when account_nm = '영업이익' then thstrm_amount END) AS businessprofits
+			FROM account
+			)ta
+	</select>
 </mapper>

@@ -8,8 +8,7 @@ public class Account {
 	private String  account_nm; // 계정명
 	private String thstrm_nm; //당기명
 	private long thstrm_amount;
-	private String frmtrm_nm; // 전기명
-	private long frmtrm_amount;
+
 	public String getSj_div() {
 		return sj_div;
 	}
@@ -40,23 +39,10 @@ public class Account {
 	public void setThstrm_amount(long thstrm_amount) {
 		this.thstrm_amount = thstrm_amount;
 	}
-	public String getFrmtrm_nm() {
-		return frmtrm_nm;
-	}
-	public void setFrmtrm_nm(String frmtrm_nm) {
-		this.frmtrm_nm = frmtrm_nm;
-	}
-	public long getFrmtrm_amount() {
-		return frmtrm_amount;
-	}
-	public void setFrmtrm_amount(long frmtrm_amount) {
-		this.frmtrm_amount = frmtrm_amount;
-	}
 	@Override
 	public String toString() {
 		return "Account [sj_div=" + sj_div + ", sj_nm=" + sj_nm + ", account_nm=" + account_nm + ", thstrm_nm="
-				+ thstrm_nm + ", thstrm_amount=" + thstrm_amount + ", frmtrm_nm=" + frmtrm_nm + ", frmtrm_amount="
-				+ frmtrm_amount + "]";
+				+ thstrm_nm + ", thstrm_amount=" + thstrm_amount + "]";
 	}
 	
 	

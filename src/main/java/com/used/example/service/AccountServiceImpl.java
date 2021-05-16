@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.used.example.domain.AccountInfo;
 import com.used.example.domain.AccountList;
 import com.used.example.mapper.AccountMapper;
 
@@ -24,6 +25,11 @@ public class AccountServiceImpl implements AccountService {
 		
 		
 		
+	}
+
+	@Override
+	public AccountInfo getAccountInfo() {
+		return accountMapper.getAccountInfo();
 	}
 
 }

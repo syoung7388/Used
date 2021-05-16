@@ -133,7 +133,8 @@ export default new Vuex.Store({
     bidcount:[],
     bidkind: [],
     bidrate: [],
-    bidrank: null
+    bidrank: null,
+    accountInfo: []
 
 
   
@@ -578,6 +579,15 @@ export default new Vuex.Store({
 
     },
     AucEnd_f(){
+
+    },
+    AccountInfo_s(state, payload){
+      state.accountInfo = payload
+      console.log(payload)
+      router.push({name:'Account'})
+    },
+    AccountInfo_f(){
+
 
     }
   },
@@ -1350,7 +1360,23 @@ export default new Vuex.Store({
 
       })
       
+    },
+    getAccountInfo({commit}){
+      
+      let token = localStorage.getItem("access_token")
+      let config = {
+        headers:{
+          "access_token": token
+        }
+      }
+      axios
+      .get('http://localhost:9200/api/account', config)
+      .then(Res =>{
+        (Res.data !== null)? commit('AccountInfo_s', Res.data):commit('AccountInfo_s', AccountInfo_s)
+      })
     }
   
-  }
+  },
+
+  
 })
