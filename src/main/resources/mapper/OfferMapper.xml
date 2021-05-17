@@ -20,6 +20,8 @@
 		<result property="o_username" column="o_username"/>
 		<result property="price" column="o_price"/>
 		<result property="time" column="o_time"/>
+		<result property="endtime" column="o_endtime"/>
+		
 	</resultMap>
 	<resultMap type="Like" id="ListLike">
 		
@@ -76,6 +78,8 @@
 		<result property="o_username" column="o_username"/>
 		<result property="price" column="o_price"/>
 		<result property="time" column="o_time"/>
+		<result property="endtime" column="o_endtime"/>
+		
 	</resultMap>
 		<resultMap type="Like" id="DetailLike">
 			<result property="a_num" column="a_num"/>
@@ -174,9 +178,6 @@
 	
 	
 	<select id="BidList" parameterType="Bid_request" resultMap="ListMap" >
-	
-	
-
 			SELECT	*, 
 					(SELECT MAX(h.o_price)
 					 FROM offer h
@@ -200,28 +201,11 @@
 	
 	</delete>
 	
-	<update id="SelectOffer" parameterType="String">
-		UPDATE 
-		offer a
-		INNER JOIN (
-						SELECT MAX(b.o_price)price,
-								 b.a_num
-						FROM	offer b
-						LEFT JOIN auction c ON	b.a_num = c.a_num
-						WHERE c.a_enddate = #{today}
-						GROUP BY b.a_num 
-					)ta ON	a.a_num= ta.a_num  AND	a.o_price = ta.price	
-		LEFT JOIN auction c on  ta.a_num  = c.a_num
-		SET	a.o_select = 1,
-			c.a_sale = 1
-			
-	
-	
-	
-	
-	
-	
-	
-	
+	<update id="SelectOffer" parameterType="Offer">
+						
+		UPDATE 	offer
+		SET 	o_select = 1,
+				o_endtime = (SELECT DATE_ADD(NOW(),INTERVAL 1 DAY))
+		WHERE o_num = #{o_num} and o_skip = 0 and o_pay = 0
 	</update>
 </mapper>

@@ -190,7 +190,7 @@ public class AuctionController {
 	
 	
 	@Secured({"ROLE_USER"})
-	@GetMapping("/sale/{sale}")
+	@GetMapping("/{sale}")
 	public ResponseEntity<?> SaleList(HttpServletRequest request, @PathVariable("sale") int sale){
 		
 		String token= request.getHeader("access_token");
@@ -300,10 +300,10 @@ public class AuctionController {
 	public ResponseEntity<?> AucEnd(@RequestBody Auction auction,  HttpServletRequest request){
 		
 		int a_num = auction.getA_num();
-		logger.info("a_num"+ a_num);
+		//logger.info("a_num"+ a_num);
 		auctionService.AucStep(a_num);		
 		token = request.getHeader("access_token");		
-		logger.info("token:"+token);
+		//logger.info("token:"+token);
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
 			token = token.substring(7, token.length());
 		}
@@ -315,6 +315,11 @@ public class AuctionController {
 		return new ResponseEntity<> (bidlist, HttpStatus.OK);
 		
 	}
+	
+
+	
+	
+	
 	
 
 

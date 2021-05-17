@@ -12,12 +12,16 @@ public class Offer {
 	private String o_username;
 	private long price;
 	private String time;
-	
 	private int select;
-	private int pay;
+	private String endtime;
 	private int skip;
 	private int count;
-
+	@Override
+	public String toString() {
+		return "Offer [o_num=" + o_num + ", a_num=" + a_num + ", o_username=" + o_username + ", price=" + price
+				+ ", time=" + time + ", select=" + select + ", endtime=" + endtime + ", skip=" + skip + ", count="
+				+ count + "]";
+	}
 	public int getO_num() {
 		return o_num;
 	}
@@ -48,18 +52,17 @@ public class Offer {
 	public void setTime(String time) {
 		this.time = time;
 	}
-
 	public int getSelect() {
 		return select;
 	}
 	public void setSelect(int select) {
 		this.select = select;
 	}
-	public int getPay() {
-		return pay;
+	public String getEndtime() {
+		return endtime;
 	}
-	public void setPay(int pay) {
-		this.pay = pay;
+	public void setEndtime(String endtime) {
+		this.endtime = endtime;
 	}
 	public int getSkip() {
 		return skip;
@@ -67,25 +70,12 @@ public class Offer {
 	public void setSkip(int skip) {
 		this.skip = skip;
 	}
-	@Override
-	public String toString() {
-		return "Offer [o_num=" + o_num + ", a_num=" + a_num + ", o_username=" + o_username + ", price=" + price
-				+ ", time=" + time + ", select=" + select + ", pay=" + pay + ", skip=" + skip + "]";
-	}
 	public int getCount() {
 		return count;
 	}
 	public void setCount(int count) {
 		this.count = count;
 	}
-
-
-	
-	
-	
-	
-	
-	
 	
 	
 

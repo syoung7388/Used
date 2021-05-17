@@ -71,21 +71,9 @@ public class AccountController {
 		
 		ResponseEntity<AccountList> account = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, new HttpEntity<String>(headers), new ParameterizedTypeReference<AccountList>() {});
 		AccountList accountlist = account.getBody();
-
 		//System.out.println("accountlist"+accountlist);
-		
-		
-		
-		
-		
-		
 		//accountService.SaveAccount(accountlist);
-		
-		
-		
-		return new ResponseEntity<>(HttpStatus.OK);
-		
-		
+		return new ResponseEntity<>(HttpStatus.OK);	
 	}
 	
 	

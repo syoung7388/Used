@@ -20,7 +20,7 @@ public interface OfferMapper {
 
 	public void DeleteOffer(int o_num);
 
-	public void SelectOffer(String today);
+	public void SelectOffer(Offer offer);
 
 	public Count BidCount(String o_username);
 

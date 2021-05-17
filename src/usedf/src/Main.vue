@@ -20,7 +20,7 @@
             <span  style="opacity:0.5 font-weight:500; font-size: 15px"> 글쓰기</span>
             <i class="far fa-edit mb-2" style="font-size: x-large;"></i>
             </v-btn>
-                <v-btn v-if="role === 'ROLE_ADMIN'">
+                <v-btn v-if="role === 'ROLE_ADMIN'" @click="getTurnOverInfo">
                     <span style="opacity:0.5 font-weight:500; font-size: 15px">매출액</span>
                     <i class="fas fa-chart-line mb-2" style="font-size: x-large;" ></i>
                 </v-btn>
@@ -28,7 +28,7 @@
                 <span style="opacity:0.5 font-weight:500; font-size: 15px">판매 리스트</span>
                 <i class="fas fa-file-invoice-dollar mb-2" style="font-size: x-large;" ></i>
                 </v-btn>
-                <v-btn  v-if="role === 'ROLE_ADMIN'" @click="getAccountInfo()" >
+                <v-btn  v-if="role === 'ROLE_ADMIN'" @click="getAccountInfo" >
                     <span style="opacity:0.5 font-weight:500; font-size: 15px">재무비율</span>
                    <i class="fas fa-file-invoice mb-2" style="font-size: x-large;"></i>
                 </v-btn>
@@ -75,7 +75,7 @@ import { mapActions, mapState } from 'vuex'
             }
 
         },
-        ...mapActions(['getAccountInfo'])
+        ...mapActions(['getAccountInfo', 'getTurnOverInfo'])
 
     },
 

@@ -139,6 +139,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "account" */'@/views/Account.vue')
 
   },
+  {
+    path: '/turnover',
+    name: 'TurnOver',
+    component: () => import(/* webpackChunkName: "turnover" */'@/views/TurnOver.vue')
+
+  },
   
 
   {

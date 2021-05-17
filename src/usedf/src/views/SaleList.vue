@@ -34,7 +34,10 @@
                                 </v-col>
                                 <v-col cols="3" align-self="start" class="mt-5">
                                     <v-list-item-title  style="text-align: right; font-size: 15px" v-show="item.sale === 0">D{{item.d_day}}</v-list-item-title>
-                                    <v-list-item-title  style="text-align: right; font-size: 15px" v-show="item.sale === 1">D-day</v-list-item-title>
+                                    <v-list-item-title  style="text-align: right; font-size: 10px" v-show="item.sale === 1" class="mt-3">대기시간</v-list-item-title>
+                                    <v-list-item-title  style="text-align: right; font-size: 15px" v-show="item.sale === 1" class="mt-2 primary--text">
+                                        <CountDown :endtime="item.offer[0].endtime" sort="sale" :o_num="item.offer[0].o_num"></CountDown>
+                                    </v-list-item-title>
                                     <v-list-item-title  style="text-align: right; font-size: 15px" v-show="item.sale === 2">D+{{item.d_day}}</v-list-item-title>                           
                                 </v-col>    
                             </v-row>
@@ -52,6 +55,7 @@
     </v-app>
 </template>
 <script>
+import CountDown from '@/components/CountDown.vue'
 import {mapActions, mapState} from 'vuex'
 export default {
     computed: {
@@ -67,9 +71,12 @@ export default {
         ...mapActions(['getSaleDetail']),
         SaleBack(){
             this.$store.state.removeBar = false
-            this.$router.go(-1)
+            this.$store.dispatch('getSaleStatistic')
         }
     },
+    components:{
+        CountDown
+    }
 
     
 }

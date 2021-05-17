@@ -134,7 +134,11 @@ export default new Vuex.Store({
     bidkind: [],
     bidrate: [],
     bidrank: null,
-    accountInfo: []
+    accountInfo: [],
+
+
+    t_amount:[],
+    t_month:[],
 
 
   
@@ -308,6 +312,7 @@ export default new Vuex.Store({
 
       
       state.offerInfo= payload.offer
+      console.log(state.offerInfo)
       state.addrInfo = payload.address
       state.removeBar= true
       state.beforeImage= payload.product[0].picture
@@ -589,6 +594,12 @@ export default new Vuex.Store({
     AccountInfo_f(){
 
 
+    },
+    TurnOverInfo_s(state, payload){
+      state.t_month = payload.month
+      state.t_amount = payload.amount
+      router.push({name: 'TurnOver'})
+
     }
   },
 
@@ -828,7 +839,7 @@ export default new Vuex.Store({
 
 
       axios
-      .get(`http://localhost:9200/api/auction/sale/${payload.sale}`, config)
+      .get(`http://localhost:9200/api/auction/${payload.sale}`, config)
       .then(Res => {
         //console.log(Res.data)
         (Res.data !== null)? commit('SaleList_s', Res.data): commit('SaleList_f') 
@@ -845,14 +856,27 @@ export default new Vuex.Store({
           "access_token": token
         }
       }
-      alert(payload.a_num)
   
       axios
-      .get(`http://localhost:9200/api/auction/${payload.a_num}`, config)
+      .get(`http://localhost:9200/api/all/${payload.a_num}`, config)
       .then(Res =>{
         (Res.data !== null)? commit('SaleDetail_s', Res.data) :commit('SaleDetail_f') 
       })
-    
+    },
+    SelectOffer({commit, dispatch}, payload){
+      let token= localStorage.getItem("access_token")
+      let config= {
+        headers:{
+          "access_token": token
+        }
+      }
+      console.log(payload)
+      axios
+      .put('http://localhost:9200/api/offer', payload, config)
+      .then(Res =>{
+        (Res.data === "success")? dispatch('getSaleList', {sale: 1}):commit('SelectOffer_f')
+      })
+
     },
 
 
@@ -944,7 +968,7 @@ export default new Vuex.Store({
       axios
       .delete(`http://localhost:9200/api/auction/${a_num}`, config)
       .then(Res =>{
-        (Res.data === "success")? dispatch('getSaleList'): commit('SaleDelete_f')
+        (Res.data === "success")? dispatch('getSaleList',{sale:0}): commit('SaleDelete_f')
         state.removeBar = false
         router.push({name: 'SaleList'})
       })
@@ -1039,7 +1063,7 @@ export default new Vuex.Store({
         }
       }
       axios
-      .get(`http://localhost:9200/api/all/detail/${payload.a_num}`, config)
+      .get(`http://localhost:9200/api/all/${payload.a_num}`, config)
       .then(Dres =>{
 
 
@@ -1374,7 +1398,35 @@ export default new Vuex.Store({
       .then(Res =>{
         (Res.data !== null)? commit('AccountInfo_s', Res.data):commit('AccountInfo_s', AccountInfo_s)
       })
+    },
+    getTurnOverInfo({commit}){
+      let token = localStorage.getItem("access_token")
+      let config = {
+        headers:{
+          "access_token": token
+        }
+      }
+      axios
+      .get('http://localhost:9200/api/turnover', config)
+      .then(Res => {
+        (Res.data !== null)? commit('TurnOverInfo_s', Res.data): commit('TurnOverInfo_f')
+      })
+    },
+    CheckPay({commit}, payload){
+      let token = localStorage.getItem("access_token")
+      let config = {
+        headers:{
+          "access_token": token
+        }
+      }
+      console.log(payload)
+      .put('http://localhost:9200/api/offer/check', payload, config)
+      .then(Res => {
+        (Res.data !== null)? commit('CheckPay_s', Res.data): commit('CheckPay_f')
+      })
+
     }
+
   
   },
 

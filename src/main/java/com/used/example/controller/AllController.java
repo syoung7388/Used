@@ -252,7 +252,7 @@ public class AllController {
 		return new ResponseEntity<>(kindmap, HttpStatus.OK);
 	
 	}
-	@GetMapping("/detail/{a_num}")
+	@GetMapping("/{a_num}")
 	public ResponseEntity<?> AucDetail(@PathVariable("a_num") int a_num){
 		
 		auctionService.Hits(a_num);

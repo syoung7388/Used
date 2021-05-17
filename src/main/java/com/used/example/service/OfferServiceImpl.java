@@ -38,8 +38,8 @@ public class OfferServiceImpl implements OfferService{
 	}
 
 	@Override
-	public void SelectOffer(String today) {
-		offerMapper.SelectOffer(today);
+	public void SelectOffer(Offer offer) {
+		offerMapper.SelectOffer(offer);
 		
 	}
 

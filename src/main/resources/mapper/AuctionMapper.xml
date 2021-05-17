@@ -47,6 +47,7 @@
 		<result property="o_username" column="o_username"/>
 		<result property="price" column="o_price"/>
 		<result property="time" column="o_time"/>
+		<result property="endtime" column="o_endtime"/>
 	
 	</resultMap>
 	
@@ -151,6 +152,7 @@
 		<result property="o_username" column="o_username"/>
 		<result property="price" column="o_price"/>
 		<result property="time" column="o_time"/>
+		<result property="endtime" column="o_endtime"/>
 	
 	</resultMap>
 	

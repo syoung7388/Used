@@ -51,7 +51,7 @@
             </v-carousel>
 
             <v-row class="ma-0">
-                <v-col cols="12" class="ma-0"  v-if="aucInfo.sale=== '0'" >   
+                <v-col cols="12" class="ma-0"  v-if="aucInfo.sale=== 0" >   
                     <v-list-item-title style="font-size: 15px; text-align:right" class="primary--text">경매중</v-list-item-title>
                     <v-list-item-subtitle v-html="aucInfo.enddate" style="font-size: 12px; text-align:right"></v-list-item-subtitle>
                 </v-col>
@@ -69,39 +69,40 @@
         
                 >
                     <v-tabs-slider></v-tabs-slider>
-                    <v-tab class="ml-0" style="font-size: 15px;" v-if="aucInfo === 0">경매순위</v-tab>
+                    <v-tab class="ml-0" style="font-size: 15px;" v-if="aucInfo.sale=== 0">경매순위</v-tab>
                     <v-tab class="ml-0" style="font-size: 15px;" v-else>진행현황</v-tab>
                     <v-tab class="ml-0" style="font-size: 15px;">게시물</v-tab>
                     <v-tab class="ml-0" style="font-size: 15px;">제품정보</v-tab>
 
-                    <v-tab-item  v-if="aucInfo === 0">
-                        <v-card class="pa-10" flat v-if="offerInfo.length === 0">
-                            <v-row>
-                                <v-col>
-                                    <h1 style="font-size: 15px; text-align: center" class="grey--text">현재 요청 대기중입니다.</h1>
-                                </v-col>
+                    <v-tab-item  v-if="aucInfo.sale === 0">
+                        <v-card flat class="pa-5"> 
+                            <div  v-for="(item, int) in offerInfo" :key="int">
+                                <v-row v-if="item.o_username !== null">
+                                    <v-col cols="2" >
+                                        <h1 style="font-size: 15px;" >{{int+1}}등</h1>
+                                    </v-col>
+                                    <v-col cols="5" >
+                                        <h1 style="font-size: 15px;" >{{item.price}}원</h1>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <p style="font-size: 15px;">{{item.o_username}}</p>
+                                    </v-col>
+                                    <v-col cols="3">
+                                         <v-btn text color="primary" class="pb-3" @click="SelectOffer({
+                                            a_num: item.a_num,
+                                            o_num: item.o_num
+                                         })">낙찰</v-btn>
+                                    </v-col>
+                                </v-row>
+                                <v-row v-else>
+                                    <v-col>
+                                        <h1 style="font-size: 15px; text-align: center" class="grey--text">현재 요청 대기중입니다.</h1>
+                                    </v-col>
                             </v-row>
-                        </v-card>
-                        <v-card flat class="pa-5" v-else> 
-                            <v-row v-for="(item, int) in offerInfo" :key="int">
-                                <v-col cols="2" >
-                                    <h1 style="font-size: 15px;" >{{int+1}}등</h1>
-                                </v-col>
-                                <v-col cols="5" >
-                                    <h1 style="font-size: 15px;" >{{item.price}}원</h1>
-                                </v-col>
-                                <v-col cols="2">
-                                    <p style="font-size: 15px;">{{item.o_username}}님</p>
-                                </v-col>
-                                <v-col cols="3">
-                                    <p style="font-size: 10px;">{{item.time}}</p>
-                                </v-col>
-                            </v-row>
+                            </div>
                         </v-card>
                     </v-tab-item>
                     <v-tab-item v-else>
-                        
-
                     </v-tab-item>
                         
                     <v-tab-item>
@@ -179,7 +180,7 @@ export default {
             this.$store.state.removeBar= true
             this.$router.go(-1)
         },
-        ...mapActions(['SaleDelete'])
+        ...mapActions(['SaleDelete', 'SelectOffer'])
     },
     components: {
         Edit

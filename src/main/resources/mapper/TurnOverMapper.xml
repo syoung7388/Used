@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace= "com.used.example.mapper.TurnOverMapper">
+
+	<select id="getTurnOverInfo" parameterType="String" resultType="TurnOver">
+		SELECT	t_num as t_num,
+					t_year as year,
+					t_month as month,
+					t_amount as amount
+		FROM 		turnover
+		WHERE 	t_year =#{year}
+		ORDER	BY t_month asc
+		 
+	</select>
+</mapper>
