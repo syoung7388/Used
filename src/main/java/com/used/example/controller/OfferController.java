@@ -206,6 +206,16 @@ public class OfferController {
 		return  new ResponseEntity<>("success", HttpStatus.OK);
 		
 	}
+	@Secured({"ROLE_USER"})
+	@PutMapping("/check")
+	public ResponseEntity<?> CheckPay(@RequestBody Offer offer){
+//		offerService.SelectOffer(offer);
+//		auctionService.AucStep(offer.getA_num());
+		
+		offerService.CheckPay(offer);
+		return  new ResponseEntity<>("success", HttpStatus.OK);
+		
+	}
 	
 	
 	

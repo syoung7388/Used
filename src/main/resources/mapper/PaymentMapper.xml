@@ -148,14 +148,7 @@
 		LEFT JOIN card c ON a.pa_num = c.pa_num 
 		WHERE a.a_num = #{a_num}
 	</select>
-	
-	<update id="PayStep" parameterType="Payment">
-		UPDATE offer
-		SET o_pay = 1
-		WHERE a_num = #{a_num} 
-		AND o_username = #{pa_username}
-	</update>
-	
+
 
 
 </mapper>

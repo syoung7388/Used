@@ -59,6 +59,11 @@ public class OfferServiceImpl implements OfferService{
 		return offerMapper.KindCount(o_username);
 	}
 
+	@Override
+	public void CheckPay(Offer offer) {
+		offerMapper.CheckPay(offer);
+	}
+
 
 
 }

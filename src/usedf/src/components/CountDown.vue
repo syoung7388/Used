@@ -21,7 +21,7 @@ export default {
             var hour = Math.floor((this.remain % (1000 * 60 * 60 * 24)) / (1000*60*60))
             var miniutes = Math.floor((this.remain % (1000 * 60 * 60)) / (1000*60))
             this.remaintime = hour+":"+miniutes
-            // console.log(this.remaintime)
+           // console.log(this.remain)
             
         }
 
@@ -29,11 +29,14 @@ export default {
 
     created(){
         //2021-05-17 12:13:00
-        this.end = new Date("2021-05-17 12:14:00").getTime()
+        this.end = new Date(this.endtime).getTime()
+       // console.log(this.endtime)
         var nowtime = new Date().getTime()
         this.remain = this.end - nowtime
-        console.log(this.o_num)
-        this.timer()
+        if(this.remain> 0){
+            this.timer()
+        }
+
 
         var interval = setInterval(()=>{
             var nowtime = new Date().getTime()
@@ -41,16 +44,18 @@ export default {
             if(this.remain > 0){
                 this.timer()
             }else{
+                clearInterval(interval)
                 if(this.sort === 'sale'){
-                    this.$store.dispatch('CheckPay',{o_num: this.o_num})
                 }else{
-                    console.log('pay_end')
+                    console.log("CheckPay")
+                    this.$store.dispatch('CheckPay',{o_num: this.o_num})
+
                 }
 
-                clearInterval(interval)
+                
             }
 
-        }, 1000*60)
+        }, 1000)
     }
     
 }

@@ -28,11 +28,7 @@ export default {
         
     },
     beforeCreate(){
-        this.$store.state.removeBar= true
-        this.$store.state.Ashow= 3
-        
-
-
+        this.$store.state.Mshow= false
 
     },
     methods: {
@@ -62,6 +58,7 @@ export default {
 
         }
     },
+    
     computed: {
         ...mapState({payInfo:'payInfo'})
     }

@@ -50,7 +50,9 @@ import { mapActions, mapState } from 'vuex'
         }
     },
     beforeCreate(){
+      
         this.$store.dispatch('nowLatLon')
+    
     },
     computed: {
         ...mapState(['removeBar', 'Roles' , 'role'])
@@ -78,6 +80,7 @@ import { mapActions, mapState } from 'vuex'
         ...mapActions(['getAccountInfo', 'getTurnOverInfo'])
 
     },
+ 
 
 }
 </script>

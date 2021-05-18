@@ -28,6 +28,8 @@ public interface OfferMapper {
 
 	public List<KindRate> KindCount(String o_username);
 
+	public void CheckPay(Offer offer);
+
 	
 
 }
