@@ -3,7 +3,8 @@
     <div>
       <Main></Main>
     </div>
- 
+    
+ <ErrorHanding></ErrorHanding>
   </v-app>
 </template>
 
@@ -11,6 +12,7 @@
 
 import Login from "@/components/Login.vue"
 import Phone from "@/components/Phone.vue"
+import ErrorHanding from '@/components/ErrorHanding.vue'
 import Main from "@/Main.vue"
 import {mapActions, mapState} from 'vuex'
 
@@ -25,7 +27,8 @@ export default {
   components: {
     Login,
     Phone,
-    Main
+    Main,
+    ErrorHanding
   },
 
   methods: {

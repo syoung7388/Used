@@ -26,12 +26,6 @@ export default new Vuex.Store({
     phone: null,
     username: null,
     password: null,
-
-
-    isLoginError: false,
-    phoneError:false,
-    certiError: false,
-    WritingError: false,
   
 
     userInfo: {},
@@ -139,6 +133,12 @@ export default new Vuex.Store({
     t_month:[],
 
 
+    err: false,
+    inserterr: false,
+    homeerr : false,
+    nullerr: false
+
+
   
   },
   mutations: {
@@ -176,18 +176,12 @@ export default new Vuex.Store({
       state.phone= payload.phone;
       console.log(state.certi)
     },
-    
-    phoneFaile(){
-      state.phoneError= true
-    },
+
     
     Certification_s(state){
       state.Sshow= true
     },
-    Certification_f(state){
-      state.certiError= true
 
-    },
     Signup_s(state){
       state.auth_show = 1
     },
@@ -231,11 +225,6 @@ export default new Vuex.Store({
     ChooseRole(state){
       state.role_choose = true
     },
-
-
-    Login_f(state){
-      state.isLoginError=true
-    },
     logout(state){
       state.removeBar = true
       router.push({name: 'Home'}) 
@@ -243,7 +232,7 @@ export default new Vuex.Store({
       state.Role= []
       localStorage.removeItem('access_token')
     },
-    EditSuccess(state, payload){
+    Edit_s(state, payload){
       state.userInfo= {
         name: payload.name,
         username: payload.username,
@@ -256,15 +245,13 @@ export default new Vuex.Store({
       router.push({name: 'MyPage'})
 
     },
-    DeleteSuccess(state){
+    Delete_s(state){
 
       state.Ashow = 0
       router.push({name: 'App'})
 
     },
-    Writing_f(state){
-      state.WritingError= true
-    },
+
     Writing_s(){
 
 
@@ -280,10 +267,7 @@ export default new Vuex.Store({
 
 
     },
-    SaleStatistic_f(state){
 
-
-    },
     SaleList_s(state, payload){
     
     
@@ -293,10 +277,7 @@ export default new Vuex.Store({
       router.push({name: 'SaleList'})
       
     },
-    SaleList_f(state){
 
-
-    },
     SaleDetail_s(state, payload){
       //console.log(payload)
       state.list_show= !state.list_show
@@ -317,9 +298,7 @@ export default new Vuex.Store({
       router.push({name: 'SaleDetail'})
       
     },
-    SaleDetail_f(state){
 
-    },
     SaleEdit_s(state, payload){
       //console.log(payload)      
       state.edit_show = false
@@ -337,9 +316,7 @@ export default new Vuex.Store({
 
     },
 
-    SaleEdit_f(state){
 
-    },
     TopList_s(state, payload){
       console.log(payload)
       state.topList = payload.toplist
@@ -348,9 +325,7 @@ export default new Vuex.Store({
       router.push({name: 'Home'})
 
     },
-    TopList_f(state){
 
-    },
     IndustryList_s(state, payload){
       console.log(payload)
       state.industryList = payload.industrylist
@@ -404,9 +379,7 @@ export default new Vuex.Store({
       state.removeBar = false
       router.push({name: 'Home'})
     },
-    KIDelete_f(){
 
-    },
     Offer_s(state, payload){
       console.log(payload)
       state.overlay = false
@@ -427,10 +400,8 @@ export default new Vuex.Store({
         (state.userInfo.username === state.likeInfo[i].l_username)? state.heart = true : state.heart = false
       }
     },
-    Offer_bid_f(state){
-    },
-    Offer_cancle_f(state){
-    },
+
+ 
     KindList_s(state, payload){
       console.log(payload)
       state.kindpagination = payload.pagination
@@ -438,9 +409,7 @@ export default new Vuex.Store({
       state.removeBar = false
       router.push({name: 'KindList'})
     },
-    KindList_f(state){
-
-    },
+ 
     BidStatistic_s(state, payload){
       state.bidcount = payload.count
       state.bidkind = payload.kind
@@ -448,17 +417,13 @@ export default new Vuex.Store({
       state.bidrank = payload.rank
       router.push({name: 'Bid'})
     },
-    BidStatistic_f(){
-
-    },
+ 
     BidList_s(state, payload){
       state.removeBar = true
       state.bidList= payload
       router.push({name: 'BidList'})
     },
-    BidList_f(state){
 
-    },
     BidDetail_s(state, payload){
      
       // console.log(payload)
@@ -485,15 +450,11 @@ export default new Vuex.Store({
       router.push({name: 'BidDetail'})
 
     },
-    BidDetail_f(state){
 
-    },
     RemoveHeart_s(state){
       state.heart = false
     },
-    RemoveHeart_f(state){
-
-    },
+ 
     Like_s(state, payload){
 
       console.log(payload)
@@ -513,17 +474,14 @@ export default new Vuex.Store({
 
 
     },
-    Like_f(state){
-    },
+
     LikeList_s(state, payload){
       state.removeBar = true
       state.likeList = payload
       router.push({name: 'LikeList'})
 
     },
-    LikeList_f(state){
-
-    },
+  
     PayDetail_s(state, payload){
 
       console.log(payload)
@@ -550,26 +508,19 @@ export default new Vuex.Store({
 
     },
 
-    KakaoApprove_f(state){
-
-    },
     Room_s(state, payload){
       console.log(payload)
 
       router.push({name: 'Chat', params: {num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
 
     },
-    Room_f(state){
 
-    },
     ChatList_s(state, payload){
       state.chatList =payload
       router.push({name: 'ChatList'})
 
     },
-    ChatList_f(state){
 
-    },
     ChatDetail_s(state,payload){
       state.message = payload.message
       state.removeBar = true
@@ -581,24 +532,51 @@ export default new Vuex.Store({
       state.bidList= payload
 
     },
-    AucEnd_f(){
-
-    },
+ 
     AccountInfo_s(state, payload){
       state.accountInfo = payload
       console.log(payload)
       router.push({name:'Account'})
     },
-    AccountInfo_f(){
 
-
-    },
     TurnOverInfo_s(state, payload){
       state.t_month = payload.month
       state.t_amount = payload.amount
       router.push({name: 'TurnOver'})
 
-    }
+    },
+    Err(state){
+      state.overlay = true
+      state.err = true
+      setTimeout(()=>{
+        state.overlay = false
+        state.err = false
+      }, 3000)
+
+    },
+    InsertErr(state){
+      state.overlay = true
+      state.inserterr = true
+      setTimeout(()=>{
+        state.overlay = false
+        state.inserterr =false
+      }, 3000)
+    },
+    HomeErr(state){
+      state.overlay = true
+      state.homeerr = true
+      setTimeout(()=>{
+        state.overlay = false
+        state.homeerr = false
+        state.removeBar = false
+        router.push({name:'Home'})
+      }, 3000)
+    },
+    NullErr(state){
+      state.nullerr === true
+    },
+  
+
   },
 
 
@@ -628,15 +606,14 @@ export default new Vuex.Store({
       axios
       .post('http://localhost:9200/api/all/sms', payload)
       .then(Res => {
-        (Res.data !== null)? commit('Sms_s', Res.data): ('Sms_f')
+        (Res.data !== null)? commit('Sms_s', Res.data): ('InsertErr')
+      })
+      .catch(()=>{
+        commit('Err')
       })
     },
     Certification({state, commit}, payload){  
-      // console.log(state.certi)
-      // console.log(payload)
-
-
-      (payload.certinum === state.certi)? commit('Certification_s') : commit('Certification_f')
+      (payload.certinum === state.certi)? commit('Certification_s') : commit('InsertErr')
     },
     Signup({commit}, payload){ 
 
@@ -645,7 +622,10 @@ export default new Vuex.Store({
       .post('http://localhost:9200/api/all/signup', payload)
       .then( Res => {
 
-        (Res.data !== "success")? commit('Duplication', Res.data) : commit('Signup_s') 
+        (Res.data !== "success")? commit('Duplication', Res.data) : commit('InsertErr') 
+      })
+      .catch(()=>{
+        commit('Err')
       })
     },
     Login({dispatch, commit }, payload){ 
@@ -661,9 +641,11 @@ export default new Vuex.Store({
           dispatch('getUserInfo')
 
         }else{
-          commit('Login_f')
+          commit('InsertErr')
         }
-  
+      })
+      .catch(()=>{
+        commit('InsertErr')
       })
 
     },
@@ -685,14 +667,13 @@ export default new Vuex.Store({
             dispatch('nowLatLon')
           }else{
             commit('ChooseRole')
-
           }
-        
         }else{
-          commit('Login_f')
+          commit('InsertErr')
         }
-
-      
+      })
+      .catch(()=>{
+        commit('InsertErr')
       })
 
     },
@@ -701,7 +682,6 @@ export default new Vuex.Store({
     },
     EditOK({state, commit}){ 
       let userInfo= state.userInfo
-      //console.log(userInfo)
       let token= localStorage.getItem("access_token")
       let config= {
         headers: {
@@ -710,14 +690,11 @@ export default new Vuex.Store({
       }
       axios
       .post('http://localhost:9200/api/user/edit', userInfo, config)
-      .then(Eres =>{
-        console.log("수정완료")
-        console.log(Eres.data)
-        commit('EditSuccess', Eres.data)
-        
+      .then(Res =>{
+        (Res.data === "success")? commit('Edit_s', Res.data):  commit("InsertErr")
       })
-      .catch(() => {
-        console.log("실패")
+      .catch(()=>{
+        commit('InsertErr')
       })
 
     },
@@ -730,21 +707,14 @@ export default new Vuex.Store({
           access_token: token
         }
       }
-      
-      
       axios
       .delete(`http://localhost:9200/api/user/delete/${username}`, config)
-      .then(Dres =>{
-        if(Dres.data === "success"){
-          alert("삭제 성공")
-          commit('DeleteSuccess')
-
-        }
+      .then(Res =>{
+        (Res.data === "success")? commit('Delete_s'): commit('Err')
       })
-      .catch(() => {
-        console.log("실패")
+      .catch(()=>{
+        commit('Err')
       })
-      
     },
 
         ////////수정시작
@@ -801,8 +771,11 @@ export default new Vuex.Store({
       axios
       .post('http://localhost:9200/api/auction' , formData, config)
       .then(Res => {
-        (Res.data === "success" )? commit('Writing_s'): commit('Writing_f') 
+        (Res.data === "success" )? commit('Writing_s'): commit('InsertErr') 
 
+      })
+      .catch(()=>{
+        commit('InsertErr')
       })
     
    
@@ -819,8 +792,12 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/auction/statistic', config)
       .then(Res => {
-        (Res.data !== null)? commit('SaleStatistic_s', Res.data): commit('SaleStatistic_f') 
+        (Res.data !== null)? commit('SaleStatistic_s', Res.data): commit('NullErr') 
       })
+      .catch(()=>{
+        commit('Err')
+      })
+    
 
     },
 
@@ -840,7 +817,10 @@ export default new Vuex.Store({
       .get(`http://localhost:9200/api/auction/${payload.sale}`, config)
       .then(Res => {
         //console.log(Res.data)
-        (Res.data !== null)? commit('SaleList_s', Res.data): commit('SaleList_f') 
+        (Res.data !== null)? commit('SaleList_s', Res.data): commit('NullErr') 
+      })
+      .catch(()=>{
+        commit('Err')
       })
     },
 
@@ -858,7 +838,10 @@ export default new Vuex.Store({
       axios
       .get(`http://localhost:9200/api/all/${payload.a_num}`, config)
       .then(Res =>{
-        (Res.data !== null)? commit('SaleDetail_s', Res.data) :commit('SaleDetail_f') 
+        (Res.data !== null)? commit('SaleDetail_s', Res.data) :commit('Err') 
+      })
+      .catch(()=>{
+        commit('Err')
       })
     },
     SelectOffer({commit, dispatch}, payload){
@@ -872,7 +855,10 @@ export default new Vuex.Store({
       axios
       .put('http://localhost:9200/api/offer', payload, config)
       .then(Res =>{
-        (Res.data === "success")? dispatch('getSaleList', {sale: 1}):commit('SelectOffer_f')
+        (Res.data === "success")? dispatch('getSaleList', {sale: 1}):commit('Err')
+      })
+      .catch(()=>{
+        commit('Err')
       })
 
     },
@@ -950,8 +936,11 @@ export default new Vuex.Store({
       .put('http://localhost:9200/api/auction', formData, config)
       .then(Res =>{
         //console.log(Res.data)
-        (Res.data !== null)? commit('SaleEdit_s', Res.data): commit('SaleEdit_f') 
+        (Res.data !== null)? commit('SaleEdit_s', Res.data): commit('InsertErr') 
 
+      })
+      .catch(()=>{
+        commit('InsertErr')
       })
     },
 
@@ -966,9 +955,12 @@ export default new Vuex.Store({
       axios
       .delete(`http://localhost:9200/api/auction/${a_num}`, config)
       .then(Res =>{
-        (Res.data === "success")? dispatch('getSaleList',{sale:0}): commit('SaleDelete_f')
+        (Res.data === "success")? dispatch('getSaleList',{sale:0}): commit('Err')
         state.removeBar = false
         router.push({name: 'SaleList'})
+      })
+      .catch(()=>{
+        commit('Err')
       })
 
     },
@@ -998,8 +990,11 @@ export default new Vuex.Store({
       .get(`http://localhost:9200/api/all/top?page=${page}&lat=${lat}&lon=${lon}`)
       .then(Res => {
         //console.log(Tres.data)
-        (Res.data !== null)? commit('TopList_s', Res.data): commit('TopList_f')
+        (Res.data !== null)? commit('TopList_s', Res.data): commit('NullErr')
 
+      })
+      .catch(()=>{
+        commit('Err')
       })
 
     },
@@ -1023,8 +1018,11 @@ export default new Vuex.Store({
       axios
       .get(`http://localhost:9200/api/all/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${page}`, config)
       .then(Res =>{
-        (Res.data !== "null") ? commit('IndustryList_s', Res.data): commit('IndustryList_f')
+        (Res.data !== "null") ? commit('IndustryList_s', Res.data): commit('NullErr')
   
+      })
+      .catch(()=>{
+        commit('Err')
       })
 
     },
@@ -1046,8 +1044,11 @@ export default new Vuex.Store({
        axios
        .get(`http://localhost:9200/api/all/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${page}`, config) 
        .then(Res=>{
-         (Res.data !== null) ? commit('KindList_s', Res.data): commit('KindList_f')
+         (Res.data !== null) ? commit('KindList_s', Res.data): commit('NullErr')
        })
+       .catch(()=>{
+        commit('Err')
+      })
        
      },
  
@@ -1065,8 +1066,11 @@ export default new Vuex.Store({
       .then(Dres =>{
 
 
-        (Dres.data !== null)? commit('Detail_s', Dres.data): commit('Detail_f')
+        (Dres.data !== null)? commit('Detail_s', Dres.data): commit('Err')
          router.push({name:'Detail'})
+      })
+      .catch(()=>{
+        commit('Err')
       })
     },
 
@@ -1082,9 +1086,12 @@ export default new Vuex.Store({
       axios
       .delete(`http://localhost:9200/api/auction/${payload.a_num}`, config)
       .then(Res=>{
-        (Res.data === "success")? dispatch('nowLatLon'):commit('RemainDelete_f')
+        (Res.data === "success")? dispatch('nowLatLon'):commit('Err')
       
 
+      })
+      .catch(()=>{
+        commit('Err')
       })
     },
 
@@ -1100,7 +1107,10 @@ export default new Vuex.Store({
       .post('http://localhost:9200/api/offer',payload, config)
       .then(Res => { 
         //console.log(Res.data)
-        (Res.data !== null) ? commit('Detail_s', Res.data): commit('Detail_f')   
+        (Res.data !== null) ? commit('Detail_s', Res.data): commit('HomeErr')   
+      })
+      .catch(()=>{
+        commit('HomeErr')
       })
     },
     PriceOffer_bid({commit}, payload){
@@ -1115,7 +1125,10 @@ export default new Vuex.Store({
       .post('http://localhost:9200/api/offer',payload, config)
       .then(Res => { 
         //console.log(Res.data)
-        (Res.data !== null) ? commit('Offer_s', Res.data): commit('Offer_bid_f')   
+        (Res.data !== null) ? commit('Offer_s', Res.data): commit('HomeErr')   
+      })
+      .catch(()=>{
+        commit('HomeErr')
       })
   
 
@@ -1132,7 +1145,10 @@ export default new Vuex.Store({
       axios
       .delete(`http://localhost:9200/api/offer/${payload.o_num}/${payload.a_num}`, config)
       .then(Res =>{
-        (Res.data !== null)? commit('Offer_s', Res.data):commit('Offer_cancle_f')
+        (Res.data !== null)? commit('Offer_s', Res.data):commit('HomeErr')
+      })
+      .catch(()=>{
+        commit('HomeErr')
       })
     },
 
@@ -1146,7 +1162,10 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/offer/count', config)
       .then(Res =>{
-        (Res.data !== null) ? commit('BidStatistic_s', Res.data): commit('BidStatistic_f')
+        (Res.data !== null) ? commit('BidStatistic_s', Res.data): commit('NullErr')
+      })
+      .catch(()=>{
+        commit('Err')
       })
     },
     getBidList({commit}, payload){
@@ -1160,7 +1179,10 @@ export default new Vuex.Store({
       axios
       .get(`http://localhost:9200/api/offer?sale=${payload.sale}`, config)
       .then(Res =>{
-        (Res.data !== null) ? commit('BidList_s', Res.data): commit('BidList_f')
+        (Res.data !== null) ? commit('BidList_s', Res.data): commit('NullErr')
+      })
+      .catch(()=>{
+        commit('Err')
       })
 
     },
@@ -1179,8 +1201,11 @@ export default new Vuex.Store({
       .get(`http://localhost:9200/api/offer/${payload.a_num}`, config)
       .then(Res =>{
         
-        (Res.data !== null)? commit('BidDetail_s', Res.data): commit('BidDetail_f')
+        (Res.data !== null)? commit('BidDetail_s', Res.data): commit('Err')
 
+      })
+      .catch(()=>{
+        commit('Err')
       })
     },
 
@@ -1197,8 +1222,11 @@ export default new Vuex.Store({
       axios
       .post('http://localhost:9200/api/like', payload, config)
       .then(Res =>{
-        (Res.data !== null)? commit('Like_s', Res.data): commit('Like_f')
+        (Res.data !== null)? commit('Like_s', Res.data): commit('Err')
         
+      })
+      .catch(()=>{
+        commit('Err')
       })
 
     },
@@ -1212,7 +1240,10 @@ export default new Vuex.Store({
       axios
       .delete(`http://localhost:9200/api/like/${payload.a_num}`, config)
       .then(Res =>{
-        (Res.data !== null)? commit('Like_s', Res.data) : commit('Like_f')
+        (Res.data !== null)? commit('Like_s', Res.data) : commit('Err')
+      })
+      .catch(()=>{
+        commit('Err')
       })
     },
     getLikeList({commit}){
@@ -1227,7 +1258,10 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/like/', config)
       .then(Res => {
-        (Res.data !== null)? commit('LikeList_s',Res.data ) : commit('LikeList_f' )
+        (Res.data !== null)? commit('LikeList_s',Res.data ) : commit('Err' )
+      })
+      .catch(()=>{
+        commit('Err')
       })
     },
     getPayDetail({commit}, payload){
@@ -1242,48 +1276,47 @@ export default new Vuex.Store({
       axios
       .get(`http://localhost:9200/api/payment/${payload.a_num}`, config)
       .then(Res => {
-        (Res.data !== null)? commit('PayDetail_s' , Res.data):commit('PayDetail_f' , Res.data) 
+        (Res.data !== null)? commit('PayDetail_s' , Res.data):commit('PayDetail_f' , Err) 
+      })
+      .catch(()=>{
+        commit('Err')
       })
     },
-    KakaoReady({commit,state, dispatch}, payload){
-      let token= localStorage.getItem("access_token")
-      let config= {
-        headers: {
-          access_token: token
-        }
-      }
-      axios
-      .post('http://localhost:9200/api/payment/kready', payload, config)
-      .then(Res =>{
+    // KakaoReady({commit,state, dispatch}, payload){
+    //   let token= localStorage.getItem("access_token")
+    //   let config= {
+    //     headers: {
+    //       access_token: token
+    //     }
+    //   }
+    //   axios
+    //   .post('http://localhost:9200/api/payment/kready', payload, config)
+    //   .then(Res =>{
         
-        (Res.data !== null)? commit('KakaoReady_s', Res.data) : commit('KakaoReady_f')
-        //console.log(Res.data)
-        var url = Res.data.kready_r.next_redirect_pc_url
-        //console.log(url)
-        var a = window.open(url)
-
-        
-        
-      })
+    //     (Res.data !== null)? commit('KakaoReady_s', Res.data) : commit('KakaoReady_f')
+    //     //console.log(Res.data)
+    //     var url = Res.data.kready_r.next_redirect_pc_url
+    //     //console.log(url)
+    //     var a = window.open(url)
+    //   })   
+    // },
+    // KakaoApprove({commit, state}, payload){
+    //   console.log(payload)
+    //   localStorage.setItem("back", "pay")
+    //   let token= localStorage.getItem("access_token")
+    //   let config= {
+    //     headers: {
+    //       access_token: token
+    //     }
+    //   }
      
-    },
-    KakaoApprove({commit, state}, payload){
-      console.log(payload)
-      localStorage.setItem("back", "pay")
-      let token= localStorage.getItem("access_token")
-      let config= {
-        headers: {
-          access_token: token
-        }
-      }
-     
-      axios
-      .post(`http://localhost:9200/api/payment/kapproval`, payload, config)
-      .then(Res=>{
-        (Res.data !== null)? commit('PayDetail_s', Res.data): commit('KakaoApprove_f')
+    //   axios
+    //   .post(`http://localhost:9200/api/payment/kapproval`, payload, config)
+    //   .then(Res=>{
+    //     (Res.data !== null)? commit('PayDetail_s', Res.data): commit('KakaoApprove_f')
 
-      })
-    },
+    //   })
+    // },
     Room({commit, state}, payload){
 
       //state.roomInfo = payload
@@ -1303,8 +1336,10 @@ export default new Vuex.Store({
           seller: payload.seller,
           buyer: payload.buyer,
           ch_num: Res.data
-        }): commit('Room_f')
+        }): commit('Err')
  
+      }).catch(()=>{
+        commit('Err')
       })
 
     },
@@ -1319,8 +1354,10 @@ export default new Vuex.Store({
       .get('http://localhost:9200/api/chat', config)
       .then(Res =>{
 
-        (Res.data !== null)? commit('ChatList_s', Res.data): commit('ChatList_f')
+        (Res.data !== null)? commit('ChatList_s', Res.data): commit('Err')
         
+      }).catch(()=>{
+        commit('Err')
       })
 
     }, 
@@ -1334,8 +1371,10 @@ export default new Vuex.Store({
       axios
       .get(`http://localhost:9200/api/chat/${payload.ch_num}`, config)
       .then(Res =>{
-        (Res.data !== null)? commit('ChatDetail_s', Res.data): commit('ChatDetail_f')
+        (Res.data !== null)? commit('ChatDetail_s', Res.data): commit('NullErr')
         
+      }).catch(()=>{
+        commit('HomeErr')
       })
     }, 
     Message({state}, payload){
@@ -1358,8 +1397,8 @@ export default new Vuex.Store({
         }else{
           localStorage.setItem('err', false)
         }
-
-
+      }).catch(()=>{
+        commit('Err')
       })
     
       
@@ -1378,8 +1417,9 @@ export default new Vuex.Store({
       axios
       .put('http://localhost:9200/api/auction/step', payload ,config )
       .then(Res =>{
-        (Res.data !== null)? commit('AucEnd_s', Res.data): ('AucEnd_f')
-
+        (Res.data !== null)? commit('AucEnd_s', Res.data): ('HomeErr')
+      }).catch(()=>{
+        commit('Err')
       })
       
     },
@@ -1394,7 +1434,9 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/account', config)
       .then(Res =>{
-        (Res.data !== null)? commit('AccountInfo_s', Res.data):commit('AccountInfo_s', AccountInfo_s)
+        (Res.data !== null)? commit('AccountInfo_s', Res.data):commit('Err')
+      }).catch(()=>{
+        commit('Err')
       })
     },
     getTurnOverInfo({commit}){
@@ -1407,7 +1449,9 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/turnover', config)
       .then(Res => {
-        (Res.data !== null)? commit('TurnOverInfo_s', Res.data): commit('TurnOverInfo_f')
+        (Res.data !== null)? commit('TurnOverInfo_s', Res.data): commit('Err')
+      }).catch(()=>{
+        commit('Err')
       })
     },
     CheckPay({dispatch, commit}, payload){
@@ -1421,7 +1465,9 @@ export default new Vuex.Store({
       axios
       .put('http://localhost:9200/api/offer/check', payload, config)
       .then(Res => {
-        (Res.data === "success")? dispatch('getBidList', {sale: 1}): commit('CheckPay_f')
+        (Res.data === "success")? dispatch('getBidList', {sale: 1}): commit('HomeErr')
+      }).catch(()=>{
+        commit('HomeErr')
       })
 
     }

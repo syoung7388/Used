@@ -31,6 +31,7 @@
     <v-container v-show="Ashow=== true">
         <Address @Address= "Aresult"></Address>
     </v-container>
+    
 </v-app>
 </template>
 <script>

@@ -62,6 +62,7 @@
             </div>
         </v-col>
     </v-row>
+    <ErrorHanding></ErrorHanding>
 </v-app>
 </template>
 <script>

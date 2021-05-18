@@ -23,6 +23,7 @@
             >확인</v-btn>
         </v-col>
     </v-row>
+    
 </v-app>
 </template>
 <script>

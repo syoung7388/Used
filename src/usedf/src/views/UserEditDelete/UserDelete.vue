@@ -18,6 +18,7 @@
     <v-btn @click="deleteOK" class="ml-6 mt-3" color="primary" text>확인</v-btn>
     </v-row>
   </v-container>
+  
 </template>
 <script>
 import {mapState, mapActions} from 'vuex'

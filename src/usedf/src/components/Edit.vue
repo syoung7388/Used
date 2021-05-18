@@ -275,6 +275,7 @@
         <v-container v-show="address_show === true"> 
             <Address @Addr="ResultAddress"></Address>
         </v-container>
+     
     </v-app>
     
 </template>
@@ -282,6 +283,7 @@
 import { mapActions, mapState } from 'vuex';
 // import EditAddress from './EditComponents/EditAddress.vue';
 import Address from '@/components/Address.vue'
+
 
 export default{
   components: { Address },
@@ -337,7 +339,7 @@ export default{
         isEmpty (payload){
             for(var key in payload){
                 if(!payload[key]){
-                    this.$store.state.Edit_error = true
+                    this.$store.commit('InsertErr')
                 }else{
                     this.count++
                     console.log(this.count)    
@@ -345,7 +347,6 @@ export default{
             }
             if(this.count === 13){
                 this.$store.dispatch('DetailEdit', payload)
-                this.$store.state.Edit_error = false
 
             }else{
                 this.count =0
