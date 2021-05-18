@@ -1,8 +1,9 @@
 <template>
   <v-app>
-        <div>
-          <Main></Main>
-        </div>
+    <div>
+      <Main></Main>
+    </div>
+ 
   </v-app>
 </template>
 
@@ -15,6 +16,11 @@ import {mapActions, mapState} from 'vuex'
 
 
 export default {
+  data(){
+    return{
+    
+    }
+  },
 
   components: {
     Login,
@@ -27,7 +33,8 @@ export default {
   },
   computed: {
     ...mapState(['Ashow'])
-  }
+  },
+
   
 }
 </script>

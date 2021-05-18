@@ -17,8 +17,9 @@
                         max-width="170"
                         height="100" 
                         aspect-ratio="2"
-                        > 
-                        <p style="text-align: right" class="white--text mr-3">D{{item.d_day}}</p>
+                        >
+                        <p style="text-align: right" class="white--text mr-3" v-if="item.d_day === 0">D-day</p>
+                        <p style="text-align: right" class="white--text mr-3" v-else>D{{item.d_day}}</p>
                         </v-img>
                         <v-card-text style="font-weight: bold ; text-align: left"  class="pa-1 black--text" >{{item.product[0].kind}}</v-card-text>
                         <v-card-text  class="pa-1" >

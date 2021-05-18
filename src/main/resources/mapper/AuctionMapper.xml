@@ -212,6 +212,7 @@
 		LEFT JOIN product f ON e.p_num = f.p_num 
 		LEFT JOIN picture g ON f.p_num = g.p_num
 		WHERE a.a_num = #{a_num} 
+		order by b.o_price DESC
 	</select>
 	
 	

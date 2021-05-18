@@ -305,7 +305,7 @@ public class AuctionController {
 		token = request.getHeader("access_token");		
 		//logger.info("token:"+token);
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
-			token = token.substring(7, token.length());
+			token = token.substring(6, token.length());
 		}
 		String o_username = JwtUtils.getUserEmailFromToken(token);		
 		Bid_request bid_r= new Bid_request();

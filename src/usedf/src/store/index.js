@@ -11,9 +11,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    
-    
-
+    Mshow: true,
     Pshow: false,
     Sshow:false,
     auth_show: 0,
@@ -343,7 +341,7 @@ export default new Vuex.Store({
 
     },
     TopList_s(state, payload){
-      //console.log(payload)
+      console.log(payload)
       state.topList = payload.toplist
       state.toppagination = payload.pagination      
       state.removeBar = false
@@ -366,7 +364,7 @@ export default new Vuex.Store({
     },
     Detail_s(state, payload){
      
-      //console.log(payload)
+      console.log(payload)
       state.overlay = false
       state.removeBar = true
       state.aucInfo = payload
@@ -1279,12 +1277,12 @@ export default new Vuex.Store({
         }
       }
      
-      // axios
-      // .post(`http://localhost:9200/api/payment/kapproval`, payload, config)
-      // .then(Res=>{
-      //   (Res.data !== null)? commit('PayDetail_s', Res.data): commit('KakaoApprove_f')
+      axios
+      .post(`http://localhost:9200/api/payment/kapproval`, payload, config)
+      .then(Res=>{
+        (Res.data !== null)? commit('PayDetail_s', Res.data): commit('KakaoApprove_f')
 
-      // })
+      })
     },
     Room({commit, state}, payload){
 
@@ -1412,7 +1410,7 @@ export default new Vuex.Store({
         (Res.data !== null)? commit('TurnOverInfo_s', Res.data): commit('TurnOverInfo_f')
       })
     },
-    CheckPay({commit}, payload){
+    CheckPay({dispatch, commit}, payload){
       let token = localStorage.getItem("access_token")
       let config = {
         headers:{
@@ -1420,9 +1418,10 @@ export default new Vuex.Store({
         }
       }
       console.log(payload)
+      axios
       .put('http://localhost:9200/api/offer/check', payload, config)
       .then(Res => {
-        (Res.data !== null)? commit('CheckPay_s', Res.data): commit('CheckPay_f')
+        (Res.data === "success")? dispatch('getBidList', {sale: 1}): commit('CheckPay_f')
       })
 
     }

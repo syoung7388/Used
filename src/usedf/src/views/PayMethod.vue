@@ -77,31 +77,24 @@ export default {
         window.addEventListener('message', (e)=>{
           console.log("...................................................................")
           console.log(e.data.k_token)
-        //   this.$store.dispatch('KakaoApprove', {
+          this.$store.dispatch('KakaoApprove', {
            
-        //     o_num: this.payreadyInfo.o_num,
-        //     o_username : this.payreadyInfo.o_username,
-        //     price : this.payreadyInfo. price,
-        //     p_num : this.payreadyInfo.p_num,
-        //     kind : this.payreadyInfo.kind,
-        //     a_num : this.payreadyInfo.a_num,
-        //     kready_r: {
-        //       tid: this.payreadyInfo.kready_r.tid,
-        //       k_token: e.data.k_token
-        //     }
-        //   })
+            o_num: this.payreadyInfo.o_num,
+            o_username : this.payreadyInfo.o_username,
+            price : this.payreadyInfo. price,
+            p_num : this.payreadyInfo.p_num,
+            kind : this.payreadyInfo.kind,
+            a_num : this.payreadyInfo.a_num,
+            kready_r: {
+              tid: this.payreadyInfo.kready_r.tid,
+              k_token: e.data.k_token
+            }
+          })
 
 
 
           
-        },true)
-
-
-         window.removeEventListener('message', (e)=>{
-             console.log("...................................................................")
-            console.log(e.data.k_token)
-
-         }, true)
+        }, { once : true})
         
     }
 }

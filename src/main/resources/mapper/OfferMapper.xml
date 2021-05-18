@@ -158,9 +158,8 @@
 						LEFT JOIN amount b ON  a.pa_num = b.pa_num
 						GROUP BY a.pa_username
 						ORDER BY total DESC)ta,
-						(SELECT  @last:=0, @rank:=1)AS tb)tc
-					
-		WHERE tc.pa_username = #{o_username}
+						(SELECT  @last:=0, @rank:=1)AS tb)tc		
+		WHERE tc.pa_username = #{o_username} 
 		
 	</select>
 	
@@ -206,6 +205,25 @@
 		UPDATE 	offer
 		SET 	o_select = 1,
 				o_endtime = (SELECT DATE_ADD(NOW(),INTERVAL 1 DAY))
-		WHERE o_num = #{o_num} and o_skip = 0 and o_pay = 0
+		WHERE o_num = #{o_num} and o_skip = 0 
 	</update>
+	
+	<update id="CheckPay" parameterType="Offer">
+		<if test="count == 0">
+			UPDATE 
+			offer a
+			LEFT JOIN auction b ON a.a_num= b.a_num
+			SET		a.o_skip = 1,
+					b.a_sale = 0
+			WHERE a.o_num = #{o_num}
+		</if>
+		<selectKey keyProperty="count" resultType="int" order="BEFORE">
+			SELECT COUNT(c.pa_num)
+			FROM offer a
+			LEFT JOIN auction b on a.a_num = b.a_num
+			LEFT JOIN payment c ON b.a_num = c.a_num
+			WHERE a.o_num = #{o_num}	
+		</selectKey>
+	</update>
+	
 </mapper>

@@ -232,7 +232,7 @@ public class PaymentController {
                
                
                auctionService.AucStep(a_num);
-               paymentService.PayStep(payment);
+            
                
                Auction  aucdetail= auctionService.AucDetail(a_num);
                Payment paydetail = paymentService.PaymentDetail(a_num);
