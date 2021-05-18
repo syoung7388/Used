@@ -1353,7 +1353,6 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/chat', config)
       .then(Res =>{
-
         (Res.data !== null)? commit('ChatList_s', Res.data): commit('Err')
         
       }).catch(()=>{

@@ -39,7 +39,7 @@ export default {
             var marker = new kakao.maps.Marker()
 
 
-            /// 지도 표시
+         
 
             if(navigator.geolocation){
                 navigator.geolocation.getCurrentPosition(function(position){
@@ -67,7 +67,7 @@ export default {
 
             
 
-        //위도 경도로 위치 표시
+      
 
 
             var geocoder = new kakao.maps.services.Geocoder()
@@ -81,26 +81,29 @@ export default {
                     if (status === kakao.maps.services.Status.OK) {
 
                         var Latlng = mouseEvent.latLng
+                        localStorage.setItem('lat', Latlng.getLat())
+                        localStorage.setItem('lon', Latlng.getLng())
 
-
-                         localStorage.setItem('lat', Latlng.getLat())
-                         localStorage.setItem('lon', Latlng.getLng())
-                        // 마커를 클릭한 위치에 표시합니다 
+                        console.log(Latlng)
                         marker.setPosition(mouseEvent.latLng)
                         marker.setMap(map);
                         map.setCenter(mouseEvent.latLng)
-                     
-                        
                     }else{
                         console.log("KakaoMap 오류")
                     }              
                 });
+                function searchDetailAddrFromCoords(coords, callback) {
+                    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+                }
+
             });
+
+    
         
         },
         ...mapActions(['getTopList'])
  
-    } ///클릭한 위치 지도로 전환
+    }
 
    
 }

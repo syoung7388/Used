@@ -15,8 +15,7 @@
 
 	</insert>
 	<select id="ChatDetail" parameterType="int" resultType="Chat">
-		select	a_num as a_num,
-				ch_num as ch_num,
+		select	ch_num as ch_num,
 				ch_seller as seller,
 				ch_buyer as buyer
 		from chat
@@ -24,10 +23,9 @@
 	</select>
 	
 	<select id="ChatList" parameterType= "String" resultType="Chat">
-			select	a_num as a_num,
-				ch_num as ch_num,
-				ch_seller as seller,
-				ch_buyer as buyer
+			select	ch_num as ch_num,
+					ch_seller as seller,
+					ch_buyer as buyer
 			from chat
 			where ch_buyer =#{username} OR ch_seller = #{username}
 	</select>
