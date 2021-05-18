@@ -12,7 +12,7 @@
                     <v-btn icon @click="GetMap">
                         <i class="fas fa-map-marker-alt" style="font-size: x-large;"></i>            
                     </v-btn>
-                    <span style= "font-size:17px" black--text>대구 신천동</span>
+
 
                     <v-spacer></v-spacer>
 

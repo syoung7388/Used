@@ -70,23 +70,15 @@ export default {
                 
                     fullAddress= ''
                     extraAddress= ''
-
-                   
-            
                 }
 
-
-               
-
                 },
-
-                onresize : function(size) {
-                PostcodContainer.style.height = 700+'px';
-                PostcodContainer.style.width = 400+'px';
+                onresize:(size)=>{
+                    PostcodContainer.style.height = 800+'px'
+                    PostcodContainer.style.width = 400+'px'
                 },
-
-            
-            
+                width: '100%',
+                height: '100%'
             }).embed(PostcodContainer)
         }
 

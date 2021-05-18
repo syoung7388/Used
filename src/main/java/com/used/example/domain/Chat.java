@@ -7,7 +7,7 @@ public class Chat {
 	private int ch_num;
 	private String seller;
 	private String buyer;
-	private int a_num;
+
 
 	private List<Message> message;
 	
@@ -56,20 +56,6 @@ public class Chat {
 
 
 
-	public int getA_num() {
-		return a_num;
-	}
-
-
-
-
-	public void setA_num(int a_num) {
-		this.a_num = a_num;
-	}
-
-
-
-
 	public List<Message> getMessage() {
 		return message;
 	}
@@ -84,12 +70,14 @@ public class Chat {
 
 
 
-		@Override
+	@Override
 	public String toString() {
-		return "Chat [ch_num=" + ch_num + ", seller=" + seller + ", buyer=" + buyer + ", a_num=" + a_num + ", message="
-				+ message + "]";
+		return "Chat [ch_num=" + ch_num + ", seller=" + seller + ", buyer=" + buyer + ", message=" + message + "]";
 	}
-	
+
+
+
+
 
 
 	

@@ -1,8 +1,10 @@
 <template>
     <v-app>
-
-        <div id= "map" style="width:500px;height:400px;"></div>
-        <v-btn @click="getTopList" >확인</v-btn>
+        <v-card color="#FAF5EB">
+            <h1 style="font-size: 13px; text-align: center;" class="pa-2">좌표 클릭 후 아래의 확인 버튼을 눌러주세요!</h1>
+        </v-card>
+        <div id= "map" style="width:100%;height:670px;"></div>
+        <v-btn @click="getTopList" color="#FAF5EB">확인</v-btn>
     </v-app>
 </template>
 <script>
@@ -62,6 +64,7 @@ export default {
                 marker.setMap(map)
                 map.setCenter(locPosition)    
             }
+
             
 
         //위도 경도로 위치 표시
@@ -73,7 +76,7 @@ export default {
 
             
       
-            kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+            kakao.maps.event.addListener(map, 'click', (mouseEvent)=> {
                 searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
                     if (status === kakao.maps.services.Status.OK) {
 
@@ -82,29 +85,17 @@ export default {
 
                          localStorage.setItem('lat', Latlng.getLat())
                          localStorage.setItem('lon', Latlng.getLng())
-                    
-
-
                         // 마커를 클릭한 위치에 표시합니다 
                         marker.setPosition(mouseEvent.latLng)
                         marker.setMap(map);
                         map.setCenter(mouseEvent.latLng)
-                        //console.log(localStorage.getItem('lat'))
+                     
                         
-                    }                
-                    
-                    
+                    }else{
+                        console.log("KakaoMap 오류")
+                    }              
                 });
             });
-    
-            function searchDetailAddrFromCoords(coords, callback) {
-            // 좌표로 법정동 상세 주소 정보를 요청합니다
-                geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
-               
-            }
-
-
-        
         
         },
         ...mapActions(['getTopList'])

@@ -45,10 +45,7 @@ public class ChatController {
 	public ResponseEntity<?> CreateChat(@RequestBody Chat chat){
 		
 		chatService.CreateChat(chat);
-		int ch_num = chat.getCh_num();
-		
-		
-		return new ResponseEntity<>(ch_num, HttpStatus.OK);
+		return new ResponseEntity<>(chat, HttpStatus.OK);
 		
 		
 	}

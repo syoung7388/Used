@@ -253,7 +253,7 @@
             <v-btn  
             class="primary mt-8"
             block
-            @click="DetailEdit({
+            @click="isEmpty({
                 a_num: aucInfo.a_num,
                 p_num: proInfo.p_num,
                 title,
@@ -273,16 +273,18 @@
             >확인</v-btn>
         </v-container>
         <v-container v-show="address_show === true"> 
-            <EditAddress @Addr="ResultAddress"></EditAddress>
+            <Address @Addr="ResultAddress"></Address>
         </v-container>
     </v-app>
     
 </template>
 <script>
 import { mapActions, mapState } from 'vuex';
-import EditAddress from '../EditComponents/EditAddress.vue';
+// import EditAddress from './EditComponents/EditAddress.vue';
+import Address from '@/components/Address.vue'
+
 export default{
-  components: { EditAddress },
+  components: { Address },
     data() {
         
         return {
@@ -309,6 +311,7 @@ export default{
             kinds: ['작업대','커피머신','그릴기','냉동 절육기','제빙기','오븐기','튀김기','기름 정제기','씽크대','소독기','가스렌지','냉장고/쇼케이스','보온통','에어컨','회전국솥','절단기','벽선단','기타'],
             item: [1,2, 3, 4, 5, 6, 7, 8, 9, 10],
             day: null,
+            count: 0
 
 
         }
@@ -330,6 +333,26 @@ export default{
     },
 ///////////////////////////////////////////////////////////연도 선택
     methods: {
+
+        isEmpty (payload){
+            for(var key in payload){
+                if(!payload[key]){
+                    this.$store.state.Edit_error = true
+                }else{
+                    this.count++
+                    console.log(this.count)    
+                }
+            }
+            if(this.count === 13){
+                this.$store.dispatch('DetailEdit', payload)
+                this.$store.state.Edit_error = false
+
+            }else{
+                this.count =0
+            }
+
+        },
+
         ClickImageUpload(){
             this.$refs.imageInput.click();     
         },
@@ -373,8 +396,7 @@ export default{
             this.town = payload.town
             
 
-        },
-        ...mapActions(['DetailEdit'])
+        }
         
        
     },

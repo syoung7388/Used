@@ -205,8 +205,7 @@
              <v-btn  
             class="primary mt-5"
             block
-            @click="Writing({
-                
+            @click="isEmpty ({ 
                 title,
                 content,
                 industry,
@@ -227,14 +226,15 @@
             ></v-virtual-scroll>     
         </v-container>
         <div v-show=" Writingshow=== false" >
-            <WAddress  @Addr ="result_Addr" ></WAddress> 
+            <Address  @Addr ="result_Addr" ></Address> 
         </div>
     </v-app>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import  WAddress from '@/components/WritingComponent/WAddress.vue'
+import Address from '@/components/Address.vue'
+
 export default{
     data() {
         
@@ -270,7 +270,8 @@ export default{
             date: new Date().toISOString().substr(0, 10),
             menu: false,
             modal2: false,
-            time : null
+            time : null,
+            count: 0
         
 
         }
@@ -316,9 +317,24 @@ export default{
         Address(){
             this.Writingshow= false
         },
-    
+        isEmpty (payload){
+            for(var key in payload){
+                if(!payload[key]){
+                    this.$store.state.WritingError = true
+                }else{
+                    this.count++
+                    // console.log(this.count)    
+                }
+            }
+            if(this.count === 10){
+                this.$store.dispatch('Writing', payload)
+                this.$store.state.WritingError = false
 
-        ...mapActions(['Writing']),
+            }else{
+                this.count =0
+            }
+
+        }
 
 
     },
@@ -331,7 +347,7 @@ export default{
       
     },
     components: {
-        WAddress
+        Address
     }
     
     

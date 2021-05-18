@@ -158,7 +158,7 @@
 
 <script>
 import {mapState, mapActions} from 'vuex'
-import Edit from '@/components/EditComponents/Edit.vue'
+import Edit from '@/components/Edit.vue'
 
 export default {
 

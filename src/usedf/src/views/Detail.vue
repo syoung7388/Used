@@ -216,7 +216,7 @@
 </template>
 <script>
 import {mapActions, mapState} from 'vuex'
-import Edit from '@/components/EditComponents/Edit.vue'
+import Edit from '@/components/Edit.vue'
 export default {
     data(){
         return {

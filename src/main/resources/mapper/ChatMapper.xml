@@ -3,11 +3,16 @@
 <mapper namespace="com.used.example.mapper.ChatMapper">
 
 	<insert id="CreateChat" parameterType="Chat">
-		insert into chat(ch_seller, ch_buyer, a_num)
-					values(#{seller}, #{buyer}, #{a_num})
+		insert into chat(ch_seller, ch_buyer)
+				SELECT #{seller}, #{buyer} FROM dual
+		WHERE 
+		NOT EXISTS( SELECT ch_num
+					FROM chat
+					WHERE (ch_seller =  #{seller} AND ch_buyer = #{buyer}) OR  (ch_seller = #{buyer} AND ch_buyer= #{seller}))
 		<selectKey keyProperty="ch_num" resultType="int" order="AFTER">
 			select last_insert_id()
 		</selectKey>
+
 	</insert>
 	<select id="ChatDetail" parameterType="int" resultType="Chat">
 		select	a_num as a_num,
