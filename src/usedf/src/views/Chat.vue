@@ -59,12 +59,14 @@
                 </v-card>
             </v-overlay>
         </v-container>
+         <NullError name="메세지가"></NullError>
     </v-app>
     
 </template>
 <script>
 import dayjs from 'dayjs'
 import { mapState } from 'vuex'
+import NullError from '@/components/NullError.vue'
 export default {
 
     data(){
@@ -150,7 +152,8 @@ export default {
         this.$socket.off('getMsg')
     },
 
-    watch: {
+    components: {
+      NullError
 
 
     }

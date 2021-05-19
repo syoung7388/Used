@@ -131,11 +131,12 @@
                 height="70"       
                 fixed   
                 >
-                    <v-row class="ma-1 ">
-                         <v-col cols="2">
+                    <v-row class="my-1 mr-1" >
+                        <v-col cols="2"   
+                        >
                             <v-btn 
                             icon
-                            class="mt-1 mr-1" 
+                            class="mt-2 mr-1" 
                             @click="Like({a_num: aucInfo.a_num, l_username: userInfo.username})"
                             v-show="heart === false" 
                             >
@@ -143,7 +144,7 @@
                             </v-btn>
                             <v-btn
                             icon 
-                            class="mt-1 mr-1"
+                            class="mt-2 mr-1"
                             v-show="heart === true" 
                             @click="RemoveLike({a_num: aucInfo.a_num})"
                             >
@@ -152,47 +153,26 @@
 
                         </v-col> 
                         <v-col cols="6" class="ma-0" >
-                             <input type="text" v-model="c_price" v-on="comma(c_price)"  style="font-size:17px;  text-align: left ; " class="mt-1 mx-2" placeholder="가격 입력란">
+                            <input type="text" v-model="c_price" v-on="comma(c_price)"  style="font-size:17px;  text-align: left ; " class="mt-2 mx-2" placeholder="가격 입력란">
                         </v-col>
-
+                  
                         <v-col cols="4" >
-                            <v-btn large class="primary mt-1" block>
-                                <span style="font-size:15px;" class="white--text ma-2" @click="Overlay">가격제안</span>
+                            <v-btn large class="primary mt-1 mr-1" block>
+                                <span style="font-size:15px;" class="white--text ma-2" @click="Offer">가격제안</span>
                             </v-btn>
-                            <v-overlay :value="overlay">
-                                <v-card color="white" v-if="over_err === false" >
-                                    <v-card-title class="black--text justify-center" style="font-size: 17px;">입력하신 금액 </v-card-title>
-                                    <v-card-title class="black--text justify-center" style="font-size: 17px; text-align: center"> {{c_price}}원이 맞나요?</v-card-title>
-                                    <v-card-actions>
-                                        <v-btn text color="primary" x-small 
-                                        @click="priceOffer({
-                                        a_num: aucInfo.a_num,
-                                        price: price
 
-                                        })">
-                                            <span class="primary--text ma-1">확인</span>
-                                        </v-btn>
-                                        <v-btn text color="primary" >
-                                            <span class="primary--text ma-1" @click="Overlay">취소</span>
-                                        </v-btn>
-                                    </v-card-actions>
-
-                                    
-                                </v-card>
-                                <v-card v-else color="white">
-                                    <v-card-text class="black--text">입력금액이 시작가 혹은 최고가 보다 낮습니다.</v-card-text>
-                                </v-card>
-                            </v-overlay>
                         </v-col>
                     </v-row>
                 </v-bottom-navigation> 
         </v-container>
+        <OfferOverlay ref="ch_overlay" @Origin="Origin"></OfferOverlay>
 
     </v-app>
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex'
+import OfferOverlay from '@/components/OfferOverlay.vue'
 
 
 export default {
@@ -200,9 +180,7 @@ export default {
     data(){
         return{
             c_price: '',
-            price: 0,
-            over_err: false
-            
+            price: 0
 
         }
     },
@@ -219,26 +197,11 @@ export default {
         ...mapState([ 'overlay', 'userInfo', 'heart','aucInfo','likeInfo','proInfo', 'offerInfo','addrInfo','beforeImage'])
     },
     methods: {
-
-        Overlay(){
-            var aucInfo = this.$store.state.aucInfo
-            this.$store.state.overlay = !this.$store.state.overlay
-
-            if(this.price > aucInfo.topprice && this.price > aucInfo.startprice){
-                this.over_err = false
-            }else{
-                this.over_err = true
-                setTimeout(()=>{
-                    this.$store.state.overlay = false
-                    this.over_err = false
-                    this.c_price = ''
-                    this.price=0
-                }, 2000)
-            }
-
+        Offer(){
+            this.$refs.ch_overlay.Overlay({price: this.price, c_price:this.c_price })
         },
-        priceOffer(payload){
-            this.$store.dispatch('PriceOffer_bid',payload)
+        Origin(){
+            this.c_price = '',
             this.price = 0
         },
         comma(price){
@@ -261,6 +224,10 @@ export default {
             this.$router.go(-1)
         }
     },
+    components:{
+        OfferOverlay
+
+    }
  
 }
 </script>

@@ -155,7 +155,7 @@
           
         </v-container>
         <v-container v-show="edit_show === true">
-            <Edit></Edit>
+            <Edit ref="edit"></Edit>
         </v-container>
     </v-app>
 </template>
@@ -177,6 +177,7 @@ export default {
     },
     methods: {
         Edit(){
+            this.$refs.edit.Origin()
             this.$store.state.edit_show = true
         },
         ListBack(){

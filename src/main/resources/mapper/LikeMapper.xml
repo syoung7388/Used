@@ -33,7 +33,6 @@
 		LEFT JOIN picture g ON e.p_num = g.p_num
 		WHERE a.l_username = #{l_username} AND b.a_sale = 0
 		ORDER BY a.a_num DESC 
-
 	</select>
 	
 		<resultMap type="Picture" id="ListPi">

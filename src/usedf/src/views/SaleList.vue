@@ -4,7 +4,7 @@
             <v-btn style="font-size: large;" icon @click="SaleBack">
                 <i class="fas fa-arrow-left" style="font-size: large;"></i>
             </v-btn>
-            <v-list three-line v-if="saleList.length !== 0">
+            <v-list three-line v-show="saleList.length > 0">
                 <template 
                 v-for="(item, index) in saleList"
                 >  
@@ -48,18 +48,17 @@
                     ></v-divider>
                 </template>
             </v-list>
-            <v-list v-else>
-                <v-list-item-title style="text-align: center; font-size: 17px" class="text--black">현재 진행중인 제품이 없습니다</v-list-item-title>
-            </v-list>
-            </v-container>
+            <NullError name="제품이"></NullError>
+        </v-container>
     </v-app>
 </template>
 <script>
 import CountDown from '@/components/CountDown.vue'
+import NullError from '@/components/NullError.vue'
 import {mapActions, mapState} from 'vuex'
 export default {
     computed: {
-        ...mapState(['saleList'])
+        ...mapState(['saleList', 'nullerr'])
     },
     filters:{
       comma(price){
@@ -75,7 +74,8 @@ export default {
         }
     },
     components:{
-        CountDown
+        CountDown,
+        NullError
     }
 
     

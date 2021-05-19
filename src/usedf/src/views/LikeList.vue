@@ -18,7 +18,7 @@
                     <template v-for="(item, int) in likeList">
                         <v-list-item 
                         :key="item.a_num" 
-                        @click="LikeDetail(item.a_num)">
+                        @click="getLikeDetail({a_num: item.a_num})">
                             <v-row>
                                 <v-col cols="5" class="my-5 mx-0">
                                     <v-card
@@ -64,15 +64,12 @@ export default {
         ...mapState({likeList: 'likeList'})
     },
     methods: {
-        LikeDetail(payload){
-            this.$store.state.backType = "like"
-            this.$store.dispatch('getDetail',{a_num: payload})
 
-        },
         Back(){
             this.$store.state.removeBar = false
             this.$router.push({name: 'Home'})
-        }
+        }, 
+        ...mapActions(['getLikeDetail'])
     }
 }
 </script>

@@ -151,6 +151,29 @@ export default new Vuex.Store({
       router.go(-1)
       state.removeBar = true
     },
+    DetailSave(state, payload){
+      console.log("DetailSave")
+      state.overlay = false
+      state.removeBar = true
+      state.aucInfo = payload
+      state.likeInfo = payload.like
+      for(var i in payload.product){
+        state.proInfo = payload.product[i]
+      }
+      state.offerInfo= payload.offer
+      state.addrInfo = payload.address
+      state.beforeImage= payload.product[0].picture
+      for(var i in payload.like){
+        if(state.userInfo.username === state.likeInfo[i].l_username){
+          state.heart =true
+          break;
+        }else{
+          state.heart = false
+          continue
+        }  
+      
+      }
+    },
 
     //Home.vue
     GetMap(state){
@@ -203,8 +226,6 @@ export default new Vuex.Store({
       console.log(state.phone)
     },
     Login_s(state, payload){
-
-
       state.userInfo= {
         name: payload.name,
         username: payload.username,
@@ -226,11 +247,14 @@ export default new Vuex.Store({
       state.role_choose = true
     },
     logout(state){
-      state.removeBar = true
-      router.push({name: 'Home'}) 
+      state.removeBar = false
       state.userInfo = null
-      state.Role= []
+      state.Roles= []
+      state.role= null
+      state.role_choose = false
+      state.auth_show = 0
       localStorage.removeItem('access_token')
+      router.push({name: 'Home'}) 
     },
     Edit_s(state, payload){
       state.userInfo= {
@@ -252,9 +276,8 @@ export default new Vuex.Store({
 
     },
 
-    Writing_s(){
-
-
+    Writing_s(state){
+      state.removeBar = false
       router.push({name: 'Home'})
     },
 
@@ -264,32 +287,24 @@ export default new Vuex.Store({
       state.month = payload.month
       state.total = payload.total
       router.push({name: 'Sale'})
-
-
     },
 
     SaleList_s(state, payload){
-    
-    
       state.saleList= payload
       console.log(state.saleList)
       state.removeBar = true
+      state.nullerr =false
       router.push({name: 'SaleList'})
       
     },
 
     SaleDetail_s(state, payload){
-      //console.log(payload)
       state.list_show= !state.list_show
       state.aucInfo= payload
       state.likeInfo = payload.like
-
       for(var i in payload.product){
         state.proInfo = payload.product[i]
       }
-     // console.log(state.proInfo)
-
-      
       state.offerInfo= payload.offer
       console.log(state.offerInfo)
       state.addrInfo = payload.address
@@ -311,6 +326,8 @@ export default new Vuex.Store({
       state.offerInfo= payload.offer
       state.addrInfo = payload.address
       state.removeBar= true
+      state.beforeImage=[]
+      console.log( state.beforeImage)
       state.beforeImage= payload.product[0].picture
 
 
@@ -334,35 +351,31 @@ export default new Vuex.Store({
       state.removeBar = true
       router.push({name: 'IndustryList'})
     },
-    IndustryList_f(state, payload){
 
-    },
-    Detail_s(state, payload){
-     
-      console.log(payload)
-      state.overlay = false
-      state.removeBar = true
-      state.aucInfo = payload
-      state.likeInfo = payload.like
 
-      for(var i in payload.product){
-        state.proInfo = payload.product[i]
-      }
+
+    // Detail_s(state, payload){
+    
+    //   state.overlay = false
+    //   state.removeBar = true
+    //   state.aucInfo = payload
+    //   state.likeInfo = payload.like
+
+    //   for(var i in payload.product){
+    //     state.proInfo = payload.product[i]
+    //   }
 
 
       
-      state.offerInfo= payload.offer
-      state.addrInfo = payload.address
-      state.beforeImage= payload.product[0].picture
+    //   state.offerInfo= payload.offer
+    //   state.addrInfo = payload.address
+    //   state.beforeImage= payload.product[0].picture
 
 
-      for(var i in payload.like){
-        (state.userInfo.username === state.likeInfo[i].l_username)? state.heart = true : state.heart = false
-      }
-      
-      console.log(state.heart)
-      
-    },
+    //   for(var i in payload.like){
+    //     (state.userInfo.username === state.likeInfo[i].l_username)? state.heart = true : state.heart = false
+    //   }
+    // },
    
     DetailEdit_s(state, payload){
 
@@ -380,26 +393,26 @@ export default new Vuex.Store({
       router.push({name: 'Home'})
     },
 
-    Offer_s(state, payload){
-      console.log(payload)
-      state.overlay = false
-      state.removeBar = true
-      state.aucInfo = payload
-      state.likeInfo = payload.like
+    // Offer_s(state, payload){
+    //   console.log(payload)
+    //   state.overlay = false
+    //   state.removeBar = true
+    //   state.aucInfo = payload
+    //   state.likeInfo = payload.like
 
-      for(var i in payload.product){
-        state.proInfo = payload.product[i]
-      }
-     // console.log(state.proInfo)
+    //   for(var i in payload.product){
+    //     state.proInfo = payload.product[i]
+    //   }
+    //  // console.log(state.proInfo)
 
       
-      state.offerInfo= payload.offer
-      state.addrInfo = payload.address
-      state.beforeImage= payload.product[0].picture
-      for(var i in payload.like){
-        (state.userInfo.username === state.likeInfo[i].l_username)? state.heart = true : state.heart = false
-      }
-    },
+    //   state.offerInfo= payload.offer
+    //   state.addrInfo = payload.address
+    //   state.beforeImage= payload.product[0].picture
+    //   for(var i in payload.like){
+    //     (state.userInfo.username === state.likeInfo[i].l_username)? state.heart = true : state.heart = false
+    //   }
+    // },
 
  
     KindList_s(state, payload){
@@ -421,59 +434,63 @@ export default new Vuex.Store({
     BidList_s(state, payload){
       state.removeBar = true
       state.bidList= payload
+      state.nullerr =false
       router.push({name: 'BidList'})
     },
 
-    BidDetail_s(state, payload){
-     
-      // console.log(payload)
+    // BidDetail_s(state, payload){
+    //   state.overlay = false
+    //   state.removeBar = true 
+    //   state.aucInfo = payload
+    //   state.likeInfo = payload.like
 
-      state.overlay = false
-      state.removeBar = true
-      
-      state.aucInfo = payload
-      state.likeInfo = payload.like
+    //   for(var i in payload.product){
+    //     state.proInfo = payload.product[i]
+    //   }
+    //   state.offerInfo= payload.offer 
+    //   state.addrInfo = payload.address
+    //   state.beforeImage=payload.product[0].picture
 
-      for(var i in payload.product){
-        state.proInfo = payload.product[i]
-      }
+    //   for(var i in payload.like){
+    //     if(state.userInfo.username === state.likeInfo[i].l_username){
+    //       state.heart =true
+    //       break;
+    //     }else{
+    //       state.heart = false
+    //       continue
+    //     }  
+    //   }
+    //   router.push({name: 'BidDetail'})
+    // },
 
-     // console.log(state.proInfo)
-
-      
-      state.offerInfo= payload.offer 
-      state.addrInfo = payload.address
-      state.beforeImage=payload.product[0].picture
-      for(var i in payload.like){
-        (state.userInfo.username === state.likeInfo[i].l_username)? state.heart = true : state.heart = false
-      }
-      router.push({name: 'BidDetail'})
-
-    },
-
-    RemoveHeart_s(state){
-      state.heart = false
-    },
+    // RemoveHeart_s(state){
+    //   state.heart = false
+    // },
  
-    Like_s(state, payload){
+    // Like_s(state, payload){
+    //   state.likeInfo = payload.like
+    //   for(var i in payload.like){
+    //     if(state.userInfo.username === state.likeInfo[i].l_username){
+    //       state.heart =true
+    //       break;
+    //     }else{
+    //       state.heart = false
+    //       continue
+    //     }  
+    //   }
+    //   console.log(state.heart)
 
-      console.log(payload)
-      state.likeInfo = payload.like
-      for(var i in payload.like){
-        (state.userInfo.username === state.likeInfo[i].l_username)? state.heart =true : state.heart = false
-      }
-
-      state.aucInfo = payload
-      for(var i in payload.product){
-        state.proInfo = payload.product[i]
-      }
-      state.offerInfo= payload.offer
-      state.addrInfo = payload.address
-      state.beforeImage=payload.product[0].picture
+    //   state.aucInfo = payload
+    //   for(var i in payload.product){
+    //     state.proInfo = payload.product[i]
+    //   }
+    //   state.offerInfo= payload.offer
+    //   state.addrInfo = payload.address
+    //   state.beforeImage=payload.product[0].picture
       
 
 
-    },
+    // },
 
     LikeList_s(state, payload){
       state.removeBar = true
@@ -482,41 +499,42 @@ export default new Vuex.Store({
 
     },
   
-    PayDetail_s(state, payload){
+    // PayDetail_s(state, payload){
 
-      console.log(payload)
-      var aucdetail = payload.aucdetail
-      state.payInfo = payload.paydetail
-      state.aucInfo = aucdetail
-      state.chatInfo = payload.chatdetail
-      state.likeInfo = aucdetail.like
+    //   console.log(payload)
+    //   var aucdetail = payload.aucdetail
+    //   state.payInfo = payload.paydetail
+    //   state.aucInfo = aucdetail
+    //   state.chatInfo = payload.chatdetail
+    //   state.likeInfo = aucdetail.like
       
       
-      for(var i in aucdetail.product){
-        state.proInfo = aucdetail.product[i]
-      }
-      state.offerInfo= aucdetail.offer
-      state.addrInfo = aucdetail.address
-      state.beforeImage=aucdetail.product[0].picture
-      state.removeBar = true
-      router.push({name: 'PayDetail'})
-    },
-    KakaoReady_s(state, payload){
+    //   for(var i in aucdetail.product){
+    //     state.proInfo = aucdetail.product[i]
+    //   }
+    //   state.offerInfo= aucdetail.offer
+    //   state.addrInfo = aucdetail.address
+    //   state.beforeImage=aucdetail.product[0].picture
+    //   state.removeBar = true
+    //   router.push({name: 'PayDetail'})
+    // },
+    // KakaoReady_s(state, payload){
 
-      state.payreadyInfo = payload
-     // console.log(state.payInfo)
+    //   state.payreadyInfo = payload
+    //  // console.log(state.payInfo)
 
-    },
+    // },
 
     Room_s(state, payload){
       console.log(payload)
-
       router.push({name: 'Chat', params: {num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
 
     },
 
     ChatList_s(state, payload){
+      state.removeBar = true
       state.chatList =payload
+      state.nullerr =false
       router.push({name: 'ChatList'})
 
     },
@@ -524,6 +542,7 @@ export default new Vuex.Store({
     ChatDetail_s(state,payload){
       state.message = payload.message
       state.removeBar = true
+      state.nullerr =false
       router.push({name: 'Chat', params: {num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
     },
 
@@ -575,8 +594,19 @@ export default new Vuex.Store({
         router.push({name:'Home'})
       }, 3000)
     },
-    NullErr(state){
-      state.nullerr === true
+    NullErr(state, payload){
+
+      state.saleList = []
+      state.bidList = []
+      state.chatList= []
+      state.message=[]
+      
+      console.log(payload)
+      state.removeBar = payload.Bar
+      state.nullerr =true
+      router.push({name: payload.router})
+      
+
     },
   
 
@@ -625,7 +655,7 @@ export default new Vuex.Store({
       .post('http://localhost:9200/api/all/signup', payload)
       .then( Res => {
 
-        (Res.data !== "success")? commit('Duplication', Res.data) : commit('InsertErr') 
+        (Res.data === "success")? commit('Signup_s') : commit('Duplication', Res.data)
       })
       .catch(()=>{
         commit('Err')
@@ -795,7 +825,9 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/auction/statistic', config)
       .then(Res => {
-        (Res.data !== null)? commit('SaleStatistic_s', Res.data): commit('NullErr') 
+        if(Res.data !== null){
+          commit('SaleStatistic_s', Res.data)
+        }
       })
       .catch(()=>{
         commit('Err')
@@ -819,8 +851,7 @@ export default new Vuex.Store({
       axios
       .get(`http://localhost:9200/api/auction/${payload.sale}`, config)
       .then(Res => {
-        //console.log(Res.data)
-        (Res.data !== null)? commit('SaleList_s', Res.data): commit('NullErr') 
+        (Res.data.length !== 0)? commit('SaleList_s', Res.data): commit('NullErr', {router:"SaleList", Bar:"true"}) 
       })
       .catch(()=>{
         commit('Err')
@@ -893,33 +924,10 @@ export default new Vuex.Store({
       formData.append('startprice',payload.startprice)
       formData.append('day', payload.day )
       //auction
-
-
-      // formData.append('address', {lat: lat})
-      // formData.append('address', {lon: lon})
-      // formData.append('address', {addr: payload.addr})
-      // formData.append('address', {town: payload.town})
-
-
-      
-
       formData.append('lat', lat)
       formData.append('lon', lon)
       formData.append('addr', payload.addr)
       formData.append('town', payload.town)
-      // // address
-
-      // let pro = new FormData()
-   
-      // pro.append('industry',payload.industry)
-      // pro.append('kind',payload.kind)
-      // pro.append('brand',payload.brand)
-      // pro.append('year',payload.year)
-
-      // formData.append('pro', pro)// 실패
- 
-
-
       formData.append('industry',payload.industry)
       formData.append('kind',payload.kind)
       formData.append('brand',payload.brand)
@@ -958,12 +966,11 @@ export default new Vuex.Store({
       axios
       .delete(`http://localhost:9200/api/auction/${a_num}`, config)
       .then(Res =>{
-        (Res.data === "success")? dispatch('getSaleList',{sale:0}): commit('Err')
-        state.removeBar = false
-        router.push({name: 'SaleList'})
+        (Res.data === 'success' )? dispatch('getSaleList',{sale:0}): commit('HomeErr')
+       
       })
       .catch(()=>{
-        commit('Err')
+        commit('HomeErr')
       })
 
     },
@@ -992,8 +999,10 @@ export default new Vuex.Store({
       axios
       .get(`http://localhost:9200/api/all/top?page=${state.toppage}&lat=${lat}&lon=${lon}`)
       .then(Res => {
-        //console.log(Tres.data)
-        (Res.data !== null)? commit('TopList_s', Res.data): commit('NullErr')
+   
+        if(Res.data.length !== 0){
+          commit('TopList_s', Res.data)
+        }
 
       })
       .catch(()=>{
@@ -1021,7 +1030,10 @@ export default new Vuex.Store({
       axios
       .get(`http://localhost:9200/api/all/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${state.industrypage}`, config)
       .then(Res =>{
-        (Res.data !== "null") ? commit('IndustryList_s', Res.data): commit('NullErr')
+        if(Res.data.length !== 0){
+          commit('IndustryList_s', Res.data)
+
+        } 
   
       })
       .catch(()=>{
@@ -1047,7 +1059,9 @@ export default new Vuex.Store({
        axios
        .get(`http://localhost:9200/api/all/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${state.kindpage}`, config) 
        .then(Res=>{
-         (Res.data !== null) ? commit('KindList_s', Res.data): commit('NullErr')
+          if(Res.data.length !== 0) {
+            commit('KindList_s', Res.data)
+          } 
        })
        .catch(()=>{
         commit('Err')
@@ -1066,11 +1080,11 @@ export default new Vuex.Store({
       }
       axios
       .get(`http://localhost:9200/api/all/${payload.a_num}`, config)
-      .then(Dres =>{
+      .then(Res =>{
 
 
-        (Dres.data !== null)? commit('Detail_s', Dres.data): commit('Err')
-         router.push({name:'Detail'})
+        (Res.data !== null)? commit('DetailSave', Res.data): commit('Err')
+        router.push({name:'Detail'})
       })
       .catch(()=>{
         commit('Err')
@@ -1110,7 +1124,7 @@ export default new Vuex.Store({
       .post('http://localhost:9200/api/offer',payload, config)
       .then(Res => { 
         //console.log(Res.data)
-        (Res.data !== null) ? commit('Detail_s', Res.data): commit('HomeErr')   
+        (Res.data !== null) ? commit('DetailSave', Res.data): commit('HomeErr')   
       })
       .catch(()=>{
         commit('HomeErr')
@@ -1128,7 +1142,7 @@ export default new Vuex.Store({
       .post('http://localhost:9200/api/offer',payload, config)
       .then(Res => { 
         //console.log(Res.data)
-        (Res.data !== null) ? commit('Offer_s', Res.data): commit('HomeErr')   
+        (Res.data !== null) ? commit('DetailSave', Res.data): commit('HomeErr')   
       })
       .catch(()=>{
         commit('HomeErr')
@@ -1148,7 +1162,7 @@ export default new Vuex.Store({
       axios
       .delete(`http://localhost:9200/api/offer/${payload.o_num}/${payload.a_num}`, config)
       .then(Res =>{
-        (Res.data !== null)? commit('Offer_s', Res.data):commit('HomeErr')
+        (Res.data !== null)? commit('DetailSave', Res.data):commit('HomeErr')
       })
       .catch(()=>{
         commit('HomeErr')
@@ -1165,7 +1179,10 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/offer/count', config)
       .then(Res =>{
-        (Res.data !== null) ? commit('BidStatistic_s', Res.data): commit('NullErr')
+        if(Res.data !== null){
+          commit('BidStatistic_s', Res.data)
+
+        } 
       })
       .catch(()=>{
         commit('Err')
@@ -1182,7 +1199,7 @@ export default new Vuex.Store({
       axios
       .get(`http://localhost:9200/api/offer?sale=${payload.sale}`, config)
       .then(Res =>{
-        (Res.data !== null) ? commit('BidList_s', Res.data): commit('NullErr')
+        (Res.data.length !== 0) ? commit('BidList_s', Res.data): commit('NullErr', {router:"BidList", Bar:"true"})
       })
       .catch(()=>{
         commit('Err')
@@ -1204,7 +1221,8 @@ export default new Vuex.Store({
       .get(`http://localhost:9200/api/offer/${payload.a_num}`, config)
       .then(Res =>{
         
-        (Res.data !== null)? commit('BidDetail_s', Res.data): commit('Err')
+        (Res.data !== null)? commit('DetailSave', Res.data): commit('Err')
+        router.push({name: 'BidDetail'})
 
       })
       .catch(()=>{
@@ -1225,7 +1243,7 @@ export default new Vuex.Store({
       axios
       .post('http://localhost:9200/api/like', payload, config)
       .then(Res =>{
-        (Res.data !== null)? commit('Like_s', Res.data): commit('Err')
+        (Res.data !== null)? commit('DetailSave', Res.data): commit('Err')
         
       })
       .catch(()=>{
@@ -1243,7 +1261,7 @@ export default new Vuex.Store({
       axios
       .delete(`http://localhost:9200/api/like/${payload.a_num}`, config)
       .then(Res =>{
-        (Res.data !== null)? commit('Like_s', Res.data) : commit('Err')
+        (Res.data !== null)? commit('DetailSave', Res.data) : commit('Err')
       })
       .catch(()=>{
         commit('Err')
@@ -1267,6 +1285,25 @@ export default new Vuex.Store({
         commit('Err')
       })
     },
+    getLikeDetail({commit,dispatch}, payload){
+
+      let token = localStorage.getItem("access_token")
+
+      let config = {
+        headers: {
+          "access_token": token
+        }
+      }
+      axios
+      .get(`http://localhost:9200/api/all/${payload.a_num}`, config)
+      .then(Dres =>{
+        (Dres.data !== null)? commit('DetailSave', Dres.data): commit('Err')
+        router.push({name: 'LikeDetail'})
+      })
+      .catch(()=>{
+        commit('Err')
+      })
+    },
     getPayDetail({commit}, payload){
 
 
@@ -1279,7 +1316,8 @@ export default new Vuex.Store({
       axios
       .get(`http://localhost:9200/api/payment/${payload.a_num}`, config)
       .then(Res => {
-        (Res.data !== null)? commit('PayDetail_s' , Res.data):commit('PayDetail_f' , Err) 
+        (Res.data !== null)? commit('DetailSave' , Res.data):commit('PayDetail_f' , Err) 
+        router.push({name: 'PayDetail'})
       })
       .catch(()=>{
         commit('Err')
@@ -1356,7 +1394,7 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:9200/api/chat', config)
       .then(Res =>{
-        (Res.data !== null)? commit('ChatList_s', Res.data): commit('Err')
+        (Res.data.length !== 0)? commit('ChatList_s', Res.data): commit('NullErr',{router:"ChatList", Bar: "true"})
         
       }).catch(()=>{
         commit('Err')
@@ -1373,7 +1411,7 @@ export default new Vuex.Store({
       axios
       .get(`http://localhost:9200/api/chat/${payload.ch_num}`, config)
       .then(Res =>{
-        (Res.data !== null)? commit('ChatDetail_s', Res.data): commit('NullErr')
+        (Res.data.length !== 0)? commit('ChatDetail_s', Res.data): commit('NullErr', {router:"Chat", Bar:"true"})
         
       }).catch(()=>{
         commit('HomeErr')
@@ -1468,7 +1506,10 @@ export default new Vuex.Store({
       axios
       .put('http://localhost:9200/api/offer/check', payload, config)
       .then(Res => {
-        (Res.data !== null )? commit('CheckPay_s', Res.data): commit('NullErr')
+        if(Res.data !== null ){
+          commit('CheckPay')
+
+        } 
       }).catch(()=>{
         commit('HomeErr')
       })

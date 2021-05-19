@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import EmailEdit from '@/views/UserEditDelete/EmailEdit.vue'
 import MyPage from '@/views/MyPage.vue'
 
 Vue.use(VueRouter)
@@ -98,6 +97,12 @@ const routes = [
 
   },
   {
+    path: '/likedetail',
+    name: 'LikeDetail',
+    component: () => import(/* webpackChunkName: "likedetail" */'@/views/LikeDetail.vue')
+
+  },
+  {
     path: '/paymethod',
     name: 'PayMethod',
     component: () => import(/* webpackChunkName: "paymethod" */'@/views/PayMethod.vue')
@@ -152,11 +157,6 @@ const routes = [
     name: 'MyPage',
     component: MyPage,
     children: [
-        {
-          path: '/emailedit',
-          name: 'EmailEdit',
-          component: EmailEdit, 
-        },  
         {
           path: '/passwordedit',
           name: 'PasswordEdit',

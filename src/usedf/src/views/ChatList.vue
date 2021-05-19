@@ -8,6 +8,7 @@
                     </v-btn>
                 </v-col>
             </v-row>
+            <NullError name="채팅방이"></NullError>
             <template v-for=" (item, index) in chatList" >
                 <v-list-item one-line :key="item.ch_num" @click="getChatDetail({ch_num : item.ch_num})">
                     <v-list-item-content>
@@ -34,6 +35,7 @@
 </template>
 <script>
 import {mapState, mapActions} from 'vuex'
+import NullError from '@/components/NullError.vue'
 export default {
     computed: {
         ...mapState(['chatList', 'userInfo'])
@@ -44,6 +46,9 @@ export default {
             this.$store.state.removeBar = false
             this.$router.go(-1)
         },
+    },
+    components:{
+        NullError
     }
     
 }

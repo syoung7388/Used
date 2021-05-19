@@ -335,6 +335,10 @@ export default{
     },
 ///////////////////////////////////////////////////////////연도 선택
     methods: {
+        Origin(){
+            this.showImage=[]
+
+        },
 
         isEmpty (payload){
             for(var key in payload){
@@ -342,10 +346,10 @@ export default{
                     this.$store.commit('InsertErr')
                 }else{
                     this.count++
-                    console.log(this.count)    
+                   
                 }
             }
-            if(this.count === 13){
+            if(this.count === 14){
                 this.$store.dispatch('DetailEdit', payload)
 
             }else{
@@ -359,19 +363,13 @@ export default{
         },
         
             
-        ChangeImages(i){ 
-            
+        ChangeImages(i){     
             const file = i.target.files[0]
             this.files.push(file)
-
             let image = URL.createObjectURL(file)
-
-            
             this.showImage.push({image: image})
-         
         },
         Beforedelete(payload){
-           
             this.beforeImage.splice(payload.idx, 1)
             this.pi_numList.push(payload.pi_num)
            // console.log(this.pi_numList)
@@ -392,12 +390,9 @@ export default{
            
             // this.$store.state.addrInfo.addr = payload.fulladdress
             // this.$store.state.addrInfo.town= payload.town 
-            
             this.$store.state.address_show= false
             this.addr = payload.fulladdress
             this.town = payload.town
-            
-
         }
         
        

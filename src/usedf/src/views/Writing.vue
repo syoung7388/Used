@@ -8,6 +8,11 @@
                 </h1>
             </div>
             <v-row justify="start">
+                <v-col cols="2">
+                    <v-btn style="font-size: small;" icon @click="Back_f">
+                        <i class="fas fa-arrow-left" style="font-size: large;"></i>
+                    </v-btn>
+                </v-col>
                 <v-col 
                 cols="5"
                 sm="6"
@@ -232,7 +237,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 import Address from '@/components/Address.vue'
 
 export default{
@@ -293,6 +298,7 @@ export default{
     },
 
     methods: {
+
         ClickImageUpload(){
             this.$refs.imageInput.click();     
         },
@@ -324,10 +330,10 @@ export default{
                     this.$store.state.WritingError = true
                 }else{
                     this.count++
-                    // console.log(this.count)    
+                    //console.log(this.count)    
                 }
             }
-            if(this.count === 10){
+            if(this.count === 11){
                 this.$store.dispatch('Writing', payload)
                 this.$store.state.WritingError = false
 
@@ -335,7 +341,8 @@ export default{
                 this.count =0
             }
 
-        }
+        },
+        ...mapMutations(['Back_f'])
 
 
     },

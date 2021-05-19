@@ -38,8 +38,6 @@
 
             <infinite-loading  @infinite="plusList" spinner="circles"></infinite-loading >
         </v-container>
-  
-   
     </v-app>
 </template>
 <script>

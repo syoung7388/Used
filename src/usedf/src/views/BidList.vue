@@ -42,7 +42,7 @@
                             <v-btn class="primary" small  @click="AucEnd({a_num: item.a_num})">확인</v-btn>    
                         </v-col>
                         <v-col cols="3">
-                            <v-list-item-title  style="font-size: 10px" class="mt-3">대기시간</v-list-item-title>
+                            <v-list-item-title  style="font-size: 10px" class="mt-3"  v-show="item.sale === 1" >대기시간</v-list-item-title>
                             <v-list-item-title v-show="item.sale === 1" class="mt-2 primary--text">
                                 <CountDown :endtime="item.offer[0].endtime" :o_num="item.offer[0].o_num" :sale="item.sale"></CountDown>
                             </v-list-item-title>
@@ -56,15 +56,14 @@
                     ></v-divider>
                 </template>
             </v-list>
-            <v-list v-else>
-                <v-list-item-title style="text-align: center; font-size: 17px" class="text--black">현재 진행중인 제품이 없습니다</v-list-item-title>
-            </v-list>
+            <NullError name="경매가"></NullError>
             </v-container>
     </v-app>
 </template>
 <script>
 import CountDown from '@/components/CountDown.vue'
 import {mapActions, mapState} from 'vuex'
+import NullError from '@/components/NullError.vue'
 export default {
     computed: {
         ...mapState(['bidList'])
@@ -86,7 +85,8 @@ export default {
         }
     },
     components:{
-        CountDown
+        CountDown,
+        NullError
     }
 
     

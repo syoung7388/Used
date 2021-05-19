@@ -92,60 +92,25 @@ public class AuctionController {
 			token = token.substring(6, token.length());
 		}
 		String username = JwtUtils.getUserEmailFromToken(token);
+		auction.setA_username(username);
+		auctionService.CreateAuction(auction);
 		
 		
+		int Anum = auction.getA_num();
+		productService.createProduct(product);
 		
-		if(username != null) {
-			auction.setA_username(username);
-			auctionService.CreateAuction(auction);
-			int Anum = auction.getA_num();
+		int Pnum = product.getP_num();
+		Auc_Pro ap = new Auc_Pro();
+		ap.setA_num(Anum);
+		ap.setP_num(Pnum);
+		auctionService.CreateAP(ap);
 			
-
-			productService.createProduct(product);
-			int Pnum = product.getP_num();
-			
-			
-			Auc_Pro ap = new Auc_Pro();
-			ap.setA_num(Anum);
-			ap.setP_num(Pnum);
-			
-			auctionService.CreateAP(ap);
-			
-			address.setA_num(Anum);
-			auctionService.CreateAddress(address);
-			
-			
-			
-			
-			
-			List<MultipartFile> imgList= picture.getImg();
-			if(imgList != null) {
-			List<String> pictureNames= new ArrayList<String>();
-		        //String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
-				String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
-				for(int i=0; i<imgList.size(); i++) {
-					
-					String filename= imgList.get(i).getOriginalFilename();
-					String ext= filename.substring(filename.lastIndexOf(".")+1);
-					File file= new File(path+ filename);			
-					InputStream input = imgList.get(i).getInputStream();
-					
-					MakeThumbnail makeThumbnail = new MakeThumbnail();
-					makeThumbnail.makeThumbnail(input, file,  ext);		
-					
-					pictureNames.add(filename);
-				}
-				
-			
-				picture.setP_num(Pnum);
-				picture.setPictureNames(pictureNames);	
-				productService.createPicture(picture);
-			}
+		address.setA_num(Anum);
+		auctionService.CreateAddress(address);
 		
-			
-			
-		}
-				
+		picture.setP_num(Pnum);
+		productService.createPicture(picture);
+							
 		//logger.info("p_num:"+product.getP_num());
 		//logger.info("product:"+product);
 		
@@ -234,38 +199,17 @@ public class AuctionController {
 		}
 		
 		int Pnum= product.getP_num();
-		List<MultipartFile> imgList= picture.getImg();
-		if(imgList != null) {
-			List<String> pictureNames= new ArrayList<String>();
-	        String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
-			//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
-				for(int i=0; i<imgList.size(); i++) {
-					
-					String filename= imgList.get(i).getOriginalFilename();
-					String ext= filename.substring(filename.lastIndexOf(".")+1);
-					File file= new File(path+ filename);			
-					InputStream input = imgList.get(i).getInputStream();
-					
-					MakeThumbnail makeThumbnail = new MakeThumbnail();
-					makeThumbnail.makeThumbnail(input, file,  ext);		
-					
-					pictureNames.add(filename);
-				}
-				
-				
-				picture.setP_num(Pnum);
-				picture.setPictureNames(pictureNames);	
-				productService.createPicture(picture);
-		}
-				
-			int a_num = auction.getA_num();
-			Auction auc= auctionService.AucDetail(a_num);
+		picture.setP_num(Pnum);
+		productService.createPicture(picture);
+		
+		int a_num = auction.getA_num();
+		Auction auc= auctionService.AucDetail(a_num);
 			
 			
 		
 		
 		
-			logger.info("auc:"+auc);
+		//logger.info("auc:"+auc);
 		return new ResponseEntity<>(auc, HttpStatus.OK);
 	}
 	
@@ -284,8 +228,6 @@ public class AuctionController {
 		
 		auctionService.AucDelete(a_num);
 		
-		
-		
 		return new ResponseEntity<>("success",HttpStatus.OK);
 		
 		
@@ -300,10 +242,8 @@ public class AuctionController {
 	public ResponseEntity<?> AucEnd(@RequestBody Auction auction,  HttpServletRequest request){
 		
 		int a_num = auction.getA_num();
-		//logger.info("a_num"+ a_num);
 		auctionService.AucStep(a_num);		
 		token = request.getHeader("access_token");		
-		//logger.info("token:"+token);
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
 			token = token.substring(6, token.length());
 		}

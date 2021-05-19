@@ -13,39 +13,24 @@
                 max-height= "300"
                 hide-delimiter-background
                 >
-                <v-menu 
-                offset-y
-                absolute
-                >
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-row class="pt-1">
-                            <v-col cols="10">
-                                <v-btn 
-                                style="font-size: large;" 
-                                icon 
-                                @click="ListBack"
-                               
-                                >
-                                    <i class="fas fa-arrow-left" style="font-size: large;"></i>
-                                </v-btn>
-                            </v-col>
-                            
-                            <v-col cols="2" v-if="userInfo.username === aucInfo.a_username">
-                                <v-btn style="font-size: large;" icon v-bind="attrs" v-on="on">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </v-btn>
-                            </v-col>
-                        </v-row>
-                    </template>
-                    <v-list>
-                        <v-list-item  class="mx-3" dense>
-                            <v-list-item-title style="font-size: 15px" @click="Edit">수정</v-list-item-title>
-                        </v-list-item >
-                        <v-divider></v-divider>
-                        <v-list-item class="mx-3" dense > 
-                            <v-list-item-title style="font-size: 15px" @click="RemainDelete({a_num: aucInfo.a_num})">삭제</v-list-item-title>
-                        </v-list-item>
-                    </v-list>
+                    <v-menu 
+                    offset-y
+                    absolute
+                    >
+                        <template v-slot:activator="{ on }">
+                            <v-row class="pt-1">
+                                <v-col cols="10">
+                                    <v-btn 
+                                    style="font-size: large;" 
+                                    icon 
+                                    @click="getLikeList"
+                                    v-on="on"
+                                    >
+                                        <i class="fas fa-arrow-left" style="font-size: large;"></i>
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </template>
                     </v-menu>
                 </v-carousel-item>
             </v-carousel>
@@ -139,8 +124,7 @@
                 <v-bottom-navigation
                 grow
                 height="70"       
-                fixed
-                v-show="role === 'ROLE_USER'"  
+                fixed  
                 >
 
                     <v-row class="ma-2" v-if="aucInfo.a_username === userInfo.username">
@@ -181,7 +165,6 @@
                             <v-btn large class="primary mt-1 mr-1" block>
                                 <span style="font-size:15px;" class="white--text ma-2" @click="Offer">가격제안</span>
                             </v-btn>
-
                         </v-col>
                     </v-row>
                 </v-bottom-navigation>     
@@ -190,6 +173,7 @@
             <Edit></Edit>
         </div>
         <OfferOverlay ref="ch_overlay" @Origin="Origin"></OfferOverlay>
+
     </v-app>
 </template>
 <script>
@@ -201,6 +185,9 @@ export default {
         return {
             c_price: '',
             price: 0
+
+           
+        
         }
     },
     filters:{
@@ -212,17 +199,9 @@ export default {
                 
     },
     methods: {
-        ...mapActions(['RemainDelete', 'Like', 'RemoveLike']),
-        
-    
-
+        ...mapActions(['RemainDelete', 'Like', 'RemoveLike', 'getLikeList']),
         Edit(){
             this.$store.state.edit_show = true
-        },
-        ListBack(){
-            this.$store.state.removeBar= false
-            this.$store.state.I_list_show = true
-            this.$router.go(-1)
         },
         comma(price){
             
@@ -251,7 +230,7 @@ export default {
     },
     computed: { 
 
-        ...mapState(['edit_show', 'overlay', 'userInfo', 'heart','aucInfo','likeInfo','proInfo', 'offerInfo','addrInfo','beforeImage', 'Roles', 'role'])
+        ...mapState(['edit_show', 'overlay', 'userInfo', 'heart','aucInfo','likeInfo','proInfo', 'offerInfo','addrInfo','beforeImage'])
       
 
     },

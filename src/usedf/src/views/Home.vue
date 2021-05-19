@@ -104,7 +104,7 @@ export default{
         },
         GetChatList(){
             if(this.Roles.length === 0){
-                this.$store.state.removeBar = true
+                this.$store.state.removeBar=true
                 this.$router.push({name: 'Auth'})
             }else{
                this.$store.dispatch('getChatList')

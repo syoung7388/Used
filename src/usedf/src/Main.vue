@@ -16,7 +16,7 @@
                 <i class="fas fa-home mb-2"  style="font-size: x-large;"></i>
             </v-btn>
 
-            <v-btn router :to="{name: 'Writing'}">
+            <v-btn @click="Main_Writing">
             <span  style="opacity:0.5 font-weight:500; font-size: 15px"> 글쓰기</span>
             <i class="far fa-edit mb-2" style="font-size: x-large;"></i>
             </v-btn>
@@ -74,6 +74,15 @@ import { mapActions, mapState } from 'vuex'
                 this.$router.push({name:'Auth'})
             }
 
+        },
+        Main_Writing(){
+            if(this.Roles.length !== 0){
+                this.$store.state.removeBar = true
+                this.$router.push({name:'Writing'})
+            }else{
+                this.$store.state.removeBar = true
+                this.$router.push({name:'Auth'})
+            }
         },
         ...mapActions(['getAccountInfo', 'getTurnOverInfo', 'getTopList'])
 
