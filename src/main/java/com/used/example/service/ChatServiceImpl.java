@@ -23,10 +23,7 @@ public class ChatServiceImpl implements ChatService {
 		
 	}
 
-	@Override
-	public Chat ChatDetail(int a_num) {
-		return chatMapper.ChatDetail(a_num);
-	}
+
 
 	@Override
 	public List<Chat> ChatList(String username) {
@@ -44,6 +41,11 @@ public class ChatServiceImpl implements ChatService {
 	public void CreateMessage(Message message) {
 		chatMapper.CreateMessage(message);
 		
+	}
+
+	@Override
+	public Chat ChatDetail(String buyer, String seller) {
+		return chatMapper.ChatDetail(buyer,seller );
 	}
 
 }

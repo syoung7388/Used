@@ -303,10 +303,13 @@ public class PaymentController {
 		
 		Payment paydetail = paymentService.PaymentDetail(a_num);
 		Auction aucdetail = auctionService.AucDetail(a_num);
-		Chat chatdetail = chatService.ChatDetail(a_num);
-		
+		Chat chatdetail = null;
+		if(paydetail != null) {
+			String buyer = paydetail.getPa_username();
+			String seller = aucdetail.getA_username();
+			chatdetail = chatService.ChatDetail(buyer,seller);
+		}
 		Map<String, Object> map = new HashMap<>();
-		
 		map.put("paydetail", paydetail);
 		map.put("aucdetail", aucdetail);
 		map.put("chatdetail", chatdetail);

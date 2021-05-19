@@ -153,6 +153,9 @@
 		<result property="price" column="o_price"/>
 		<result property="time" column="o_time"/>
 		<result property="endtime" column="o_endtime"/>
+		<result property="select" column="o_select"/>
+		<result property="skip" column="o_skip"/>
+		
 	
 	</resultMap>
 	

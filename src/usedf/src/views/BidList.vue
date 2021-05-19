@@ -25,9 +25,7 @@
                                             :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
                                             max-width="90"
                                             height="90" 
-                                            >                        
-                                                <p style="text-align: left; font-size: 10px" class="white--text ml-1" v-show="item.d_day === 0">D-day</p>
-                                                <p style="text-align: left; font-size: 10px" class="white--text ml-1" v-show="item.d_day < 0">D-{{item.d_day}}</p>                 
+                                            >                                         
                                             </v-img>
                                         </v-card>
                                     </v-col>
@@ -46,7 +44,7 @@
                         <v-col cols="3">
                             <v-list-item-title  style="font-size: 10px" class="mt-3">대기시간</v-list-item-title>
                             <v-list-item-title v-show="item.sale === 1" class="mt-2 primary--text">
-                                <CountDown :endtime="item.offer[0].endtime" sort="pay" :o_num="item.offer[0].o_num"></CountDown>
+                                <CountDown :endtime="item.offer[0].endtime" :o_num="item.offer[0].o_num" :sale="item.sale"></CountDown>
                             </v-list-item-title>
                         </v-col>   
        
@@ -84,7 +82,7 @@ export default {
             this.$router.go(-1)
         },
         selectDetail(payload){
-            (payload.sale === 0)? this.$store.dispatch('getBidDetail', {a_num: payload.a_num}):this.$store.dispatch('getPayDetail', {a_num: payload.a_num})
+            (payload.sale === 0)? this.$store.dispatch('getBidDetail', {a_num: payload.a_num}): this.$store.dispatch('getPayDetail', {a_num: payload.a_num})
         }
     },
     components:{

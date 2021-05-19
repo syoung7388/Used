@@ -67,6 +67,7 @@
 				u_num 					as 		u_num,
 				u_username				as		username,
 				u_password				as		password,
+				u_address               as      address,
 				u_phone					as		phone,
 				u_name					as		name,
 				u_isAccountNonLocked	as		isAccountNonLocked,
@@ -83,7 +84,8 @@
 				u_name					as		name,
 				u_address               as      address,
 				u_num           		as		u_num,
-				u_password				as 		password
+				u_password				as 		password,
+				u_address   			as 		address
 		from    user
 		where   u_username = #{username}		
 	</select>

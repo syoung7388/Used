@@ -3,7 +3,7 @@
     <v-row>
         <v-col>
             <v-btn icon @click="Editback">
-                <i class="fas fa-angle-double-left" style="font-size: large;"></i>
+                <i class="fas fa-arrow-left" style="font-size: large;"></i>
             </v-btn>
             <h1  class="mt-5 " style="font-size: 17px; text-align: center">변경하실 닉네임을 입력해 주세요.</h1>
             <v-text-field

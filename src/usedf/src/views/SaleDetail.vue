@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <v-app class="pa-0">
         <v-container v-show="edit_show === false" class="pa-0">
             <v-carousel            
             height="300"
@@ -77,7 +77,7 @@
                     <v-tab-item  v-if="aucInfo.sale === 0">
                         <v-card flat class="pa-5"> 
                             <div  v-for="(item, int) in offerInfo" :key="int">
-                                <v-row v-if="item.o_username !== null">
+                                <v-row v-if="item.o_username !== null" align="center" justify="center">
                                     <v-col cols="2" >
                                         <h1 style="font-size: 15px;" >{{int+1}}등</h1>
                                     </v-col>
@@ -85,13 +85,17 @@
                                         <h1 style="font-size: 15px;" >{{item.price}}원</h1>
                                     </v-col>
                                     <v-col cols="2">
-                                        <p style="font-size: 15px;">{{item.o_username}}</p>
+                                        <p style="font-size: 15px;" class="mt-3">{{item.o_username}}</p>
                                     </v-col>
                                     <v-col cols="3">
-                                         <v-btn text color="primary" class="pb-3" @click="SelectOffer({
+                                        <v-btn v-show="item.skip === 1" color="red" text>지불불가</v-btn>
+                                         <v-btn text color="primary"
+                                         @click="SelectOffer({
                                             a_num: item.a_num,
                                             o_num: item.o_num
-                                         })">낙찰</v-btn>
+                                         })"
+                                         v-show="item.skip === 0"
+                                         >낙찰</v-btn>
                                     </v-col>
                                 </v-row>
                                 <v-row v-else>

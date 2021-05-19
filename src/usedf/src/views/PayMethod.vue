@@ -90,10 +90,6 @@ export default {
               k_token: e.data.k_token
             }
           })
-
-
-
-          
         }, { once : true})
         
     }

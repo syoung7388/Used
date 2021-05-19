@@ -211,9 +211,17 @@ public class OfferController {
 	public ResponseEntity<?> CheckPay(@RequestBody Offer offer){
 //		offerService.SelectOffer(offer);
 //		auctionService.AucStep(offer.getA_num());
+
 		
 		offerService.CheckPay(offer);
-		return  new ResponseEntity<>("success", HttpStatus.OK);
+		Bid_request bid_r= new Bid_request();
+		bid_r.setO_username(offer.getO_username());
+		bid_r.setSale(1);
+
+		List<Auction> list = offerService.BidList(bid_r);
+		
+		
+		return  new ResponseEntity<>(list, HttpStatus.OK);
 		
 	}
 	

@@ -1,6 +1,6 @@
 <template>
-    <v-app>
-        <v-container class="pa-3" v-show="address_show === false" >
+    <v-app >
+        <v-container v-show="address_show === false" class="pa-0">
             <div v-show ="Edit_error === true">
                 <h1 class="red--text" style="font-size: 15px;">
                     입력하신걸 확인해 주세요!
@@ -273,7 +273,7 @@
             >확인</v-btn>
         </v-container>
         <v-container v-show="address_show === true"> 
-            <Address @Addr="ResultAddress"></Address>
+            <Address @Addr="ResultAddress" ref="childaddr"></Address>
         </v-container>
      
     </v-app>
@@ -384,6 +384,7 @@ export default{
             //console.log(this.files)
         },
         getAddress(){
+            this.$refs.childaddr.DaumPostCode()
             this.$store.state.address_show= true
         },
         ResultAddress(payload){

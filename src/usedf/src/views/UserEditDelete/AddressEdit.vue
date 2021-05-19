@@ -1,38 +1,33 @@
 <template>
-<v-app class="pa-2">
-    <v-container  v-show="Ashow=== false">
-        <v-row>
+    <v-app class="pa-0">
+        <v-container v-show="Ashow=== false" class="pa-0">
             <v-btn icon @click="Editback">
-                <i class="fas fa-angle-double-left" style="font-size: large;"></i>
+                <i class="fas fa-arrow-left" style="font-size: large;"></i>
             </v-btn>
-            <h1  class="mt-5 " style="font-size: 16px; text-align:center">주소를 검색하시고 확인 버튼을 눌러주세요</h1>
-            <v-text-field
-            label="address"
-            auto-grow
-            rows="2"
-            height=50
-            v-model="address"
-            ></v-text-field>
-            <v-btn 
-            small 
-            class="primary--text ml-5 mt-9"
-            @click="GoAddress"
-            outlined          
-            >검색</v-btn>
-        </v-row>
-        <v-row>
-            <v-btn  
-            class="primary mt-5"
-            block
-            @click="Edit"
-            >확인</v-btn>
-        </v-row>
-    </v-container>
-    <v-container v-show="Ashow=== true">
-        <Address @Address= "Aresult"></Address>
-    </v-container>
-    
-</v-app>
+            <v-row class="py-2" align="center" justify="center">
+                <v-col cols="12">
+                    <h1  style="font-size: 17px; text-align: center" class="my-10">주소를 선택 후 확인 버튼을 눌러주세요</h1>
+                    <v-text-field
+                    :placeholder= userInfo.address
+                    v-model="address"
+                    rows="1"
+                    dense
+                    @click="GoAddress"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-btn  
+                class="primary mt-5 my-2"
+                block
+                @click="Edit"
+                >확인</v-btn>
+            </v-row>
+        </v-container>
+        <div v-show="Ashow === true" class="pa-0">
+            <Address @Addr="Aresult" ref="childaddr"></Address>
+        </div>
+    </v-app>
 </template>
 <script>
 import { mapActions, mapState} from 'vuex'
@@ -53,17 +48,21 @@ export default{
     methods: {
         Edit(){
         this.userInfo.address = this.address
-        this.$store.dispatch('EditOK')
+        console.log(this.userInfo.address)
+        // this.$store.dispatch('EditOK')
         },
         ...mapActions(['Editback']),
 
 //////////////////////////////////////////////////////-주소Components
         GoAddress(){
+            console.log(this.userInfo)
+            this.$refs.childaddr.DaumPostCode()
             this.Ashow= true
         },
-        Aresult(address){
-            this.address= address
-            this.Ashow = !this.Ashow
+        Aresult(payload){
+            //console.log(payload)
+            this.address= payload.fulladdress
+            this.Ashow = false
         }
     },
     components: {

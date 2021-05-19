@@ -208,7 +208,7 @@
                     </v-row>
                 </v-bottom-navigation>     
         </v-container>
-        <div v-show="edit_show === true">
+        <div v-show="edit_show === true" class="pa-5">
             <Edit></Edit>
         </div>
 

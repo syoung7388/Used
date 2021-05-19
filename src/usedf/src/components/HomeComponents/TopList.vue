@@ -100,10 +100,7 @@ export default {
 
         },
         ...mapActions(['getDetail']),
-        // getdetail(payload){
-        //     window.history.scrollRestoration = "manual"
-        //     this.$store.dispatch('getDetail', payload)
-        // }
+
    
         
 

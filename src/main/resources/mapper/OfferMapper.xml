@@ -209,21 +209,13 @@
 	</update>
 	
 	<update id="CheckPay" parameterType="Offer">
-		<if test="count == 0">
 			UPDATE 
 			offer a
 			LEFT JOIN auction b ON a.a_num= b.a_num
-			SET		a.o_skip = 1,
-					b.a_sale = 0
-			WHERE a.o_num = #{o_num}
-		</if>
-		<selectKey keyProperty="count" resultType="int" order="BEFORE">
-			SELECT COUNT(c.pa_num)
-			FROM offer a
-			LEFT JOIN auction b on a.a_num = b.a_num
-			LEFT JOIN payment c ON b.a_num = c.a_num
-			WHERE a.o_num = #{o_num}	
-		</selectKey>
+			LEFT JOIN payment c ON c.a_num = a.a_num
+			SET	a.o_skip = 1,
+				b.a_sale = 0
+			WHERE a.o_num = #{o_num} AND c.pa_num IS null AND b.a_sale = 1 AND a.o_select = 1
 	</update>
 	
 </mapper>

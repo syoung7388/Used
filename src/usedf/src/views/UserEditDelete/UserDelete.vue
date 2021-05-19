@@ -3,7 +3,7 @@
     class="pa-2"
   >
     <v-btn icon @click="Editback">
-      <i class="fas fa-angle-double-left" style="font-size: large;"></i>
+       <i class="fas fa-arrow-left" style="font-size: large;"></i>
     </v-btn>
     <h1 class="mt-5 " style="font-size: 17px; text-align:center">"{{userInfo.name}}"님 당신과 함께한 Used는</h1>
     <h1 class="mt-5 " style="font-size: 17px; text-align:center"> 행복했습니다. </h1>

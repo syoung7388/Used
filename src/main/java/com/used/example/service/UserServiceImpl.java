@@ -61,8 +61,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("나 지금 UserDetails loadUserByUsername에 있어!"+username);
-		
 		User user =  userMapper.readUser(username);
 		user.setAuthorities(getAuthorities(username));
 		System.out.println("UserServiceImpl_loadUserByUsername:"+user.getAuthorities());

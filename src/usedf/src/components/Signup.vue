@@ -68,7 +68,7 @@
             </div>
         </v-container>
         <v-container v-show="addr_show=== true">
-            <Address @Addr="Aresult"></Address>
+            <Address @Addr="Aresult" ref="childaddr"></Address>
         </v-container>
 
     </v-form>
@@ -94,6 +94,7 @@ export default{
     },
     methods: {
         Address(){
+            this.$refs.childaddr.DaumPostCode()
             this.addr_show = true
         },
         Aresult(payload){

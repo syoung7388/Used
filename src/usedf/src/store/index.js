@@ -545,6 +545,9 @@ export default new Vuex.Store({
       router.push({name: 'TurnOver'})
 
     },
+    CheckPay_s(state, payload){
+      state.bidList= payload
+    },
     Err(state){
       state.overlay = true
       state.err = true
@@ -985,9 +988,9 @@ export default new Vuex.Store({
     getTopList({commit, state}){
       let lat = localStorage.getItem('lat')
       let lon = localStorage.getItem('lon')
-      let page= 0
+      state.toppage= 0
       axios
-      .get(`http://localhost:9200/api/all/top?page=${page}&lat=${lat}&lon=${lon}`)
+      .get(`http://localhost:9200/api/all/top?page=${state.toppage}&lat=${lat}&lon=${lon}`)
       .then(Res => {
         //console.log(Tres.data)
         (Res.data !== null)? commit('TopList_s', Res.data): commit('NullErr')
@@ -1005,7 +1008,7 @@ export default new Vuex.Store({
       let lon= localStorage.getItem('lon')
       state.industry = payload.industry
       let industry= encodeURI(payload.industry)
-      let page = state.industrypage
+      state.industrypage=0
 
 
       let token= localStorage.getItem("access_token")
@@ -1016,7 +1019,7 @@ export default new Vuex.Store({
       }
 
       axios
-      .get(`http://localhost:9200/api/all/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${page}`, config)
+      .get(`http://localhost:9200/api/all/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${state.industrypage}`, config)
       .then(Res =>{
         (Res.data !== "null") ? commit('IndustryList_s', Res.data): commit('NullErr')
   
@@ -1031,7 +1034,7 @@ export default new Vuex.Store({
       // alert(payload.kind)
        let lat = localStorage.getItem("lat")
        let lon = localStorage.getItem("lon")
-       let page = state.kindpage
+       state.kindpage = 0
        state.kind = payload.kind
        let kind = encodeURI(payload.kind)
       // console.log(kind)
@@ -1042,7 +1045,7 @@ export default new Vuex.Store({
         }
       }
        axios
-       .get(`http://localhost:9200/api/all/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${page}`, config) 
+       .get(`http://localhost:9200/api/all/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${state.kindpage}`, config) 
        .then(Res=>{
          (Res.data !== null) ? commit('KindList_s', Res.data): commit('NullErr')
        })
@@ -1461,10 +1464,11 @@ export default new Vuex.Store({
         }
       }
       console.log(payload)
+
       axios
       .put('http://localhost:9200/api/offer/check', payload, config)
       .then(Res => {
-        (Res.data === "success")? dispatch('getBidList', {sale: 1}): commit('HomeErr')
+        (Res.data !== null )? commit('CheckPay_s', Res.data): commit('NullErr')
       }).catch(()=>{
         commit('HomeErr')
       })

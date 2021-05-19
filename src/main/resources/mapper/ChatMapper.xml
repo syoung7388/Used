@@ -14,12 +14,12 @@
 		</selectKey>
 
 	</insert>
-	<select id="ChatDetail" parameterType="int" resultType="Chat">
+	<select id="ChatDetail" parameterType="String" resultType="Chat">
 		select	ch_num as ch_num,
 				ch_seller as seller,
 				ch_buyer as buyer
 		from chat
-		where a_num = #{a_num}
+		where WHERE (ch_seller =  #{seller} AND ch_buyer = #{buyer}) OR  (ch_seller = #{buyer} AND ch_buyer= #{seller}))
 	</select>
 	
 	<select id="ChatList" parameterType= "String" resultType="Chat">

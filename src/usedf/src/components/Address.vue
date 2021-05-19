@@ -26,15 +26,13 @@ export default {
 
         }
     },
+    methods: {
+        DaumPostCode(){
 
-    mounted(){
-        const script = document.createElement('script')
-        script.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
-        document.head.appendChild(script)
-
-
-        
-        script.onload = ()=>{
+            const script = document.createElement('script')
+            script.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
+            document.head.appendChild(script)
+            script.onload = ()=>{
             
             var PostcodContainer = document.getElementById('daum_postcode')
             new daum.Postcode({
@@ -64,7 +62,7 @@ export default {
                     }
 
                     
-                    this.$emit('Addr', {fulladdress: fullAddress})
+                    this.$emit('Addr', {fulladdress: fullAddress, town: town})
 
                     
                 
@@ -81,6 +79,14 @@ export default {
                 height: '100%'
             }).embed(PostcodContainer)
         }
+        }
+
+    },
+
+    mounted(){
+
+
+
 
 
 

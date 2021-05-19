@@ -11,7 +11,7 @@
             :value="value"
             fixed
         >
-            <v-btn router :to="{name: 'Home'}">
+            <v-btn @click="getTopList">
                 <span style="opacity:0.5 font-weight:500; font-size: 15px">홈</span>
                 <i class="fas fa-home mb-2"  style="font-size: x-large;"></i>
             </v-btn>
@@ -50,9 +50,7 @@ import { mapActions, mapState } from 'vuex'
         }
     },
     beforeCreate(){
-      
         this.$store.dispatch('nowLatLon')
-    
     },
     computed: {
         ...mapState(['removeBar', 'Roles' , 'role'])
@@ -77,7 +75,7 @@ import { mapActions, mapState } from 'vuex'
             }
 
         },
-        ...mapActions(['getAccountInfo', 'getTurnOverInfo'])
+        ...mapActions(['getAccountInfo', 'getTurnOverInfo', 'getTopList'])
 
     },
  

@@ -150,7 +150,7 @@
                     dense
                     height="2"
                     @click="Address"
-                    ></v-text-field><!--  -->
+                    ></v-text-field>
                 </v-col>
             </v-row>
             <v-row>
@@ -226,7 +226,7 @@
             ></v-virtual-scroll>     
         </v-container>
         <div v-show=" Writingshow=== false" >
-            <Address  @Addr ="result_Addr" ></Address> 
+            <Address  @Addr ="result_Addr" ref="childaddr" ></Address> 
         </div>
     </v-app>
 </template>
@@ -315,6 +315,7 @@ export default{
       
         },
         Address(){
+            this.$refs.childaddr.DaumPostCode()
             this.Writingshow= false
         },
         isEmpty (payload){

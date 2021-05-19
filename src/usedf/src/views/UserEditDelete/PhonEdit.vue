@@ -2,26 +2,8 @@
 <v-app class="pa-2 ">
     <v-row >
         <v-col>
-            <v-alert
-                dense
-                text
-                type="error"
-                x-small
-                :value="certiError"
-            >
-            인증번호가 틀립니다!
-            </v-alert>
-            <v-alert
-                dense
-                text
-                type="error"
-                x-small
-                :value="phoneError"
-            >
-             휴대폰 번호를 확인해주세요
-            </v-alert>
             <v-btn icon @click="Editback">
-                <i class="fas fa-angle-double-left" style="font-size: large;"></i>
+                <i class="fas fa-arrow-left" style="font-size: large;"></i>
             </v-btn>
             <h1  class="mt-5 " style="font-size: 17px; text-align: center">변경하실 전화번호를 입력해 주세요.</h1>
             <v-text-field
@@ -62,7 +44,6 @@
             </div>
         </v-col>
     </v-row>
-    <ErrorHanding></ErrorHanding>
 </v-app>
 </template>
 <script>
