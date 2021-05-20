@@ -87,14 +87,14 @@ export default {
                 $state.complete()            
             }else{
 
-                var lat = localStorage.getItem("lat")
-                var lon = localStorage.getItem("lon")
+                var lat = this.$store.state.Storage.getItem("lat")
+                var lon = this.$store.state.Storage.getItem("lon")
                 this.$store.state.kindpage += 1
                 var page = this.$store.state.kindpage
                 var kind = this.$store.state.kind
             
                 axios
-                .get(`http://localhost:9200/api/all/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${page}`)
+                .get(this.$store.state.http+`/api/all/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${page}`)
                 .then(Res => {
                     setTimeout(()=>{
                         var list = Res.data.kindlist     

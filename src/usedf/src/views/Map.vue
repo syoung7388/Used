@@ -18,8 +18,7 @@ export default {
         }
     },
     mounted(){
-        if(window.kakao && window.kakao.maps) {
-          
+        if(window.kakao && window.kakao.maps) { 
             this.initMap()
         } else {
             const script = document.createElement('script')

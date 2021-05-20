@@ -51,6 +51,16 @@
                     <v-expansion-panel>
                         <v-expansion-panel-header class="grey--text">게시물 상세보기</v-expansion-panel-header>
                         <v-expansion-panel-content>
+                            <v-row justify="start">
+                                <v-col cols="12">
+                                    <h1 style="font-size: 15px">{{aucInfo.title}}</h1> 
+                                </v-col>
+                            </v-row>
+                               <v-row justify="start">
+                                <v-col cols="12">
+                                    <h1 style="font-size: 12px">{{aucInfo.content}}</h1> 
+                                </v-col>
+                            </v-row>
     
                         </v-expansion-panel-content>
                     </v-expansion-panel>

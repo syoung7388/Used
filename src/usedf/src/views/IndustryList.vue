@@ -87,14 +87,14 @@ export default {
                 $state.complete()            
             }else{
 
-                var lat = localStorage.getItem("lat")
-                var lon = localStorage.getItem("lon")
+                var lat = this.$store.state.Storage.getItem("lat")
+                var lon = this.$store.state.Storage.getItem("lon")
                 this.$store.state.industrypage += 1
                 var page = this.$store.state.industrypage
                 var industry = this.$store.state.industry
             
                 axios
-                .get(`http://localhost:9200/api/all/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${page}`)
+                .get(this.$store.state.http+`/api/all/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${page}`)
                 .then(Res => {
                     setTimeout(()=>{
                         var list = Res.data.industrylist     

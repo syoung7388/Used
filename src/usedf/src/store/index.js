@@ -11,6 +11,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    http:'http://172.30.1.29:9200',
+    Storage: sessionStorage,
     Mshow: true,
     Pshow: false,
     Sshow:false,
@@ -19,6 +21,9 @@ export default new Vuex.Store({
     EPshow: false,
     Eshow: false,
     list_show: true,
+    certi_err: false,
+
+
     ImageList:[],
     
     
@@ -199,11 +204,18 @@ export default new Vuex.Store({
       state.phone= payload.phone;
       console.log(state.certi)
     },
-
-    
-    Certification_s(state){
-      state.Sshow= true
+    CheckCerti(state, payload){
+      console.log(payload.certinum)
+      if(state.certi === payload.certinum){
+        state.Sshow = true 
+        state.Pshow = true
+        state.certi_err = false
+      }else{
+        state.certi_err = true
+      }
     },
+
+
 
     Signup_s(state){
       state.auth_show = 1
@@ -253,7 +265,7 @@ export default new Vuex.Store({
       state.role= null
       state.role_choose = false
       state.auth_show = 0
-      localStorage.removeItem('access_token')
+      state.Storage.removeItem('access_token')
       router.push({name: 'Home'}) 
     },
     Edit_s(state, payload){
@@ -635,9 +647,9 @@ export default new Vuex.Store({
 
     ///////////////////////////////////////////////////////////////////////////////////////////////페이지 전환 함수 & 페이지 요소 조정 함수
 
-    Sms({commit}, payload){//인증문자
+    Sms({commit, state}, payload){//인증문자
       axios
-      .post('http://localhost:9200/api/all/sms', payload)
+      .post(state.http+'/api/all/sms', payload)
       .then(Res => {
         (Res.data !== null)? commit('Sms_s', Res.data): ('InsertErr')
       })
@@ -645,14 +657,11 @@ export default new Vuex.Store({
         commit('Err')
       })
     },
-    Certification({state, commit}, payload){  
-      (payload.certinum === state.certi)? commit('Certification_s') : commit('InsertErr')
-    },
-    Signup({commit}, payload){ 
+    Signup({commit, state}, payload){ 
 
       console.log(payload)
       axios
-      .post('http://localhost:9200/api/all/signup', payload)
+      .post(state.http+'/api/all/signup', payload)
       .then( Res => {
 
         (Res.data === "success")? commit('Signup_s') : commit('Duplication', Res.data)
@@ -661,16 +670,16 @@ export default new Vuex.Store({
         commit('Err')
       })
     },
-    Login({dispatch, commit }, payload){ 
+    Login({dispatch, commit, state}, payload){ 
 
       axios
-      .post('http://localhost:9200/api/all/login', payload)
+      .post(state.http+'/api/all/login', payload)
       .then(Lres =>{
 
         if(Lres.data !== null){
           let token = Lres.data.token
           console.log(token)
-          localStorage.setItem("access_token", token)
+          sessionStorage.setItem("access_token", token)
           dispatch('getUserInfo')
 
         }else{
@@ -683,15 +692,15 @@ export default new Vuex.Store({
 
     },
 
-    getUserInfo({commit, dispatch}){ 
-      let token= localStorage.getItem("access_token")
+    getUserInfo({commit, dispatch, state}){ 
+      let token= sessionStorage.getItem("access_token")
       let config= {
         headers: {
           access_token: token
         }
       }
       axios
-      .get('http://localhost:9200/api/user/unpackToken', config)
+      .get(state.http+'/api/user/unpackToken', config)
       .then( Ires =>{
         
         if(Ires.data !== null ){
@@ -713,35 +722,39 @@ export default new Vuex.Store({
     Logout({commit}){
       commit('logout')
     },
-    EditOK({state, commit}){ 
-      let userInfo= state.userInfo
-      let token= localStorage.getItem("access_token")
-      let config= {
-        headers: {
-          access_token: token
+    EditOK({state, commit}, payload){ 
+      if(state.certi === payload.certinum){
+        let userInfo= state.userInfo
+        let token= sessionStorage.getItem("access_token")
+        let config= {
+          headers: {
+            access_token: token
+          }
         }
-      }
-      axios
-      .post('http://localhost:9200/api/user/edit', userInfo, config)
-      .then(Res =>{
-        (Res.data === "success")? commit('Edit_s', Res.data):  commit("InsertErr")
-      })
-      .catch(()=>{
-        commit('InsertErr')
-      })
+        axios
+        .post(state.http+'/api/user/edit', userInfo, config)
+        .then(Res =>{
+          (Res.data !== null)? commit('Edit_s', Res.data):  commit("InsertErr")
+        })
+        .catch(()=>{
+          commit('InsertErr')
+        })
 
+      }else{
+        commit("InsertErr")
+      }
     },
     deleteOK({state,commit}){ 
       let username= state.userInfo.username
       //console.log(username)
-      let token= localStorage.getItem("access_token")
+      let token= sessionStorage.getItem("access_token")
       let config= {
         headers: {
           access_token: token
         }
       }
       axios
-      .delete(`http://localhost:9200/api/user/delete/${username}`, config)
+      .delete(state.http+`/api/user/delete/${username}`, config)
       .then(Res =>{
         (Res.data === "success")? commit('Delete_s'): commit('Err')
       })
@@ -758,7 +771,7 @@ export default new Vuex.Store({
       //console.log(payload)
 
 
-      let token = localStorage.getItem("access_token")
+      let token = sessionStorage.getItem("access_token")
       let config={
         headers: {
           "access_token": token,
@@ -802,7 +815,7 @@ export default new Vuex.Store({
       //picture
        
       axios
-      .post('http://localhost:9200/api/auction' , formData, config)
+      .post(state.http+'/api/auction' , formData, config)
       .then(Res => {
         (Res.data === "success" )? commit('Writing_s'): commit('InsertErr') 
 
@@ -815,15 +828,15 @@ export default new Vuex.Store({
     },
 
 
-    getSaleStatistic({commit}){
-      let token = localStorage.getItem("access_token")
+    getSaleStatistic({commit, state}){
+      let token = sessionStorage.getItem("access_token")
       let config={
         headers: {  
           "access_token": token
         }
       }
       axios
-      .get('http://localhost:9200/api/auction/statistic', config)
+      .get(state.http+'/api/auction/statistic', config)
       .then(Res => {
         if(Res.data !== null){
           commit('SaleStatistic_s', Res.data)
@@ -838,9 +851,9 @@ export default new Vuex.Store({
 
 
 
-    getSaleList({commit}, payload){
+    getSaleList({commit, state}, payload){
       //state.list_show =  true
-      let token = localStorage.getItem("access_token")
+      let token = sessionStorage.getItem("access_token")
       let config={
         headers: {  
           "access_token": token
@@ -849,7 +862,7 @@ export default new Vuex.Store({
 
 
       axios
-      .get(`http://localhost:9200/api/auction/${payload.sale}`, config)
+      .get(state.http+`/api/auction/${payload.sale}`, config)
       .then(Res => {
         (Res.data.length !== 0)? commit('SaleList_s', Res.data): commit('NullErr', {router:"SaleList", Bar:"true"}) 
       })
@@ -862,7 +875,7 @@ export default new Vuex.Store({
     getSaleDetail({state, commit}, payload){
 
 
-      let token= localStorage.getItem("access_token")
+      let token= sessionStorage.getItem("access_token")
       let config= {
         headers:{
           "access_token": token
@@ -870,7 +883,7 @@ export default new Vuex.Store({
       }
   
       axios
-      .get(`http://localhost:9200/api/all/${payload.a_num}`, config)
+      .get(state.http+`/api/all/${payload.a_num}`, config)
       .then(Res =>{
         (Res.data !== null)? commit('SaleDetail_s', Res.data) :commit('Err') 
       })
@@ -878,8 +891,8 @@ export default new Vuex.Store({
         commit('Err')
       })
     },
-    SelectOffer({commit, dispatch}, payload){
-      let token= localStorage.getItem("access_token")
+    SelectOffer({commit, dispatch, state}, payload){
+      let token= sessionStorage.getItem("access_token")
       let config= {
         headers:{
           "access_token": token
@@ -887,7 +900,7 @@ export default new Vuex.Store({
       }
       console.log(payload)
       axios
-      .put('http://localhost:9200/api/offer', payload, config)
+      .put(state.http+'/api/offer', payload, config)
       .then(Res =>{
         (Res.data === "success")? dispatch('getSaleList', {sale: 1}):commit('Err')
       })
@@ -903,7 +916,7 @@ export default new Vuex.Store({
     
       //console.log(payload)
 
-      let token= localStorage.getItem("access_token")
+      let token= sessionStorage.getItem("access_token")
       let config= {
         headers:{
           "access_token": token,
@@ -913,8 +926,8 @@ export default new Vuex.Store({
       }
 
 
-      let lat = localStorage.getItem('lat')
-      let lon = localStorage.getItem('lon')
+      let lat = sessionStorage.getItem('lat')
+      let lon = sessionStorage.getItem('lon')
       let formData = new FormData()
 
     
@@ -944,7 +957,7 @@ export default new Vuex.Store({
       //picture
 
       axios
-      .put('http://localhost:9200/api/auction', formData, config)
+      .put(state.http+'/api/auction', formData, config)
       .then(Res =>{
         //console.log(Res.data)
         (Res.data !== null)? commit('SaleEdit_s', Res.data): commit('InsertErr') 
@@ -957,14 +970,14 @@ export default new Vuex.Store({
 
     SaleDelete({dispatch, commit, state}, payload){
       let a_num = payload.a_num
-      let token= localStorage.getItem("access_token")
+      let token= sessionStorage.getItem("access_token")
       let config= {
         headers: {
           access_token: token
         }
       }
       axios
-      .delete(`http://localhost:9200/api/auction/${a_num}`, config)
+      .delete(state.http+`/api/auction/${a_num}`, config)
       .then(Res =>{
         (Res.data === 'success' )? dispatch('getSaleList',{sale:0}): commit('HomeErr')
        
@@ -979,10 +992,10 @@ export default new Vuex.Store({
          navigator.geolocation.getCurrentPosition(function(position){
               let lat = position.coords.latitude
               let lon = position.coords.longitude
-         localStorage.setItem('lat',lat)
-         localStorage.setItem('lon',lon)
-        //  console.log(localStorage.getItem('lat'))
-        //  console.log(localStorage.getItem('lon'))
+              state.Storage.setItem('lat',lat)
+              state.Storage.setItem('lon',lon)
+              console.log(state.Storage.getItem('lat'))
+              console.log(state.Storage.getItem('lon'))
 
          })
       }
@@ -993,11 +1006,13 @@ export default new Vuex.Store({
 
 
     getTopList({commit, state}){
-      let lat = localStorage.getItem('lat')
-      let lon = localStorage.getItem('lon')
+      // let lat = '37.372551'
+      // let lon = '127.762025'
+      let lat = state.Storage.getItem('lat')
+      let lon = state.Storage.getItem('lon')
       state.toppage= 0
       axios
-      .get(`http://localhost:9200/api/all/top?page=${state.toppage}&lat=${lat}&lon=${lon}`)
+      .get(state.http+`/api/all/top?page=${state.toppage}&lat=${lat}&lon=${lon}`)
       .then(Res => {
    
         if(Res.data.length !== 0){
@@ -1013,22 +1028,14 @@ export default new Vuex.Store({
 
     getIndustryList({commit, state}, payload){
       
-      let lat =localStorage.getItem('lat')
-      let lon= localStorage.getItem('lon')
+      let lat =state.Storage.getItem('lat')
+      let lon=state.Storage.getItem('lon')
       state.industry = payload.industry
       let industry= encodeURI(payload.industry)
       state.industrypage=0
 
-
-      let token= localStorage.getItem("access_token")
-      let config= {
-        headers: {
-          access_token: token
-        }
-      }
-
       axios
-      .get(`http://localhost:9200/api/all/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${state.industrypage}`, config)
+      .get(state.http+`/api/all/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${state.industrypage}`)
       .then(Res =>{
         if(Res.data.length !== 0){
           commit('IndustryList_s', Res.data)
@@ -1044,20 +1051,20 @@ export default new Vuex.Store({
 
     getKindList({commit, state}, payload){
       // alert(payload.kind)
-       let lat = localStorage.getItem("lat")
-       let lon = localStorage.getItem("lon")
+       let lat = state.Storage.getItem("lat")
+       let lon = state.Storage.getItem("lon")
        state.kindpage = 0
        state.kind = payload.kind
        let kind = encodeURI(payload.kind)
       // console.log(kind)
-      let token= localStorage.getItem("access_token")
-      let config= {
-        headers: {
-          access_token: token
-        }
-      }
+      // let token= localStorage.getItem("access_token")
+      // let config= {
+      //   headers: {
+      //     access_token: token
+      //   }
+      // }
        axios
-       .get(`http://localhost:9200/api/all/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${state.kindpage}`, config) 
+       .get(state.http+`/api/all/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${state.kindpage}`) 
        .then(Res=>{
           if(Res.data.length !== 0) {
             commit('KindList_s', Res.data)
@@ -1069,9 +1076,9 @@ export default new Vuex.Store({
        
      },
  
-    getDetail({commit,dispatch}, payload){
+    getDetail({commit,dispatch, state}, payload){
 
-      let token = localStorage.getItem("access_token")
+      let token = state.Storage.getItem("access_token")
 
       let config = {
         headers: {
@@ -1079,7 +1086,7 @@ export default new Vuex.Store({
         }
       }
       axios
-      .get(`http://localhost:9200/api/all/${payload.a_num}`, config)
+      .get(state.http+`/api/all/${payload.a_num}`, config)
       .then(Res =>{
 
 
@@ -1091,9 +1098,9 @@ export default new Vuex.Store({
       })
     },
 
-    RemainDelete({commit, dispatch},payload){
+    RemainDelete({commit, dispatch, state},payload){
 
-      let token= localStorage.getItem("access_token")
+      let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
           access_token: token
@@ -1101,7 +1108,7 @@ export default new Vuex.Store({
       }
       
       axios
-      .delete(`http://localhost:9200/api/auction/${payload.a_num}`, config)
+      .delete(state.http+`/api/auction/${payload.a_num}`, config)
       .then(Res=>{
         (Res.data === "success")? dispatch('nowLatLon'):commit('Err')
       
@@ -1114,14 +1121,14 @@ export default new Vuex.Store({
 
     PriceOffer({commit, dispatch, state}, payload){
 
-      let token = localStorage.getItem("access_token")
+      let token = state.Storage.getItem("access_token")
       let config = {
         headers: {
           'access_token': token
         }
       }
       axios
-      .post('http://localhost:9200/api/offer',payload, config)
+      .post(state.http+'/api/offer',payload, config)
       .then(Res => { 
         //console.log(Res.data)
         (Res.data !== null) ? commit('DetailSave', Res.data): commit('HomeErr')   
@@ -1130,16 +1137,16 @@ export default new Vuex.Store({
         commit('HomeErr')
       })
     },
-    PriceOffer_bid({commit}, payload){
+    PriceOffer_bid({commit, state}, payload){
       
-      let token = localStorage.getItem("access_token")
+      let token = state.Storage.getItem("access_token")
       let config = {
         headers: {
           'access_token': token
         }
       }
       axios
-      .post('http://localhost:9200/api/offer',payload, config)
+      .post(state.http+'/api/offer',payload, config)
       .then(Res => { 
         //console.log(Res.data)
         (Res.data !== null) ? commit('DetailSave', Res.data): commit('HomeErr')   
@@ -1153,14 +1160,14 @@ export default new Vuex.Store({
     },
 
     OfferCancle({state, commit}, payload){
-      let token= localStorage.getItem("access_token")
+      let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
           access_token: token
         }
       }
       axios
-      .delete(`http://localhost:9200/api/offer/${payload.o_num}/${payload.a_num}`, config)
+      .delete(state.http+`/api/offer/${payload.o_num}/${payload.a_num}`, config)
       .then(Res =>{
         (Res.data !== null)? commit('DetailSave', Res.data):commit('HomeErr')
       })
@@ -1169,15 +1176,15 @@ export default new Vuex.Store({
       })
     },
 
-    getBidStatistic({commit}, payload){
-      let token = localStorage.getItem("access_token")
+    getBidStatistic({commit, state}, payload){
+      let token = state.Storage.getItem("access_token")
       let config= {
         headers: {
           "access_token": token
         }
       }
       axios
-      .get('http://localhost:9200/api/offer/count', config)
+      .get(state.http+'/api/offer/count', config)
       .then(Res =>{
         if(Res.data !== null){
           commit('BidStatistic_s', Res.data)
@@ -1188,16 +1195,16 @@ export default new Vuex.Store({
         commit('Err')
       })
     },
-    getBidList({commit}, payload){
+    getBidList({commit, state}, payload){
  
-      let token = localStorage.getItem("access_token")
+      let token = state.Storage.getItem("access_token")
       let config= {
         headers: {
           "access_token": token
         }
       }
       axios
-      .get(`http://localhost:9200/api/offer?sale=${payload.sale}`, config)
+      .get(state.http+`/api/offer?sale=${payload.sale}`, config)
       .then(Res =>{
         (Res.data.length !== 0) ? commit('BidList_s', Res.data): commit('NullErr', {router:"BidList", Bar:"true"})
       })
@@ -1207,10 +1214,10 @@ export default new Vuex.Store({
 
     },
 
-    getBidDetail({commit},payload){
+    getBidDetail({commit, state},payload){
 
 
-      let token = localStorage.getItem("access_token")
+      let token = state.Storage.getItem("access_token")
       let config= {
         headers: {
           "access_token": token
@@ -1218,7 +1225,7 @@ export default new Vuex.Store({
       }
  
       axios
-      .get(`http://localhost:9200/api/offer/${payload.a_num}`, config)
+      .get(state.http+`/api/offer/${payload.a_num}`, config)
       .then(Res =>{
         
         (Res.data !== null)? commit('DetailSave', Res.data): commit('Err')
@@ -1234,14 +1241,14 @@ export default new Vuex.Store({
 
 
     Like({commit, state}, payload){
-      let token= localStorage.getItem("access_token")
+      let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
           access_token: token
         }
       }
       axios
-      .post('http://localhost:9200/api/like', payload, config)
+      .post(state.http+'/api/like', payload, config)
       .then(Res =>{
         (Res.data !== null)? commit('DetailSave', Res.data): commit('Err')
         
@@ -1251,15 +1258,15 @@ export default new Vuex.Store({
       })
 
     },
-    RemoveLike({commit}, payload){
-      let token= localStorage.getItem("access_token")
+    RemoveLike({commit,state}, payload){
+      let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
           access_token: token
         }
       }
       axios
-      .delete(`http://localhost:9200/api/like/${payload.a_num}`, config)
+      .delete(state.http+`/api/like/${payload.a_num}`, config)
       .then(Res =>{
         (Res.data !== null)? commit('DetailSave', Res.data) : commit('Err')
       })
@@ -1270,14 +1277,14 @@ export default new Vuex.Store({
     getLikeList({commit}){
       
 
-      let token = localStorage.getItem("access_token")
+      let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
           "access_token": token
         }
       }
       axios
-      .get('http://localhost:9200/api/like/', config)
+      .get(state.http+'/api/like/', config)
       .then(Res => {
         (Res.data !== null)? commit('LikeList_s',Res.data ) : commit('Err' )
       })
@@ -1287,7 +1294,7 @@ export default new Vuex.Store({
     },
     getLikeDetail({commit,dispatch}, payload){
 
-      let token = localStorage.getItem("access_token")
+      let token = state.Storage.getItem("access_token")
 
       let config = {
         headers: {
@@ -1295,7 +1302,7 @@ export default new Vuex.Store({
         }
       }
       axios
-      .get(`http://localhost:9200/api/all/${payload.a_num}`, config)
+      .get(state.http+`/api/all/${payload.a_num}`, config)
       .then(Dres =>{
         (Dres.data !== null)? commit('DetailSave', Dres.data): commit('Err')
         router.push({name: 'LikeDetail'})
@@ -1304,17 +1311,17 @@ export default new Vuex.Store({
         commit('Err')
       })
     },
-    getPayDetail({commit}, payload){
+    getPayDetail({commit, state}, payload){
 
 
-      let token = localStorage.getItem("access_token")
+      let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
           "access_token": token
         }
       }
       axios
-      .get(`http://localhost:9200/api/payment/${payload.a_num}`, config)
+      .get(state.http+`/api/payment/${payload.a_num}`, config)
       .then(Res => {
         (Res.data !== null)? commit('DetailSave' , Res.data):commit('PayDetail_f' , Err) 
         router.push({name: 'PayDetail'})
@@ -1363,14 +1370,14 @@ export default new Vuex.Store({
       //state.roomInfo = payload
       //console.log(payload)
 
-      let token= localStorage.getItem("access_token")
+      let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
           access_token: token
         }
       }
       axios
-      .post(`http://localhost:9200/api/chat`, payload, config)
+      .post(state.http+`/api/chat`, payload, config)
       .then(Res =>{
                
         (Res.data !== null)? commit('Room_s', {
@@ -1384,15 +1391,15 @@ export default new Vuex.Store({
       })
 
     },
-    getChatList({commit}){
-      let token = localStorage.getItem("access_token")
+    getChatList({commit, state}){
+      let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
           "access_token": token
         }
       }
       axios
-      .get('http://localhost:9200/api/chat', config)
+      .get(state.http+'/api/chat', config)
       .then(Res =>{
         (Res.data.length !== 0)? commit('ChatList_s', Res.data): commit('NullErr',{router:"ChatList", Bar: "true"})
         
@@ -1401,15 +1408,15 @@ export default new Vuex.Store({
       })
 
     }, 
-    getChatDetail({commit}, payload){
-      let token= localStorage.getItem("access_token")
+    getChatDetail({commit, state}, payload){
+      let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
           access_token: token
         }
       }
       axios
-      .get(`http://localhost:9200/api/chat/${payload.ch_num}`, config)
+      .get(state.http+`/api/chat/${payload.ch_num}`, config)
       .then(Res =>{
         (Res.data.length !== 0)? commit('ChatDetail_s', Res.data): commit('NullErr', {router:"Chat", Bar:"true"})
         
@@ -1418,7 +1425,7 @@ export default new Vuex.Store({
       })
     }, 
     Message({state}, payload){
-      let token= localStorage.getItem("access_token")
+      let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
           access_token: token
@@ -1426,16 +1433,16 @@ export default new Vuex.Store({
       }
 
       axios
-      .post("http://localhost:9200/api/chat/msg", payload, config)
+      .post(state.http+"/api/chat/msg", payload, config)
       .then(Res =>{
         if(Res.data !== 'success'){
-          localStorage.setItem('err', true)
+          sessionStorage.setItem('err', true)
           state.overlay = true
           setTimeout(()=>{
           state.overlay = false
           }, 2000)
         }else{
-          localStorage.setItem('err', false)
+          state.Storage.setItem('err', false)
         }
       }).catch(()=>{
         commit('Err')
@@ -1443,9 +1450,9 @@ export default new Vuex.Store({
     
       
     },
-    AucEnd({commit, dispatch}, payload){
+    AucEnd({commit, dispatch, state}, payload){
 
-      let token = localStorage.getItem("access_token")
+      let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
           "access_token": token
@@ -1455,7 +1462,7 @@ export default new Vuex.Store({
       
 
       axios
-      .put('http://localhost:9200/api/auction/step', payload ,config )
+      .put(state.http+'/api/auction/step', payload ,config )
       .then(Res =>{
         (Res.data !== null)? commit('AucEnd_s', Res.data): ('HomeErr')
       }).catch(()=>{
@@ -1463,39 +1470,39 @@ export default new Vuex.Store({
       })
       
     },
-    getAccountInfo({commit}){
+    getAccountInfo({commit,state}){
       
-      let token = localStorage.getItem("access_token")
+      let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
           "access_token": token
         }
       }
       axios
-      .get('http://localhost:9200/api/account', config)
+      .get(state.http+'/api/account', config)
       .then(Res =>{
         (Res.data !== null)? commit('AccountInfo_s', Res.data):commit('Err')
       }).catch(()=>{
         commit('Err')
       })
     },
-    getTurnOverInfo({commit}){
-      let token = localStorage.getItem("access_token")
+    getTurnOverInfo({commit,state}){
+      let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
           "access_token": token
         }
       }
       axios
-      .get('http://localhost:9200/api/turnover', config)
+      .get(state.http+'/api/turnover', config)
       .then(Res => {
         (Res.data !== null)? commit('TurnOverInfo_s', Res.data): commit('Err')
       }).catch(()=>{
         commit('Err')
       })
     },
-    CheckPay({dispatch, commit}, payload){
-      let token = localStorage.getItem("access_token")
+    CheckPay({dispatch, commit,state}, payload){
+      let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
           "access_token": token
@@ -1504,7 +1511,7 @@ export default new Vuex.Store({
       console.log(payload)
 
       axios
-      .put('http://localhost:9200/api/offer/check', payload, config)
+      .put(state.http+'/api/offer/check', payload, config)
       .then(Res => {
         if(Res.data !== null ){
           commit('CheckPay')

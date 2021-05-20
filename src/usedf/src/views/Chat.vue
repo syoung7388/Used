@@ -95,7 +95,7 @@ export default {
         SendMsg(payload){
             this.$store.dispatch('Message', payload)
             .then(()=>{
-                if( localStorage.getItem("err") === 'false'){
+                if(this.$store.state.Storage.getItem("err") === 'false'){
               
                     this.$socket.emit('sendMsg', payload)
                     this.sendmsg = ''

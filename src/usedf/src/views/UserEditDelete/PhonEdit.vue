@@ -15,7 +15,7 @@
             <v-btn 
                 class="mt-5 primary align-content-center "
                 small 
-                @click="sms({phone})"
+                @click="Sms({phone})"
 
                 
                 >인증문자받기</v-btn>
@@ -29,18 +29,12 @@
                     v-model="certinum"
                 >
                 </v-text-field> 
-                <v-btn 
-                    class="mt-7 ml-3 primary--text" 
-                    small 
-                    @click="certification({certinum})"
-                    outlined
-                >확인</v-btn>
             </v-row>
             <v-btn  
                 class="primary mt-5"
                 block
-                @click="Edit"
-            >저장</v-btn>
+                @click="Edit({certinum: certinum})"
+            >확인</v-btn>
             </div>
         </v-col>
     </v-row>
@@ -60,10 +54,10 @@ export default {
         
     },
     methods: {
-        ...mapActions(['sms', 'certification','Editback']),
-        Edit(){
+        ...mapActions(['Sms', 'Certification','Editback']),
+        Edit(payload){
             this.userInfo.phone = this.phone
-            this.$store.dispatch('EditOK')
+            this.$store.dispatch('EditOK',payload )
 
         }
     },

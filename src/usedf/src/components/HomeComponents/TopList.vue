@@ -76,12 +76,12 @@ export default {
                 $state.complete()            
             }else{
 
-                var lat = localStorage.getItem("lat")
-                var lon = localStorage.getItem("lon")
+                var lat = this.$store.state.Storage.getItem("lat")
+                var lon = this.$store.state.Storage.getItem("lon")
                 this.$store.state.toppage += 1
                 var page = this.$store.state.toppage
                 axios
-                .get(`http://localhost:9200/api/all/top?page=${page}&lat=${lat}&lon=${lon}`)
+                .get(this.$store.state.http+`/api/all/top?page=${page}&lat=${lat}&lon=${lon}`)
                 .then(Res => {
                     setTimeout(()=>{
                         var list = Res.data.toplist     
