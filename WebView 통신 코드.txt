@@ -1,0 +1,114 @@
+MainActivity
+
+
+
+package com.example.cameratest;
+import android.os.Bundle;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    WebView wView;
+
+
+
+    @Override
+    protected void  onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        wView = findViewById(R.id.wView);
+
+
+        initWebView();
+    }
+    public void initWebView(){
+        wView.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public void onPageFinished(WebView wView, String s){
+                super.onPageFinished(wView, s);
+                wView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                            wView.evaluateJavascript("calljsfunction('soloname')",null);
+                        } else {
+                            wView.loadUrl("javascript:calljsfunction('soloname')");
+                        }
+                    }
+                });
+            }
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url){
+                view.loadUrl(url);
+                return true;
+
+            }
+
+        });
+
+
+        WebSettings ws = wView.getSettings();
+        ws.setJavaScriptEnabled(true);
+
+        AndroidBridge bridge = new AndroidBridge(this, wView);
+        wView.addJavascriptInterface(bridge, "A");
+
+        wView.loadUrl("http://192.168.50.45:8080");
+
+    }
+
+}
+
+
+
+
+=============================================================================
+AdroidBridge
+
+
+
+
+package com.example.cameratest;
+
+
+import android.os.Message;
+import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
+
+import android.webkit.WebView;
+import android.content.Context;
+import android.widget.Toast;
+
+
+import android.os.Handler;
+
+public class AndroidBridge {
+    private String TAG = "AndroidBridge";
+    final public Handler handler = new Handler();
+
+    private WebView bView;
+    private Context bcontext;
+
+
+    public AndroidBridge(Context context, WebView  webview ){
+        this.bcontext = context;
+        this.bView = webview;
+    }
+    @JavascriptInterface
+    public void sendMessage(String message){
+        Toast.makeText(bcontext, message, Toast.LENGTH_SHORT).show();//alert창으로 생각하셈
+    }
+
+
+
+
+
+
+
+
+}
