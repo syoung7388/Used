@@ -309,6 +309,8 @@ export default{
             const file = i.target.files[0]
             this.files.push(file)
             console.info(this.files)
+
+            
             let image = URL.createObjectURL(file)
             this.showImage.push({image})
         },

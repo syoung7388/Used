@@ -11,8 +11,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    http:'http://172.30.1.29:9200',
-    Storage: sessionStorage,
+    http:'http://172.30.1.55:9200',
+    Storage: localStorage,
     Mshow: true,
     Pshow: false,
     Sshow:false,
@@ -679,7 +679,7 @@ export default new Vuex.Store({
         if(Lres.data !== null){
           let token = Lres.data.token
           console.log(token)
-          sessionStorage.setItem("access_token", token)
+          state.Storage.setItem("access_token", token)
           dispatch('getUserInfo')
 
         }else{
@@ -693,7 +693,7 @@ export default new Vuex.Store({
     },
 
     getUserInfo({commit, dispatch, state}){ 
-      let token= sessionStorage.getItem("access_token")
+      let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
           access_token: token
@@ -725,7 +725,7 @@ export default new Vuex.Store({
     EditOK({state, commit}, payload){ 
       if(state.certi === payload.certinum){
         let userInfo= state.userInfo
-        let token= sessionStorage.getItem("access_token")
+        let token= state.Storage.getItem("access_token")
         let config= {
           headers: {
             access_token: token
@@ -747,7 +747,7 @@ export default new Vuex.Store({
     deleteOK({state,commit}){ 
       let username= state.userInfo.username
       //console.log(username)
-      let token= sessionStorage.getItem("access_token")
+      let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
           access_token: token
@@ -771,7 +771,7 @@ export default new Vuex.Store({
       //console.log(payload)
 
 
-      let token = sessionStorage.getItem("access_token")
+      let token = state.Storage.getItem("access_token")
       let config={
         headers: {
           "access_token": token,
@@ -782,8 +782,8 @@ export default new Vuex.Store({
 
 
 
-      let lat = localStorage.getItem('lat')
-      let lon = localStorage.getItem('lon')
+      let lat = state.Storage.getItem('lat')
+      let lon = state.Storage.getItem('lon')
       let formData = new FormData()
 
     
@@ -829,7 +829,7 @@ export default new Vuex.Store({
 
 
     getSaleStatistic({commit, state}){
-      let token = sessionStorage.getItem("access_token")
+      let token = state.Storage.getItem("access_token")
       let config={
         headers: {  
           "access_token": token
@@ -853,7 +853,7 @@ export default new Vuex.Store({
 
     getSaleList({commit, state}, payload){
       //state.list_show =  true
-      let token = sessionStorage.getItem("access_token")
+      let token = state.Storage.getItem("access_token")
       let config={
         headers: {  
           "access_token": token
@@ -875,7 +875,7 @@ export default new Vuex.Store({
     getSaleDetail({state, commit}, payload){
 
 
-      let token= sessionStorage.getItem("access_token")
+      let token= state.Storage.getItem("access_token")
       let config= {
         headers:{
           "access_token": token
@@ -892,7 +892,7 @@ export default new Vuex.Store({
       })
     },
     SelectOffer({commit, dispatch, state}, payload){
-      let token= sessionStorage.getItem("access_token")
+      let token= state.Storage.getItem("access_token")
       let config= {
         headers:{
           "access_token": token
@@ -916,7 +916,7 @@ export default new Vuex.Store({
     
       //console.log(payload)
 
-      let token= sessionStorage.getItem("access_token")
+      let token= state.Storage.getItem("access_token")
       let config= {
         headers:{
           "access_token": token,
@@ -926,8 +926,8 @@ export default new Vuex.Store({
       }
 
 
-      let lat = sessionStorage.getItem('lat')
-      let lon = sessionStorage.getItem('lon')
+      let lat = state.Storage.getItem('lat')
+      let lon = state.Storage.getItem('lon')
       let formData = new FormData()
 
     
@@ -970,7 +970,7 @@ export default new Vuex.Store({
 
     SaleDelete({dispatch, commit, state}, payload){
       let a_num = payload.a_num
-      let token= sessionStorage.getItem("access_token")
+      let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
           access_token: token
