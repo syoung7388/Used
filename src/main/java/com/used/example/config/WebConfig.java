@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
 	   @Override
 	    public void addCorsMappings(CorsRegistry registry) {
 	        registry.addMapping("/**")
-	            .allowedOrigins("http://172.30.1.55:8080") 
+	            .allowedOrigins("http://172.30.1.58:8080") 
 	            .allowedMethods("*")
 	        	.exposedHeaders("jwt-token");
 	    }

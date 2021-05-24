@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container class="pa-0">
+        <v-container class="pa-0" v-show="map_show === false">
             <v-card>
                 <v-app-bar
                     color="white"
@@ -32,10 +32,8 @@
                         <v-tabs
                             align-with-title
                             fixed-tabs
-                            height="50"
-                
+                            height="50"             
                         >
-                            
                             <v-tabs-slider primary></v-tabs-slider>
                                 <v-tab class="ml-0" style="font-size:17px;">인기매물</v-tab>
                                 <v-tab style="font-size:17px;">업종별</v-tab>
@@ -59,6 +57,9 @@
             item-height="20"
             ></v-virtual-scroll> 
         </v-container>
+        <v-container v-show="map_show === true" class="pa-0">
+            <MapComponent ref="getmap" @mapOK="MapOK"></MapComponent>
+        </v-container>
         <router-view/>
     </v-app>
 
@@ -69,16 +70,20 @@
 import TopList from '@/components/HomeComponents/TopList.vue'
 import IndustrySort from '@/components/HomeComponents/IndustrySort.vue'
 import KindSort from '@/components/HomeComponents/KindSort.vue'
+import MapComponent from '@/components/MapComponent'
 import { mapActions, mapMutations, mapState } from 'vuex'
-
-
-
-
-
 export default{
+
+    created(){
+        const script =document.createElement('script')
+        script.src = 'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=bonob9bu31'
+        script.type = "text/javascript"
+        document.head.appendChild(script)
+    },
     data(){
         return{
-            check: 0
+            check: 0, 
+            map_show: false
 
         }
     },
@@ -110,23 +115,37 @@ export default{
                this.$store.dispatch('getChatList')
             }
         },
-
-        ...mapMutations(['GetMap']),
-
+        GetMap(){
+            this.$store.state.removeBar = true
+            this.map_show = true
+            this.$refs.getmap.initmap()
+           
+        },
+        MapOK(){
+            console.log(this.$route.name)
+            this.$store.dispatch('getTopList')
+            .then(()=>{
+                this.map_show = false
+            })
+        }
+        // ...mapMutations(['GetMap'])
 
     },
     computed:{
         ...mapState(['removeBar', 'Roles'])
     },
 
+
     components: {
         TopList,
         IndustrySort,
-        KindSort
+        KindSort,
+        MapComponent
     },
 
     mounted(){
-        console.log(this.$store.state.Role)
+        // console.log(this.$store.state.Role)
+
     }
 
 

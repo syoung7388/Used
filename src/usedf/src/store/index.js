@@ -11,7 +11,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    http:'http://172.30.1.55:9200',
+    http:'http://172.30.1.58:9200',
     Storage: localStorage,
     Mshow: true,
     Pshow: false,
@@ -351,7 +351,13 @@ export default new Vuex.Store({
       state.topList = payload.toplist
       state.toppagination = payload.pagination      
       state.removeBar = false
-      router.push({name: 'Home'})
+     if(router.currentRoute.name !== 'Home'){
+        router.push({name: 'Home'})
+     }
+  
+        
+      
+      
 
     },
 
@@ -987,18 +993,18 @@ export default new Vuex.Store({
       })
 
     },
-    nowLatLon({dispatch}){
-      if(navigator.geolocation){
-         navigator.geolocation.getCurrentPosition(function(position){
-              let lat = position.coords.latitude
-              let lon = position.coords.longitude
-              state.Storage.setItem('lat',lat)
-              state.Storage.setItem('lon',lon)
-              console.log(state.Storage.getItem('lat'))
-              console.log(state.Storage.getItem('lon'))
+    nowLatLon({dispatch, state}){
+      // if(navigator.geolocation){
+      //    navigator.geolocation.getCurrentPosition(function(position){
+              // let lat = position.coords.latitude
+              // let lon = position.coords.longitude
+              state.Storage.setItem('lat',37.3595316)
+              state.Storage.setItem('lon',127.1052133)
+              // console.log(state.Storage.getItem('lat'))
+              // console.log(state.Storage.getItem('lon'))
 
-         })
-      }
+      //    })
+      // }
       dispatch('getTopList')
     },
 
