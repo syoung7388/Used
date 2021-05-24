@@ -63,4 +63,4 @@ io.on('connection', function(socket){
 
 });
  console.log("Ss")
-server.listen(7000);
+server.listen(2100);

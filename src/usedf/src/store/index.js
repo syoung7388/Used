@@ -11,7 +11,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    http:'http://172.30.1.58:9200',
+    http:'http://192.168.50.124:9200',
     Storage: localStorage,
     Mshow: true,
     Pshow: false,
@@ -1280,7 +1280,7 @@ export default new Vuex.Store({
         commit('Err')
       })
     },
-    getLikeList({commit}){
+    getLikeList({commit,state}){
       
 
       let token = state.Storage.getItem("access_token")
@@ -1298,7 +1298,7 @@ export default new Vuex.Store({
         commit('Err')
       })
     },
-    getLikeDetail({commit,dispatch}, payload){
+    getLikeDetail({commit,dispatch,state}, payload){
 
       let token = state.Storage.getItem("access_token")
 
@@ -1336,24 +1336,23 @@ export default new Vuex.Store({
         commit('Err')
       })
     },
-    // KakaoReady({commit,state, dispatch}, payload){
-    //   let token= localStorage.getItem("access_token")
-    //   let config= {
-    //     headers: {
-    //       access_token: token
-    //     }
-    //   }
-    //   axios
-    //   .post('http://localhost:9200/api/payment/kready', payload, config)
-    //   .then(Res =>{
+    KakaoReady({commit,state, dispatch}, payload){
+      let token= localStorage.getItem("access_token")
+      let config= {
+        headers: {
+          access_token: token
+        }
+      }
+      axios
+      .post('http://localhost:9200/api/payment/kready', payload, config)
+      .then(Res =>{
         
-    //     (Res.data !== null)? commit('KakaoReady_s', Res.data) : commit('KakaoReady_f')
-    //     //console.log(Res.data)
-    //     var url = Res.data.kready_r.next_redirect_pc_url
-    //     //console.log(url)
-    //     var a = window.open(url)
-    //   })   
-    // },
+        (Res.data !== null)? commit('KakaoReady_s', Res.data) : commit('KakaoReady_f')
+        var url = Res.data.kready_r.next_redirect_app_url
+        
+
+      })   
+    },
     // KakaoApprove({commit, state}, payload){
     //   console.log(payload)
     //   localStorage.setItem("back", "pay")

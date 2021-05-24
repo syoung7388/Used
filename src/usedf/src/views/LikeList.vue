@@ -36,7 +36,7 @@
                                     <v-list-item-content>
                                        <v-list-item-title v-html="item.title" class="mb-3" style="font-weight: bold"></v-list-item-title>
                                         <v-list-item-title v-html="item.address.town" style="font-size: 12px"></v-list-item-title>
-                                        <v-list-item-subtitle  style="text-align: right">D-{{item.d_day}}</v-list-item-subtitle>
+                                        <v-list-item-subtitle  style="text-align: right">D{{item.d_day}}</v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-col>
                             </v-row>

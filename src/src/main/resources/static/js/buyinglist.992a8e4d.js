@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["buyinglist"],{3926:function(n,e,t){"use strict";t.r(e);var l=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("p",[n._v("구매리스트")])},u=[],s=t("2877"),c={},i=Object(s["a"])(c,l,u,!1,null,null,null);e["default"]=i.exports}}]);
-//# sourceMappingURL=buyinglist.992a8e4d.js.map
