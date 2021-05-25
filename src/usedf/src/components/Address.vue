@@ -1,7 +1,8 @@
 <template>
 <v-app class="pl-1">
     <div id="daum_postcode"  style="position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;"></div>
-
+    <div id ="A_map" style="dispaly: none"></div>
+    
 
 </v-app>
 </template>
@@ -60,12 +61,11 @@ export default {
                     }else{
                         town = e.bname
                     }
+                    //console.log(fullAddress)
+                    this.LatLon(fullAddress, town);
 
-                    
-                    this.$emit('Addr', {fulladdress: fullAddress, town: town})
 
-                    
-                
+
                     fullAddress= ''
                     extraAddress= ''
                 }
@@ -79,7 +79,32 @@ export default {
                 height: '100%'
             }).embed(PostcodContainer)
         }
+        },
+        LatLon(address, town){
+            naver.maps.Service.geocode({
+                    query: address
+                }, (status, response)=>{
+                    if(status !== 200){                  
+                        console.log("주소 체크")
+                        this.$store.commit('Err')
+                    }else{
+                        if(response.v2.meta.totalCount === 0){
+                         this.$store.commit('AskErr')
+                        }else{
+                            var item = response.v2.addresses[0]
+                            this.$store.state.Storage.setItem("lat", item.y)
+                            this.$store.state.Storage.setItem("lon", item.x)
+                            //console.log(item.y)
+                            this.$emit('Addr',{fullAddress: address, town: town })
+                        }
+
+                    }
+
+
+            })
         }
+
+
 
     },
 

@@ -11,9 +11,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    http:'http://192.168.50.124:9200',
+    http:'http://172.30.1.33:9200',
     Storage: localStorage,
     Mshow: true,
+    Kshow:false, //
     Pshow: false,
     Sshow:false,
     auth_show: 0,
@@ -141,7 +142,8 @@ export default new Vuex.Store({
     err: false,
     inserterr: false,
     homeerr : false,
-    nullerr: false
+    nullerr: false,
+    askerr: false
 
 
   
@@ -517,25 +519,25 @@ export default new Vuex.Store({
 
     },
   
-    // PayDetail_s(state, payload){
+    PayDetail_s(state, payload){
 
-    //   console.log(payload)
-    //   var aucdetail = payload.aucdetail
-    //   state.payInfo = payload.paydetail
-    //   state.aucInfo = aucdetail
-    //   state.chatInfo = payload.chatdetail
-    //   state.likeInfo = aucdetail.like
+      console.log(payload)
+      var aucdetail = payload.aucdetail
+      state.payInfo = payload.paydetail
+      state.aucInfo = aucdetail
+      state.chatInfo = payload.chatdetail
+      state.likeInfo = aucdetail.like
       
       
-    //   for(var i in aucdetail.product){
-    //     state.proInfo = aucdetail.product[i]
-    //   }
-    //   state.offerInfo= aucdetail.offer
-    //   state.addrInfo = aucdetail.address
-    //   state.beforeImage=aucdetail.product[0].picture
-    //   state.removeBar = true
-    //   router.push({name: 'PayDetail'})
-    // },
+      for(var i in aucdetail.product){
+        state.proInfo = aucdetail.product[i]
+      }
+      state.offerInfo= aucdetail.offer
+      state.addrInfo = aucdetail.address
+      state.beforeImage=aucdetail.product[0].picture
+      state.removeBar = true
+      router.push({name: 'PayDetail'})
+    },
     // KakaoReady_s(state, payload){
 
     //   state.payreadyInfo = payload
@@ -600,6 +602,14 @@ export default new Vuex.Store({
       setTimeout(()=>{
         state.overlay = false
         state.inserterr =false
+      }, 3000)
+    },
+    AskErr(state){
+      state.overlay = true
+      state.askerr = true
+      setTimeout(()=>{
+        state.overlay = false
+        state.askerr =false
       }, 3000)
     },
     HomeErr(state){
@@ -1318,8 +1328,6 @@ export default new Vuex.Store({
       })
     },
     getPayDetail({commit, state}, payload){
-
-
       let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
@@ -1329,26 +1337,28 @@ export default new Vuex.Store({
       axios
       .get(state.http+`/api/payment/${payload.a_num}`, config)
       .then(Res => {
-        (Res.data !== null)? commit('DetailSave' , Res.data):commit('PayDetail_f' , Err) 
-        router.push({name: 'PayDetail'})
+        (Res.data !== null)? commit('PayDetail_s' , Res.data):commit('PayDetail_f' , Err) 
       })
       .catch(()=>{
         commit('Err')
       })
     },
     KakaoReady({commit,state, dispatch}, payload){
-      let token= localStorage.getItem("access_token")
+     
+      let token= state.Storage.getItem("access_token")
+      console.log(token)
       let config= {
         headers: {
           access_token: token
         }
       }
       axios
-      .post('http://localhost:9200/api/payment/kready', payload, config)
+      .post(state.http+'/api/payment/kready', payload, config)
       .then(Res =>{
         
         (Res.data !== null)? commit('KakaoReady_s', Res.data) : commit('KakaoReady_f')
         var url = Res.data.kready_r.next_redirect_app_url
+        window.kakaopay.PayWindow(url)
         
 
       })   

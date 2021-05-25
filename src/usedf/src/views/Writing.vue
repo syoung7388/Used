@@ -287,13 +287,7 @@ export default{
         let year = new Date().getFullYear();
         for (let i = 1970; i <= year; i++) {
         this.yearOptions.push(i);
-        
-    
         }
-
-
-
-
 
     },
 
@@ -318,7 +312,7 @@ export default{
         result_Addr(payload){
             console.log(payload)
             this.Writingshow= true  
-            this.address =payload.fulladdress
+            this.address =payload.fullAddress
             this.town = payload.town
       
         },
@@ -332,7 +326,7 @@ export default{
                     this.$store.state.WritingError = true
                 }else{
                     this.count++
-                    //console.log(this.count)    
+            
                 }
             }
             if(this.count === 11){

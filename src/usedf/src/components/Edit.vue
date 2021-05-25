@@ -152,7 +152,6 @@
                 class="py-0"
                 >
                     <v-text-field
-                    :placeholder= addrInfo.addr
                     v-model="addr"
                     outlined
                     rows="1"
@@ -302,11 +301,7 @@ export default{
             username: null,
             showImage:[],// 일단 보여주기식 이미지
             files: [], //신규파일전체
-    
-
             pi_numList: [],
-
-
             yearOptions:[], 
             select: null,
             industries: ['한식', '찜/탕','면요리','고기/구이','족발/ 보쌈','치킨','분식','중식','동남아식','회/초밥','일식/돈까스','피자/샐러드','호프/술집','카페/베이커리','배달전문점'],
@@ -323,6 +318,8 @@ export default{
 
     },
     mounted() {
+
+        this.addr = this.$store.state.addrInfo.addr
 
 
 
@@ -386,10 +383,6 @@ export default{
             this.$store.state.address_show= true
         },
         ResultAddress(payload){
-
-           
-            // this.$store.state.addrInfo.addr = payload.fulladdress
-            // this.$store.state.addrInfo.town= payload.town 
             this.$store.state.address_show= false
             this.addr = payload.fulladdress
             this.town = payload.town

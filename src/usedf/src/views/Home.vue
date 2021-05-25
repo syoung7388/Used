@@ -76,7 +76,7 @@ export default{
 
     created(){
         const script =document.createElement('script')
-        script.src = 'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=bonob9bu31'
+        script.src = 'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=bonob9bu31&submodules=geocoder'
         script.type = "text/javascript"
         document.head.appendChild(script)
     },

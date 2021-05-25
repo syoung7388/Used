@@ -100,7 +100,7 @@ public class PaymentController {
 	@ResponseBody
 	public ResponseEntity<?> KaKaoReady(@RequestBody KaKaoReady kakao, HttpServletRequest request){
 		//logger.info("auction:"+auction);
-		
+		logger.info("---------------------------------------------------------------KaKaoReady");
 
         RestTemplate restTemplate = new RestTemplate();
  
@@ -121,9 +121,9 @@ public class PaymentController {
         params.add("quantity", "1");
         params.add("total_amount", Long.toString(kakao.getPrice()));
         params.add("tax_free_amount", "0");
-        params.add("approval_url", "http://localhost:8080/payapproval");
-        params.add("cancel_url", "http://localhost:8080/payapproval");
-        params.add("fail_url", "http://localhost:8080/payapproval");
+        params.add("approval_url", "http://172.30.1.33:8080/payapproval");
+        params.add("cancel_url", "http://172.30.1.33:8080/payapproval");
+        params.add("fail_url", "http://172.30.1.33:8080/payapproval");
         
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);

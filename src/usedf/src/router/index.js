@@ -12,11 +12,7 @@ const routes = [
     name: 'App',
     component: () => import(/* webpackChunkName: "appp" */'@/App.vue')
   },
-  {
-    path:'/map',
-    name: 'Map',
-    component: () => import(/* webpackChunkName: "map" */'@/views/Map.vue')
-  },
+
   
   {
     path:'/home',

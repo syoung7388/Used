@@ -1,6 +1,9 @@
 <template>
   <v-app>
-    <div>
+    <div v-if="Kshow === true"> 
+      <router-view></router-view>
+    </div>
+    <div v-else>
       <Main></Main>
     </div>
     
@@ -35,7 +38,7 @@ export default {
     ...mapActions(['Alogin', 'Asignup'])
   },
   computed: {
-    ...mapState(['Ashow'])
+    ...mapState(['Ashow', 'Kshow'])
   },
 
   
