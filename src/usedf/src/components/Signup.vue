@@ -98,7 +98,7 @@ export default{
             this.addr_show = true
         },
         Aresult(payload){
-            this.address = payload.fulladdress
+            this.address = payload.fullAddress
             this.addr_show= false
         },
         CheckSignup(payload){

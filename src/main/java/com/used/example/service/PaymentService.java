@@ -1,6 +1,7 @@
 package com.used.example.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.used.example.domain.Amount;
 import com.used.example.domain.Auction;
@@ -14,7 +15,7 @@ import com.used.example.domain.Product;
 
 public interface PaymentService {
 
-	public Payment PaymentDetail(int a_num);
+	public Map<String, Object> PaymentDetail(int a_num);
 
 	public List<Auction> PayList(String o_username);
 

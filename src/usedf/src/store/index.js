@@ -11,8 +11,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-     http:'http://172.30.1.33:9200',
-    //http: 'http://192.168.50.124:9200',
+    //http:'http://172.30.1.33:9200',
+    http: 'http://192.168.50.124:9200',
     Storage: localStorage,
     Mshow: true,
     Kshow:false, //
@@ -553,7 +553,8 @@ export default new Vuex.Store({
     },
 
     Room_s(state, payload){
-      console.log(payload.ch_num)
+      //console.log(payload.ch_num)
+      state.Storage.setItem("back", "detail")
       router.push({name: 'Chat', params: {ch_num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
 
     },
@@ -570,7 +571,7 @@ export default new Vuex.Store({
       state.message = payload.message
       state.removeBar = true
       state.nullerr =false
-      router.push({name: 'Chat', params: {num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
+      router.push({name: 'Chat', params: {ch_num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
     },
 
     AucEnd_s(state, payload){

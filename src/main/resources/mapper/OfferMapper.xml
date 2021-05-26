@@ -133,7 +133,7 @@
 			
 	</insert>
 	
-	<select id="BidCount" parameterType="String" resultType="Count">
+	<select id="OfferCount" parameterType="String" resultType="Count">
 		SELECT 
 		COUNT(case when a.a_sale = 0 then 1 END) AS salecount,
 		COUNT(case when a.a_sale = 1 then 1 END) AS paycount,
@@ -141,12 +141,15 @@
 		COUNT(case when a.a_sale = 3 then 1 END) AS soldcount
 		from auction a
 		LEFT JOIN 
-				(SELECT *
-				FROM offer 
-				GROUP BY a_num)b on a.a_num = b.a_num
-		WHERE b.o_username =  #{a.o_username}
+					(
+					SELECT *
+					FROM offer
+					WHERE o_username = #{o_username} 
+					GROUP BY a_num
+					)b on a.a_num = b.a_num
+		WHERE b.o_username =  #{o_username}
 	</select>
-	<select id="BidRank" parameterType = "String" resultType="int">
+	<select id="OfferRank" parameterType = "String" resultType="int">
 		SELECT		tc.rank
 		FROM (SELECT	ta.pa_username ,
 						(@rank := if(@ending > ta.total, @rank:= @rank+1,  @rank)) AS rank,

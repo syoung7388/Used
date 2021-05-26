@@ -94,6 +94,8 @@ public class PaymentController {
 	private static final String HOST = "https://kapi.kakao.com";
 	private KakaoApproval approval;
 	
+	private int a_num;
+	
 
 	
 	
@@ -203,70 +205,19 @@ public class PaymentController {
             	
             	paymentService.CreateCard(card);
             	
-            	
-            	
-                Amount amount = new Amount();
-                amount.setPa_num(pa_num);
-                amount.setDiscount(approval.getAmount().getDiscount());
-                amount.setPoint(approval.getAmount().getPoint());
-                amount.setTax_free(approval.getAmount().getTax_free());
-                amount.setTotal(approval.getAmount().getTotal());
-                amount.setVat(approval.getAmount().getVat());
-                paymentService.CreateAmount(amount);
-                
-               int a_num = payment.getA_num();
-               processService.ProcessUp(a_num);
-            
-               
-               Auction  aucdetail= auctionService.AucDetail(a_num);
-               Payment paydetail = paymentService.PaymentDetail(a_num);
-             
-
-               Map<String, Object> map = new HashMap<String, Object>();
-               map.put("aucdetail", aucdetail);
-               map.put("paydetail", paydetail);
-               logger.info("map"+map);
-              
-                
-              
-              return new ResponseEntity<>( map, HttpStatus.OK);
-            	
-            }else {
-            	
-         
-            	
-                Amount amount = new Amount();
-                amount.setPa_num(pa_num);
-                amount.setDiscount(approval.getAmount().getDiscount());
-                amount.setPoint(approval.getAmount().getPoint());
-                amount.setTax_free(approval.getAmount().getTax_free());
-                amount.setTotal(approval.getAmount().getTotal());
-                amount.setVat(approval.getAmount().getVat());
-                paymentService.CreateAmount(amount);
-                
-               int a_num = payment.getA_num();
-               
-               
-               processService.ProcessUp(a_num);
-             
-               
-               Auction  aucdetail= auctionService.AucDetail(a_num);
-               Payment paydetail = paymentService.PaymentDetail(a_num);
-             
-
-               Map<String, Object> map = new HashMap<String, Object>();
-               map.put("aucdetail", aucdetail);
-               map.put("paydetail", paydetail);
-               logger.info("map"+map);
-              
-                
-              
-              return new ResponseEntity<>( map, HttpStatus.OK);
-            	
             }
+           
+            Amount amount = new Amount();
+            amount.setPa_num(pa_num);
+            amount.setDiscount(approval.getAmount().getDiscount());
+            amount.setPoint(approval.getAmount().getPoint());
+            amount.setTax_free(approval.getAmount().getTax_free());
+            amount.setTotal(approval.getAmount().getTotal());
+            amount.setVat(approval.getAmount().getVat());
+            paymentService.CreateAmount(amount);
             
-
-        
+            a_num = payment.getA_num();
+   
         } catch (RestClientException e) {
          
             e.printStackTrace();
@@ -274,7 +225,10 @@ public class PaymentController {
             
             e.printStackTrace();
         }
-        return new ResponseEntity<>(  HttpStatus.OK);
+        
+        processService.ProcessUp(a_num);      
+        Map<String, Object> map= paymentService.PaymentDetail(a_num);
+        return new ResponseEntity<>(map, HttpStatus.OK);
         
     
 	}
@@ -283,21 +237,10 @@ public class PaymentController {
 	
 	@Secured({"ROLE_USER"})
 	@GetMapping("/{a_num}")
-	public ResponseEntity<?> PayDetail(@PathVariable("a_num") int a_num, HttpServletRequest request){
+	public ResponseEntity<?> PaymentDetail(@PathVariable("a_num") int a_num, HttpServletRequest request){
 		
-		Payment paydetail = paymentService.PaymentDetail(a_num);
-		Auction aucdetail = auctionService.AucDetail(a_num);
-		Chat chatdetail = null;
-		if(paydetail != null) {
-			String buyer = paydetail.getPa_username();
-			String seller = aucdetail.getA_username();
-			chatdetail = chatService.ChatDetail(buyer,seller);
-		}
-		Map<String, Object> map = new HashMap<>();
-		map.put("paydetail", paydetail);
-		map.put("aucdetail", aucdetail);
-		map.put("chatdetail", chatdetail);
-		logger.info("map:"+map);
+		
+		Map<String, Object> map = paymentService.PaymentDetail(a_num);
 		return new ResponseEntity<>(map , HttpStatus.OK);
 		
 		

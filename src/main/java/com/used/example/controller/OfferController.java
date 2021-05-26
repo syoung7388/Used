@@ -101,7 +101,7 @@ public class OfferController {
 	
 	@Secured({"ROLE_USER"})
 	@GetMapping("/count")
-	public ResponseEntity<?> BidStatistic(HttpServletRequest request){
+	public ResponseEntity<?> OfferStatistic(HttpServletRequest request){
 		token = request.getHeader("access_token");	
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
 			token = token.substring(6, token.length());
@@ -109,40 +109,8 @@ public class OfferController {
 		String o_username = JwtUtils.getUserEmailFromToken(token);
 		
 		
-		Map<String, Object> map = new HashMap<>();		
-		Count count = offerService.BidCount(o_username);
-		
-		
-		if(count.getSoldcount() != 0) {
-			int rank = offerService.BidRank(o_username);
-			List <KindRate> kind_rate = offerService.KindCount(o_username);
-			
-			List<String> kind = new ArrayList<>();
-			List<Integer> rate = new ArrayList<>();	
-			for(int i=0; i<kind_rate.size(); i++) {
-				kind.add( kind_rate.get(i).getKind());
-				rate.add(kind_rate.get(i).getKindrate());
-			}
-			
-			map.put("kind",kind);
-			map.put("rate", rate);
-			map.put("rank", rank);
-			map.put("count", count);
-			
-		}else {
-			map.put("count", count);
-			
-		}
-		
+		Map<String , Object> map = offerService.OfferStatistic(o_username);
 
-		
-		
-		
-		
-		logger.info("map"+map);
-		
-		
-	
 		
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}

@@ -1,7 +1,7 @@
 package com.used.example.service;
 
 import java.util.List;
-
+import java.util.Map;
 
 import com.used.example.domain.Auction;
 import com.used.example.domain.Count;
@@ -19,13 +19,9 @@ public interface OfferService {
 
 	public void SelectOffer(Offer offer);
 
-	public Count BidCount(String o_username);
-
-	public int BidRank(String o_username);
-
-	public List<KindRate> KindCount(String o_username);
-
 	public void CheckPay(Offer offer);
+
+	public Map<String, Object> OfferStatistic(String o_username);
 
 	
 

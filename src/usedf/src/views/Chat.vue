@@ -3,33 +3,32 @@
         <v-container >
             <v-row justify="start">
                 <v-col cols="3" class="pb-0">
-                    <v-btn style="font-size: large;" icon @click="Back" fixed>
+                    <v-btn style="font-size: large; z-index: 1" icon @click="Back" fixed  >
                         <i class="fas fa-arrow-left" style="font-size: large;"></i>
                     </v-btn>
                 </v-col>
             </v-row>
-            <v-row justify="center">
-                <v-col cols="5" class="pb-0">
-                    <p style="font-size: 15px" class="grey--text">{{readyOK}}</p>
-                </v-col>
-            </v-row>
             <div v-for=" (item, index) in nowmsg" :key="index">
-                <v-row justify="end" v-if="item.m_username === userInfo.username">
-                    <v-col cols="8">
-                        <v-card color="skyblue white--text" max-width="600">
+                <!-- <v-row justify="end" v-if="item.m_username === userInfo.username">
+                    <v-col cols="8"> -->
+                        <div v-if="item.m_username === userInfo.username" style="align-content: left">
+                        <v-card color="skyblue white--text" style="z-index: 0">
                             <p class="ma-1">{{item.content}}</p>
                         </v-card>
                         <p class="grey--text" style="font-size: 10px; text-align:right">{{item.time}}</p>
-                    </v-col>
+                        </div>
+                    <!-- </v-col>
                 </v-row>
                 <v-row justify="start" v-else>
-                    <v-col cols="8">
-                        <v-card>
-                            <p class="ma-1">{{item.content}}</p>
-                        </v-card>
-                        <p class="grey--text" style="font-size: 10px; text-align:left">{{item.time}}</p>
-                    </v-col>
-                </v-row>
+                    <v-col cols="8"> -->
+                        <div v-else>
+                            <v-card style=" z-index: 0" >
+                                <p class="ma-1">{{item.content}}</p>
+                            </v-card>
+                            <p class="grey--text" style="font-size: 10px; text-align:left">{{item.time}}</p>
+                        </div>
+                    <!-- </v-col>
+                </v-row> -->
             </div>
             <v-card height="80" flat class="ma-4"></v-card>
             <v-bottom-navigation
@@ -95,8 +94,16 @@ export default {
             })
         }, 
         Back(){
-            this.$store.state.removeBar = true
-            this.$router.go(-1)
+            if(this.$store.state.Storage.getItem("back") === "detail"){
+                this.$store.dispatch('getPayDetail',{a_num: this.aucInfo.a_num})
+                .then(()=>{
+                    state.Storage.removeItem("back")
+                })                
+            }else{
+                this.$store.state.removeBar = true
+                this.$router.go(-1)
+            }
+
         },
         AA(data){
             this.nowmsg.push(data)
@@ -129,7 +136,7 @@ export default {
    
     },
     computed: {
-        ...mapState(['userInfo', 'message', 'chatInfo', 'overlay' ]),
+        ...mapState(['userInfo', 'message', 'chatInfo', 'overlay' ,'aucInfo']),
         // GetMessage(){
         //     this.$socket.on('getMsg', (data)=>{
         //         console.log(data)

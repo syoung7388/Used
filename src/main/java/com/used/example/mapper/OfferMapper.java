@@ -1,7 +1,7 @@
 package com.used.example.mapper;
 
 import java.util.List;
-
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -23,9 +23,9 @@ public interface OfferMapper {
 
 	public void SelectOffer(Offer offer);
 
-	public Count BidCount(String o_username);
+	public Count OfferCount(String o_username);
 
-	public int BidRank(String o_username);
+	public int OfferRank(String o_username);
 
 	public List<KindRate> KindCount(String o_username);
 
