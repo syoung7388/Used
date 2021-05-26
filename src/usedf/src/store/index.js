@@ -11,8 +11,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    // http:'http://172.30.1.33:9200',
-    http: 'http://192.168.50.124:9200',
+     http:'http://172.30.1.33:9200',
+    //http: 'http://192.168.50.124:9200',
     Storage: localStorage,
     Mshow: true,
     Kshow:false, //
@@ -102,7 +102,7 @@ export default new Vuex.Store({
     beforeType: null,
 
 
-    bidList:[],
+    offerList:[],
   
       
     aucType: null,
@@ -129,10 +129,10 @@ export default new Vuex.Store({
     msg_err: false,
 
 
-    bidcount:[],
-    bidkind: [],
-    bidrate: [],
-    bidrank: null,
+    offercount:[],
+    offerkind: [],
+    offerrate: [],
+    offerrank: null,
     accountInfo: [],
 
 
@@ -350,12 +350,16 @@ export default new Vuex.Store({
 
 
     TopList_s(state, payload){
+
+
       console.log(payload)
       state.topList = payload.toplist
       state.toppagination = payload.pagination      
       state.removeBar = false
      if(router.currentRoute.name !== 'Home'){
         router.push({name: 'Home'})
+  
+        
      }
   
         
@@ -365,6 +369,8 @@ export default new Vuex.Store({
     },
 
     IndustryList_s(state, payload){
+      console.log(router.history)
+
       console.log(payload)
       state.industryList = payload.industrylist
       state.indpagination = payload.pagination  
@@ -444,19 +450,19 @@ export default new Vuex.Store({
       router.push({name: 'KindList'})
     },
  
-    BidStatistic_s(state, payload){
-      state.bidcount = payload.count
-      state.bidkind = payload.kind
-      state.bidrate = payload.rate
-      state.bidrank = payload.rank
-      router.push({name: 'Bid'})
+    OfferStatistic_s(state, payload){
+      state.offercount = payload.count
+      state.offerkind = payload.kind
+      state.offerrate = payload.rate
+      state.offerrank = payload.rank
+      router.push({name: 'Offer'})
     },
  
-    BidList_s(state, payload){
+    OfferList_s(state, payload){
       state.removeBar = true
-      state.bidList= payload
+      state.offerList= payload
       state.nullerr =false
-      router.push({name: 'BidList'})
+      router.push({name: 'OfferList'})
     },
 
     // BidDetail_s(state, payload){
@@ -539,16 +545,16 @@ export default new Vuex.Store({
       state.removeBar = true
       router.push({name: 'PayDetail'})
     },
-    // KakaoReady_s(state, payload){
+    KakaoReady_s(state, payload){
 
-    //   state.payreadyInfo = payload
-    //  // console.log(state.payInfo)
+      state.payreadyInfo = payload
+     // console.log(state.payInfo)
 
-    // },
+    },
 
     Room_s(state, payload){
-      console.log(payload)
-      router.push({name: 'Chat', params: {num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
+      console.log(payload.ch_num)
+      router.push({name: 'Chat', params: {ch_num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
 
     },
 
@@ -569,7 +575,7 @@ export default new Vuex.Store({
 
     AucEnd_s(state, payload){
 
-      state.bidList= payload
+      state.offerList= payload
 
     },
  
@@ -585,8 +591,8 @@ export default new Vuex.Store({
       router.push({name: 'TurnOver'})
 
     },
-    CheckPay_s(state, payload){
-      state.bidList= payload
+    CheckSkip_s(state, payload){
+      state.offerList= payload
     },
     Err(state){
       state.overlay = true
@@ -626,7 +632,7 @@ export default new Vuex.Store({
     NullErr(state, payload){
 
       state.saleList = []
-      state.bidList = []
+      state.offerList = []
       state.chatList= []
       state.message=[]
       
@@ -917,7 +923,7 @@ export default new Vuex.Store({
       }
       console.log(payload)
       axios
-      .put(state.http+'/api/offer', payload, config)
+      .put(state.http+'/api/process/1', payload, config)
       .then(Res =>{
         (Res.data === "success")? dispatch('getSaleList', {sale: 1}):commit('Err')
       })
@@ -1154,27 +1160,27 @@ export default new Vuex.Store({
         commit('HomeErr')
       })
     },
-    PriceOffer_bid({commit, state}, payload){
+    // PriceOffer_bid({commit, state}, payload){
       
-      let token = state.Storage.getItem("access_token")
-      let config = {
-        headers: {
-          'access_token': token
-        }
-      }
-      axios
-      .post(state.http+'/api/offer',payload, config)
-      .then(Res => { 
-        //console.log(Res.data)
-        (Res.data !== null) ? commit('DetailSave', Res.data): commit('HomeErr')   
-      })
-      .catch(()=>{
-        commit('HomeErr')
-      })
+    //   let token = state.Storage.getItem("access_token")
+    //   let config = {
+    //     headers: {
+    //       'access_token': token
+    //     }
+    //   }
+    //   axios
+    //   .post(state.http+'/api/offer',payload, config)
+    //   .then(Res => { 
+    //     //console.log(Res.data)
+    //     (Res.data !== null) ? commit('DetailSave', Res.data): commit('HomeErr')   
+    //   })
+    //   .catch(()=>{
+    //     commit('HomeErr')
+    //   })
   
 
 
-    },
+    // },
 
     OfferCancle({state, commit}, payload){
       let token= state.Storage.getItem("access_token")
@@ -1193,7 +1199,7 @@ export default new Vuex.Store({
       })
     },
 
-    getBidStatistic({commit, state}, payload){
+    getOfferStatistic({commit, state}, payload){
       let token = state.Storage.getItem("access_token")
       let config= {
         headers: {
@@ -1204,7 +1210,7 @@ export default new Vuex.Store({
       .get(state.http+'/api/offer/count', config)
       .then(Res =>{
         if(Res.data !== null){
-          commit('BidStatistic_s', Res.data)
+          commit('OfferStatistic_s', Res.data)
 
         } 
       })
@@ -1212,7 +1218,7 @@ export default new Vuex.Store({
         commit('Err')
       })
     },
-    getBidList({commit, state}, payload){
+    getOfferList({commit, state}, payload){
  
       let token = state.Storage.getItem("access_token")
       let config= {
@@ -1223,7 +1229,7 @@ export default new Vuex.Store({
       axios
       .get(state.http+`/api/offer?sale=${payload.sale}`, config)
       .then(Res =>{
-        (Res.data.length !== 0) ? commit('BidList_s', Res.data): commit('NullErr', {router:"BidList", Bar:"true"})
+        (Res.data.length !== 0) ? commit('OfferList_s', Res.data): commit('NullErr', {router:"OfferList", Bar:"true"})
       })
       .catch(()=>{
         commit('Err')
@@ -1231,7 +1237,7 @@ export default new Vuex.Store({
 
     },
 
-    getBidDetail({commit, state},payload){
+    getOfferDetail({commit, state},payload){
 
 
       let token = state.Storage.getItem("access_token")
@@ -1246,7 +1252,7 @@ export default new Vuex.Store({
       .then(Res =>{
         
         (Res.data !== null)? commit('DetailSave', Res.data): commit('Err')
-        router.push({name: 'BidDetail'})
+        router.push({name:'OfferDetail'})
 
       })
       .catch(()=>{
@@ -1361,27 +1367,27 @@ export default new Vuex.Store({
         var url = Res.data.kready_r.next_redirect_app_url
         console.log(url)
         window.kakaopay.PayWindow(url)
-        
+
 
       })   
     },
-    // KakaoApprove({commit, state}, payload){
-    //   console.log(payload)
-    //   localStorage.setItem("back", "pay")
-    //   let token= localStorage.getItem("access_token")
-    //   let config= {
-    //     headers: {
-    //       access_token: token
-    //     }
-    //   }
-     
-    //   axios
-    //   .post(`http://localhost:9200/api/payment/kapproval`, payload, config)
-    //   .then(Res=>{
-    //     (Res.data !== null)? commit('PayDetail_s', Res.data): commit('KakaoApprove_f')
+    KakaoApprove({commit, state}, payload){
+      
 
-    //   })
-    // },
+      let token= localStorage.getItem("access_token")
+      let config= {
+        headers: {
+          access_token: token
+        }
+      }
+     
+      axios
+      .post(state.http+`/api/payment/kapproval`, payload, config)
+      .then(Res=>{
+        (Res.data !== null)? commit('PayDetail_s', Res.data): commit('KakaoApprove_f')
+
+      })
+    },
     Room({commit, state}, payload){
 
       //state.roomInfo = payload
@@ -1397,11 +1403,7 @@ export default new Vuex.Store({
       .post(state.http+`/api/chat`, payload, config)
       .then(Res =>{
                
-        (Res.data !== null)? commit('Room_s', {
-          seller: payload.seller,
-          buyer: payload.buyer,
-          ch_num: Res.data
-        }): commit('Err')
+        (Res.data !== null)? commit('Room_s', Res.data): commit('Err')
  
       }).catch(()=>{
         commit('Err')
@@ -1441,7 +1443,8 @@ export default new Vuex.Store({
         commit('HomeErr')
       })
     }, 
-    Message({state}, payload){
+    Message({state, commit}, payload){
+    console.log(payload)
       let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
@@ -1452,12 +1455,8 @@ export default new Vuex.Store({
       axios
       .post(state.http+"/api/chat/msg", payload, config)
       .then(Res =>{
-        if(Res.data !== 'success'){
-          sessionStorage.setItem('err', true)
-          state.overlay = true
-          setTimeout(()=>{
-          state.overlay = false
-          }, 2000)
+        if(Res.data === null){
+          commit('Err')
         }else{
           state.Storage.setItem('err', false)
         }
@@ -1476,10 +1475,8 @@ export default new Vuex.Store({
         }
       }
       // console.log(config)
-      
-
       axios
-      .put(state.http+'/api/auction/step', payload ,config )
+      .put(state.http+'/api/process/3', payload ,config )
       .then(Res =>{
         (Res.data !== null)? commit('AucEnd_s', Res.data): ('HomeErr')
       }).catch(()=>{
@@ -1518,25 +1515,28 @@ export default new Vuex.Store({
         commit('Err')
       })
     },
-    CheckPay({dispatch, commit,state}, payload){
+    CheckSkip({dispatch, commit,state}, payload){
       let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
           "access_token": token
         }
       }
-      console.log(payload)
+      //console.log(payload)
 
       axios
-      .put(state.http+'/api/offer/check', payload, config)
+      .put(state.http+'/api/process/1', payload, config)
       .then(Res => {
         if(Res.data !== null ){
-          commit('CheckPay')
-
+          commit('CheckSkip_s')
         } 
       }).catch(()=>{
         commit('HomeErr')
       })
+
+    },
+    Token_OK(payload){
+      
 
     }
 

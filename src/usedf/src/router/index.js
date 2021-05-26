@@ -62,22 +62,22 @@ const routes = [
 
   },
   {
-    path: '/bid',
-    name: 'Bid',
-    component: () => import(/* webpackChunkName: "bid" */'@/views/Bid.vue')
+    path: '/offer',
+    name: 'Offer',
+    component: () => import(/* webpackChunkName: "bid" */'@/views/Offer.vue')
 
   },
 
   {
-    path: '/bidlist',
-    name: 'BidList',
-    component: () => import(/* webpackChunkName: "bidlist" */'@/views/BidList.vue')
+    path: '/offerlist',
+    name: 'OfferList',
+    component: () => import(/* webpackChunkName: "offerlist" */'@/views/OfferList.vue')
 
   },
   {
-    path: '/biddetail',
-    name: 'BidDetail',
-    component: () => import(/* webpackChunkName: "biddetail" */'@/views/BidDetail.vue')
+    path: '/offerdetail',
+    name: 'OfferDetail',
+    component: () => import(/* webpackChunkName: "offerdetail" */'@/views/OfferDetail.vue')
 
   },
   {
@@ -108,12 +108,6 @@ const routes = [
     path: '/payready',
     name: 'PayReady',
     component: () => import(/* webpackChunkName: "payready" */'@/views/PayReady.vue')
-
-  },
-  {
-    path: '/payapproval',
-    name: 'PayApproval',
-    component: () => import(/* webpackChunkName: "payapproval" */'@/views/PayApproval.vue')
 
   },
   {

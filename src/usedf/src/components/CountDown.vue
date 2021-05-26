@@ -33,7 +33,7 @@ export default {
             }else{
                 clearInterval(this.interval)
                 this.remaintime = "기간완료"
-                this.$store.dispatch('CheckPay',{o_num: this.o_num})
+                this.$store.dispatch('CheckSkip',{o_num: this.o_num})
                 
             }
             if(this.remain> 0){

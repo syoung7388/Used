@@ -226,7 +226,7 @@ export default {
             this.c_price = n
            
         },
-        ...mapActions(['OfferCancle', 'PriceOffer_bid', 'RemainDelete', 'Like', 'RemoveLike']),
+        ...mapActions(['OfferCancle', 'RemainDelete', 'Like', 'RemoveLike']),
 
 
         ListBack(){

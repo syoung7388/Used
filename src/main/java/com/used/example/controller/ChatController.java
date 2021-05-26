@@ -45,6 +45,8 @@ public class ChatController {
 	public ResponseEntity<?> CreateChat(@RequestBody Chat chat){
 		
 		chatService.CreateChat(chat);
+		
+		logger.info("chat"+chat);
 		return new ResponseEntity<>(chat, HttpStatus.OK);
 		
 		
@@ -76,7 +78,13 @@ public class ChatController {
 	}
 	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@PostMapping("/msg")
-	public ResponseEntity<?> CreateMessage(@RequestBody Message message){
+	public ResponseEntity<?> CreateMessage(@RequestBody Message message, HttpServletRequest request){
+		token = request.getHeader("access_token");
+		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
+			token = token.substring(6, token.length());
+		}
+		String username = JwtUtils.getUserEmailFromToken(token);
+		message.setM_username(username);
 		
 		logger.info("message:"+message);
 		

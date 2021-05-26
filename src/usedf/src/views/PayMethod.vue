@@ -46,17 +46,22 @@
                     </v-card>
                 </v-col>
             </v-row>
-            <!-- <v-btn @click="k_token"></v-btn> -->
         </v-container>
+     
     </v-app>   
 </template>
 <script>
 import {mapActions, mapState} from 'vuex'
 import eventBus from '@/main'
 export default {
+    data(){
+        return{
+          
+        }
+    },
     computed:{
 
-        ...mapState(['offerInfo', 'proInfo', 'payreadyInfo'])
+        ...mapState(['offerInfo', 'proInfo','payreadyInfo'])
 
     },
     methods:{
@@ -65,7 +70,24 @@ export default {
         },
         Back(){
             this.$router.go(-1)
-        }
+        },
+        Token_Ok(payload){
+            this.$store.dispatch('KakaoApprove', {
+                o_num: this.payreadyInfo.o_num,
+                o_username : this.payreadyInfo.o_username,
+                price : this.payreadyInfo. price,
+                p_num : this.payreadyInfo.p_num,
+                kind : this.payreadyInfo.kind,
+                a_num : this.payreadyInfo.a_num,
+                kready_r: {
+                tid: this.payreadyInfo.kready_r.tid,
+                k_token: payload
+                }
+
+            })
+      
+        } 
+
   
     },
     created(){
@@ -74,23 +96,25 @@ export default {
 
     },
     mounted(){ 
-        window.addEventListener('message', (e)=>{
-          console.log("...................................................................")
-          console.log(e.data.k_token)
-          this.$store.dispatch('KakaoApprove', {
+        // window.addEventListener('message', (e)=>{
+        //   console.log("...................................................................")
+        //   console.log(e.data.k_token)
+        //   this.$store.dispatch('KakaoApprove', {
            
-            o_num: this.payreadyInfo.o_num,
-            o_username : this.payreadyInfo.o_username,
-            price : this.payreadyInfo. price,
-            p_num : this.payreadyInfo.p_num,
-            kind : this.payreadyInfo.kind,
-            a_num : this.payreadyInfo.a_num,
-            kready_r: {
-              tid: this.payreadyInfo.kready_r.tid,
-              k_token: e.data.k_token
-            }
-          })
-        }, { once : true})
+        //     o_num: this.payreadyInfo.o_num,
+        //     o_username : this.payreadyInfo.o_username,
+        //     price : this.payreadyInfo. price,
+        //     p_num : this.payreadyInfo.p_num,
+        //     kind : this.payreadyInfo.kind,
+        //     a_num : this.payreadyInfo.a_num,
+        //     kready_r: {
+        //       tid: this.payreadyInfo.kready_r.tid,
+        //       k_token: e.data.k_token
+        //     }
+        //   })
+        // }, { once : true})
+
+        window.Token_Ok =this.Token_Ok
         
     }
 }

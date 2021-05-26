@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.used.example.mapper.ProcessMapper">
+		<update id="SelectOffer" parameterType="Offer">		
+			UPDATE 	offer
+			SET 	o_select = 1,
+					o_endtime = (SELECT DATE_ADD(NOW(),INTERVAL 1 DAY))
+			WHERE o_num = #{o_num} and o_skip = 0 
+		</update>
+			
+		<update id="ProcessUp" parameterType="int">
+			update auction
+			set a_sale = (	select a_sale
+							from auction 
+							where a_num = #{a_num}	
+						)+1	
+			where a_num = #{a_num}
+		</update>
+		<update id="SkipOffer" parameterType="Offer">
+			UPDATE 
+			offer a
+			LEFT JOIN auction b ON a.a_num= b.a_num
+			LEFT JOIN payment c ON c.a_num = a.a_num
+			SET	a.o_skip = 1,
+				b.a_sale = 0
+			WHERE a.o_num = #{o_num} AND c.pa_num IS null AND b.a_sale = 1 AND a.o_select = 1
+		</update>
+		
+
+	
+</mapper>

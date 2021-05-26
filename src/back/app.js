@@ -29,9 +29,9 @@ io.on('connection', function(socket){
     socket.join(data.ch_num)
 
     // socket.set('ch_num', data.num)
-    io.to(room).emit('roomOK', {
-      msg: '채팅을 연결 했습니다.'
-    })
+    // io.to(room).emit('roomOK', {
+    //   msg: '채팅을 연결 했습니다.'
+    // })
   })
 
 
@@ -41,10 +41,11 @@ io.on('connection', function(socket){
 
   socket.on('sendMsg', function(data) {
     console.log('Message from'+data.m_username + data.content);
-
     io.in(room).emit('getMsg', {
-      m_username : data.m_username,
-      content: data.content, 
+      ch_num: data.ch_num,
+      content: data.content,
+      m_num:0,
+      m_username : data.m_username, 
       time: data.time
     })
     console.log("메세지 보내기 끝")

@@ -176,7 +176,7 @@
 	
 	
 	
-	<select id="BidList" parameterType="Bid_request" resultMap="ListMap" >
+	<select id="OfferList" parameterType="Offer_req" resultMap="ListMap" >
 			SELECT	*, 
 					(SELECT MAX(h.o_price)
 					 FROM offer h

@@ -2,14 +2,15 @@ package com.used.example.service;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.used.example.domain.Auction;
-import com.used.example.domain.Bid_request;
 import com.used.example.domain.Count;
 import com.used.example.domain.KindRate;
 import com.used.example.domain.Offer;
+import com.used.example.domain.Offer_req;
 import com.used.example.mapper.OfferMapper;
 
 @Service
@@ -26,8 +27,8 @@ public class OfferServiceImpl implements OfferService{
 	}
 
 	@Override
-	public List<Auction> BidList(Bid_request bid_r) {
-		return offerMapper.BidList(bid_r);
+	public List<Auction> OfferList(Offer_req or) {
+		return offerMapper.OfferList(or);
 	}
 
 	@Override

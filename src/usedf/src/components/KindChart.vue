@@ -11,9 +11,9 @@ export default {
     data(){
         return{
             datacollection:{
-                labels: this.$store.state.bidkind,
+                labels: this.$store.state.offerkind,
                 datasets:[{
-                    data: this.$store.state.bidrate,
+                    data: this.$store.state.offerrate,
                     hoverBorderWidth: 10,
                     backgroundColor: [ 'rgba(255, 99, 132, 0.2)',
                                         'rgba(54, 162, 235, 0.2)',
@@ -34,7 +34,6 @@ export default {
 
 
     computed: {
-        ...mapState(['total', 'month'])
 
     },
     mounted(){

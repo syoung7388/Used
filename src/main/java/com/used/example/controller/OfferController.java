@@ -1,6 +1,7 @@
 package com.used.example.controller;
 
 import java.io.File;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,11 +40,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.used.example.config.JwtUtils;
 import com.used.example.domain.Auction;
-import com.used.example.domain.Bid_request;
+
 import com.used.example.domain.Count;
 import com.used.example.domain.KindRate;
 import com.used.example.domain.Like;
 import com.used.example.domain.Offer;
+import com.used.example.domain.Offer_req;
 import com.used.example.domain.Picture;
 import com.used.example.domain.Product;
 import com.used.example.service.AuctionService;
@@ -161,11 +163,11 @@ public class OfferController {
 		
 		String o_username = JwtUtils.getUserEmailFromToken(token);
 		
-		Bid_request bid_r= new Bid_request();
-		bid_r.setO_username(o_username);
-		bid_r.setSale(sale);
+		Offer_req or= new Offer_req();
+		or.setO_username(o_username);
+		or.setSale(sale);
 
-		List<Auction> bidlist =offerService.BidList(bid_r);
+		List<Auction> bidlist =offerService.OfferList(or);
 		
 		
 		
@@ -198,32 +200,32 @@ public class OfferController {
 	}
 	
 	
-	@Secured({"ROLE_USER"})
-	@PutMapping
-	public ResponseEntity<?> SelectOffer(@RequestBody Offer offer){
-		offerService.SelectOffer(offer);
-		auctionService.AucStep(offer.getA_num());
-		return  new ResponseEntity<>("success", HttpStatus.OK);
-		
-	}
-	@Secured({"ROLE_USER"})
-	@PutMapping("/check")
-	public ResponseEntity<?> CheckPay(@RequestBody Offer offer){
+//	@Secured({"ROLE_USER"})
+//	@PutMapping
+//	public ResponseEntity<?> SelectOffer(@RequestBody Offer offer){
 //		offerService.SelectOffer(offer);
 //		auctionService.AucStep(offer.getA_num());
-
-		
-		offerService.CheckPay(offer);
-		Bid_request bid_r= new Bid_request();
-		bid_r.setO_username(offer.getO_username());
-		bid_r.setSale(1);
-
-		List<Auction> list = offerService.BidList(bid_r);
-		
-		
-		return  new ResponseEntity<>(list, HttpStatus.OK);
-		
-	}
+//		return  new ResponseEntity<>("success", HttpStatus.OK);
+//		
+//	}
+//	@Secured({"ROLE_USER"})
+//	@PutMapping("/check")
+//	public ResponseEntity<?> CheckPay(@RequestBody Offer offer){
+////		offerService.SelectOffer(offer);
+////		auctionService.AucStep(offer.getA_num());
+//
+//		
+//		offerService.CheckPay(offer);
+//		Bid_request bid_r= new Bid_request();
+//		bid_r.setO_username(offer.getO_username());
+//		bid_r.setSale(1);
+//
+//		List<Auction> list = offerService.BidList(bid_r);
+//		
+//		
+//		return  new ResponseEntity<>(list, HttpStatus.OK);
+//		
+//	}
 	
 	
 	

@@ -3,6 +3,7 @@ package com.used.example.controller;
 
 import java.io.File;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -39,12 +40,13 @@ import com.used.example.config.JwtUtils;
 import com.used.example.domain.Address;
 import com.used.example.domain.Auc_Pro;
 import com.used.example.domain.Auction;
-import com.used.example.domain.Bid_request;
+
 import com.used.example.domain.Count;
 import com.used.example.domain.Pagination;
 import com.used.example.domain.Picture;
 import com.used.example.domain.Product;
 import com.used.example.domain.MonthSum;
+import com.used.example.domain.Offer_req;
 import com.used.example.domain.UserInfo;
 import com.used.example.service.AuctionService;
 import com.used.example.service.OfferService;
@@ -237,24 +239,24 @@ public class AuctionController {
 
 	
 	
-	@Secured({"ROLE_USER"})
-	@PutMapping("/step")
-	public ResponseEntity<?> AucEnd(@RequestBody Auction auction,  HttpServletRequest request){
-		
-		int a_num = auction.getA_num();
-		auctionService.AucStep(a_num);		
-		token = request.getHeader("access_token");		
-		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
-			token = token.substring(6, token.length());
-		}
-		String o_username = JwtUtils.getUserEmailFromToken(token);		
-		Bid_request bid_r= new Bid_request();
-		bid_r.setO_username(o_username);
-		bid_r.setSale(2);
-		List<Auction> bidlist =offerService.BidList(bid_r);
-		return new ResponseEntity<> (bidlist, HttpStatus.OK);
-		
-	}
+//	@Secured({"ROLE_USER"})
+//	@PutMapping("/step")
+//	public ResponseEntity<?> AucEnd(@RequestBody Auction auction,  HttpServletRequest request){
+//		
+//		int a_num = auction.getA_num();
+//		auctionService.AucStep(a_num);		
+//		token = request.getHeader("access_token");		
+//		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
+//			token = token.substring(6, token.length());
+//		}
+//		String o_username = JwtUtils.getUserEmailFromToken(token);		
+//		Offer_req or = new Offer_req();
+//		or.setO_username(o_username);
+//		or.setSale(2);
+//		List<Auction> bidlist =offerService.OfferList(or);
+//		return new ResponseEntity<> (bidlist, HttpStatus.OK);
+//		
+//	}
 	
 
 	

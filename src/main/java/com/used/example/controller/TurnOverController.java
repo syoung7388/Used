@@ -38,6 +38,7 @@ public class TurnOverController {
 		Date date = new Date();
 		SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 		String year = yearFormat.format(date);
+		
 		List<TurnOver> list = turnoverService.getTurnOverInfo(year);
 		
 		

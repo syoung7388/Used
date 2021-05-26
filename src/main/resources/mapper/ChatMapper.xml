@@ -19,7 +19,7 @@
 				ch_seller as seller,
 				ch_buyer as buyer
 		from chat
-		where WHERE (ch_seller =  #{seller} AND ch_buyer = #{buyer}) OR  (ch_seller = #{buyer} AND ch_buyer= #{seller}))
+		WHERE (ch_seller =  #{seller} AND ch_buyer = #{buyer}) OR  (ch_seller = #{buyer} AND ch_buyer= #{seller})
 	</select>
 	
 	<select id="ChatList" parameterType= "String" resultType="Chat">

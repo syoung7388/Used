@@ -44,7 +44,7 @@
                         @click="SendMsg({
                         m_username: userInfo.username,
                         content : sendmsg,
-                        ch_num : $route.params.num,
+                        ch_num : $route.params.ch_num,
                         time: time
                  
                         })"
@@ -53,11 +53,6 @@
                 </v-row>
 
             </v-bottom-navigation>
-            <v-overlay :value="overlay">
-                <v-card color="white">
-                    <v-card-text class="black--text">전송오류</v-card-text>
-                </v-card>
-            </v-overlay>
         </v-container>
          <NullError name="메세지가"></NullError>
     </v-app>
@@ -73,19 +68,18 @@ export default {
         return{
             readyOK: null,
             sendmsg: null,
-            nowmsg: [], 
             time: dayjs().format("YYYY-MM-DD HH:mm:ss"),
             test: 0,
+            nowmsg:[]
 
 
         }
     },
     beforeCreate(){
-        console.log(this.$route.params.num)
         this.$socket.emit('createRoom', {
             seller: this.$route.params.seller,
             buyer: this.$route.params.buyer,
-            ch_num :this.$route.params.num
+            ch_num :this.$route.params.ch_num
         })
 
         
@@ -96,12 +90,7 @@ export default {
             this.$store.dispatch('Message', payload)
             .then(()=>{
                 if(this.$store.state.Storage.getItem("err") === 'false'){
-              
                     this.$socket.emit('sendMsg', payload)
-                    this.sendmsg = ''
-                }else{
-                    this.$store.state.msg_err = false
-                    this.sendmsg = ''
                 }
             })
         }, 
@@ -120,14 +109,23 @@ export default {
             console.log(data)
             this.nowmsg.push(data)
             this.sendmsg = ''
-   
+
+            console.log(this.nowmsg)
         })
 
 
     },
     created(){
-        console.log(this.message)
-        this.nowmsg = this.message
+        
+        if(this.message !== undefined){
+            console.log(this.message)    
+            this.nowmsg = this.message
+        }else{
+            console.log("aaa")
+            this.nowmsg = [{null:"null"}]
+            
+        }
+        //console.log(this.message)
    
     },
     computed: {

@@ -65,6 +65,7 @@ import com.used.example.domain.Product;
 import com.used.example.service.AuctionService;
 import com.used.example.service.ChatService;
 import com.used.example.service.PaymentService;
+import com.used.example.service.ProcessService;
 
 
 @CrossOrigin(origins="*", maxAge= 3600)
@@ -85,6 +86,9 @@ public class PaymentController {
 	AuctionService auctionService;
 	
 	@Autowired
+	ProcessService processService;
+	
+	@Autowired
 	ChatService chatService;
 	
 	private static final String HOST = "https://kapi.kakao.com";
@@ -99,8 +103,7 @@ public class PaymentController {
 	@PostMapping("/kready")
 	@ResponseBody
 	public ResponseEntity<?> KaKaoReady(@RequestBody KaKaoReady kakao, HttpServletRequest request){
-		//logger.info("auction:"+auction);
-		logger.info("---------------------------------------------------------------KaKaoReady");
+
 
         RestTemplate restTemplate = new RestTemplate();
  
@@ -121,33 +124,24 @@ public class PaymentController {
         params.add("quantity", "1");
         params.add("total_amount", Long.toString(kakao.getPrice()));
         params.add("tax_free_amount", "0");
-        params.add("approval_url", "http://192.168.50.124:8080/payapproval");
-        params.add("cancel_url", "http://192.168.50.124:8080/payapproval");
-        params.add("fail_url", "http://192.168.50.124:8080/payapproval");
+        params.add("approval_url", "http://172.30.1.33:8080");
+        params.add("cancel_url", "http://172.30.1.33:8080");
+        params.add("fail_url", "http://172.30.1.33:8080");
         
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
         
-        
-        
-        
         try {
         	
-        	KakaoReady_R res= restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoReady_R.class);
-        	
+        	KakaoReady_R res= restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoReady_R.class);  	
         	kakao.setKready_r(res);
-        	
-        
-        	
         	logger.info("payment: "+kakao);
         	return new ResponseEntity<>( kakao, HttpStatus.OK);
         	
         }catch(URISyntaxException e) {
         	e.printStackTrace();
         }
-		
 
-		
 		return new ResponseEntity<>( HttpStatus.OK);
 		
 		
@@ -163,30 +157,23 @@ public class PaymentController {
 		
 		
         RestTemplate restTemplate = new RestTemplate();
-        
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "KakaoAK " + "7824d85f0892e82e54e73144138aba0a");
         headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
- 
-
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
         params.add("tid", ready.getKready_r().getTid());
         params.add("partner_order_id", Integer.toString(ready.getA_num()));
         params.add("partner_user_id", ready.getO_username());
         params.add("pg_token", ready.getKready_r().getK_token());
-        params.add("total_amount", Long.toString(ready.getPrice()));
-        
+        params.add("total_amount", Long.toString(ready.getPrice()));      
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
-        
         try {
-        	logger.info("---------------------------------------------------------------approval");
+      
             approval = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoApproval.class);
             logger.info("" + approval);
-            
-            logger.info("---------------------------------------------------------------payment");
+   
             Payment payment = new Payment();
             payment.setA_num(approval.getPartner_order_id());
             payment.setCop("KAKAOPAY");
@@ -204,8 +191,7 @@ public class PaymentController {
             
             
             if(approval.getCard_info() != null) {
-            	
-            	logger.info("---------------------------------------------------------------cardstart");
+            
             	Card card = new Card();
             	card.setBin(approval.getCard_info().getBin());
             	card.setInstall_month(approval.getCard_info().getInstall_month());
@@ -229,9 +215,7 @@ public class PaymentController {
                 paymentService.CreateAmount(amount);
                 
                int a_num = payment.getA_num();
-               
-               
-               auctionService.AucStep(a_num);
+               processService.ProcessUp(a_num);
             
                
                Auction  aucdetail= auctionService.AucDetail(a_num);
@@ -249,7 +233,7 @@ public class PaymentController {
             	
             }else {
             	
-            	logger.info("---------------------------------------------------------------card, amount start");
+         
             	
                 Amount amount = new Amount();
                 amount.setPa_num(pa_num);
@@ -263,8 +247,8 @@ public class PaymentController {
                int a_num = payment.getA_num();
                
                
-               auctionService.AucStep(a_num);
-               paymentService.PayStep(payment);
+               processService.ProcessUp(a_num);
+             
                
                Auction  aucdetail= auctionService.AucDetail(a_num);
                Payment paydetail = paymentService.PaymentDetail(a_num);

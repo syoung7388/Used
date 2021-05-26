@@ -1,8 +1,6 @@
 package com.used.example.domain;
 
-public class Bid_request {
-	
-	
+public class Offer_req {
 	private String o_username;
 	private int sale;
 
@@ -22,5 +20,5 @@ public class Bid_request {
 	public String toString() {
 		return "Bid_request [o_username=" + o_username + ", sale=" + sale + "]";
 	}
-	
+
 }

@@ -49,6 +49,8 @@
                     <v-tab class="ml-0" style="font-size: 15px;">결제</v-tab>
                     <v-tab class="ml-0" style="font-size: 15px;">제품 정보</v-tab>
                     <v-tab-item>
+
+
                         <v-card flat class="pa-10" v-if="aucInfo.sale === 1"> 
                             <v-row class="mt-10" justify="center">
                                 <h1 style="font-size: 14px; text-align:center" class="grey--text">결제를 원하시면 아래의 버튼을 눌러주세요</h1>
@@ -178,17 +180,7 @@ export default {
     methods: {
 
         ListBack(){
-            this.$store.state.removeBar = true
-            if(localStorage.getItem("back") === "pay"){
-                this.$store.state.removeBar = false
-                this.$router.push({name: 'Home'})
-                localStorage.setItem("back","else")
-            }else{
-                this.$router.go(-1)
-
-            }
-            
-            
+            this.$store.dispatch('getOfferList',{sale: this.aucInfo.sale})
         },
         PayBtn(){
             this.$router.push({name: 'PayMethod'})

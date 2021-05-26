@@ -4,10 +4,10 @@
             <v-btn style="font-size: large;" icon @click="BidBack">
                 <i class="fas fa-arrow-left" style="font-size: large;"></i>
             </v-btn>
-            <v-list three-line v-if="bidList.length !== 0">
-                <h1 style="text-align: center; font-size: 15px" v-show="bidList[0].sale === 2">물건 거래를 완료시 꼭 확인 버튼을 눌러주세요</h1>
+            <v-list three-line v-if="offerList.length !== 0">
+                <h1 style="text-align: center; font-size: 15px" v-show="offerList[0].sale === 2">물건 거래를 완료시 꼭 확인 버튼을 눌러주세요</h1>
                 <template 
-                v-for="(item, index) in bidList"
+                v-for="(item, index) in offerList"
                 >  
                     <v-row justify="start" align="center" :key="item.a_num">
                         <v-col cols="9"> 
@@ -51,7 +51,7 @@
                     </v-row>
                   
                     <v-divider
-                        v-if="index < bidList.length-1"
+                        v-if="index < offerList.length-1"
                         :key="index"
                     ></v-divider>
                 </template>
@@ -66,7 +66,7 @@ import {mapActions, mapState} from 'vuex'
 import NullError from '@/components/NullError.vue'
 export default {
     computed: {
-        ...mapState(['bidList'])
+        ...mapState(['offerList'])
     },
     filters:{
       comma(price){
@@ -75,13 +75,13 @@ export default {
       }
     },
     methods: {
-        ...mapActions(['getBidDetail', 'getPayDetail', 'AucEnd']),
+        ...mapActions([ 'getPayDetail', 'AucEnd']),
         BidBack(){
             this.$store.state.removeBar = false
-            this.$router.go(-1)
+            this.$store.dispatch('getOfferStatistic')
         },
         selectDetail(payload){
-            (payload.sale === 0)? this.$store.dispatch('getBidDetail', {a_num: payload.a_num}): this.$store.dispatch('getPayDetail', {a_num: payload.a_num})
+            (payload.sale === 0)? this.$store.dispatch('getOfferDetail', {a_num: payload.a_num}): this.$store.dispatch('getPayDetail', {a_num: payload.a_num})
         }
     },
     components:{
