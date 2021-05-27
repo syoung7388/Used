@@ -41,13 +41,18 @@ public class ProductServiceImpl implements ProductService {
 		
 		List<MultipartFile> imgList= picture.getImg();
 		
+		
 		if(imgList != null) {
 		List<String> pictureNames= new ArrayList<String>();
-	        String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
+	        //String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
 			//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
+			String path = "C:\\Users\\l3\\Desktop\\eee\\";
+			
 			for(int i=0; i<imgList.size(); i++) {
 				
 				String filename= imgList.get(i).getOriginalFilename();
+				logger.info(filename);
+				logger.info("imageList:"+imgList.get(i));
 				String ext= filename.substring(filename.lastIndexOf(".")+1);
 				File file= new File(path+ filename);			
 				InputStream input = null;

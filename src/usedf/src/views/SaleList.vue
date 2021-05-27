@@ -20,7 +20,7 @@
                                     width="90"
                                     >
                                         <v-img 
-                                        :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
+                                        :src="require('C:/Users/l3/Desktop/eee/'+item.product[0].picture[0].pictureName)"
                                         max-width="90"
                                         height="90" 
                                         ></v-img>
@@ -53,11 +53,18 @@
     </v-app>
 </template>
 <script>
+
 import CountDown from '@/components/CountDown.vue'
 import NullError from '@/components/NullError.vue'
 import {mapActions, mapState} from 'vuex'
 export default {
+    data(){
+        return{
+            
+        }
+    },
     computed: {
+        // <!-- +item.product[0].picture[0].pictureName-->
         ...mapState(['saleList', 'nullerr'])
     },
     filters:{

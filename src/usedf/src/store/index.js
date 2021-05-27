@@ -11,11 +11,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    http:'http://172.30.1.33:9200',
-    //http: 'http://192.168.50.124:9200',
+    //http:'http://172.30.1.33:9200',
+    http: 'http://192.168.50.124:9200',
     Storage: localStorage,
     Mshow: true,
-    Kshow:false, //
+    Kshow:false, 
     Pshow: false,
     Sshow:false,
     auth_show: 0,
