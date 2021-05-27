@@ -31,6 +31,6 @@ public interface OfferMapper {
 
 	public void CheckPay(Offer offer);
 
-	
+	s
 
 }

@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-container >
-            <v-row justify="start">
+            <v-row justify="start" class="pb-13">
                 <v-col cols="3" class="pb-0">
                     <v-btn style="font-size: large; z-index: 1" icon @click="Back" fixed  >
                         <i class="fas fa-arrow-left" style="font-size: large;"></i>
@@ -9,26 +9,26 @@
                 </v-col>
             </v-row>
             <div v-for=" (item, index) in nowmsg" :key="index">
-                <!-- <v-row justify="end" v-if="item.m_username === userInfo.username">
-                    <v-col cols="8"> -->
-                        <div v-if="item.m_username === userInfo.username" style="align-content: left">
-                        <v-card color="skyblue white--text" style="z-index: 0">
-                            <p class="ma-1">{{item.content}}</p>
+                <v-row justify="end" v-if="item.m_username === userInfo.username">
+                    <v-col cols="8">
+                        <div style="float: right">
+                        <v-card color="skyblue white--text" style="z-index: 0" max-width="400">
+                            <p class="pa-2" style="font-size:14px">{{item.content}}</p>
                         </v-card>
                         <p class="grey--text" style="font-size: 10px; text-align:right">{{item.time}}</p>
                         </div>
-                    <!-- </v-col>
+                    </v-col>
                 </v-row>
                 <v-row justify="start" v-else>
-                    <v-col cols="8"> -->
-                        <div v-else>
-                            <v-card style=" z-index: 0" >
-                                <p class="ma-1">{{item.content}}</p>
+                    <v-col cols="8">
+                        <div style="float: left">
+                            <v-card style=" z-index: 0; align-content: left" max-width="400" >
+                                <p class="pa-2" style="font-size:14px">{{item.content}}</p>
                             </v-card>
                             <p class="grey--text" style="font-size: 10px; text-align:left">{{item.time}}</p>
                         </div>
-                    <!-- </v-col>
-                </v-row> -->
+                    </v-col>
+                </v-row>
             </div>
             <v-card height="80" flat class="ma-4"></v-card>
             <v-bottom-navigation
