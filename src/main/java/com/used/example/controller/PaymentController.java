@@ -129,9 +129,12 @@ public class PaymentController {
 //        params.add("approval_url", "http://172.30.1.33:8080");
 //        params.add("cancel_url", "http://172.30.1.33:8080");
 //        params.add("fail_url", "http://172.30.1.33:8080");      
-        params.add("approval_url", "http://192.168.50.124:8080");
-        params.add("cancel_url", "http://192.168.50.124:8080");
-        params.add("fail_url", "http://192.168.50.124:8080");
+//        params.add("approval_url", "http://192.168.50.124:8080");
+//        params.add("cancel_url", "http://192.168.50.124:8080");
+//        params.add("fail_url", "http://192.168.50.124:8080");
+      params.add("approval_url", "http://172.30.1.60:8080");
+      params.add("cancel_url", "http://172.30.1.60:8080");
+      params.add("fail_url", "http://172.30.1.60:8080");
         
   
         

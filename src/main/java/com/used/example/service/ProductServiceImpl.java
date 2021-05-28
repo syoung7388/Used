@@ -44,17 +44,26 @@ public class ProductServiceImpl implements ProductService {
 		
 		if(imgList != null) {
 		List<String> pictureNames= new ArrayList<String>();
-	        //String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\usedf\\src\\assets\\";
-			//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\usedf\\src\\assets\\";
-			String path = "C:\\Users\\l3\\Desktop\\eee\\";
+		
+		
+		
+	        String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\f_used\\src\\assets\\";
+			//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\f_used\\src\\assets\\";
+			//String path = "C:\\Users\\l3\\Desktop\\eee\\";
 			
 			for(int i=0; i<imgList.size(); i++) {
 				
 				String filename= imgList.get(i).getOriginalFilename();
-				logger.info(filename);
-				logger.info("imageList:"+imgList.get(i));
-				String ext= filename.substring(filename.lastIndexOf(".")+1);
-				File file= new File(path+ filename);			
+	
+//				logger.info(filename);
+//				logger.info("imageList:"+imgList.get(i));
+				
+				
+				int index = filename.lastIndexOf(".");
+
+				String subfilename = filename.substring(0, index+1)+"jpg";
+				String ext= "jpg";
+				File file= new File(path+ subfilename);			
 				InputStream input = null;
 				try {
 					input = imgList.get(i).getInputStream();
@@ -62,12 +71,16 @@ public class ProductServiceImpl implements ProductService {
 					e.printStackTrace();
 				}
 				logger.info("input"+input);
+				logger.info("file"+file);
+				logger.info("ext"+ext);
 				
 				MakeThumbnail makeThumbnail = new MakeThumbnail();
 				makeThumbnail.makeThumbnail(input, file,  ext);		
 				
-				pictureNames.add(filename);
+				pictureNames.add(subfilename);
 			}
+			
+			
 			picture.setPictureNames(pictureNames);	
 		}
 		productMapper.createPicture(picture);
