@@ -2,7 +2,7 @@
 <v-app class="pa-2 ">
     <v-row >
         <v-col>
-            <v-btn icon @click="Editback">
+            <v-btn icon @click="E_Back">
                 <i class="fas fa-arrow-left" style="font-size: large;"></i>
             </v-btn>
             <h1  class="mt-5 " style="font-size: 17px; text-align: center">변경하실 전화번호를 입력해 주세요.</h1>
@@ -41,8 +41,11 @@
 </v-app>
 </template>
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapState, mapActions , mapMutations} from "vuex"
 export default {
+    beforeCreate(){
+        this.$store.state.removeBar = true
+    },
     
     data(){
         return{
@@ -54,12 +57,12 @@ export default {
         
     },
     methods: {
-        ...mapActions(['Sms', 'Certification','Editback']),
+        ...mapActions(['Sms', 'Certification','E_Back']),
         Edit(payload){
             this.userInfo.phone = this.phone
             this.$store.dispatch('EditOK',payload )
 
-        }
+        },
     },
     computed: {
         ...mapState(["Pshow", "certi",'phoneError','certiError','userInfo'])

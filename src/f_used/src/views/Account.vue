@@ -79,6 +79,9 @@
 import { mapState } from 'vuex'
 
 export default {
+    beforeCreate(){
+        this.$store.state.removeBar = false    
+    },
     data(){
         return{
         items: [

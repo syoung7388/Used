@@ -1,7 +1,7 @@
 <template>
     <v-app class="pa-0">
         <v-container v-show="Ashow=== false" class="pa-0">
-            <v-btn icon @click="Editback">
+            <v-btn icon @click="E_Back">
                 <i class="fas fa-arrow-left" style="font-size: large;"></i>
             </v-btn>
             <v-row class="py-2" align="center" justify="center">
@@ -30,10 +30,16 @@
     </v-app>
 </template>
 <script>
-import { mapActions, mapState} from 'vuex'
+import { mapActions, mapState, mapMutations} from 'vuex'
 import Address from '@/components/Address.vue'
 
 export default{
+
+
+    beforeCreate(){
+        this.$store.state.removeBar = true
+    },
+
     data(){
         return{
             address: null,
@@ -51,9 +57,9 @@ export default{
         console.log(this.userInfo.address)
         // this.$store.dispatch('EditOK')
         },
-        ...mapActions(['Editback']),
+        ...mapActions(['E_Back']),
+  
 
-//////////////////////////////////////////////////////-주소Components
         GoAddress(){
             console.log(this.userInfo)
             this.$refs.childaddr.DaumPostCode()
@@ -64,6 +70,7 @@ export default{
             this.address= payload.fulladdress
             this.Ashow = false
         }
+        
     },
     components: {
         Address

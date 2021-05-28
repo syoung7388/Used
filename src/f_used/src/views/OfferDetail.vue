@@ -24,7 +24,7 @@
                                 style="font-size: large;" 
                                 icon
                                 v-on="on"
-                                @click="ListBack" 
+                                @click="Back" 
                                 >
                                     <i class="fas fa-arrow-left" style="font-size: large;"></i>
                                 </v-btn>
@@ -182,11 +182,14 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapActions , mapMutations} from 'vuex'
 import OfferOverlay from '@/components/OfferOverlay.vue'
 
 
 export default {
+    beforeCreate(){
+        this.$store.state.removeBar =true
+    },
 
     data(){
         return{
@@ -228,12 +231,7 @@ export default {
            
         },
         ...mapActions(['OfferCancle', 'RemainDelete', 'Like', 'RemoveLike']),
-
-
-        ListBack(){
-            this.$store.state.removeBar = true
-            this.$router.go(-1)
-        }
+         ...mapMutations(['Back'])
     },
     components:{
         OfferOverlay

@@ -51,9 +51,12 @@
 </template>
 <script>
 import Vue from 'vue'
-import{mapActions, mapState} from 'vuex'
+import{mapActions, mapState } from 'vuex'
 import KindChart from '@/components/KindChart.vue'
 export default {
+    beforeCreate(){
+        this.$store.state.removeBar =false
+    },
     data(){
         return{   
           

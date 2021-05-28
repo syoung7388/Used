@@ -2,7 +2,7 @@
   <v-container
     class="pa-2"
   >
-    <v-btn icon @click="Editback">
+    <v-btn icon @click="E_Back">
        <i class="fas fa-arrow-left" style="font-size: large;"></i>
     </v-btn>
     <h1 class="mt-5 " style="font-size: 17px; text-align:center">"{{userInfo.name}}"님 당신과 함께한 Used는</h1>
@@ -21,9 +21,14 @@
   
 </template>
 <script>
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapActions, mapMutations} from 'vuex'
 
 export default{
+  
+    beforeCreate(){
+        this.$store.state.removeBar = true
+    },
+
     data(){
         return{
             Box: '약관의 동의',
@@ -34,7 +39,8 @@ export default{
         ...mapState(['userInfo'])
     },
     methods:{
-        ...mapActions(['deleteOK','Editback'])
+        ...mapActions(['deleteOK','E_Back']),
+
     }
 
 

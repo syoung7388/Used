@@ -47,37 +47,49 @@ public class ProductServiceImpl implements ProductService {
 		
 		
 		
-	        String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\f_used\\src\\assets\\";
-			//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\f_used\\src\\assets\\";
+	        //String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\f_used\\src\\assets\\";
+			String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\f_used\\src\\assets\\";
 			//String path = "C:\\Users\\l3\\Desktop\\eee\\";
 			
 			for(int i=0; i<imgList.size(); i++) {
 				
 				String filename= imgList.get(i).getOriginalFilename();
-	
-//				logger.info(filename);
+
 //				logger.info("imageList:"+imgList.get(i));
 				
 				
 				int index = filename.lastIndexOf(".");
+			
+				String output_ext = "";
+				for(int j=index+1; j<filename.length(); j++) {
+					char one = filename.charAt(j);
+					if((65 <= one) && (one <= 90)) {
+						output_ext += filename.valueOf(one).toLowerCase();
+					}else {
+						output_ext += one;
+					}
+				}
+				
 
-				String subfilename = filename.substring(0, index+1)+"jpg";
-				String ext= "jpg";
-				File file= new File(path+ subfilename);			
+				String final_name = filename.substring(0, index+1)+ output_ext;
+				
+		
+				
+				
+				
+			
+				File file= new File(path+ final_name);			
 				InputStream input = null;
 				try {
 					input = imgList.get(i).getInputStream();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				logger.info("input"+input);
-				logger.info("file"+file);
-				logger.info("ext"+ext);
 				
 				MakeThumbnail makeThumbnail = new MakeThumbnail();
-				makeThumbnail.makeThumbnail(input, file,  ext);		
+				makeThumbnail.makeThumbnail(input, file,  output_ext);		
 				
-				pictureNames.add(subfilename);
+				pictureNames.add(final_name);
 			}
 			
 			

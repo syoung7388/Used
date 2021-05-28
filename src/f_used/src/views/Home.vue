@@ -73,6 +73,9 @@ import KindSort from '@/components/HomeComponents/KindSort.vue'
 import MapComponent from '@/components/MapComponent'
 import { mapActions, mapMutations, mapState } from 'vuex'
 export default{
+    beforeCreate(){
+        this.$store.state.removeBar = false    
+    },
 
     created(){
         const script =document.createElement('script')

@@ -60,6 +60,7 @@ import InfiniteLoading from 'vue-infinite-loading';
 import {mapActions, mapState} from 'vuex'
 import axios from 'axios'
 export default {
+
     data(){
         return{
 
@@ -74,7 +75,7 @@ export default {
                 
     },
     beforeCreate(){
-        this.$store.state.removeBar = true
+        this.$store.state.removeBar =true
     },
     computed: {
         ...mapState(['industryList', 'industry'])
@@ -113,9 +114,7 @@ export default {
         ...mapActions(['getDetail']),
         Back(){
             this.$store.state.industrypage = 0
-            this.$store.state.removeBar = false
             this.$router.go(-1)
-
         }
     },
     components: {

@@ -62,6 +62,9 @@ import dayjs from 'dayjs'
 import { mapState } from 'vuex'
 import NullError from '@/components/NullError.vue'
 export default {
+    beforeCreate(){
+        this.$store.state.removeBar = true    
+    },
 
     data(){
         return{

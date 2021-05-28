@@ -2,7 +2,7 @@
 <v-app class="pa-2">
     <v-row>
         <v-col>
-            <v-btn icon @click="Editback">
+            <v-btn icon @click="E_Back">
                 <i class="fas fa-arrow-left" style="font-size: large;"></i>
             </v-btn>
             <h1  class="mt-5 " style="font-size: 17px; text-align: center">변경하실 닉네임을 입력해 주세요.</h1>
@@ -22,8 +22,11 @@
 </v-app>
 </template>
 <script>
-import { mapActions, mapState} from "vuex";
+import { mapActions, mapState, mapMutations} from "vuex";
 export default {
+    beforeCreate(){
+        this.$store.state.removeBar = true
+    },
     data(){
         return{
             name: null,
@@ -38,7 +41,7 @@ export default {
             this.$store.dispatch('EditOK')
 
         },
-        ...mapActions(['Editback'])
+        ...mapActions(['E_Back'])
             
     }
 }

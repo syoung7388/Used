@@ -5,7 +5,7 @@
                 <h1 style="font-size: 13px; text-align:center;" class="pa-2">좌표 클릭 후 아래의 확인 버튼을 눌러주세요!</h1>
             </v-card>
             <div id= "map" style="width:100%; height:90%;"></div>
-            <v-btn @click="OK" color="#FAF5EB">확인</v-btn>
+            <v-btn @click="OK" color="#FAF5EB" dense block>확인</v-btn>
         </v-container>
     </v-app>
 </template>

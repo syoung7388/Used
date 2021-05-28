@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-container class="px-0 py-2"> 
-            <v-btn style="font-size: large;" icon @click="BidBack">
+            <v-btn style="font-size: large;" icon @click="Back">
                 <i class="fas fa-arrow-left" style="font-size: large;"></i>
             </v-btn>
             <v-list three-line v-if="offerList.length !== 0">
@@ -67,6 +67,9 @@ import CountDown from '@/components/CountDown.vue'
 import {mapActions, mapState} from 'vuex'
 import NullError from '@/components/NullError.vue'
 export default {
+    beforeCreate(){
+        this.$store.state.removeBar =true
+    },
     computed: {
         ...mapState(['offerList'])
     },
@@ -78,8 +81,7 @@ export default {
     },
     methods: {
         ...mapActions([ 'getPayDetail', 'AucEnd']),
-        BidBack(){
-            this.$store.state.removeBar = false
+        Back(){
             this.$store.dispatch('getOfferStatistic')
         },
         selectDetail(payload){

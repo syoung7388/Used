@@ -166,6 +166,11 @@ import {mapState, mapActions} from 'vuex'
 
 export default {
 
+    beforeCreate(){
+        this.$store.state.removeBar =true
+    },
+    
+
     data(){
         return{
    

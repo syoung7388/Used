@@ -11,9 +11,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    http:'http://172.30.1.60:9200',
+    //http:'http://172.30.1.60:9200',
     //http:'http://172.30.1.33:9200',
-    //http: 'http://192.168.50.124:9200',
+    http: 'http://192.168.50.124:9200',
     Storage: localStorage,
     Mshow: true,
     Kshow:false, 
@@ -152,18 +152,13 @@ export default new Vuex.Store({
   },
   mutations: {
     //공통
-    Back_f(state){
+    Back(state){
       router.go(-1)
-      state.removeBar = false
     },
-    Back_t(state){
-      router.go(-1)
-      state.removeBar = true
-    },
+
     DetailSave(state, payload){
       console.log("DetailSave")
       state.overlay = false
-      state.removeBar = true
       state.aucInfo = payload
       state.likeInfo = payload.like
       for(var i in payload.product){
@@ -186,7 +181,7 @@ export default new Vuex.Store({
 
     //Home.vue
     GetMap(state){
-      state.removeBar = true
+
       router.push({name: 'Map'})
 
     },
@@ -263,7 +258,7 @@ export default new Vuex.Store({
       state.role_choose = true
     },
     logout(state){
-      state.removeBar = false
+     
       state.userInfo = null
       state.Roles= []
       state.role= null
@@ -293,7 +288,7 @@ export default new Vuex.Store({
     },
 
     Writing_s(state){
-      state.removeBar = false
+   
       router.push({name: 'Home'})
     },
 
@@ -308,7 +303,7 @@ export default new Vuex.Store({
     SaleList_s(state, payload){
       state.saleList= payload
       console.log(state.saleList)
-      state.removeBar = true
+
       state.nullerr =false
       router.push({name: 'SaleList'})
       
@@ -324,7 +319,6 @@ export default new Vuex.Store({
       state.offerInfo= payload.offer
       console.log(state.offerInfo)
       state.addrInfo = payload.address
-      state.removeBar= true
       state.beforeImage= payload.product[0].picture
       router.push({name: 'SaleDetail'})
       
@@ -341,7 +335,7 @@ export default new Vuex.Store({
       }
       state.offerInfo= payload.offer
       state.addrInfo = payload.address
-      state.removeBar= true
+    
       state.beforeImage=[]
       console.log( state.beforeImage)
       state.beforeImage= payload.product[0].picture
@@ -351,12 +345,11 @@ export default new Vuex.Store({
 
 
     TopList_s(state, payload){
-
-
+      state.removeBar = false
       console.log(payload)
       state.topList = payload.toplist
       state.toppagination = payload.pagination      
-      state.removeBar = false
+
      if(router.currentRoute.name !== 'Home'){
         router.push({name: 'Home'})
   
@@ -376,78 +369,38 @@ export default new Vuex.Store({
       state.industryList = payload.industrylist
       state.indpagination = payload.pagination  
       state.I_list_show = true
-      state.removeBar = true
+
+
       router.push({name: 'IndustryList'})
     },
 
 
 
-    // Detail_s(state, payload){
     
-    //   state.overlay = false
-    //   state.removeBar = true
-    //   state.aucInfo = payload
-    //   state.likeInfo = payload.like
-
-    //   for(var i in payload.product){
-    //     state.proInfo = payload.product[i]
-    //   }
-
-
-      
-    //   state.offerInfo= payload.offer
-    //   state.addrInfo = payload.address
-    //   state.beforeImage= payload.product[0].picture
-
-
-    //   for(var i in payload.like){
-    //     (state.userInfo.username === state.likeInfo[i].l_username)? state.heart = true : state.heart = false
-    //   }
-    // },
    
     DetailEdit_s(state, payload){
 
      setTimeout(()=>{
         state.productInfo = payload
         state.beforeImage = payload.picture
-        state.removeBar = true
+  
         state.detail_show = true
 
       }, 2000)
 
     },
     KIDelete_s(state){
-      state.removeBar = false
+   
       router.push({name: 'Home'})
     },
 
-    // Offer_s(state, payload){
-    //   console.log(payload)
-    //   state.overlay = false
-    //   state.removeBar = true
-    //   state.aucInfo = payload
-    //   state.likeInfo = payload.like
-
-    //   for(var i in payload.product){
-    //     state.proInfo = payload.product[i]
-    //   }
-    //  // console.log(state.proInfo)
-
-      
-    //   state.offerInfo= payload.offer
-    //   state.addrInfo = payload.address
-    //   state.beforeImage= payload.product[0].picture
-    //   for(var i in payload.like){
-    //     (state.userInfo.username === state.likeInfo[i].l_username)? state.heart = true : state.heart = false
-    //   }
-    // },
+ 
 
  
     KindList_s(state, payload){
       console.log(payload)
       state.kindpagination = payload.pagination
       state.kindList = payload.kindlist
-      state.removeBar = false
       router.push({name: 'KindList'})
     },
  
@@ -460,68 +413,16 @@ export default new Vuex.Store({
     },
  
     OfferList_s(state, payload){
-      state.removeBar = true
+
       state.offerList= payload
       state.nullerr =false
       router.push({name: 'OfferList'})
     },
 
-    // BidDetail_s(state, payload){
-    //   state.overlay = false
-    //   state.removeBar = true 
-    //   state.aucInfo = payload
-    //   state.likeInfo = payload.like
-
-    //   for(var i in payload.product){
-    //     state.proInfo = payload.product[i]
-    //   }
-    //   state.offerInfo= payload.offer 
-    //   state.addrInfo = payload.address
-    //   state.beforeImage=payload.product[0].picture
-
-    //   for(var i in payload.like){
-    //     if(state.userInfo.username === state.likeInfo[i].l_username){
-    //       state.heart =true
-    //       break;
-    //     }else{
-    //       state.heart = false
-    //       continue
-    //     }  
-    //   }
-    //   router.push({name: 'BidDetail'})
-    // },
-
-    // RemoveHeart_s(state){
-    //   state.heart = false
-    // },
- 
-    // Like_s(state, payload){
-    //   state.likeInfo = payload.like
-    //   for(var i in payload.like){
-    //     if(state.userInfo.username === state.likeInfo[i].l_username){
-    //       state.heart =true
-    //       break;
-    //     }else{
-    //       state.heart = false
-    //       continue
-    //     }  
-    //   }
-    //   console.log(state.heart)
-
-    //   state.aucInfo = payload
-    //   for(var i in payload.product){
-    //     state.proInfo = payload.product[i]
-    //   }
-    //   state.offerInfo= payload.offer
-    //   state.addrInfo = payload.address
-    //   state.beforeImage=payload.product[0].picture
-      
-
-
-    // },
+   
 
     LikeList_s(state, payload){
-      state.removeBar = true
+
       state.likeList = payload
       router.push({name: 'LikeList'})
 
@@ -543,25 +444,23 @@ export default new Vuex.Store({
       state.offerInfo= aucdetail.offer
       state.addrInfo = aucdetail.address
       state.beforeImage=aucdetail.product[0].picture
-      state.removeBar = true
       router.push({name: 'PayDetail'})
     },
     KakaoReady_s(state, payload){
 
       state.payreadyInfo = payload
-     // console.log(state.payInfo)
+
 
     },
 
     Room_s(state, payload){
-      //console.log(payload.ch_num)
       state.Storage.setItem("back", "detail")
       router.push({name: 'Chat', params: {ch_num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
 
     },
 
     ChatList_s(state, payload){
-      state.removeBar = true
+  
       state.chatList =payload
       state.nullerr =false
       router.push({name: 'ChatList'})
@@ -570,7 +469,7 @@ export default new Vuex.Store({
 
     ChatDetail_s(state,payload){
       state.message = payload.message
-      state.removeBar = true
+    
       state.nullerr =false
       router.push({name: 'Chat', params: {ch_num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
     },
@@ -627,7 +526,6 @@ export default new Vuex.Store({
       setTimeout(()=>{
         state.overlay = false
         state.homeerr = false
-        state.removeBar = false
         router.push({name:'Home'})
       }, 3000)
     },
@@ -639,7 +537,6 @@ export default new Vuex.Store({
       state.message=[]
       
       console.log(payload)
-      state.removeBar = payload.Bar
       state.nullerr =true
       router.push({name: payload.router})
       
@@ -652,24 +549,11 @@ export default new Vuex.Store({
 
   actions:{
 
-
-    RemoveBar({state}){ // 하단바 제거하는 함수
-      state.removeBar= true
+    E_Back({state}){
+      state.Eshow = false
+      console.log("mu")
+      router.push({name: 'MyPage'})
     },
-    Editback({state}) { /// Edit&Delete -> deleteMyPage로 돌아가는 함수
-      state.Eshow= false
-      router.back()
-
-    },
-    Homeback({state}){///  MyPage -> Home으로 돌아가는 함수
-      state.removeBar=false
-      router.push({name: 'Home'})
-    },
-    Back_f({state}){
-      router.go(-1)
-      state.removeBar = false
-    },
-
     ///////////////////////////////////////////////////////////////////////////////////////////////페이지 전환 함수 & 페이지 요소 조정 함수
 
     Sms({commit, state}, payload){//인증문자
@@ -889,7 +773,7 @@ export default new Vuex.Store({
       axios
       .get(state.http+`/api/auction/${payload.sale}`, config)
       .then(Res => {
-        (Res.data.length !== 0)? commit('SaleList_s', Res.data): commit('NullErr', {router:"SaleList", Bar:"true"}) 
+        (Res.data.length !== 0)? commit('SaleList_s', Res.data): commit('NullErr', {router:"SaleList"}) 
       })
       .catch(()=>{
         commit('Err')
@@ -1231,7 +1115,7 @@ export default new Vuex.Store({
       axios
       .get(state.http+`/api/offer?sale=${payload.sale}`, config)
       .then(Res =>{
-        (Res.data.length !== 0) ? commit('OfferList_s', Res.data): commit('NullErr', {router:"OfferList", Bar:"true"})
+        (Res.data.length !== 0) ? commit('OfferList_s', Res.data): commit('NullErr', {router:"OfferList"})
       })
       .catch(()=>{
         commit('Err')
@@ -1422,7 +1306,7 @@ export default new Vuex.Store({
       axios
       .get(state.http+'/api/chat', config)
       .then(Res =>{
-        (Res.data.length !== 0)? commit('ChatList_s', Res.data): commit('NullErr',{router:"ChatList", Bar: "true"})
+        (Res.data.length !== 0)? commit('ChatList_s', Res.data): commit('NullErr',{router:"ChatList"})
         
       }).catch(()=>{
         commit('Err')
@@ -1439,7 +1323,7 @@ export default new Vuex.Store({
       axios
       .get(state.http+`/api/chat/${payload.ch_num}`, config)
       .then(Res =>{
-        (Res.data.length !== 0)? commit('ChatDetail_s', Res.data): commit('NullErr', {router:"Chat", Bar:"true"})
+        (Res.data.length !== 0)? commit('ChatDetail_s', Res.data): commit('NullErr', {router:"Chat"})
         
       }).catch(()=>{
         commit('HomeErr')

@@ -181,6 +181,10 @@ import {mapActions, mapState} from 'vuex'
 import Edit from '@/components/Edit.vue'
 import OfferOverlay from '@/components/OfferOverlay.vue'
 export default {
+
+    beforeCreate(){
+        this.$store.state.removeBar =true
+    },
     data(){
         return {
             c_price: '',

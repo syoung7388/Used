@@ -9,7 +9,7 @@
             </div>
             <v-row justify="start">
                 <v-col cols="2">
-                    <v-btn style="font-size: small;" icon @click="Back_f">
+                    <v-btn style="font-size: small;" icon @click="Back">
                         <i class="fas fa-arrow-left" style="font-size: large;"></i>
                     </v-btn>
                 </v-col>
@@ -241,6 +241,10 @@ import { mapActions, mapMutations, mapState } from 'vuex';
 import Address from '@/components/Address.vue'
 
 export default{
+    beforeCreate(){
+        this.$store.state.removeBar = true
+    },
+    
     data() {
         
         return {
@@ -338,7 +342,7 @@ export default{
             }
 
         },
-        ...mapMutations(['Back_f'])
+        ...mapMutations(['Back'])
 
 
     },

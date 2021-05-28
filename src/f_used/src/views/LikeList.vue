@@ -59,6 +59,9 @@
 <script>
 import {mapActions, mapState} from 'vuex'
 export default {
+    beforeCreate(){
+        this.$store.state.removeBar =true
+    },
     data(){
         return{
 
@@ -70,7 +73,6 @@ export default {
     methods: {
 
         Back(){
-            this.$store.state.removeBar = false
             this.$router.push({name: 'Home'})
         }, 
         ...mapActions(['getLikeDetail'])

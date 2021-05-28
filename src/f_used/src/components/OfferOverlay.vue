@@ -5,17 +5,14 @@
                 <v-card-title class="black--text justify-left" style="font-size: 17px;">입력하신 금액 </v-card-title>
                 <v-card-title class="black--text justify-left" style="font-size: 17px; text-align: center"> {{c_pr}}원이 맞나요?</v-card-title>
                 <v-card-actions>
-                    <div>
-                        <v-btn text color="primary" x-small 
-                        @click="priceOffer">
-                            <span class="primary--text " style="font-size:12px">확인</span>
-                        </v-btn>
-                        <v-btn text color="primary" >
-                            <span class="primary--text " @click="Cancle" style="font-size:12px">취소</span>
-                        </v-btn>
-                    </div>
+                    <v-btn text color="primary" x-small 
+                    @click="priceOffer" >
+                        <span class="primary--text " style="font-size:12px">확인</span>
+                    </v-btn>
+                    <v-btn text color="primary" >
+                        <span class="primary--text " @click="Cancle" style="font-size:12px">취소</span>
+                    </v-btn>
                 </v-card-actions>
-
         
         
             </v-card>

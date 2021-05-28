@@ -4,7 +4,7 @@
         <v-btn 
         style="font-size: large;" 
         icon  
-        @click="Back_f" 
+        @click="Back" 
         >
             <i class="fas fa-arrow-left" style="font-size: large;"></i>
         </v-btn>
@@ -36,15 +36,17 @@ import {mapActions, mapMutations, mapState} from 'vuex'
 
 
 export default {
+    beforeCreate(){
+        this.$store.state.removeBar = true    
+    },
 
   components: {
     Login,
     Phone
   },
 
-
   methods: {
-    ...mapMutations(['Auth_login', 'Auth_signup', 'Back_f'])
+    ...mapMutations(['Auth_login', 'Auth_signup', 'Back'])
   },
   computed: {
     ...mapState(['auth_show', 'removeBar'])

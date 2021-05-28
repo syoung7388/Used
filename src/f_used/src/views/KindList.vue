@@ -112,7 +112,6 @@ export default {
         ...mapActions(['getDetail']),
         Back(){
             this.$store.state.kindpage = 0
-            this.$store.state.removeBar = false
             this.$router.go(-1)
 
         }

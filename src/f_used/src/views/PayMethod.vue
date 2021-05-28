@@ -51,9 +51,14 @@
     </v-app>   
 </template>
 <script>
-import {mapActions, mapState} from 'vuex'
+import {mapActions, mapState, mapMutations} from 'vuex'
 import eventBus from '@/main'
 export default {
+
+
+    beforeCreate(){
+        this.$store.state.removeBar =true
+    },
     data(){
         return{
           
@@ -66,11 +71,7 @@ export default {
     },
     methods:{
         ...mapActions(['KakaoReady']),
-        Toss(){ 
-        },
-        Back(){
-            this.$router.go(-1)
-        },
+        ...mapMutations(['Back']),
         Token_Ok(payload){
             this.$store.dispatch('KakaoApprove', {
                 o_num: this.payreadyInfo.o_num,

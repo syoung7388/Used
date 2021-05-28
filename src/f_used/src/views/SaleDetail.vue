@@ -23,7 +23,7 @@
                                 <v-btn 
                                 style="font-size: large;" 
                                 icon 
-                                @click="ListBack"
+                                @click="Back"
                                 >
                                     <i class="fas fa-arrow-left" style="font-size: large;"></i>
                                 </v-btn>
@@ -161,10 +161,13 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapActions , mapMutations} from 'vuex'
 import Edit from '@/components/Edit.vue'
 
 export default {
+    beforeCreate(){
+        this.$store.state.removeBar =true
+    },
 
     data(){
         return{
@@ -180,11 +183,7 @@ export default {
             this.$refs.edit.Origin()
             this.$store.state.edit_show = true
         },
-        ListBack(){
- 
-            this.$store.state.removeBar= true
-            this.$router.go(-1)
-        },
+        ...mapMutations(['Back']),
         ...mapActions(['SaleDelete', 'SelectOffer'])
     },
     components: {

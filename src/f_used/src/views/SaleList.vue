@@ -63,6 +63,11 @@ import CountDown from '@/components/CountDown.vue'
 import NullError from '@/components/NullError.vue'
 import {mapActions, mapState} from 'vuex'
 export default {
+
+
+    beforeCreate(){
+        this.$store.state.removeBar =true
+    },
     data(){
         return{
             
@@ -81,7 +86,6 @@ export default {
     methods: {
         ...mapActions(['getSaleDetail']),
         SaleBack(){
-            this.$store.state.removeBar = false
             this.$store.dispatch('getSaleStatistic')
         }
     },

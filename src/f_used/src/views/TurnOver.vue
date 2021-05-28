@@ -4,6 +4,9 @@
 <script>
 import TurnOverChart from '@/components/TurnOverChart.vue'
 export default {
+    beforeCreate(){
+        this.$store.state.removeBar =false
+    },
     data(){
         return{
           

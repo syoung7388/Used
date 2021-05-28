@@ -34,18 +34,19 @@
     </v-app>
 </template>
 <script>
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapActions, mapMutations} from 'vuex'
 import NullError from '@/components/NullError.vue'
 export default {
+    beforeCreate(){
+        this.$store.state.removeBar = true    
+    },
     computed: {
         ...mapState(['chatList', 'userInfo'])
     },
     methods: {
         ...mapActions(['getChatDetail']),
-        Back(){
-            this.$store.state.removeBar = false
-            this.$router.go(-1)
-        },
+        ...mapMutations(['Back'])
+
     },
     components:{
         NullError

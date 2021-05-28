@@ -7,8 +7,8 @@ module.exports = {
 
   devServer: { 
     port: 8080,
-    proxy: "http://172.30.1.60:9200"
-    //proxy:"http://192.168.50.124:8080"  
+    //proxy: "http://172.30.1.60:9200"
+    proxy:"http://192.168.50.124:9200"  
   },
   // chainWebpack: config =>{
   //   config.module
