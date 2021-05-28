@@ -9,6 +9,8 @@ public class UsedApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UsedApplication.class, args);
 		System.out.println("HI");
+		
+		
 	}
 
 }

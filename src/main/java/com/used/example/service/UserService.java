@@ -12,10 +12,7 @@ public interface UserService extends UserDetailsService {
 	
 	public void certifiedPhoneNumber(String phoneNumber, String cerNum);
 	
-	public void createUser(User user);
-	
-	public void createAuthority(User user);
-	
+
 	Collection<GrantedAuthority> getAuthorities(String username);
 
 	public UserInfo readUser_token(String username);
@@ -28,6 +25,10 @@ public interface UserService extends UserDetailsService {
 	public void UserDelete(String username);
 
 	public Map<String, Integer> Check(User user);
+
+	public void SignUp(User user);
+
+
 
 //	public void AuthEdit(User user);
 

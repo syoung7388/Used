@@ -112,9 +112,7 @@ public class AuctionController {
 		
 		picture.setP_num(Pnum);
 		productService.createPicture(picture);
-							
-		//logger.info("p_num:"+product.getP_num());
-		//logger.info("product:"+product);
+
 		
 		return new ResponseEntity<>( "success", HttpStatus.OK);
 
@@ -130,12 +128,19 @@ public class AuctionController {
 		}
 		String username= JwtUtils.getUserEmailFromToken(token);
 		
+		
+		
+		Map<String, Object> map = auctionService.SaleStatistic(username);
+		
+		
+		
+		
 		Count count = auctionService.SaleCount(username);
 		
 		List<MonthSum> sum = auctionService.SaleSum(username);
 		logger.info("sum:"+sum);
 		
-		Map<String, Object> map = new HashMap<>();
+		
 		
 		
 		List<String> month = new ArrayList<>();

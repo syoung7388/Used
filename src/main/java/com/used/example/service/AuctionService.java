@@ -33,9 +33,9 @@ public interface AuctionService {
 	public void AucEdit(Auction auction);
 
 	
-	public List<Auction> IndustryList(Map<String, Object> map);
+	public Map<String, Object> IndustryList(Map<String, Object> map);
 
-	public List<Auction> KindList(Map<String, Object> map);
+	public Map<String, Object> KindList(Map<String, Object> map);
 
 	public void Hits(int a_num);
 
@@ -44,11 +44,13 @@ public interface AuctionService {
 
 	public int TotalCount(Map<String, Object> map);
 
-	public List<Auction> TopList(Map<String, Object> map);
+	public Map<String, Object> TopList(Map<String, Object> map);
 
 	public Count SaleCount(String username);
 
 	public List<MonthSum> SaleSum(String username);
+
+	public Map<String, Object> SaleStatistic(String username);
 
 
 

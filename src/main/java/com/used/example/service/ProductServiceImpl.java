@@ -28,6 +28,10 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductMapper productMapper;
 	
+	
+	@Autowired
+	MakeThumbnail makeThumbnail;
+	
 	private final Logger logger= (Logger) LoggerFactory.getLogger(this.getClass());
 	
 	@Override
@@ -86,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
 					e.printStackTrace();
 				}
 				
-				MakeThumbnail makeThumbnail = new MakeThumbnail();
+//				MakeThumbnail makeThumbnail = new MakeThumbnail();
 				makeThumbnail.makeThumbnail(input, file,  output_ext);		
 				
 				pictureNames.add(final_name);

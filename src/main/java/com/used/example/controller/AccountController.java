@@ -1,8 +1,6 @@
 package com.used.example.controller;
 
 import java.io.BufferedReader;
-
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -53,7 +51,7 @@ public class AccountController {
 	
 	private static final String Host ="https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json";
 	
-	//@Scheduled(cron="*/50 * * * * *")
+	@Scheduled(cron="0 0 0 18 5 ?")
 	public  ResponseEntity<?> getFinancialData() throws IOException {
 		
 		
@@ -71,19 +69,15 @@ public class AccountController {
 		
 		ResponseEntity<AccountList> account = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, new HttpEntity<String>(headers), new ParameterizedTypeReference<AccountList>() {});
 		AccountList accountlist = account.getBody();
-		//System.out.println("accountlist"+accountlist);
-		//accountService.SaveAccount(accountlist);
 		return new ResponseEntity<>(HttpStatus.OK);	
 	}
 	
 	
 	@GetMapping
 	public ResponseEntity<?> getAccountInfo(){
-		
-		
+
 		AccountInfo accountinfo = accountService.getAccountInfo();
-		
-		
+				
 		return new ResponseEntity<>(accountinfo, HttpStatus.OK);
 		
 		

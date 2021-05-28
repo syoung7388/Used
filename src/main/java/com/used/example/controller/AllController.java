@@ -69,52 +69,50 @@ public class AllController {
     
     
 
-//	@PostMapping("/sms")
-//	public ResponseEntity<?> sendSMS(@RequestBody User user ) {
+	@PostMapping("/sms")
+	public ResponseEntity<?> sendSMS(@RequestBody User user ) {
+		
+		String phoneNumber= user.getPhone();
+		Random rand= new Random();
+		String numStr="";
+		for(int i=0; i<4; i++) {
+			String ran= Integer.toString(rand.nextInt(10));
+			numStr += ran;
+		}
+		
+		System.out.println("폰번호:"+ phoneNumber);
+		System.out.println("인증번호:"+numStr);
+		user.setNumStr(numStr);
+		
+		
+		
+//		String api_key= "NCS5GW8B7QDXQERY";
+//		String api_secret="FBJNABLR68IVRK5LM5JTBIP5MUMK9AVA";
+//		Message coolsms= new Message(api_key, api_secret);
+//		HashMap<String, String> params= new HashMap<String, String>();
+//		params.put("to", phoneNumber);
+//		params.put("from", "01083747388");
+//		params.put("type", "SMS");
+//		params.put("text", "[Used]인증문자는"+"["+numStr+"]"+"입니다");
+//		params.put("app_version", "test app 1.2");
 //		
-//		String phoneNumber= user.getPhone();
-//		Random rand= new Random();
-//		String numStr="";
-//		for(int i=0; i<4; i++) {
-//			String ran= Integer.toString(rand.nextInt(10));
-//			numStr += ran;
+//		try {
+//			JSONObject obj= (JSONObject)coolsms.send(params);
+//			System.out.println(obj.toString());
+//		}catch (CoolsmsException e) {
+//            System.out.println("문자인증오류:"+e.getMessage());
+//            System.out.println("문자인증오류:"+e.getCode());
 //		}
 //		
-//		System.out.println("폰번호:"+ phoneNumber);
-//		System.out.println("인증번호:"+numStr);
-//		user.setNumStr(numStr);
-//		
-//		
-//		
-////		String api_key= "NCS5GW8B7QDXQERY";
-////		String api_secret="FBJNABLR68IVRK5LM5JTBIP5MUMK9AVA";
-////		Message coolsms= new Message(api_key, api_secret);
-////		HashMap<String, String> params= new HashMap<String, String>();
-////		params.put("to", phoneNumber);
-////		params.put("from", "01083747388");
-////		params.put("type", "SMS");
-////		params.put("text", "[Used]인증문자는"+"["+numStr+"]"+"입니다");
-////		params.put("app_version", "test app 1.2");
-////		
-////		try {
-////			JSONObject obj= (JSONObject)coolsms.send(params);
-////			System.out.println(obj.toString());
-////		}catch (CoolsmsException e) {
-////            System.out.println("문자인증오류:"+e.getMessage());
-////            System.out.println("문자인증오류:"+e.getCode());
-////		}
-////		
-//		return new ResponseEntity<>(user, HttpStatus.OK);
-//	}
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
 	
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> Signup(@RequestBody User user){
 		
 		Map<String, Integer> check = new HashMap<>();
-		
 		check = userService.Check(user);
-		//logger.info("check:"+check.get("check_username"));
 		int check_username = Integer.parseInt( String.valueOf(check.get("check_username")));
 		int check_name = Integer.parseInt( String.valueOf(check.get("check_name")));
 		if(check_username == 1 || check_name== 1) {
@@ -122,20 +120,8 @@ public class AllController {
 			return new ResponseEntity<>(check, HttpStatus.OK);
 		
 		}else {
-		
-		
-		String encodedPassword= new BCryptPasswordEncoder().encode(user.getPassword());
-		user.setPassword(encodedPassword);
-		user.setisAccountNonExpired(true);
-		user.setisAccountNonLocked(true);
-		user.setisCredentialsNonExpired(true);
-		user.setisEnabled(true);
-		user.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));
-		
-	    userService.createUser(user);
-	    userService.createAuthority(user);
-	    
-		
+			
+			userService.SignUp(user);
 		return new ResponseEntity<>("success", HttpStatus.OK);
 		}
 		
@@ -162,9 +148,6 @@ public class AllController {
 								.map(item -> item.getAuthority())
 								.collect(Collectors.toList());
 		
-		logger.debug("debug");
-	    logger.info("info");
-	    logger.error("error");
 	    
 	    jwt="Bearer"+jwt;
 		
@@ -185,27 +168,10 @@ public class AllController {
 		map.put("lat", lat);
 		map.put("lon", lon);
 		map.put("limit", page*pagination.getPerpage());
+		map.put("page", page);
 		
-		List<Auction> toplist= auctionService.TopList(map);
+		Map<String, Object> topmap = auctionService.TopList(map);
 		
-		Map<String, Object> topmap = new HashMap<>();
-		
-		topmap.put("toplist", toplist);
-	
-	
-		
-		
-		if(page == 0) {
-			
-			map.put("listsort", 0);
-			int count = auctionService.TotalCount(map);
-			pagination = new Pagination(count, page);
-			//logger.info("pagination:"+pagination );
-			topmap.put("pagination", pagination);
-			
-		}
-
-		//logger.info("topmap:"+ topmap);
 		return new ResponseEntity<>( topmap, HttpStatus.OK);
 		
 	}
@@ -219,31 +185,11 @@ public class AllController {
 		map.put("lat", lat);
 		map.put("lon", lon);
 		map.put("industry", industry);
+		map.put("page", page);
 		map.put("limit", page*pagination.getPerpage());
-		List<Auction> industrylist = auctionService.IndustryList(map);
 		
 		
-		Map<String ,Object> industrymap = new HashMap<>();
-		industrymap.put("industrylist", industrylist);
-		
-		
-		
-		
-		
-		if(page == 0) {
-			map.put("listsort", 1);
-			int count = auctionService.TotalCount(map);
-			pagination = new Pagination(count, page);
-			industrymap.put("pagination", pagination);
-			
-		}
-		
-		
-		
-		
-		
-		
-		logger.info("industrymap:"+ industrymap);
+		Map<String ,Object> industrymap = auctionService.IndustryList(map);
 
 		return new ResponseEntity<>(industrymap, HttpStatus.OK);
 	
@@ -257,19 +203,10 @@ public class AllController {
 		map.put("lon", lon);
 		map.put("kind", kind);
 		map.put("limit", page*pagination.getPerpage());
-		List<Auction> kindlist = auctionService.KindList(map);
-		
-		
-		Map<String ,Object> kindmap = new HashMap<>();
-		kindmap.put("kindlist", kindlist);
-		if(page == 0) {
-			map.put("listsort", 2);
-			int count = auctionService.TotalCount(map);
-			pagination = new Pagination(count, page);
-			kindmap.put("pagination", pagination);
-			
-		}
-		logger.info("kindmap:"+ kindmap);
+		map.put("page", page);
+
+		Map<String ,Object> kindmap = auctionService.KindList(map);
+
 
 		return new ResponseEntity<>(kindmap, HttpStatus.OK);
 	

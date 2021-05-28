@@ -1,9 +1,13 @@
 package com.used.example.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.used.example.domain.User;
@@ -54,10 +58,6 @@ public class UserServiceImpl implements UserService {
 	}
 		
 
-    @Override
-	public void createUser(User user) {
-		userMapper.createUser(user);	
-	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -76,10 +76,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-	@Override
-	public void createAuthority(User user) {
-		userMapper.createAuthority(user);
-	}
 
 
 	@Override
@@ -123,8 +119,24 @@ public class UserServiceImpl implements UserService {
 
 
 
+	@Override
+	public void SignUp(User user) {
+		
 
+		
+		
+		String encodedPassword= new BCryptPasswordEncoder().encode(user.getPassword());
+		user.setPassword(encodedPassword);
+		user.setisAccountNonExpired(true);
+		user.setisAccountNonLocked(true);
+		user.setisCredentialsNonExpired(true);
+		user.setisEnabled(true);
+		user.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));
+		
+	    userMapper.createUser(user);
+	    userMapper.createAuthority(user);
 
+	}
 
 
 }
