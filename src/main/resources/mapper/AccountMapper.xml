@@ -9,13 +9,16 @@
 				(#{item.account_nm},#{item.thstrm_nm},#{item.thstrm_amount})
 			</foreach>
 	</insert>
-	<select id="getAccountInfo" resultType="AccountInfo">
+	<insert id="SaveAccountRate">
+	
+	INSERT INTO account_rate(current_rate, debt_rate, capital_turnover, store_turnover, credit_turnover, sale_income_rate, ac_times)
 	SELECT	TRUNCATE(currentassets/currentdebt*100, 0)current_rate,
 			TRUNCATE(debt/capital*100, 0)debt_rate,
 			TRUNCATE(sales/capital,1)capital_turnover,
 			TRUNCATE(sales/storedassets,1)store_turnover,
 			TRUNCATE(sales/salecredit, 1)credit_turnover,
-			TRUNCATE(currentincome/sales * 100, 0)sale_income_rate
+			TRUNCATE(currentincome/sales * 100, 0)sale_income_rate,
+			ac_times
 	FROM 	(SELECT 
 				sum(case when account_nm = '유동자산' then thstrm_amount END) AS currentassets,
 				sum(case when account_nm = '유동부채' then thstrm_amount END) AS currentdebt,
@@ -25,8 +28,17 @@
 				sum(case when account_nm = '재고자산' then thstrm_amount END) AS storedassets,
 				sum(case when account_nm = '매출채권' then thstrm_amount END) AS salecredit,
 				sum(case when account_nm = '당기순이익' then thstrm_amount END) AS currentincome,
-				sum(case when account_nm = '영업이익' then thstrm_amount END) AS businessprofits
+				sum(case when account_nm = '영업이익' then thstrm_amount END) AS businessprofits,
+				thstrm_nm AS ac_times
 			FROM account
 			)ta
+	</insert>
+	
+	
+	
+	<select id="getAccountInfo" resultType="AccountInfo">
+		SELECT	*
+		FROM 	account_rate
+		WHERE   ac_times = "제 52 기"
 	</select>
 </mapper>

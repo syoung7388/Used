@@ -7,8 +7,9 @@ import com.used.example.domain.AccountList;
 
 public interface AccountService {
 
-	public void SaveAccount(AccountList accountlist);
 
 	public AccountInfo getAccountInfo();
+
+	public void FinancialData(AccountList accountlist);
 
 }

@@ -20,7 +20,7 @@
                 </v-app-bar>
             </v-card>
             <v-row  class="pt-9" justify="center"> 
-                <v-col cols="5"  v-for="(item, int) in kindList" :key="int" class="py-1">
+                <v-col cols="5"  v-for="(item, int) in kindList" :key="int" class="py-1 d-flex justify-center">
                     <v-card 
                     width="170"
                     flat
@@ -112,8 +112,7 @@ export default {
         ...mapActions(['getDetail']),
         Back(){
             this.$store.state.kindpage = 0
-            this.$router.go(-1)
-
+            this.$router.push({name:'Home'})
         }
     },
     components: {

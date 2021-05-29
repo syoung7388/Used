@@ -67,7 +67,7 @@
                                 <v-btn large dense class="primary" @click="PayBtn">결제하기</v-btn>
                             </v-row>
                         </v-card>
-                        <v-card v-else-if="aucInfo.sale === 2" flat class="px-10 py-7">
+                        <v-card v-else-if="aucInfo.sale === 2 || aucInfo.sale === 3" flat class="px-10 py-7">
                             <v-row>
                                 <v-col>
                                     <h1 style="font-size: 17px; text-align:center" class="ml-3 mb-2">결제정보 <span class="grey--text">(결제완료)</span></h1>

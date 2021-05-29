@@ -1,5 +1,5 @@
 <template>
-    <v-app >
+    <v-app class="pa-0" >
         <v-container v-show="address_show === false" class="pa-0">
             <div v-show ="Edit_error === true">
                 <h1 class="red--text" style="font-size: 15px;">
@@ -271,7 +271,7 @@
             })"
             >확인</v-btn>
         </v-container>
-        <v-container v-show="address_show === true"> 
+        <v-container v-show="address_show === true" class="pa-0"> 
             <Address @Addr="ResultAddress" ref="childaddr"></Address>
         </v-container>
      
@@ -315,6 +315,7 @@ export default{
 
     },
     beforeCreate(){
+        this.$store.state.address_show === false
 
     },
     mounted() {
@@ -384,7 +385,7 @@ export default{
         },
         ResultAddress(payload){
             this.$store.state.address_show= false
-            this.addr = payload.fulladdress
+            this.addr = payload.fullAddress
             this.town = payload.town
         }
         

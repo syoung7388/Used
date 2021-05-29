@@ -80,8 +80,7 @@ export default {
    methods: {
       ...mapActions(['Login','nowLatLon']),
       Choose(payload){
-         this.$store.state.role = payload
-         console.log(this.$store.state.role)
+         localStorage.setItem('role', payload)
          this.$store.state.role_choose = false
          this.nowLatLon()
       }

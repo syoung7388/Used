@@ -20,6 +20,8 @@ import com.used.example.domain.Product;
 import com.used.example.mapper.AuctionMapper;
 import com.used.example.mapper.ChatMapper;
 import com.used.example.mapper.PaymentMapper;
+import com.used.example.mapper.ProcessMapper;
+import com.used.example.mapper.TurnOverMapper;
 
 
 
@@ -37,12 +39,17 @@ public class PaymentServiceImpl implements PaymentService{
 	@Autowired
 	ChatMapper chatMapper;
 	
+	@Autowired
+	ProcessMapper processMapper;
+	
+	
 	
 	
 	
 
 	@Override
-	public Map<String, Object> PaymentDetail(int a_num) {
+	public Map<String, Object> PaymentDetail(int a_num) { 
+		
 		Map<String , Object> map = new HashMap<>();
 		Payment paydetail = paymentMapper.PaymentDetail(a_num);
 		Auction aucdetail = auctionMapper.AucDetail(a_num);
@@ -55,6 +62,9 @@ public class PaymentServiceImpl implements PaymentService{
 		map.put("paydetail", paydetail);
 		map.put("aucdetail", aucdetail);
 		map.put("chatdetail", chatdetail);
+		
+		
+
 		return map;
 	}
 
@@ -89,6 +99,12 @@ public class PaymentServiceImpl implements PaymentService{
 	@Override
 	public void PayStep(Payment payment) {
 		paymentMapper.PayStep(payment);
+		
+	}
+
+	@Override
+	public void ProcessUp(int a_num) {
+		 processMapper.ProcessUp(a_num);
 		
 	}
 	

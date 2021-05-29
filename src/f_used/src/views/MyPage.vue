@@ -1,7 +1,7 @@
 <template>
 <v-app>
         <v-container  v-show="Eshow === false">
-            <v-btn icon @click="Back">
+            <v-btn icon @click="RouterBack({name: 'Home'})">
                 <i class="fas fa-arrow-left" style="font-size: large;"></i>
             </v-btn>
             <h1 class="mb-10 mt-2" style="font-size: 20px; text-align: center">{{userInfo.name}}님 안녕하세요</h1>
@@ -105,8 +105,7 @@ export default {
         Edit(){
             this.$store.state.Eshow = true
         },
-        ...mapActions(['Logout']),
-        ...mapMutations(['Back'])
+        ...mapActions(['Logout', 'RouterBack'])
 
 
 

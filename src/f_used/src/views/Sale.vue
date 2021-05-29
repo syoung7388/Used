@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container class="pa-0">
+        <v-container class="pa-0 py-2">
             <v-list class="px-0 py-2">
                 <v-list-item-group 
                     color="primary"
@@ -40,7 +40,7 @@
                 </v-list-item-group>
             </v-list>
             <v-card color="secondary" height="25" id="sale" flat tile></v-card>
-            <div v-if="count.soldcount !== 0">
+            <div v-if="count.soldcount !== 0" class="d-flex justify-center">
                 <TotalChart :height="320"  ></TotalChart>
             </div>
           

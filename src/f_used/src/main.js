@@ -19,9 +19,11 @@ export const eventBus  = new Vue()
 //   }
 // })
 
-const socket = io('http://192.168.50.124:2100',  { transports: ['websocket'] })
+//const socket = io('http://192.168.50.124:2100',  { transports: ['websocket'] })
 //const socket = io('http://172.30.1.33:2100',  { transports: ['websocket'] })
-//const socket = io('http://172.30.1.60:2100',  { transports: ['websocket'] })
+//const socket = io('http://172.30.1.12:2100',  { transports: ['websocket'] })
+
+const socket = io('http://192.168.1.46:2100',  { transports: ['websocket'] })
 
 
 Vue.prototype.$socket = socket

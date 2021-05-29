@@ -41,11 +41,8 @@ public class ProcessController {//숫자의 기준은 어떻게 a_sale이 변할
 	@Secured({"ROLE_USER"})
 	@PutMapping("/0")
 	public ResponseEntity<?> SkipOffer(@RequestBody Offer offer){		
-		processService.SkipOffer(offer);
-		Offer_req or = new Offer_req();
-		or.setO_username(offer.getO_username());
-		or.setSale(1);
-		List<Auction> list = offerService.OfferList(or);		
+		List<Auction> list = processService.SkipOffer(offer);
+		
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
@@ -55,7 +52,6 @@ public class ProcessController {//숫자의 기준은 어떻게 a_sale이 변할
 	@PutMapping("/1") 
 	public ResponseEntity<?> SelectOffer(@RequestBody Offer offer){
 		processService.SelectOffer(offer);
-		processService.ProcessUp(offer.getA_num()); //a_sale = 1
 		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 	
@@ -66,7 +62,7 @@ public class ProcessController {//숫자의 기준은 어떻게 a_sale이 변할
 	public ResponseEntity<?> AucEnd(@RequestBody Auction auction,  HttpServletRequest request){
 		
 
-		processService.ProcessUp(auction.getA_num());
+		
 		
 		token = request.getHeader("access_token");		
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
@@ -74,11 +70,9 @@ public class ProcessController {//숫자의 기준은 어떻게 a_sale이 변할
 		}
 		String o_username = JwtUtils.getUserEmailFromToken(token);
 		
-		Offer_req or = new Offer_req();
-		or.setO_username(o_username);
-		or.setSale(2);
+		List<Auction> list= processService.AucEnd(o_username ,auction.getA_num());
 		
-		List<Auction> list =offerService.OfferList(or);
+
 		
 		return new ResponseEntity<> (list, HttpStatus.OK);
 		

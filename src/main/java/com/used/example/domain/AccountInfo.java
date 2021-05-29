@@ -9,11 +9,13 @@ public class AccountInfo {
 	private double store_turnover;//재고자산 회전율
 	private double credit_turnover; // 매출채권 회전율
 	private int sale_income_rate;// 매출 순이익
+	private String ac_times;
+
 	@Override
 	public String toString() {
-		return "FinancialRatio [current_rate=" + current_rate + ", debt_rate=" + debt_rate + ", capital_turnover="
+		return "AccountInfo [current_rate=" + current_rate + ", debt_rate=" + debt_rate + ", capital_turnover="
 				+ capital_turnover + ", store_turnover=" + store_turnover + ", credit_turnover=" + credit_turnover
-				+ ", sale_income_rate=" + sale_income_rate + "]";
+				+ ", sale_income_rate=" + sale_income_rate + ", ac_times=" + ac_times + "]";
 	}
 	public int getCurrent_rate() {
 		return current_rate;
@@ -50,6 +52,12 @@ public class AccountInfo {
 	}
 	public void setSale_income_rate(int sale_income_rate) {
 		this.sale_income_rate = sale_income_rate;
+	}
+	public String getAc_times() {
+		return ac_times;
+	}
+	public void setAc_times(String ac_times) {
+		this.ac_times = ac_times;
 	}
 
 

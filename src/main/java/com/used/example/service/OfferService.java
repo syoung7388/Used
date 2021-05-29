@@ -11,11 +11,11 @@ import com.used.example.domain.Offer_req;
 
 public interface OfferService {
 
-	public void CreateOffer(Offer offer);
+	public Auction CreateOffer(Offer offer);
 
 	public List<Auction> OfferList(Offer_req or);
 
-	public void DeleteOffer(int o_num);
+	public Auction DeleteOffer(int o_num, int a_num);
 
 	public void SelectOffer(Offer offer);
 

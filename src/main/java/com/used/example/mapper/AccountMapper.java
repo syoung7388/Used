@@ -12,4 +12,6 @@ public interface AccountMapper {
 
 	public AccountInfo getAccountInfo();
 
+	public void SaveAccountRate();
+
 }

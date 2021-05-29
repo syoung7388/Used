@@ -111,7 +111,8 @@ public class PaymentController {
  
         
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "KakaoAK " + "7824d85f0892e82e54e73144138aba0a");
+        //headers.add("Authorization", "KakaoAK " + "7824d85f0892e82e54e73144138aba0a");
+        headers.add("Authorization", "KakaoAK " + "0a8b37524752c3a783b36257cfe92e4d");
         headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
       
@@ -129,13 +130,16 @@ public class PaymentController {
 //        params.add("approval_url", "http://172.30.1.33:8080");
 //        params.add("cancel_url", "http://172.30.1.33:8080");
 //        params.add("fail_url", "http://172.30.1.33:8080");      
-        params.add("approval_url", "http://192.168.50.124:8080");
-        params.add("cancel_url", "http://192.168.50.124:8080");
-        params.add("fail_url", "http://192.168.50.124:8080");
-//      params.add("approval_url", "http://172.30.1.60:8080");
-//      params.add("cancel_url", "http://172.30.1.60:8080");
-//      params.add("fail_url", "http://172.30.1.60:8080");
-//        
+//        params.add("approval_url", "http://192.168.50.124:8080");
+//        params.add("cancel_url", "http://192.168.50.124:8080");
+//        params.add("fail_url", "http://192.168.50.124:8080");
+//      params.add("approval_url", "http://172.30.1.12:8080");
+//      params.add("cancel_url", "http://172.30.1.12:8080");
+//      params.add("fail_url", "http://172.30.1.12:8080");
+      params.add("approval_url", "http://192.168.1.46:8080");
+      params.add("cancel_url", "http://192.168.1.46:8080");
+      params.add("fail_url", "http://192.168.1.46:8080");
+        
   
         
         
@@ -236,8 +240,9 @@ public class PaymentController {
             e.printStackTrace();
         }
         
-        processService.ProcessUp(a_num);      
+        paymentService.ProcessUp(a_num);
         Map<String, Object> map= paymentService.PaymentDetail(a_num);
+        
         return new ResponseEntity<>(map, HttpStatus.OK);
         
     

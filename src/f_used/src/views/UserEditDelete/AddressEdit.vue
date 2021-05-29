@@ -55,7 +55,7 @@ export default{
         Edit(){
         this.userInfo.address = this.address
         console.log(this.userInfo.address)
-        // this.$store.dispatch('EditOK')
+        this.$store.dispatch('EditOK')
         },
         ...mapActions(['E_Back']),
   
@@ -66,8 +66,8 @@ export default{
             this.Ashow= true
         },
         Aresult(payload){
-            //console.log(payload)
-            this.address= payload.fulladdress
+            console.log(payload)
+            this.address= payload.fullAddress
             this.Ashow = false
         }
         

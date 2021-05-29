@@ -2,6 +2,7 @@ package com.used.example.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.used.example.domain.AccountInfo;
@@ -17,19 +18,24 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	AccountMapper accountMapper;
 
-	@Override
-	public void SaveAccount(AccountList accountlist) {
-		
-		 accountMapper.SaveAccount(accountlist);
-		
-		
-		
-		
-	}
 
 	@Override
 	public AccountInfo getAccountInfo() {
 		return accountMapper.getAccountInfo();
+	}
+	
+	
+	@Async
+	@Override
+	public void FinancialData(AccountList accountlist) {
+		//accountMapper.SaveAccount(accountlist);
+		System.out.print("=======================================");
+		
+		
+		accountMapper.SaveAccountRate();
+		System.out.print("=======================================");
+		
+		
 	}
 
 }

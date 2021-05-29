@@ -45,8 +45,7 @@ public class ChatController {
 	public ResponseEntity<?> CreateChat(@RequestBody Chat chat){
 		
 		chatService.CreateChat(chat);
-		
-		logger.info("chat"+chat);
+
 		return new ResponseEntity<>(chat, HttpStatus.OK);
 		
 		
@@ -85,11 +84,9 @@ public class ChatController {
 		}
 		String username = JwtUtils.getUserEmailFromToken(token);
 		message.setM_username(username);
-		
-		logger.info("message:"+message);
+
 		
 		chatService.CreateMessage(message);
-		
 		
 		
 		return new ResponseEntity<>("success", HttpStatus.OK);

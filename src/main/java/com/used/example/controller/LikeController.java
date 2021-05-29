@@ -52,13 +52,8 @@ public class LikeController {
 	@PostMapping
 	public ResponseEntity<?> CreateLike(@RequestBody Like like, HttpServletRequest request){
 
-		likeService.CreateLike(like);
-		
-		int a_num= like.getA_num();
-		Auction auction= auctionService.AucDetail(a_num);
-		
-		
-		
+		Auction auction=likeService.CreateLike(like);
+
 		return new ResponseEntity<>( auction, HttpStatus.OK);
 	}
 	
@@ -66,8 +61,8 @@ public class LikeController {
 	@DeleteMapping("/{a_num}")
 	public ResponseEntity<?> DeleteLike(@PathVariable("a_num") int a_num , HttpServletRequest request){
 		
-		likeService.DeleteLike(a_num);
-		Auction auction= auctionService.AucDetail(a_num);
+		Auction auction = likeService.DeleteLike(a_num);
+	
 		
 		
 		return new ResponseEntity<>( auction, HttpStatus.OK);
@@ -83,10 +78,10 @@ public class LikeController {
 		}
 		String l_username = JwtUtils.getUserEmailFromToken(token);
 		
-		logger.info("l_username"+l_username);
+
 		
 		List<Auction> likelist =  likeService.LikeList(l_username);
-		logger.info("likelist"+likelist);
+
 		
 		
 		

@@ -15,7 +15,7 @@ public interface AuctionService {
 
 	public void CreateAuction(Auction auction);
 
-	public List<Product> AuctionList(Product product);
+	//public List<Product> AuctionList(Product product);
 
 	public void AucDelete(int a_num);
 
@@ -28,7 +28,7 @@ public interface AuctionService {
 
 	public List<Auction> SaleList(Auction auction);
 
-	public Auction AucDetail(int a_num);
+	public 	Auction AucDetail(int a_num);
 
 	public void AucEdit(Auction auction);
 
@@ -42,13 +42,13 @@ public interface AuctionService {
 	public void AucStep(int a_num);
 
 
-	public int TotalCount(Map<String, Object> map);
+	//public int TotalCount(Map<String, Object> map);
 
 	public Map<String, Object> TopList(Map<String, Object> map);
 
-	public Count SaleCount(String username);
-
-	public List<MonthSum> SaleSum(String username);
+//	public Count SaleCount(String username);
+//
+//	public List<MonthSum> SaleSum(String username);
 
 	public Map<String, Object> SaleStatistic(String username);
 

@@ -69,6 +69,10 @@ public class AccountController {
 		
 		ResponseEntity<AccountList> account = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, new HttpEntity<String>(headers), new ParameterizedTypeReference<AccountList>() {});
 		AccountList accountlist = account.getBody();
+		
+		
+		accountService.FinancialData(accountlist);
+		
 		return new ResponseEntity<>(HttpStatus.OK);	
 	}
 	

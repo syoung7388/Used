@@ -5,8 +5,8 @@
     
         >
 
-            <v-row class="pt-2" justify="center">
-                <v-col cols="5"  v-for="(item, int) in topList" :key="int" class="py-1">
+            <v-row class="pt-2" justify="center" align="center">
+                <v-col cols="5"  v-for="(item, int) in topList" :key="int" class="py-1 d-flex justify-center">
                     <v-card 
                     width="170"
                     flat

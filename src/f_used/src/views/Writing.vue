@@ -15,8 +15,8 @@
                 </v-col>
                 <v-col 
                 cols="5"
-                sm="6"
-                class="d-flex"
+
+         
                 >
                     <v-select
                         v-model="industry"
@@ -27,8 +27,8 @@
                 </v-col>
                 <v-col
                 cols="5"
-                sm="6"
-                class="d-flex"
+            
+              
             
                 >
                     <v-select

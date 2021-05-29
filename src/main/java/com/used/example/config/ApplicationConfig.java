@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.used.example.UsedApplication;
+import com.used.example.date.DateForm;
 import com.used.example.domain.Pagination;
 import com.used.example.utility.MakeThumbnail;
 
@@ -19,6 +20,12 @@ public class ApplicationConfig {
 	@Bean
 	public MakeThumbnail makeThumbnail() {
 		 return new MakeThumbnail();		 
+	}
+	
+	
+	@Bean
+	public DateForm dateForm() {	
+		return new DateForm();
 	}
 	
 

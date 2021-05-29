@@ -127,34 +127,9 @@ public class AuctionController {
 			token= token.substring(6, token.length());
 		}
 		String username= JwtUtils.getUserEmailFromToken(token);
-		
-		
-		
+
 		Map<String, Object> map = auctionService.SaleStatistic(username);
 		
-		
-		
-		
-		Count count = auctionService.SaleCount(username);
-		
-		List<MonthSum> sum = auctionService.SaleSum(username);
-		logger.info("sum:"+sum);
-		
-		
-		
-		
-		List<String> month = new ArrayList<>();
-		List<Long> total = new ArrayList<>();
-		List<String> labels = new ArrayList<>();
-		
-		
-		for(int i=0; i< sum.size(); i++) {
-			month.add(sum.get(i).getMonth()+"월");
-			total.add(sum.get(i).getTotal());
-		}
-		map.put("count", count);
-		map.put("month", month);
-		map.put("total", total);
 		
 		return new ResponseEntity<>( map, HttpStatus.OK);
 		
@@ -170,13 +145,12 @@ public class AuctionController {
 			token= token.substring(6, token.length());
 		}
 		String username= JwtUtils.getUserEmailFromToken(token);
-		Map<String,Object> map= new HashMap<>();
+	
 		
 		Auction auction = new Auction();
 		auction.setA_username(username);
 		auction.setSale(sale);
 		List<Auction> salelist = auctionService.SaleList(auction);
-
 		return new ResponseEntity<>(salelist, HttpStatus.OK);
 		
 	}
@@ -198,6 +172,7 @@ public class AuctionController {
 
 		auction.setAddress(address);
 		auction.setPro(product);
+		
 		auctionService.AucEdit(auction);
 		
 		
@@ -210,14 +185,9 @@ public class AuctionController {
 		productService.createPicture(picture);
 		
 		int a_num = auction.getA_num();
-		Auction auc= auctionService.AucDetail(a_num);
-			
-			
-		
-		
-		
+		Auction auction1= auctionService.AucDetail(a_num);
 		//logger.info("auc:"+auc);
-		return new ResponseEntity<>(auc, HttpStatus.OK);
+		return new ResponseEntity<>(auction1, HttpStatus.OK);
 	}
 	
 	

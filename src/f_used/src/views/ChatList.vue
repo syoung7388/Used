@@ -2,8 +2,8 @@
     <v-app>
         <v-container class="px-0">
             <v-row justify="start">
-                <v-col cols="3" class="pb-0">
-                    <v-btn style="font-size: large;" icon @click="Back">
+                <v-col cols="3" class="pb-2">
+                    <v-btn style="font-size: large;" icon @click="RouterBack({name:'Home'})">
                         <i class="fas fa-arrow-left" style="font-size: large;"></i>
                     </v-btn>
                 </v-col>
@@ -12,7 +12,7 @@
             <template v-for=" (item, index) in chatList" >
                 <v-list-item one-line :key="item.ch_num" @click="getChatDetail({ch_num : item.ch_num})">
                     <v-list-item-content>
-                        <v-row justify="start" align="center">
+                        <v-row justify="center" align="center">
                             <v-col cols="3">
                                 <v-list-item-icon class="grey--text"><i class="far fa-user-circle" style="font-size:30px"></i></v-list-item-icon>
                             </v-col>
@@ -44,8 +44,7 @@ export default {
         ...mapState(['chatList', 'userInfo'])
     },
     methods: {
-        ...mapActions(['getChatDetail']),
-        ...mapMutations(['Back'])
+        ...mapActions(['getChatDetail', 'RouterBack'])
 
     },
     components:{

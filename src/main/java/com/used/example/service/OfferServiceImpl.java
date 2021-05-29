@@ -14,6 +14,7 @@ import com.used.example.domain.Count;
 import com.used.example.domain.KindRate;
 import com.used.example.domain.Offer;
 import com.used.example.domain.Offer_req;
+import com.used.example.mapper.AuctionMapper;
 import com.used.example.mapper.OfferMapper;
 
 import ch.qos.logback.classic.Logger;
@@ -27,10 +28,18 @@ public class OfferServiceImpl implements OfferService{
 	
 	@Autowired 
 	OfferMapper offerMapper;
+	
+	@Autowired 
+	AuctionMapper auctionMapper;
 
 	@Override
-	public void CreateOffer(Offer offer) {
+	public Auction CreateOffer(Offer offer) {
 		offerMapper.CreateOffer(offer);
+		
+		int a_num = offer.getA_num();
+		Auction auction = auctionMapper.AucDetail(a_num);
+		
+		return auction;
 		
 	}
 
@@ -40,8 +49,12 @@ public class OfferServiceImpl implements OfferService{
 	}
 
 	@Override
-	public void DeleteOffer(int o_num) {
+	public Auction DeleteOffer(int o_num, int a_num) {
 		offerMapper.DeleteOffer(o_num);
+		
+		Auction auction = auctionMapper.AucDetail(a_num);
+		
+		return auction;
 		
 		
 	}

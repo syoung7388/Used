@@ -11,9 +11,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+
+    http:'http://192.168.1.46:9200',
+    //http: 'http://172.30.1.12:9200',
     //http:'http://172.30.1.60:9200',
     //http:'http://172.30.1.33:9200',
-    http: 'http://192.168.50.124:9200',
+    //http: 'http://192.168.50.124:9200',
     Storage: localStorage,
     Mshow: true,
     Kshow:false, 
@@ -145,7 +148,10 @@ export default new Vuex.Store({
     inserterr: false,
     homeerr : false,
     nullerr: false,
-    askerr: false
+    askerr: false,
+
+
+    map:[],
 
 
   
@@ -247,11 +253,10 @@ export default new Vuex.Store({
       },
 
       
-      state.Roles = payload.authorities
+      state.Storage.setItem("Roles", payload.authorities)
       if(state.Roles.length === 1){
-          state.role = state.Roles[0].authority
+          state.Storage.setItem("role", state.Roles[0].authority)
       }
-      state.isLoginError= false
 
     },
     ChooseRole(state){
@@ -260,8 +265,8 @@ export default new Vuex.Store({
     logout(state){
      
       state.userInfo = null
-      state.Roles= []
-      state.role= null
+      state.Storage.removeItem("Roles")
+      state.Storage.removeItem("role")
       state.role_choose = false
       state.auth_show = 0
       state.Storage.removeItem('access_token')
@@ -554,6 +559,9 @@ export default new Vuex.Store({
       console.log("mu")
       router.push({name: 'MyPage'})
     },
+    RouterBack({state}, payload){
+      router.push({name: payload.name})
+    },
     ///////////////////////////////////////////////////////////////////////////////////////////////페이지 전환 함수 & 페이지 요소 조정 함수
 
     Sms({commit, state}, payload){//인증문자
@@ -631,27 +639,24 @@ export default new Vuex.Store({
     Logout({commit}){
       commit('logout')
     },
-    EditOK({state, commit}, payload){ 
-      if(state.certi === payload.certinum){
-        let userInfo= state.userInfo
-        let token= state.Storage.getItem("access_token")
-        let config= {
-          headers: {
-            access_token: token
-          }
+    EditOK({state, commit}){ 
+      let userInfo= state.userInfo
+      let token= state.Storage.getItem("access_token")
+      let config= {
+        headers: {
+          access_token: token
         }
-        axios
-        .post(state.http+'/api/user/edit', userInfo, config)
-        .then(Res =>{
-          (Res.data !== null)? commit('Edit_s', Res.data):  commit("InsertErr")
-        })
-        .catch(()=>{
-          commit('InsertErr')
-        })
-
-      }else{
-        commit("InsertErr")
       }
+      axios
+      .post(state.http+'/api/user/edit', userInfo, config)
+      .then(Res =>{
+        (Res.data !== null)? commit('Edit_s', Res.data):  commit("InsertErr")
+      })
+      .catch(()=>{
+        commit('InsertErr')
+      })
+
+      
     },
     deleteOK({state,commit}){ 
       let username= state.userInfo.username
@@ -663,7 +668,7 @@ export default new Vuex.Store({
         }
       }
       axios
-      .delete(state.http+`/api/user/delete/${username}`, config)
+      .delete(state.http+`/api/user/${username}`, config)
       .then(Res =>{
         (Res.data === "success")? commit('Delete_s'): commit('Err')
       })
@@ -901,8 +906,11 @@ export default new Vuex.Store({
       //    navigator.geolocation.getCurrentPosition(function(position){
               // let lat = position.coords.latitude
               // let lon = position.coords.longitude
-              state.Storage.setItem('lat',37.3595316)
-              state.Storage.setItem('lon',127.1052133)
+
+              if(state.Storage.getItem('lat')=== null || state.Storage.getItem("lon") === null){  
+                state.Storage.setItem('lat',37.3595316)
+                state.Storage.setItem('lon',127.1052133)
+              }
               // console.log(state.Storage.getItem('lat'))
               // console.log(state.Storage.getItem('lon'))
 
@@ -1245,6 +1253,7 @@ export default new Vuex.Store({
           access_token: token
         }
       }
+      console.log("Auc")
       axios
       .post(state.http+'/api/payment/kready', payload, config)
       .then(Res =>{
@@ -1360,7 +1369,7 @@ export default new Vuex.Store({
           "access_token": token
         }
       }
-      // console.log(config)
+      console.log("AucEnd")
       axios
       .put(state.http+'/api/process/3', payload ,config )
       .then(Res =>{

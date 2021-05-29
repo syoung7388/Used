@@ -32,21 +32,23 @@
                         <v-tabs
                             align-with-title
                             fixed-tabs
-                            height="50"             
+                            height="50"            
                         >
                             <v-tabs-slider primary></v-tabs-slider>
                                 <v-tab class="ml-0" style="font-size:17px;">인기매물</v-tab>
-                                <v-tab style="font-size:17px;">업종별</v-tab>
-                                <v-tab style="font-size:17px;">제품별</v-tab>
+                                <v-tab style="font-size:17px;" >업종별</v-tab>
+                                <v-tab style="font-size:17px;" >제품별</v-tab>
+                               
                                 <v-tab-item>
                                     <TopList></TopList>
                                 </v-tab-item>
-                                <v-tab-item>
+                                <v-tab-item >
                                     <IndustrySort></IndustrySort>
                                 </v-tab-item>
-                                <v-tab-item>
+                                <v-tab-item >
                                     <KindSort></KindSort>
                                 </v-tab-item>
+                          
                         </v-tabs>
                     </template>
                 </v-app-bar>
@@ -74,14 +76,25 @@ import MapComponent from '@/components/MapComponent'
 import { mapActions, mapMutations, mapState } from 'vuex'
 export default{
     beforeCreate(){
-        this.$store.state.removeBar = false    
+        this.$store.state.removeBar = false
+        this.$store.state.map = []    
     },
 
     created(){
-        const script =document.createElement('script')
-        script.src = 'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=bonob9bu31&submodules=geocoder'
-        script.type = "text/javascript"
-        document.head.appendChild(script)
+
+        if(window.naver){
+            console.log("Aa")
+
+        }else{
+            const script =document.createElement('script')
+            script.src = 'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=bonob9bu31&submodules=geocoder'
+            script.type = "text/javascript"
+            document.head.appendChild(script)
+            console.log(window.naver)
+        }
+   
+
+
     },
     data(){
         return{
@@ -92,17 +105,20 @@ export default{
     },
     methods: {
 
+
+
         GetMyPage(){
-            this.$store.state.removeBar = true
-            if(this.Roles.length === 0){
+            var role = localStorage.getItem("role")
+            console.log(role)
+            if(role === null){
                 this.$router.push({name: 'Auth'})
             }else{
                 this.$router.push({name: 'MyPage'})
             }
         },
         GetLikeList(){
-            this.$store.state.removeBar = true
-            if(this.Roles.length === 0){
+            var role = localStorage.getItem("role")
+            if(role === null){
                 this.$router.push({name: 'Auth'})
             }else{
                this.$store.dispatch('getLikeList')
@@ -111,8 +127,8 @@ export default{
           
         },
         GetChatList(){
-            if(this.Roles.length === 0){
-                this.$store.state.removeBar=true
+            var role = localStorage.getItem("role")
+            if(role === null){
                 this.$router.push({name: 'Auth'})
             }else{
                this.$store.dispatch('getChatList')
@@ -121,7 +137,13 @@ export default{
         GetMap(){
             this.$store.state.removeBar = true
             this.map_show = true
-            this.$refs.getmap.initmap()
+            console.log(this.$store.state.map)
+            if(this.$store.state.map.length === 0){
+                this.$refs.getmap.initmap()
+            }
+
+            
+     
            
         },
         MapOK(){

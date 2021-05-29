@@ -8,7 +8,7 @@
                 height="60"
                 >
                     <v-row justify="center" align="center" >
-                        <v-col cols="1">
+                        <v-col cols="1" >
                             <v-btn icon @click="Back">
                                 <i class="fas fa-arrow-left" style="font-size: large; text-align: left;"></i>
                             </v-btn>
@@ -20,7 +20,7 @@
                 </v-app-bar>
             </v-card>
             <v-row justify="center" class="pt-9"> 
-                <v-col cols="5"  v-for="(item, int) in industryList" :key="int" class="py-1">
+                <v-col cols="5"  v-for="(item, int) in industryList" :key="int" class="py-1 d-flex justify-center">
                     <v-card 
                     width="170"
                     flat
@@ -114,7 +114,9 @@ export default {
         ...mapActions(['getDetail']),
         Back(){
             this.$store.state.industrypage = 0
-            this.$router.go(-1)
+            this.$router.push({name:'Home'})
+
+             
         }
     },
     components: {

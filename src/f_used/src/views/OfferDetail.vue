@@ -81,23 +81,25 @@
 
                     <v-tab-item>
                         <v-card flat class="pa-3"> 
-                            <v-row v-for="(item, int) in offerInfo" :key="int" align="center" class="pt-3">
-                                <v-col cols="2" >
-                                    <h1 style="font-size: 17px; text-align:center" >{{int+1}}등</h1>
-                                </v-col>
-                                <v-col cols="5" >
-                                    <h1 style="font-size: 17px; text-align:center" >{{item.price|comma}}원</h1>
-                                </v-col>
-                                <v-col cols="5" >
-                                    <h1 style="font-size: 17px; text-align:center">{{item.o_username}}님</h1>
-                                </v-col>
-                            </v-row>
+                            <div  v-for="(item, int) in offerInfo" :key="int">
+                                <v-row v-if="item.o_username !== null" align="center" justify="center">
+                                    <v-col cols="3" >
+                                        <h1 style="font-size: 18px; text-align:center" >{{int+1}}등</h1>
+                                    </v-col>
+                                    <v-col cols="5" >
+                                        <h1 style="font-size: 18px; text-align:center" >{{item.price}}원</h1>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <p style="font-size: 18px; text-align:center" class="mt-3">{{item.o_username}}님</p>
+                                    </v-col>
+                                </v-row>
+                            </div>
                         </v-card>
                     </v-tab-item>
                     <v-tab-item>
-                        <v-card flat class="pa-3"> 
+                        <v-card flat class="pt-3"> 
                             <v-row v-for="(item, int) in offerInfo" :key="int" align="center" justify="center" >
-                                <v-col cols="5" v-show="item.o_username === userInfo.username">
+                                <v-col cols="4" v-show="item.o_username === userInfo.username">
                                     <h1 style="font-size: 17px; text-align:center" >{{item.price|comma}}원</h1>
                                 </v-col>
                                 <v-col cols="4" v-show="item.o_username === userInfo.username">
@@ -230,8 +232,11 @@ export default {
             this.c_price = n
            
         },
-        ...mapActions(['OfferCancle', 'RemainDelete', 'Like', 'RemoveLike']),
-         ...mapMutations(['Back'])
+
+        Back(){
+            this.$store.dispatch('getOfferList',{sale: this.aucInfo.sale})
+        },
+        ...mapActions(['OfferCancle', 'RemainDelete', 'Like', 'RemoveLike'])
     },
     components:{
         OfferOverlay

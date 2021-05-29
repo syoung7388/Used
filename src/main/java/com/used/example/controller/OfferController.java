@@ -89,13 +89,9 @@ public class OfferController {
 		String o_username = JwtUtils.getUserEmailFromToken(token);
 		
 		offer.setO_username(o_username);
-		offerService.CreateOffer(offer);
+		Auction auction = offerService.CreateOffer(offer);
 		
-		int a_num = offer.getA_num();
-		Auction auction = auctionService.AucDetail(a_num);
-		
-		
-		
+
 		return new ResponseEntity<>(auction,HttpStatus.OK); 
 	}
 	
@@ -120,7 +116,7 @@ public class OfferController {
 	
 	@Secured({"ROLE_USER"})
 	@GetMapping
-	public ResponseEntity<?> BidList(HttpServletRequest request, @RequestParam("sale")int sale){
+	public ResponseEntity<?> OfferList(HttpServletRequest request, @RequestParam("sale")int sale){
 		
 		token = request.getHeader("access_token");
 		
@@ -135,13 +131,12 @@ public class OfferController {
 		or.setO_username(o_username);
 		or.setSale(sale);
 
-		List<Auction> bidlist =offerService.OfferList(or);
+		List<Auction> offerlist =offerService.OfferList(or);
+		
+		//logger.info("offerInfo=>"+ offerlist);
 		
 		
-		
-
-		logger.info("bidlist"+bidlist);
-		return new ResponseEntity<>( bidlist, HttpStatus.OK);
+		return new ResponseEntity<>( offerlist, HttpStatus.OK);
 	}
 	
 	@Secured({"ROLE_USER"})
@@ -149,7 +144,6 @@ public class OfferController {
 	public ResponseEntity<?> BidDetail(@PathVariable("a_num") int a_num){
 		
 		Auction auction = auctionService.AucDetail(a_num);
-		logger.info("biddetail:"+auction);
 		
 		return new ResponseEntity<>(auction, HttpStatus.OK);
 		
@@ -159,10 +153,8 @@ public class OfferController {
 	@DeleteMapping("/{o_num}/{a_num}")
 	public ResponseEntity<?> DeleteOffer(@PathVariable("o_num") int o_num, @PathVariable("a_num") int a_num){
 		
-		offerService.DeleteOffer(o_num);
-		Auction auction = auctionService.AucDetail(a_num);
-		
-		
+		Auction auction = offerService.DeleteOffer(o_num, a_num);
+
 		
 		return new ResponseEntity<>(auction, HttpStatus.OK);
 	}

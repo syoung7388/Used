@@ -10,28 +10,54 @@
     </v-app>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
+
+    computed:{
+        ...mapState(['map'])
+    },
+
+    
+    data(){
+        return{
+            //map: {},
+
+        }
+
+    },
     methods:{
         initmap(){
-            var mapOption = {
-            center: new naver.maps.LatLng(37.3595316, 127.1052133),
-            zoom: 10
-            }
-            var map = new naver.maps.Map('map', mapOption)
-            var marker = new naver.maps.Marker({
-                position: new naver.maps.LatLng(37.3595316, 127.1052133),
-                map: map
-            })
-            naver.maps.Event.addListener(map, 'touchstart',(e)=>{
-                marker.setPosition(e.latlng)
-                localStorage.setItem("lat", e._lat)
-                localStorage.setItem("lon", e._lng)
-                console.log(e.latlng)
-            })
+
+  
+                var mapOption = {
+                center: new naver.maps.LatLng(localStorage.getItem("lat"), localStorage.getItem("lon")),
+                zoom: 10
+                }
+                this.$store.state.map = new naver.maps.Map('map', mapOption)
+                var marker = new naver.maps.Marker({
+                    position: new naver.maps.LatLng(localStorage.getItem("lat"), localStorage.getItem("lon")),
+                    map: this.$store.state.map
+                })
+
+                setTimeout( function() {
+                    window.dispatchEvent(new Event('resize'));
+                }, 600);
+                naver.maps.Event.addListener(this.$store.state.map, 'touchstart',(e)=>{
+                    marker.setPosition(e.latlng)
+                    var latlng = e.latlng
+                    localStorage.setItem("lat", latlng.y)
+                    localStorage.setItem("lon", latlng.x)
+                    console.log(localStorage.getItem("lat"))
+                })
+ 
+
         },
         OK(){
             this.$emit('mapOK')
+        },
+        Marker(){
+
+
         }
     }
 }

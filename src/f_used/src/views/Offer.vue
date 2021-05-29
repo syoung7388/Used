@@ -41,7 +41,7 @@
             </v-list>
             <v-card color="secondary" height="25" id="sale" flat tile class="mb-5"></v-card>
             <div v-if="offercount.soldcount !== 0">
-                <h1 style="font-size: 18px; text-align:center" class="mb-7">Used 큰 손 <span class="primary--text">{{offerrank}}위 {{userInfo.username}}님 </span></h1>
+                <h1 style="font-size: 18px; text-align:center" class="mb-7">Used 큰 손 <span class="primary--text">{{offerrank}}위</span> {{userInfo.username}}님</h1>
                 <KindChart :height="250"></KindChart>
             </div>
 

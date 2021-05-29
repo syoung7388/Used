@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.used.example.date.DateForm;
 import com.used.example.domain.TurnOver;
 import com.used.example.service.TurnOverService;
 
@@ -31,29 +32,14 @@ public class TurnOverController {
 	
 	@Autowired
 	TurnOverService turnoverService;
+
 	
 	@GetMapping
 	public ResponseEntity<?> getTurnOverInfo(){
-		
-		Date date = new Date();
-		SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
-		String year = yearFormat.format(date);
-		
-		List<TurnOver> list = turnoverService.getTurnOverInfo(year);
+	
+		Map<String, Object> map  = turnoverService.getTurnOverInfo();
 		
 		
-		List<String> month = new ArrayList<>();
-		List<Long> amount = new ArrayList<>();
-		
-		for(int i=0; i<list.size(); i++) {
-			month.add(list.get(i).getMonth() +"월");
-			amount.add(list.get(i).getAmount());
-		}
-		
-		Map<String, Object> map = new HashMap<>();
-		map.put("month", month);
-		map.put("amount", amount);
-		logger.info("map"+map);
 		
 		return new ResponseEntity<>(map, HttpStatus.OK);
 		

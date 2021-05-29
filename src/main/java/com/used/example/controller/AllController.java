@@ -215,13 +215,9 @@ public class AllController {
 	public ResponseEntity<?> AucDetail(@PathVariable("a_num") int a_num){
 		
 		auctionService.Hits(a_num);
-
-
-		Auction aucdetail= auctionService.AucDetail(a_num);
-		logger.info("aucdetail:"+aucdetail);
+		Auction auction= auctionService.AucDetail(a_num);
 			
-			
-		return new ResponseEntity<>(aucdetail, HttpStatus.OK);
+		return new ResponseEntity<>(auction, HttpStatus.OK);
 			
 	
 		

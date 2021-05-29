@@ -47,18 +47,26 @@ import { mapActions, mapState } from 'vuex'
     data() {
         return{
             value: 1,
+            Roles: [],
+            role: null
         }
+    },
+    mounted(){
+        this.role = localStorage.getItem("role")
+    
+
     },
     beforeCreate(){
         this.$store.dispatch('nowLatLon')
     },
     computed: {
-        ...mapState(['removeBar', 'Roles' , 'role'])
+        ...mapState(['removeBar'])//, 'Roles' , 'role'
     },
     methods:{
         Sale(){
-            
-            if(this.Roles.length !== 0){
+            var role = localStorage.getItem("role")
+
+            if(role !== null){
                 this.$store.dispatch('getSaleStatistic')
             }else{
                 this.$store.state.removeBar = true
@@ -67,7 +75,8 @@ import { mapActions, mapState } from 'vuex'
 
         },
         Bid(){
-            if(this.Roles.length !== 0){
+            var role = localStorage.getItem("role")
+            if(role !== null){
                this.$store.dispatch('getOfferStatistic')
             }else{
                 this.$store.state.removeBar = true
@@ -76,7 +85,8 @@ import { mapActions, mapState } from 'vuex'
 
         },
         Main_Writing(){
-            if(this.Roles.length !== 0){
+            var role = localStorage.getItem("role")
+            if(role !== null){
                 this.$store.state.removeBar = true
                 this.$router.push({name:'Writing'})
             }else{

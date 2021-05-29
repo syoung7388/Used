@@ -29,4 +29,6 @@ public interface PaymentService {
 
 	public void PayStep(Payment payment);
 
+	public void ProcessUp(int a_num);
+
 }

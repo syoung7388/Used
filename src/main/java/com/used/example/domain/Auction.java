@@ -6,7 +6,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.used.example.date.DateForm;
+
 public class Auction {
+	
+	
+	@Autowired
+	DateForm dateForm;
 	
 	
 	private int a_num;
@@ -26,6 +34,8 @@ public class Auction {
 	private List <Like> like;
 	private List<Offer> offer;
 	private Address address;
+	private Payment payment;
+	
 	private Product pro;
 	private long topprice;
 	private int count;
@@ -36,17 +46,9 @@ public class Auction {
 		return day;
 	}
 	public void setDay(int day) {
+	
 		this.day = day; 
-		
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		System.out.println("current: " + df.format(cal.getTime()));
-		
-		cal.add(Calendar.DATE, +day);
-		System.out.println("after: " + df.format(cal.getTime()));
-		
-		String e_date = df.format(cal.getTime());
+		String e_date = DateForm.getEndDate(day);
 		this.enddate = e_date;
 	}
 	
@@ -56,29 +58,11 @@ public class Auction {
 	}
 	public void setD_day(String d_day) throws Exception {
 		
-		this.enddate = d_day;
-		
-		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");	
-		String today= form.format(new Date());
-		Date Today = form.parse(today);
-		Date Dday = form.parse(d_day+' '+"23:59:59");
-		System.out.println("Dday: " +Dday);
-		
-		
-		long dday=Today.getTime()-Dday.getTime();
-		long diffDays = dday / (24 * 60 * 60 * 1000);
-		System.out.println("diffDays: " +diffDays);
-		
+		this.enddate = d_day;	
+		Long diffDays =dateForm.getD_day(this.enddate);
 		this.d_day = diffDays;
-		
-		
+
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	public int getA_num() {
@@ -186,14 +170,23 @@ public class Auction {
 	public void setLimit(int limit) {
 		this.limit = limit;
 	}
+	public Payment getPayment() {
+		return payment;
+	}
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
 	@Override
 	public String toString() {
-		return "Auction [a_num=" + a_num + ", a_username=" + a_username + ", startdate=" + startdate + ", enddate="
-				+ enddate + ", startprice=" + startprice + ", sale=" + sale + ", hits=" + hits + ", day=" + day
-				+ ", d_day=" + d_day + ", title=" + title + ", content=" + content + ", product=" + product + ", like="
-				+ like + ", offer=" + offer + ", address=" + address + ", pro=" + pro + ", topprice=" + topprice
-				+ ", count=" + count + ", limit=" + limit + "]";
+		return "Auction [dateForm=" + dateForm + ", a_num=" + a_num + ", a_username=" + a_username + ", startdate="
+				+ startdate + ", enddate=" + enddate + ", startprice=" + startprice + ", sale=" + sale + ", hits="
+				+ hits + ", day=" + day + ", d_day=" + d_day + ", title=" + title + ", content=" + content
+				+ ", product=" + product + ", like=" + like + ", offer=" + offer + ", address=" + address + ", payment="
+				+ payment + ", pro=" + pro + ", topprice=" + topprice + ", count=" + count + ", limit=" + limit + "]";
 	}
+	
+	
+	
 	
 	
 	

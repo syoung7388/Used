@@ -15,7 +15,9 @@ import com.used.example.domain.Count;
 import com.used.example.domain.Product;
 import com.used.example.domain.MonthSum;
 import com.used.example.domain.Pagination;
+import com.used.example.domain.Payment;
 import com.used.example.mapper.AuctionMapper;
+import com.used.example.mapper.PaymentMapper;
 
 
 
@@ -26,6 +28,9 @@ public class AuctionServiceImpl implements AuctionService {
 	@Autowired
 	AuctionMapper auctionMapper;
 	
+	@Autowired
+	PaymentMapper paymentMapper;
+	
 
 	@Override
 	public void CreateAuction(Auction auction) {
@@ -33,10 +38,10 @@ public class AuctionServiceImpl implements AuctionService {
 		
 	}
 
-	@Override
-	public List<Product> AuctionList(Product product) {
-		return auctionMapper.AuctionList(product);
-	}
+//	@Override
+//	public List<Product> AuctionList(Product product) {
+//		return auctionMapper.AuctionList(product);
+//	}
 
 
 	@Override
@@ -72,7 +77,10 @@ public class AuctionServiceImpl implements AuctionService {
 
 	@Override
 	public Auction AucDetail( int a_num) {
-		return auctionMapper.AucDetail(a_num);
+		
+		Auction auction  = auctionMapper.AucDetail(a_num);
+
+		return auction;
 	}
 
 	@Override
@@ -96,10 +104,10 @@ public class AuctionServiceImpl implements AuctionService {
 	}
 
 
-	@Override
-	public int TotalCount(Map<String, Object> map) {
-		return auctionMapper.TotalCount(map);
-	}
+//	@Override
+//	public int TotalCount(Map<String, Object> map) {
+//		return auctionMapper.TotalCount(map);
+//	}
 
 	@Override
 	public Map<String, Object> TopList(Map<String, Object> map) {
@@ -160,15 +168,15 @@ public class AuctionServiceImpl implements AuctionService {
 		return kindmap;
 	}
 
-	@Override
-	public Count SaleCount(String username) {
-		return auctionMapper.SaleCount(username);
-	}
+//	@Override
+//	public Count SaleCount(String username) {
+//		return auctionMapper.SaleCount(username);
+//	}
 
-	@Override
-	public List<MonthSum> SaleSum(String username) {
-		return auctionMapper.SaleSum(username);
-	}
+//	@Override
+//	public List<MonthSum> SaleSum(String username) {
+//		return auctionMapper.SaleSum(username);
+//	}
 
 	@Override
 	public Map<String, Object> SaleStatistic(String username) {

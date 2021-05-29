@@ -63,23 +63,22 @@ public class UserController{
     @Autowired
     AuthenticationManager authenticationManager;
     
-
+    String token;
 
 	
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@GetMapping("/unpackToken")
 	public ResponseEntity<?> unpackToken(HttpServletRequest request){
 		
-		String token= new String();
+		
 		token= request.getHeader("access_token");
-
 		if(StringUtils.hasText(token)&& token.startsWith("Bearer")) {
 			token= token.substring(6, token.length());
 			logger.info(token);
 		}
 		String username= JwtUtils.getUserEmailFromToken(token);
 		UserDetails userdetails = userService.loadUserByUsername(username);		
-		logger.info("userdetails"+userdetails);
+
 	
 		return new ResponseEntity<>(userdetails , HttpStatus.OK);
 		
@@ -98,7 +97,7 @@ public class UserController{
 	
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@ResponseBody
-	@DeleteMapping("/delete/{username}")
+	@DeleteMapping("/{username}")
 	public ResponseEntity<?> UserDelete(@PathVariable("username") String username, HttpServletRequest request){
 		
 		

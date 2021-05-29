@@ -8,9 +8,9 @@ import com.used.example.domain.Product;
 
 public interface LikeService {
 
-	public void CreateLike(Like like);
+	public Auction CreateLike(Like like);
 
-	public void DeleteLike(int a_num);
+	public Auction DeleteLike(int a_num);
 
 	public List<Auction> LikeList(String l_username);
 
