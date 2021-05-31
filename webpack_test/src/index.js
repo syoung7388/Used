@@ -589,7 +589,7 @@ export default new Vuex.Store({
             
             }
           }else{
-            commit('ReDetail', payload)
+            commit('Err')
           }
 
         })
@@ -1218,7 +1218,7 @@ export default new Vuex.Store({
       })
 
     },
-    RemoveLike({commit,state,dispatch}, payload){
+    RemoveLike({commit,state,dispatch}, payload){//
       let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
@@ -1284,7 +1284,7 @@ export default new Vuex.Store({
         commit('Err')
       })
     },
-    getPayDetail({commit, state, dispatch}, payload){
+    getPayDetail({commit, state, dispatch}, payload){////////
       let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
@@ -1335,7 +1335,7 @@ export default new Vuex.Store({
     KakaoApprove({commit, state,dispatch}, payload){
       
 
-      let token= localStorage.getItem("access_token")
+      let token= localStorage.getItem("access_token")//==
       let config= {
         headers: {
           access_token: token
@@ -1346,12 +1346,12 @@ export default new Vuex.Store({
       .post(state.http+`/api/payment/kapproval`, payload, config)
       .then(Res=>{
         dispatch('isEmpty', Res.data).then((value)=>{
-          (value === false)? commit('PayDetail_s', Res.data): dispatch('getPayDetail', {a_num: payload.a_num})
+          (value === false)? commit('PayDetail_s', Res.data): commit('HomeErr')
         })
       
       })
     },
-    Room({commit, state,dispatch}, payload){
+    Room({commit, state,dispatch}, payload){ //==
       let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
