@@ -50,11 +50,33 @@
                 </v-carousel-item>
             </v-carousel>
 
-            <v-row class="ma-0">
-                <v-col cols="12" class="ma-0">
-                    <v-list-item-title style="font-size: 12px; text-align:right">마감기간</v-list-item-title>
-                    <v-list-item-subtitle v-html="aucInfo.enddate" style="font-size: 12px; text-align:right"></v-list-item-subtitle>
+            <v-row class="ma-0" justify="start" align="center">
+                <v-col cols="3" class="ma-0">
+                    <v-list-item-title style="font-size: 12px; ">마감기간</v-list-item-title>
+                    <v-list-item-subtitle v-html="aucInfo.enddate" style="font-size: 12px;"></v-list-item-subtitle>
                 </v-col>
+                <v-col cols="3" v-show="aucInfo.sale === 0">
+                </v-col>
+                <v-col cols="4" class="py-0" v-show="aucInfo.sale === 0">
+                    <v-select
+                    :items="item"
+                    label="기간연장"
+                    v-model="day"
+                    dense
+                    class="mt-4"
+                    ></v-select>
+                </v-col>
+                <v-col cols="1"  v-show="aucInfo.sale === 0">
+                    <v-btn 
+                    x-small
+                    color="primary"
+                    text
+                    @click="Delay({a_num: aucInfo.a_num, day: day})"
+                    >
+                        확인
+                    </v-btn>
+                </v-col> 
+            
             </v-row>
             <v-divider></v-divider>
                 <v-tabs
@@ -65,9 +87,9 @@
         
                 >
                     <v-tabs-slider></v-tabs-slider>
-                    <v-tab class="ml-0" style="font-size: 15px;" v-if="aucInfo.sale=== 0">경매순위</v-tab>
-                        <v-tab class="ml-0" style="font-size: 15px;">게시물</v-tab>
-                        <v-tab class="ml-0" style="font-size: 15px;">제품정보</v-tab>
+                    <v-tab class="ml-0" style="font-size: 15px;" v-show="aucInfo.sale=== 0">경매순위</v-tab>
+                    <v-tab class="ml-0" style="font-size: 15px;">게시물</v-tab>
+                    <v-tab class="ml-0" style="font-size: 15px;">제품정보</v-tab>
                     <v-tab-item  v-if="aucInfo.sale === 0">
                         <v-card flat class="pa-5"> 
                             <div  v-for="(item, int) in offerInfo" :key="int">
@@ -75,14 +97,14 @@
                                     <v-col cols="2" >
                                         <h1 style="font-size: 15px;" >{{int+1}}등</h1>
                                     </v-col>
-                                    <v-col cols="5" >
+                                    <v-col cols="4" >
                                         <h1 style="font-size: 15px;" >{{item.price}}원</h1>
                                     </v-col>
-                                    <v-col cols="2">
+                                    <v-col cols="3">
                                         <p style="font-size: 15px;" class="mt-3">{{item.o_username}}</p>
                                     </v-col>
                                     <v-col cols="3">
-                                        <v-btn v-show="item.skip === 1" color="red" text>지불불가</v-btn>
+                                        <v-btn v-show="item.skip === 1" color="red" text>스킵</v-btn>
                                          <v-btn text color="primary"
                                          @click="SelectOffer({
                                             a_num: item.a_num,
@@ -96,7 +118,7 @@
                                     <v-col>
                                         <h1 style="font-size: 15px; text-align: center" class="grey--text">현재 요청 대기중입니다.</h1>
                                     </v-col>
-                            </v-row>
+                                </v-row>
                             </div>
                         </v-card>
                     </v-tab-item>                      
@@ -162,6 +184,8 @@ export default {
 
     data(){
         return{
+            day: 0,
+            item: [1,2, 3, 4, 5, 6, 7, 8, 9, 10],
  
 
         }
@@ -174,8 +198,11 @@ export default {
             this.$refs.edit.Origin()
             this.$store.state.edit_show = true
         },
-        ...mapMutations(['Back']),
-        ...mapActions(['SaleDelete', 'SelectOffer'])
+        Back(){
+            this.$store.dispatch('getSaleList', {sale: this.aucInfo.sale})
+        },
+     
+        ...mapActions(['SaleDelete', 'SelectOffer', 'Delay'])
     },
     components: {
         Edit

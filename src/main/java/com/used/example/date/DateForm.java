@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import ch.qos.logback.classic.Logger;
+
 
 public class DateForm{
 	
@@ -44,11 +46,12 @@ public class DateForm{
 	
 	public static Long getD_day(String enddate) throws ParseException {
 		
+		
 		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");	
 		String today= form.format(new Date());
 		Date Today = form.parse(today);
-		Date Dday = form.parse(enddate+' '+"23:59:59");
-		System.out.println("Dday: " +Dday);
+		Date Dday = form.parse(enddate+' '+"23:40:00");
+	;
 		long dday=Today.getTime()-Dday.getTime();
 		long d_day = dday / (24 * 60 * 60 * 1000);
 		System.out.println("diffDays: " +d_day);

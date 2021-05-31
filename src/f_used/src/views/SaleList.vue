@@ -45,7 +45,7 @@
                                 <v-col cols="3" align-self="start" class="mt-8" v-if="item.sale === 0">
                                     <v-list-item-title  style="text-align: center; font-size: 15px" class="primary--text ml-2" v-show="item.d_day === 0">D-day</v-list-item-title >
                                     <v-list-item-title  style="text-align: center; font-size: 15px" class="primary--text ml-2" v-show="item.d_day < 0">D{{item.d_day}}</v-list-item-title >
-                                    <v-list-item-title  style="text-align: center; font-size: 15px" class="primary--text ml-2" v-show="item.d_day > 0">경매종료</v-list-item-title >                   
+                                    <v-list-item-title  style="text-align: center; font-size: 15px" class="primary--text ml-2" v-show="item.d_day > 0">기간종료</v-list-item-title >                   
                                 </v-col>    
                         </v-row>
                     </v-list-item>

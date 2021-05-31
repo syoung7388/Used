@@ -108,31 +108,44 @@ export default{
 
 
         GetMyPage(){
-            var role = localStorage.getItem("role")
-            console.log(role)
-            if(role === null){
-                this.$router.push({name: 'Auth'})
-            }else{
-                this.$router.push({name: 'MyPage'})
-            }
+            this.$store.dispatch('AuthCheck').then((value)=>{
+               if(value === false){
+                    
+                     this.$router.push({name: 'MyPage'})
+               }else{
+               
+                    this.$router.push({name:'Auth'})
+               }
+            })
+
         },
         GetLikeList(){
-            var role = localStorage.getItem("role")
-            if(role === null){
-                this.$router.push({name: 'Auth'})
-            }else{
-               this.$store.dispatch('getLikeList')
-            }
+
+            this.$store.dispatch('AuthCheck').then((value)=>{
+               if(value === false){
+               
+                     this.$store.dispatch('getLikeList')
+               }else{
+           
+                    this.$router.push({name:'Auth'})
+               }
+            })
+
                 
           
         },
         GetChatList(){
-            var role = localStorage.getItem("role")
-            if(role === null){
-                this.$router.push({name: 'Auth'})
-            }else{
-               this.$store.dispatch('getChatList')
-            }
+
+            this.$store.dispatch('AuthCheck').then((value)=>{
+               if(value === false){
+                    //this.$store.state.removeBar = true
+                    this.$store.dispatch('getChatList')
+               }else{
+                    //this.$store.state.removeBar = true
+                    this.$router.push({name:'Auth'})
+               }
+            })
+
         },
         GetMap(){
             this.$store.state.removeBar = true

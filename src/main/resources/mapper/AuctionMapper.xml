@@ -388,6 +388,11 @@
 		
 		
 	</update>
+	<update id="AucDelay" parameterType="Auction">
+		update auction
+		set a_enddate = #{enddate}
+		where a_num = #{a_num}
+	</update>
 	
 
 </mapper>

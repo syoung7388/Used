@@ -60,39 +60,41 @@ import { mapActions, mapState } from 'vuex'
         this.$store.dispatch('nowLatLon')
     },
     computed: {
-        ...mapState(['removeBar'])//, 'Roles' , 'role'
+        ...mapState(['removeBar'])
     },
     methods:{
         Sale(){
-            var role = localStorage.getItem("role")
-
-            if(role !== null){
-                this.$store.dispatch('getSaleStatistic')
-            }else{
-                this.$store.state.removeBar = true
-                this.$router.push({name:'Auth'})
-            }
-
+            this.$store.dispatch('AuthCheck').then((value)=>{
+               if(value === false){
+                    this.$store.dispatch('getSaleStatistic')
+               }else{
+                    this.$router.push({name:'Auth'})
+               }
+            })
         },
         Bid(){
-            var role = localStorage.getItem("role")
-            if(role !== null){
-               this.$store.dispatch('getOfferStatistic')
-            }else{
-                this.$store.state.removeBar = true
-                this.$router.push({name:'Auth'})
-            }
+            this.$store.dispatch('AuthCheck').then((value)=>{
+               if(value === false){
+                    this.$store.dispatch('getOfferStatistic')
+               }else{
+   
+                    this.$router.push({name:'Auth'})
+               }
+            })
 
         },
         Main_Writing(){
-            var role = localStorage.getItem("role")
-            if(role !== null){
-                this.$store.state.removeBar = true
-                this.$router.push({name:'Writing'})
-            }else{
-                this.$store.state.removeBar = true
-                this.$router.push({name:'Auth'})
-            }
+
+
+            this.$store.dispatch('AuthCheck').then((value)=>{
+               if(value === false){
+             
+                    this.$router.push({name:'Writing'})
+               }else{
+           
+                    this.$router.push({name:'Auth'})
+               }
+            })
         },
         ...mapActions(['getAccountInfo', 'getTurnOverInfo', 'getTopList'])
 

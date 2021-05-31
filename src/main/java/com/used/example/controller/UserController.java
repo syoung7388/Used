@@ -77,7 +77,9 @@ public class UserController{
 			logger.info(token);
 		}
 		String username= JwtUtils.getUserEmailFromToken(token);
-		UserDetails userdetails = userService.loadUserByUsername(username);		
+		UserDetails userdetails = userService.loadUserByUsername(username);
+		
+		logger.info("userdetails"+userdetails);
 
 	
 		return new ResponseEntity<>(userdetails , HttpStatus.OK);

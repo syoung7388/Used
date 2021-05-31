@@ -133,7 +133,7 @@ public class OfferController {
 
 		List<Auction> offerlist =offerService.OfferList(or);
 		
-		//logger.info("offerInfo=>"+ offerlist);
+		logger.info("offerInfo=>"+ offerlist);
 		
 		
 		return new ResponseEntity<>( offerlist, HttpStatus.OK);

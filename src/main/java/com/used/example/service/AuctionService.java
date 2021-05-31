@@ -52,6 +52,8 @@ public interface AuctionService {
 
 	public Map<String, Object> SaleStatistic(String username);
 
+	public Auction AucDelay(Auction auction);
+
 
 
 	

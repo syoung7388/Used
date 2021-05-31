@@ -13,10 +13,6 @@ export default new Vuex.Store({
   state: {
 
     http:'http://192.168.1.46:9200',
-    //http: 'http://172.30.1.12:9200',
-    //http:'http://172.30.1.60:9200',
-    //http:'http://172.30.1.33:9200',
-    //http: 'http://192.168.50.124:9200',
     Storage: localStorage,
     Mshow: true,
     Kshow:false, 
@@ -163,7 +159,6 @@ export default new Vuex.Store({
     },
 
     DetailSave(state, payload){
-      console.log("DetailSave")
       state.overlay = false
       state.aucInfo = payload
       state.likeInfo = payload.like
@@ -207,10 +202,10 @@ export default new Vuex.Store({
       state.EPshow= true;
       state.certi= payload.numStr;
       state.phone= payload.phone;
-      console.log(state.certi)
+
     },
     CheckCerti(state, payload){
-      console.log(payload.certinum)
+
       if(state.certi === payload.certinum){
         state.Sshow = true 
         state.Pshow = true
@@ -240,7 +235,6 @@ export default new Vuex.Store({
     },
     setPhone(state, payload){
       state.phone = payload
-      console.log(state.phone)
     },
     Login_s(state, payload){
       state.userInfo= {
@@ -254,8 +248,8 @@ export default new Vuex.Store({
 
       
       state.Storage.setItem("Roles", payload.authorities)
-      if(state.Roles.length === 1){
-          state.Storage.setItem("role", state.Roles[0].authority)
+      if(payload.authorities.length === 1){
+          state.Storage.setItem("role", payload.authorities[0].authority)
       }
 
     },
@@ -269,7 +263,7 @@ export default new Vuex.Store({
       state.Storage.removeItem("role")
       state.role_choose = false
       state.auth_show = 0
-      state.Storage.removeItem('access_token')
+      state.Storage.removeItem("access_token")
       router.push({name: 'Home'}) 
     },
     Edit_s(state, payload){
@@ -298,7 +292,7 @@ export default new Vuex.Store({
     },
 
     SaleStatistic_s(state, payload){
-      console.log(payload)
+
       state.count = payload.count
       state.month = payload.month
       state.total = payload.total
@@ -307,8 +301,6 @@ export default new Vuex.Store({
 
     SaleList_s(state, payload){
       state.saleList= payload
-      console.log(state.saleList)
-
       state.nullerr =false
       router.push({name: 'SaleList'})
       
@@ -322,7 +314,6 @@ export default new Vuex.Store({
         state.proInfo = payload.product[i]
       }
       state.offerInfo= payload.offer
-      console.log(state.offerInfo)
       state.addrInfo = payload.address
       state.beforeImage= payload.product[0].picture
       router.push({name: 'SaleDetail'})
@@ -330,7 +321,7 @@ export default new Vuex.Store({
     },
 
     SaleEdit_s(state, payload){
-      //console.log(payload)      
+     
       state.edit_show = false
       state.aucInfo= payload
       state.likeInfo = payload.like
@@ -342,7 +333,6 @@ export default new Vuex.Store({
       state.addrInfo = payload.address
     
       state.beforeImage=[]
-      console.log( state.beforeImage)
       state.beforeImage= payload.product[0].picture
 
 
@@ -351,7 +341,7 @@ export default new Vuex.Store({
 
     TopList_s(state, payload){
       state.removeBar = false
-      console.log(payload)
+     
       state.topList = payload.toplist
       state.toppagination = payload.pagination      
 
@@ -368,9 +358,7 @@ export default new Vuex.Store({
     },
 
     IndustryList_s(state, payload){
-      console.log(router.history)
 
-      console.log(payload)
       state.industryList = payload.industrylist
       state.indpagination = payload.pagination  
       state.I_list_show = true
@@ -403,7 +391,7 @@ export default new Vuex.Store({
 
  
     KindList_s(state, payload){
-      console.log(payload)
+  
       state.kindpagination = payload.pagination
       state.kindList = payload.kindlist
       router.push({name: 'KindList'})
@@ -435,7 +423,6 @@ export default new Vuex.Store({
   
     PayDetail_s(state, payload){
 
-      console.log(payload)
       var aucdetail = payload.aucdetail
       state.payInfo = payload.paydetail
       state.aucInfo = aucdetail
@@ -487,7 +474,7 @@ export default new Vuex.Store({
  
     AccountInfo_s(state, payload){
       state.accountInfo = payload
-      console.log(payload)
+
       router.push({name:'Account'})
     },
 
@@ -541,7 +528,7 @@ export default new Vuex.Store({
       state.chatList= []
       state.message=[]
       
-      console.log(payload)
+
       state.nullerr =true
       router.push({name: payload.router})
       
@@ -556,19 +543,68 @@ export default new Vuex.Store({
 
     E_Back({state}){
       state.Eshow = false
-      console.log("mu")
+
       router.push({name: 'MyPage'})
     },
     RouterBack({state}, payload){
       router.push({name: payload.name})
     },
-    ///////////////////////////////////////////////////////////////////////////////////////////////페이지 전환 함수 & 페이지 요소 조정 함수
+    isEmpty({state}, val){
+      if(val === "" || val === null || val === undefined || val !== null && typeof val === "object" && !Object.keys(val).length){
+        return true
+      }else{
+        return false
+      }    
+    
+    },
+    AuthCheck({state,dispatch}){
+      if(state.Storage.getItem("role") !== null && state.Storage.getItem("access_token") !== null){
+        dispatch("isEmpty", state.userInfo).then((value)=>{
 
-    Sms({commit, state}, payload){//인증문자
+          if(value === true){
+            dispatch('getUserInfo')
+          }
+        })
+        return false
+      }else{
+        return true
+      }
+    },
+    ReDetail({state, dispatch, commit}, payload){
+
+      let token= state.Storage.getItem("access_token")
+      let config= {
+        headers: {
+          access_token: token
+        }
+      }
+      axios
+      .get(state.http+`/api/all/${payload.a_num}`, config)
+      .then((Res)=>{
+        dispatch('isEmpty', Res).then((value)=>{
+          if(value === false){
+            commit('DetailSave', Res.data)
+            if(payload.router !== null){
+              router.push({name: payload.router})
+            
+            }
+          }else{
+            commit('Err')
+          }
+
+        })
+      })
+
+    },
+
+    
+    Sms({commit, state,dispatch}, payload){
       axios
       .post(state.http+'/api/all/sms', payload)
       .then(Res => {
-        (Res.data !== null)? commit('Sms_s', Res.data): ('InsertErr')
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('Sms_s', Res.data): commit('InsertErr')
+        })
       })
       .catch(()=>{
         commit('Err')
@@ -576,7 +612,6 @@ export default new Vuex.Store({
     },
     Signup({commit, state}, payload){ 
 
-      console.log(payload)
       axios
       .post(state.http+'/api/all/signup', payload)
       .then( Res => {
@@ -591,17 +626,18 @@ export default new Vuex.Store({
 
       axios
       .post(state.http+'/api/all/login', payload)
-      .then(Lres =>{
+      .then(Res =>{
+        dispatch('isEmpty', Res.data).then((value)=>{
+          if(value === false){
+            let token = Res.data.token
+  
+            state.Storage.setItem("access_token", token)
+            dispatch('getUserInfo')
+          }else{
+            commit('InsertErr')
 
-        if(Lres.data !== null){
-          let token = Lres.data.token
-          console.log(token)
-          state.Storage.setItem("access_token", token)
-          dispatch('getUserInfo')
-
-        }else{
-          commit('InsertErr')
-        }
+          }
+        })
       })
       .catch(()=>{
         commit('InsertErr')
@@ -618,18 +654,21 @@ export default new Vuex.Store({
       }
       axios
       .get(state.http+'/api/user/unpackToken', config)
-      .then( Ires =>{
-        
-        if(Ires.data !== null ){
-          commit('Login_s', Ires.data)
-          if(Ires.data.authorities.length === 1){
-            dispatch('nowLatLon')
+      .then(Res =>{
+
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          if(value === false){
+            commit('Login_s', Res.data)
+            if(Res.data.authorities.length === 1){
+              dispatch('nowLatLon')
+            }else{
+              commit('ChooseRole')
+            }
           }else{
-            commit('ChooseRole')
+            commit('InsertErr')
           }
-        }else{
-          commit('InsertErr')
-        }
+        })
       })
       .catch(()=>{
         commit('InsertErr')
@@ -639,7 +678,7 @@ export default new Vuex.Store({
     Logout({commit}){
       commit('logout')
     },
-    EditOK({state, commit}){ 
+    EditOK({state, commit, dispatch}){ 
       let userInfo= state.userInfo
       let token= state.Storage.getItem("access_token")
       let config= {
@@ -650,7 +689,9 @@ export default new Vuex.Store({
       axios
       .post(state.http+'/api/user/edit', userInfo, config)
       .then(Res =>{
-        (Res.data !== null)? commit('Edit_s', Res.data):  commit("InsertErr")
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('Edit_s', Res.data): commit('InsertErr')
+        })
       })
       .catch(()=>{
         commit('InsertErr')
@@ -660,7 +701,7 @@ export default new Vuex.Store({
     },
     deleteOK({state,commit}){ 
       let username= state.userInfo.username
-      //console.log(username)
+
       let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
@@ -677,12 +718,12 @@ export default new Vuex.Store({
       })
     },
 
-        ////////수정시작
 
 
-    Writing({state, commit}, payload){/// 게시물 작성 내용 DB전달
+
+    Writing({state, commit}, payload){
       
-      //console.log(payload)
+
 
 
       let token = state.Storage.getItem("access_token")
@@ -742,7 +783,7 @@ export default new Vuex.Store({
     },
 
 
-    getSaleStatistic({commit, state}){
+    getSaleStatistic({commit, state,dispatch}){
       let token = state.Storage.getItem("access_token")
       let config={
         headers: {  
@@ -752,9 +793,10 @@ export default new Vuex.Store({
       axios
       .get(state.http+'/api/auction/statistic', config)
       .then(Res => {
-        if(Res.data !== null){
-          commit('SaleStatistic_s', Res.data)
-        }
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('SaleStatistic_s', Res.data): commit('Err')
+        })
       })
       .catch(()=>{
         commit('Err')
@@ -765,8 +807,8 @@ export default new Vuex.Store({
 
 
 
-    getSaleList({commit, state}, payload){
-      //state.list_show =  true
+    getSaleList({commit, state, dispatch}, payload){
+  
       let token = state.Storage.getItem("access_token")
       let config={
         headers: {  
@@ -778,7 +820,10 @@ export default new Vuex.Store({
       axios
       .get(state.http+`/api/auction/${payload.sale}`, config)
       .then(Res => {
-        (Res.data.length !== 0)? commit('SaleList_s', Res.data): commit('NullErr', {router:"SaleList"}) 
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('SaleList_s', Res.data):  commit('NullErr', {router:"SaleList"})
+        })       
       })
       .catch(()=>{
         commit('Err')
@@ -786,7 +831,7 @@ export default new Vuex.Store({
     },
 
     
-    getSaleDetail({state, commit}, payload){
+    getSaleDetail({state, commit,dispatch}, payload){
 
 
       let token= state.Storage.getItem("access_token")
@@ -799,7 +844,10 @@ export default new Vuex.Store({
       axios
       .get(state.http+`/api/all/${payload.a_num}`, config)
       .then(Res =>{
-        (Res.data !== null)? commit('SaleDetail_s', Res.data) :commit('Err') 
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)?  commit('SaleDetail_s', Res.data): commit('Err')
+        })
       })
       .catch(()=>{
         commit('Err')
@@ -812,7 +860,7 @@ export default new Vuex.Store({
           "access_token": token
         }
       }
-      console.log(payload)
+
       axios
       .put(state.http+'/api/process/1', payload, config)
       .then(Res =>{
@@ -827,8 +875,7 @@ export default new Vuex.Store({
 
 
     DetailEdit({dispatch, commit, state},payload){
-    
-      //console.log(payload)
+
 
       let token= state.Storage.getItem("access_token")
       let config= {
@@ -873,9 +920,9 @@ export default new Vuex.Store({
       axios
       .put(state.http+'/api/auction', formData, config)
       .then(Res =>{
-        //console.log(Res.data)
-        (Res.data !== null)? commit('SaleEdit_s', Res.data): commit('InsertErr') 
-
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('SaleEdit_s', Res.data): commit('InsertErr') 
+        })
       })
       .catch(()=>{
         commit('InsertErr')
@@ -906,13 +953,17 @@ export default new Vuex.Store({
       //    navigator.geolocation.getCurrentPosition(function(position){
               // let lat = position.coords.latitude
               // let lon = position.coords.longitude
+              // if(state.Storage.getItem('lat')=== null || state.Storage.getItem("lon") === null){  
+              //   state.Storage.setItem('lat',lat)
+              //   state.Storage.setItem('lon',lon)
+              // }
+
+
 
               if(state.Storage.getItem('lat')=== null || state.Storage.getItem("lon") === null){  
                 state.Storage.setItem('lat',37.3595316)
                 state.Storage.setItem('lon',127.1052133)
               }
-              // console.log(state.Storage.getItem('lat'))
-              // console.log(state.Storage.getItem('lon'))
 
       //    })
       // }
@@ -922,19 +973,17 @@ export default new Vuex.Store({
 
 
 
-    getTopList({commit, state}){
-      // let lat = '37.372551'
-      // let lon = '127.762025'
+    getTopList({commit, state, dispatch}){
+
       let lat = state.Storage.getItem('lat')
       let lon = state.Storage.getItem('lon')
       state.toppage= 0
       axios
       .get(state.http+`/api/all/top?page=${state.toppage}&lat=${lat}&lon=${lon}`)
       .then(Res => {
-   
-        if(Res.data.length !== 0){
-          commit('TopList_s', Res.data)
-        }
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('TopList_s', Res.data): commit('NullErr', {router:"TopList"})
+        })
 
       })
       .catch(()=>{
@@ -943,7 +992,7 @@ export default new Vuex.Store({
 
     },
 
-    getIndustryList({commit, state}, payload){
+    getIndustryList({commit, state,dispatch}, payload){
       
       let lat =state.Storage.getItem('lat')
       let lon=state.Storage.getItem('lon')
@@ -954,10 +1003,10 @@ export default new Vuex.Store({
       axios
       .get(state.http+`/api/all/industry?lat=${lat}&lon=${lon}&industry=${industry}&page=${state.industrypage}`)
       .then(Res =>{
-        if(Res.data.length !== 0){
-          commit('IndustryList_s', Res.data)
 
-        } 
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('IndustryList_s', Res.data):commit('NullErr', {router:"IndustryList"})
+        })
   
       })
       .catch(()=>{
@@ -966,26 +1015,20 @@ export default new Vuex.Store({
 
     },
 
-    getKindList({commit, state}, payload){
-      // alert(payload.kind)
+    getKindList({commit, state ,dispatch}, payload){
        let lat = state.Storage.getItem("lat")
        let lon = state.Storage.getItem("lon")
        state.kindpage = 0
        state.kind = payload.kind
        let kind = encodeURI(payload.kind)
-      // console.log(kind)
-      // let token= localStorage.getItem("access_token")
-      // let config= {
-      //   headers: {
-      //     access_token: token
-      //   }
-      // }
        axios
        .get(state.http+`/api/all/kind?lat=${lat}&lon=${lon}&kind=${kind}&page=${state.kindpage}`) 
        .then(Res=>{
-          if(Res.data.length !== 0) {
-            commit('KindList_s', Res.data)
-          } 
+
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)?  commit('KindList_s', Res.data): commit('NullErr', {router:"KindList"})
+        })
        })
        .catch(()=>{
         commit('Err')
@@ -1006,9 +1049,14 @@ export default new Vuex.Store({
       .get(state.http+`/api/all/${payload.a_num}`, config)
       .then(Res =>{
 
-
-        (Res.data !== null)? commit('DetailSave', Res.data): commit('Err')
-        router.push({name:'Detail'})
+        dispatch('isEmpty', Res.data).then((value)=>{
+          if(value === false){
+            commit('DetailSave', Res.data)
+            router.push({name:'Detail'})
+          }else{
+            commit('Err')
+          } 
+        })
       })
       .catch(()=>{
         commit('Err')
@@ -1036,7 +1084,7 @@ export default new Vuex.Store({
       })
     },
 
-    PriceOffer({commit, dispatch, state}, payload){
+    PriceOffer({commit, dispatch, state}, payload){//
 
       let token = state.Storage.getItem("access_token")
       let config = {
@@ -1047,36 +1095,15 @@ export default new Vuex.Store({
       axios
       .post(state.http+'/api/offer',payload, config)
       .then(Res => { 
-        //console.log(Res.data)
-        (Res.data !== null) ? commit('DetailSave', Res.data): commit('HomeErr')   
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)?commit('DetailSave', Res.data): commit('ReDetail',{a_num: payload.a_num})
+        })  
       })
       .catch(()=>{
         commit('HomeErr')
       })
     },
-    // PriceOffer_bid({commit, state}, payload){
-      
-    //   let token = state.Storage.getItem("access_token")
-    //   let config = {
-    //     headers: {
-    //       'access_token': token
-    //     }
-    //   }
-    //   axios
-    //   .post(state.http+'/api/offer',payload, config)
-    //   .then(Res => { 
-    //     //console.log(Res.data)
-    //     (Res.data !== null) ? commit('DetailSave', Res.data): commit('HomeErr')   
-    //   })
-    //   .catch(()=>{
-    //     commit('HomeErr')
-    //   })
-  
-
-
-    // },
-
-    OfferCancle({state, commit}, payload){
+    OfferCancle({state, commit,dispatch}, payload){//
       let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
@@ -1086,14 +1113,18 @@ export default new Vuex.Store({
       axios
       .delete(state.http+`/api/offer/${payload.o_num}/${payload.a_num}`, config)
       .then(Res =>{
-        (Res.data !== null)? commit('DetailSave', Res.data):commit('HomeErr')
+
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('DetailSave', Res.data): commit('ReDetail',{a_num: payload.a_num})
+        })
       })
       .catch(()=>{
         commit('HomeErr')
       })
     },
 
-    getOfferStatistic({commit, state}, payload){
+    getOfferStatistic({commit, state ,dispatch}, payload){
       let token = state.Storage.getItem("access_token")
       let config= {
         headers: {
@@ -1103,16 +1134,17 @@ export default new Vuex.Store({
       axios
       .get(state.http+'/api/offer/count', config)
       .then(Res =>{
-        if(Res.data !== null){
-          commit('OfferStatistic_s', Res.data)
-
-        } 
+        dispatch('isEmpty', Res.data).then((value)=>{
+          if(value === false){
+            commit('OfferStatistic_s', Res.data)
+          } 
+        })
       })
       .catch(()=>{
         commit('Err')
       })
     },
-    getOfferList({commit, state}, payload){
+    getOfferList({commit, state,dispatch}, payload){
  
       let token = state.Storage.getItem("access_token")
       let config= {
@@ -1123,7 +1155,9 @@ export default new Vuex.Store({
       axios
       .get(state.http+`/api/offer?sale=${payload.sale}`, config)
       .then(Res =>{
-        (Res.data.length !== 0) ? commit('OfferList_s', Res.data): commit('NullErr', {router:"OfferList"})
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('OfferList_s', Res.data): commit('NullErr', {router:"OfferList"})
+        })
       })
       .catch(()=>{
         commit('Err')
@@ -1131,7 +1165,7 @@ export default new Vuex.Store({
 
     },
 
-    getOfferDetail({commit, state},payload){
+    getOfferDetail({commit, state,dispatch},payload){//
 
 
       let token = state.Storage.getItem("access_token")
@@ -1144,10 +1178,16 @@ export default new Vuex.Store({
       axios
       .get(state.http+`/api/offer/${payload.a_num}`, config)
       .then(Res =>{
-        
-        (Res.data !== null)? commit('DetailSave', Res.data): commit('Err')
-        router.push({name:'OfferDetail'})
 
+        dispatch('isEmpty', Res.data).then((value)=>{
+          if(value === false){
+            commit('DetailSave', Res.data)
+            router.push({name:'OfferDetail'})
+
+          }else{
+            commit('ReDetail',{a_num: payload.a_num, router: "OfferDetail"})
+          }
+        })
       })
       .catch(()=>{
         commit('Err')
@@ -1157,7 +1197,7 @@ export default new Vuex.Store({
 
 
 
-    Like({commit, state}, payload){
+    Like({commit, state,dispatch}, payload){//
       let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
@@ -1167,7 +1207,10 @@ export default new Vuex.Store({
       axios
       .post(state.http+'/api/like', payload, config)
       .then(Res =>{
-        (Res.data !== null)? commit('DetailSave', Res.data): commit('Err')
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('DetailSave', Res.data): commit('ReDetail',{a_num: payload.a_num})
+        })
         
       })
       .catch(()=>{
@@ -1175,7 +1218,7 @@ export default new Vuex.Store({
       })
 
     },
-    RemoveLike({commit,state}, payload){
+    RemoveLike({commit,state,dispatch}, payload){//
       let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
@@ -1185,13 +1228,15 @@ export default new Vuex.Store({
       axios
       .delete(state.http+`/api/like/${payload.a_num}`, config)
       .then(Res =>{
-        (Res.data !== null)? commit('DetailSave', Res.data) : commit('Err')
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('DetailSave', Res.data): commit('ReDetail',{a_num: payload.a_num})
+        })
       })
       .catch(()=>{
         commit('Err')
       })
     },
-    getLikeList({commit,state}){
+    getLikeList({commit,state ,dispatch}){
       
 
       let token = state.Storage.getItem("access_token")
@@ -1203,13 +1248,16 @@ export default new Vuex.Store({
       axios
       .get(state.http+'/api/like/', config)
       .then(Res => {
-        (Res.data !== null)? commit('LikeList_s',Res.data ) : commit('Err' )
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('LikeList_s',Res.data ):  commit('NullErr', {router:"LikeList"})
+        })
       })
       .catch(()=>{
         commit('Err')
       })
     },
-    getLikeDetail({commit,dispatch,state}, payload){
+    getLikeDetail({commit,dispatch,state}, payload){//
 
       let token = state.Storage.getItem("access_token")
 
@@ -1220,15 +1268,23 @@ export default new Vuex.Store({
       }
       axios
       .get(state.http+`/api/all/${payload.a_num}`, config)
-      .then(Dres =>{
-        (Dres.data !== null)? commit('DetailSave', Dres.data): commit('Err')
-        router.push({name: 'LikeDetail'})
+      .then(Res =>{
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          if(value === false){
+            commit('DetailSave', Res.data)
+            router.push({name: 'LikeDetail'})
+          }else{
+            commit('ReDetail',{a_num: payload.a_num, router: "LikeDetail"})
+          } 
+        })
+        
       })
       .catch(()=>{
         commit('Err')
       })
     },
-    getPayDetail({commit, state}, payload){
+    getPayDetail({commit, state, dispatch}, payload){////////
       let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
@@ -1238,38 +1294,48 @@ export default new Vuex.Store({
       axios
       .get(state.http+`/api/payment/${payload.a_num}`, config)
       .then(Res => {
-        (Res.data !== null)? commit('PayDetail_s' , Res.data):commit('PayDetail_f' , Err) 
+        dispatch('isEmpty', Res.data).then((value)=>{
+
+          if(value === false){
+            commit('PayDetail_s' , Res.data)
+          }else{
+            dispatch('getPayDetail', payload)
+          } 
+        }) 
       })
       .catch(()=>{
         commit('Err')
       })
     },
-    KakaoReady({commit,state, dispatch}, payload){
+    KakaoReady({commit,state, dispatch}, payload){//////////
      
       let token= state.Storage.getItem("access_token")
-      console.log(token)
+ 
       let config= {
         headers: {
           access_token: token
         }
       }
-      console.log("Auc")
+
       axios
       .post(state.http+'/api/payment/kready', payload, config)
       .then(Res =>{
-        
-        (Res.data !== null)? commit('KakaoReady_s', Res.data) : commit('KakaoReady_f')
-        var url = Res.data.kready_r.next_redirect_app_url
-        console.log(url)
-        window.kakaopay.PayWindow(url)
 
-
+        dispatch('isEmpty', Res.data).then((value)=>{
+          if(value === false){
+            commit('KakaoReady_s', Res.data)
+            var url = Res.data.kready_r.next_redirect_app_url
+            window.kakaopay.PayWindow(url)
+          }else{ 
+            commit('KakaoReady', payload)
+          }
+        })
       })   
     },
-    KakaoApprove({commit, state}, payload){
+    KakaoApprove({commit, state,dispatch}, payload){
       
 
-      let token= localStorage.getItem("access_token")
+      let token= localStorage.getItem("access_token")//==
       let config= {
         headers: {
           access_token: token
@@ -1279,15 +1345,13 @@ export default new Vuex.Store({
       axios
       .post(state.http+`/api/payment/kapproval`, payload, config)
       .then(Res=>{
-        (Res.data !== null)? commit('PayDetail_s', Res.data): commit('KakaoApprove_f')
-
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('PayDetail_s', Res.data): commit('HomeErr')
+        })
+      
       })
     },
-    Room({commit, state}, payload){
-
-      //state.roomInfo = payload
-      //console.log(payload)
-
+    Room({commit, state,dispatch}, payload){ //==
       let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
@@ -1297,15 +1361,18 @@ export default new Vuex.Store({
       axios
       .post(state.http+`/api/chat`, payload, config)
       .then(Res =>{
-               
-        (Res.data !== null)? commit('Room_s', Res.data): commit('Err')
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('Room_s', Res.data): commit('HomeErr')
+        })
  
-      }).catch(()=>{
+      })
+      .catch(()=>{
         commit('Err')
       })
 
     },
-    getChatList({commit, state}){
+    getChatList({commit, state ,dispatch}){
       let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
@@ -1315,14 +1382,16 @@ export default new Vuex.Store({
       axios
       .get(state.http+'/api/chat', config)
       .then(Res =>{
-        (Res.data.length !== 0)? commit('ChatList_s', Res.data): commit('NullErr',{router:"ChatList"})
-        
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('ChatList_s', Res.data): commit('NullErr',{router:"ChatList"})
+        })
       }).catch(()=>{
         commit('Err')
       })
 
     }, 
-    getChatDetail({commit, state}, payload){
+    getChatDetail({commit, state, dispatch}, payload){
       let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
@@ -1332,14 +1401,18 @@ export default new Vuex.Store({
       axios
       .get(state.http+`/api/chat/${payload.ch_num}`, config)
       .then(Res =>{
-        (Res.data.length !== 0)? commit('ChatDetail_s', Res.data): commit('NullErr', {router:"Chat"})
-        
+
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          if(value === false){
+            commit('ChatDetail_s', Res.data)
+          } 
+        })
       }).catch(()=>{
         commit('HomeErr')
       })
     }, 
-    Message({state, commit}, payload){
-    console.log(payload)
+    Message({state, commit, dispatch}, payload){
       let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
@@ -1350,11 +1423,10 @@ export default new Vuex.Store({
       axios
       .post(state.http+"/api/chat/msg", payload, config)
       .then(Res =>{
-        if(Res.data === null){
-          commit('Err')
-        }else{
-          state.Storage.setItem('err', false)
-        }
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)?   state.Storage.setItem('err', false):  commit('Err')
+        })
       }).catch(()=>{
         commit('Err')
       })
@@ -1369,17 +1441,26 @@ export default new Vuex.Store({
           "access_token": token
         }
       }
-      console.log("AucEnd")
+   
       axios
       .put(state.http+'/api/process/3', payload ,config )
       .then(Res =>{
-        (Res.data !== null)? commit('AucEnd_s', Res.data): ('HomeErr')
+
+        console.log(Res.data)
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          if(value === false){
+            commit('AucEnd_s', Res.data)
+          }else{
+            commit('NullErr')
+          }
+        })
       }).catch(()=>{
         commit('Err')
       })
       
     },
-    getAccountInfo({commit,state}){
+    getAccountInfo({commit,state ,dispatch}){//
       
       let token = state.Storage.getItem("access_token")
       let config = {
@@ -1390,12 +1471,15 @@ export default new Vuex.Store({
       axios
       .get(state.http+'/api/account', config)
       .then(Res =>{
-        (Res.data !== null)? commit('AccountInfo_s', Res.data):commit('Err')
+
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('AccountInfo_s', Res.data): commit('Err')
+        })
       }).catch(()=>{
         commit('Err')
       })
     },
-    getTurnOverInfo({commit,state}){
+    getTurnOverInfo({commit,state, dispatch}){
       let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
@@ -1405,7 +1489,9 @@ export default new Vuex.Store({
       axios
       .get(state.http+'/api/turnover', config)
       .then(Res => {
-        (Res.data !== null)? commit('TurnOverInfo_s', Res.data): commit('Err')
+        dispatch('isEmpty', Res.data).then((value)=>{
+          (value === false)? commit('TurnOverInfo_s', Res.data): dispatch('getTurnOverInfo')
+        })
       }).catch(()=>{
         commit('Err')
       })
@@ -1417,21 +1503,44 @@ export default new Vuex.Store({
           "access_token": token
         }
       }
-      //console.log(payload)
+      
 
       axios
-      .put(state.http+'/api/process/1', payload, config)
+      .put(state.http+'/api/process/0', payload, config)
       .then(Res => {
-        if(Res.data !== null ){
-          commit('CheckSkip_s')
-        } 
+        dispatch('isEmpty', Res.data).then((value)=>{
+          if(value === false){
+            commit('CheckSkip_s', Res.data)
+          }  
+        })
       }).catch(()=>{
         commit('HomeErr')
       })
 
     },
-    Token_OK(payload){
-      
+
+    Delay({dispatch, commit, state}, payload){
+
+      let token = state.Storage.getItem("access_token")
+      let config = {
+        headers:{
+          "access_token": token
+        }
+      }
+      axios
+      .put(state.http+'/api/auction/delay', payload, config)
+      .then(Res =>{
+        dispatch('isEmpty', Res.data).then((value)=>{
+          if(value === false){
+            commit('DetailSave', Res.data)
+          }else{
+            dispatch('ReDetail', {a_num: payload.a_num})
+          }
+
+        })
+
+      })
+
 
     }
 

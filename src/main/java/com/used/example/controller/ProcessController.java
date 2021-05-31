@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +38,9 @@ public class ProcessController {//숫자의 기준은 어떻게 a_sale이 변할
 	OfferService offerService;
 	
 	String token;
+	
+	
+	private final Logger logger= LoggerFactory.getLogger(this.getClass());
 	
 	
 	@Secured({"ROLE_USER"})
@@ -71,6 +76,8 @@ public class ProcessController {//숫자의 기준은 어떻게 a_sale이 변할
 		String o_username = JwtUtils.getUserEmailFromToken(token);
 		
 		List<Auction> list= processService.AucEnd(o_username ,auction.getA_num());
+		
+		logger.info("list:"+list);
 		
 
 		

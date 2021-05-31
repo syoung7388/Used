@@ -208,7 +208,8 @@ export default {
     data(){
         return {
             c_price: '',
-            price: 0
+            price: 0,
+            role: null
         }
     },
     filters:{
@@ -218,6 +219,9 @@ export default {
         }
 
                 
+    },
+    mounted(){
+        this.role = localStorage.getItem("role")
     },
     methods: {
         ...mapActions(['RemainDelete', 'Like', 'RemoveLike']),
@@ -252,14 +256,10 @@ export default {
             this.price = 0
         }
       
-      
-
-
-
     },
     computed: { 
     
-        ...mapState(['edit_show', 'overlay', 'userInfo', 'heart','aucInfo','likeInfo','proInfo', 'offerInfo','addrInfo','beforeImage', 'Roles', 'role'])
+        ...mapState(['edit_show', 'overlay', 'userInfo', 'heart','aucInfo','likeInfo','proInfo', 'offerInfo','addrInfo','beforeImage'])
       
 
     },

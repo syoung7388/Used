@@ -94,6 +94,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void UserEidt(User user) {
+		String encodedPassword= new BCryptPasswordEncoder().encode(user.getPassword());
+		user.setPassword(encodedPassword);
 		userMapper.UserEdit(user);
 		
 	}

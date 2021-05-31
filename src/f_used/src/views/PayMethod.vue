@@ -14,19 +14,6 @@
                     <v-card
                     max-width="70"
                     max-height="70"
-                    @click="Toss"
-                    >
-                        <v-img
-                        :src="require('@/PayImg/toss.png')"
-                        max-width="70"
-                        max-height="70"
-                        ></v-img>
-                    </v-card>
-                </v-col>
-                <v-col cols="3" class="mt-10">
-                    <v-card
-                    max-width="70"
-                    max-height="70"
                     @click="KakaoReady({
                   
                         a_num: offerInfo[0].a_num,
@@ -52,7 +39,7 @@
 </template>
 <script>
 import {mapActions, mapState, mapMutations} from 'vuex'
-import eventBus from '@/main'
+
 export default {
 
 
@@ -97,23 +84,6 @@ export default {
 
     },
     mounted(){ 
-        // window.addEventListener('message', (e)=>{
-        //   console.log("...................................................................")
-        //   console.log(e.data.k_token)
-        //   this.$store.dispatch('KakaoApprove', {
-           
-        //     o_num: this.payreadyInfo.o_num,
-        //     o_username : this.payreadyInfo.o_username,
-        //     price : this.payreadyInfo. price,
-        //     p_num : this.payreadyInfo.p_num,
-        //     kind : this.payreadyInfo.kind,
-        //     a_num : this.payreadyInfo.a_num,
-        //     kready_r: {
-        //       tid: this.payreadyInfo.kready_r.tid,
-        //       k_token: e.data.k_token
-        //     }
-        //   })
-        // }, { once : true})
 
         window.Token_Ok =this.Token_Ok
         

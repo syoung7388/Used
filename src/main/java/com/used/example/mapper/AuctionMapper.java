@@ -59,6 +59,8 @@ public interface AuctionMapper {
 
 	public List<MonthSum> SaleSum(String username);
 
+	public void AucDelay(Auction auction);
+
 
 
 }

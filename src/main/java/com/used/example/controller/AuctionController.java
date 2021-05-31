@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Producer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -210,28 +211,21 @@ public class AuctionController {
 		
 	}
 	
+	@Secured({"ROLE_USER"})
+	@PutMapping("/delay")
+	public ResponseEntity<?> AucDelay(@RequestBody Auction auction){
+		
+		Auction detail = auctionService.AucDelay(auction);
+		
+		return new ResponseEntity<>(detail,HttpStatus.OK );
+	}
+	
+
 	
 
 	
 	
-//	@Secured({"ROLE_USER"})
-//	@PutMapping("/step")
-//	public ResponseEntity<?> AucEnd(@RequestBody Auction auction,  HttpServletRequest request){
-//		
-//		int a_num = auction.getA_num();
-//		auctionService.AucStep(a_num);		
-//		token = request.getHeader("access_token");		
-//		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
-//			token = token.substring(6, token.length());
-//		}
-//		String o_username = JwtUtils.getUserEmailFromToken(token);		
-//		Offer_req or = new Offer_req();
-//		or.setO_username(o_username);
-//		or.setSale(2);
-//		List<Auction> bidlist =offerService.OfferList(or);
-//		return new ResponseEntity<> (bidlist, HttpStatus.OK);
-//		
-//	}
+
 	
 
 	
