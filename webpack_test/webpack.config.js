@@ -1,11 +1,12 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const path = require('path')
+const { webpack } = require('webpack')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     mode: 'production',
     devtool: 'eval',
     resolve: {
-        modules: ['node_modules'],
         extensions: ['.js', '.vue', '.json'],
         alias:{
             '@':path.join(__dirname,'src'),
@@ -45,19 +46,20 @@ module.exports = {
                     name: 'assets/[contenthash].[ext]'
                 }
             },
+
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
+                
+                
+            },
             {
                 test: /\.sass$/,
                 use: [
                     'vue-style-loader',
                     'css-loader',
-                    {
-                      loader: 'sass-loader',
-                      // Requires >= sass-loader@^9.0.0
-                      options: {
-                        // This is the path to your variables
-                        additionalData: "@import '@/styles/variables.scss'"
-                      },
-                    },
+
                   ],
 
             }
@@ -65,19 +67,35 @@ module.exports = {
         ]
     },
     plugins:[
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new BundleAnalyzerPlugin()
+
+        
     ],
     output:{
-        filename: 'bal.js',
-        path: path.join(__dirname, 'public/js'),
-        publicPath: './public',
-        filename:'[name].js'
+        path: path.join(__dirname, 'dist'),
+        filename:'app.js'
     },
 
-    optimization: {
-        splitChunks: {
-          chunks: 'all'
-        }
+    devServer: {
+        historyApiFallback: true,
+        noInfo: true,
+        overlay: true
+    },
+    performance: {
+        hints: false,
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000
     }
+
+    // optimization: {
+    //     splitChunks:{
+    //         commons: {
+    //             test: /[\\/]view[\\/]/,
+    //             name: 'vendors',
+    //             chunks: 'all'
+    //         }
+    //     }
+    // }
 
 }

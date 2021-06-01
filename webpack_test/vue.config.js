@@ -1,7 +1,7 @@
 
-const path= require('path')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+const path= require('path');
+const { webpack } = require('webpack');
+
 
 module.exports = {
   outputDir: path.resolve(__dirname, 'public'),
@@ -17,11 +17,8 @@ module.exports = {
   transpileDependencies: [
     'vuetify'
   ],
-  configureWebpack: {
-    plugins: [
-      new BundleAnalyzerPlugin({
-        // analyzerMode: 'disabled'
-      })
-    ]
-  }
+
+
+  
+
 };

@@ -1,138 +1,167 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MyPage from '@/views/MyPage.vue'
+import App from '@/App.vue'
+import Home from '@/views/Home.vue'
+import Writing from '@/views/Writing.vue'
+import Sale from '@/views/Sale.vue'
+import SaleList from '@/views/SaleList.vue'
+import SaleDetail from '@/views/SaleDetail.vue'
+import Detail from '@/views/Detail.vue'
+import IndustryList from '@/views/IndustryList.vue' 
+import KindList from '@/views/KindList.vue'
+import Offer from '@/views/Offer.vue'
+import OfferList from '@/views/OfferList.vue'
+import OfferDetail from '@/views/OfferDetail.vue'
+import PayDetail from '@/views/PayDetail.vue'
+import LikeList from '@/views/LikeList.vue'
+import LikeDetail from '@/views/LikeDetail.vue'
+import PayMethod from '@/views/PayMethod.vue'
+import Chat from'@/views/Chat.vue'
+import ChatList from '@/views/ChatList.vue'
+import Auth from '@/views/Auth.vue'
+import Account from '@/views/Account.vue'
+import TurnOver from '@/views/TurnOver.vue'
+import PasswordEdit from '@/views/UserEditDelete/PasswordEdit.vue'
+import PhonEdit from '@/views/UserEditDelete/PhonEdit.vue'
+import NameEdit from '@/views/UserEditDelete/NameEdit.vue'
+import AddressEdit from '@/views/UserEditDelete/AddressEdit.vue'
+import UserDelete from '@/views/UserEditDelete/UserDelete.vue'
+
+
+
+
 
 Vue.use(VueRouter)
 
 
-
 const routes = [
   {
-    path:'/app',
+    path:'/',
     name: 'App',
-    component: () => import(/* webpackChunkName: "appp" */'@/App.vue')
+    component: App
   },
 
   
   {
     path:'/home',
     name: 'Home',
-    component: () => import(/* webpackChunkName: "home" */'@/views/Home.vue')
+    component: Home
   },
   {
     path: '/writing',
     name: 'Writing',
-    component: () => import(/* webpackChunkName: "writing" */'@/views/Writing.vue')
+    component: Writing
   },
 
   {
     path: '/sale',
     name: 'Sale',
-    component: () => import(/* webpackChunkName: "sale" */'@/views/Sale.vue')
+    component: Sale
 
   },
   {
     path: '/salelist',
     name: 'SaleList',
-    component: () => import(/* webpackChunkName: "salelist" */'@/views/SaleList.vue'),
+    component: SaleList
   },
   {      
     path: '/saledetail',
     name: 'SaleDetail',
-    component: () => import(/* webpackChunkName: "saledetail" */'@/views/SaleDetail.vue'),
+    component: SaleDetail
 
   },
   {
     path: '/detail',
     name: 'Detail',
-    component: () => import(/* webpackChunkName: "detail" */'@/views/Detail.vue'),
+    component: Detail,
   },
   {
     
     path: '/industrylist',
     name: 'IndustryList',
-    component: () => import(/* webpackChunkName: "industrylist" */'@/views/IndustryList.vue')
+    component: IndustryList
 
   },
   {
     
     path: '/kindlist',
     name: 'KindList',
-    component: () => import(/* webpackChunkName: "kindlist" */'@/views/KindList.vue')
+    component: KindList
 
   },
   {
     path: '/offer',
     name: 'Offer',
-    component: () => import(/* webpackChunkName: "bid" */'@/views/Offer.vue')
+    component: Offer
 
   },
 
   {
     path: '/offerlist',
     name: 'OfferList',
-    component: () => import(/* webpackChunkName: "offerlist" */'@/views/OfferList.vue')
+    component: OfferList
 
   },
   {
     path: '/offerdetail',
     name: 'OfferDetail',
-    component: () => import(/* webpackChunkName: "offerdetail" */'@/views/OfferDetail.vue')
+    component: OfferDetail
 
   },
   {
     path: '/paydetail',
     name: 'PayDetail',
-    component: () => import(/* webpackChunkName: "paydetail" */'@/views/PayDetail.vue')
+    component: PayDetail
 
   },
   {
     path: '/likelist',
     name: 'LikeList',
-    component: () => import(/* webpackChunkName: "likelist" */'@/views/LikeList.vue')
+    component: LikeList
 
   },
   {
     path: '/likedetail',
     name: 'LikeDetail',
-    component: () => import(/* webpackChunkName: "likedetail" */'@/views/LikeDetail.vue')
+    component:LikeDetail
 
   },
   {
     path: '/paymethod',
     name: 'PayMethod',
-    component: () => import(/* webpackChunkName: "paymethod" */'@/views/PayMethod.vue')
+    component: PayMethod
 
   },
 
   {
     path: '/chat',
     name: 'Chat',
-    component: () => import(/* webpackChunkName: "chat" */'@/views/Chat.vue')
+    component: Chat
 
   },
   {
     path: '/chatlist',
     name: 'ChatList',
-    component: () => import(/* webpackChunkName: "chatlist" */'@/views/ChatList.vue')
+    component: ChatList
 
   },
   {
     path: '/auth',
     name: 'Auth',
-    component: () => import(/* webpackChunkName: "auth" */'@/views/Auth.vue')
+    component: Auth
 
   },
   {
     path: '/account',
     name: 'Account',
-    component: () => import(/* webpackChunkName: "account" */'@/views/Account.vue')
+    component: Account
 
   },
   {
     path: '/turnover',
     name: 'TurnOver',
-    component: () => import(/* webpackChunkName: "turnover" */'@/views/TurnOver.vue')
+    component: TurnOver
 
   },
   
@@ -145,31 +174,31 @@ const routes = [
         {
           path: '/passwordedit',
           name: 'PasswordEdit',
-          component: () => import(/* webpackChunkName: "passwordedit" */'@/views/UserEditDelete/PasswordEdit.vue')
+          component: PasswordEdit
       
         },
         {
           path: '/phonedit',
           name: 'PhonEdit',
-          component: () => import(/* webpackChunkName: "phonedit" */'@/views/UserEditDelete/PhonEdit.vue')
+          component:  PhonEdit
       
         },
         {
           path: '/nameedit',
           name: 'NameEdit',
-          component: () => import(/* webpackChunkName: "nameedit" */'@/views/UserEditDelete/NameEdit.vue')
-      
+          component: NameEdit
+        
         },
         {
           path: '/addressedit',
           name: 'AddressEdit',
-          component: () => import(/* webpackChunkName: "addressedit" */'@/views/UserEditDelete/AddressEdit.vue')
+          component: AddressEdit
       
         },
         {
           path:'/delete',
           name: 'UserDelete',
-          component: () => import(/* webpackChunkName: "delete" */'@/views/UserEditDelete/UserDelete.vue')
+          component: UserDelete
 
         }
 
