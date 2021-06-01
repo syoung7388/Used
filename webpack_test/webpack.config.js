@@ -2,6 +2,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const path = require('path')
 const { webpack } = require('webpack')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const HtmlWebpackPlugin = require('vue-html-webpack-plugin')
 
 module.exports = {
     mode: 'production',
@@ -68,12 +69,15 @@ module.exports = {
     },
     plugins:[
         new VueLoaderPlugin(),
-        new BundleAnalyzerPlugin()
+        new BundleAnalyzerPlugin(),
+        new HtmlWebpackPlugin({
+            vue:true
+        })
 
         
     ],
     output:{
-        path: path.join(__dirname, 'dist'),
+        path: path.join(__dirname, '../src/main/resources/static/dist'),
         filename:'app.js'
     },
 
@@ -87,15 +91,5 @@ module.exports = {
         maxEntrypointSize: 512000,
         maxAssetSize: 512000
     }
-
-    // optimization: {
-    //     splitChunks:{
-    //         commons: {
-    //             test: /[\\/]view[\\/]/,
-    //             name: 'vendors',
-    //             chunks: 'all'
-    //         }
-    //     }
-    // }
 
 }
