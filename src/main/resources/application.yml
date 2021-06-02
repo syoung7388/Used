@@ -29,7 +29,6 @@ spring:
         max-file-size: 1000MB
         max-request-size: 1000MB        
         enabled: true
-  mvc:    static-path-pattern: /static/**      
       
 server:
  port: 9200
