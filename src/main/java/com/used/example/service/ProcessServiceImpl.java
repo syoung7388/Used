@@ -3,6 +3,7 @@ package com.used.example.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.used.example.domain.Auction;
@@ -20,7 +21,7 @@ public class ProcessServiceImpl implements ProcessService{
 	@Autowired
 	OfferMapper offerMapper;
 	
-	
+	@Async
 	@Override
 	public void SelectOffer(Offer offer) {	
 		processMapper.SelectOffer(offer);

@@ -129,10 +129,10 @@ public class AllController {
 		
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())); // AuthenticationManager 에 token 을 넘기면 UserDetailsService 가 받아 처리하도록 한다.
-
+	
 		SecurityContextHolder.getContext().setAuthentication(authentication);  // 실제 SecurityContext 에 authentication 정보를 등록한다.
 
-		
+	
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		
 		user= (User) authentication.getPrincipal();
@@ -144,6 +144,9 @@ public class AllController {
 		
 	    
 	    jwt="Bearer"+jwt;
+	    
+	    
+	    
 		
 		return ResponseEntity.ok(new JwtResponse(jwt,
 													user.getUsername(),

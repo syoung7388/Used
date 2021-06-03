@@ -257,12 +257,11 @@ export default new Vuex.Store({
       state.role_choose = true
     },
     logout(state){
-     
-      state.userInfo = null
+      state.Storage.clear() 
       state.role_choose = false
       state.auth_show = 0
-      state.Storage.clear()
-      router.push({name: 'App'}) 
+      router.push({name: 'App'})
+      state.userInfo = null
     },
     Edit_s(state, payload){
       state.userInfo= {
@@ -492,7 +491,7 @@ export default new Vuex.Store({
       setTimeout(()=>{
         state.overlay = false
         state.err = false
-      }, 3000)
+      }, 1000)
 
     },
     InsertErr(state){
@@ -501,7 +500,7 @@ export default new Vuex.Store({
       setTimeout(()=>{
         state.overlay = false
         state.inserterr =false
-      }, 3000)
+      }, 1000)
     },
     AskErr(state){
       state.overlay = true
@@ -509,7 +508,7 @@ export default new Vuex.Store({
       setTimeout(()=>{
         state.overlay = false
         state.askerr =false
-      }, 3000)
+      }, 1000)
     },
     HomeErr(state){
       state.overlay = true
@@ -518,7 +517,7 @@ export default new Vuex.Store({
         state.overlay = false
         state.homeerr = false
         router.push({name:'Home'})
-      }, 3000)
+      }, 1000)
     },
     NullErr(state, payload){
 
