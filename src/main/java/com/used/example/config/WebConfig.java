@@ -20,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
 	        registry.addMapping("/**")
 	            //.allowedOrigins("http://192.168.50.124:8080/")//"http://172.30.1.33:8080"
 	        	//.allowedOrigins("http://172.30.1.12:8080")
-	        	.allowedOrigins("http://192.168.1.46:8080")
+	        	.allowedOrigins("http://localhost:8080")
 	        	.allowedMethods("*")
 	        	.exposedHeaders("jwt-token");
 	    }

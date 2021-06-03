@@ -1,0 +1,16 @@
+GRANT ALL PRIVILEGES ON *.* TO '아이디'@'%' IDENTIFIED BY '패스워드';
+
+출처: https://4urdev.tistory.com/82 [Simplify]
+
+FLUSH PRIVILEGES;
+https://zetawiki.com/wiki/CentOS7_MariaDB_%EC%84%A4%EC%B9%98
+
+
+
+https://zetawiki.com/wiki/CentOS7_node.js_12.x_%EC%84%A4%EC%B9%98
+
+
+https://filezilla-project.org/download.php?type=client#close
+
+
+https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html

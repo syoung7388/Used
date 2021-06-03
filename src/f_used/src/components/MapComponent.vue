@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container class="pa-0">
+        <v-container class="ss">
             <v-card color="#FAF5EB">
                 <h1 style="font-size: 13px; text-align:center;" class="pa-2">좌표 클릭 후 아래의 확인 버튼을 눌러주세요!</h1>
             </v-card>
@@ -62,3 +62,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+.ss{
+    height: 100%;
+}
+</style>

@@ -16,7 +16,7 @@ import com.used.example.domain.Auction;
 import com.used.example.domain.Picture;
 import com.used.example.domain.Product;
 import com.used.example.mapper.ProductMapper;
-import com.used.example.utility.MakeThumbnail;
+import com.used.example.picture.MakeThumbnail;
 
 import ch.qos.logback.classic.Logger;
 
@@ -51,8 +51,8 @@ public class ProductServiceImpl implements ProductService {
 		
 		
 		
-	        String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\f_used\\src\\assets\\";
-			//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\f_used\\src\\assets\\";
+	       // String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\f_used\\src\\assets\\";
+			String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\f_used\\src\\assets\\";
 			//String path = "C:\\Users\\l3\\Desktop\\eee\\";
 			
 			for(int i=0; i<imgList.size(); i++) {

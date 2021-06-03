@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.used.example.UsedApplication;
 import com.used.example.date.DateForm;
-import com.used.example.utility.MakeThumbnail;
+import com.used.example.picture.MakeThumbnail;
 
 @Configuration
 @ComponentScan(basePackageClasses = UsedApplication.class)

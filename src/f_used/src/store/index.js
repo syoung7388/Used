@@ -12,7 +12,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
 
-    http:'http://192.168.1.46:9200',
+    http:'http://localhost:9200',
     Storage: localStorage,
     Mshow: true,
     Kshow:false, 
