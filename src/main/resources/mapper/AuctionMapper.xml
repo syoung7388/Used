@@ -388,9 +388,9 @@
 		
 		
 	</update>
-	<update id="AucDelay" parameterType="Auction">
+	<update id="AucDelay" parameterType="DelayDate">
 		update auction
-		set a_enddate = #{enddate}
+		set a_enddate = #{end_date}
 		where a_num = #{a_num}
 	</update>
 	

@@ -63,7 +63,7 @@
                     label="기간연장"
                     v-model="day"
                     dense
-                    class="mt-4"
+                    class="mt-7"
                     ></v-select>
                 </v-col>
                 <v-col cols="1"  v-show="aucInfo.sale === 0">
@@ -71,7 +71,7 @@
                     x-small
                     color="primary"
                     text
-                    @click="Delay({a_num: aucInfo.a_num, day: day})"
+                    @click="delay({a_num: aucInfo.a_num, day: day, enddate: aucInfo.enddate})"
                     >
                         확인
                     </v-btn>
@@ -201,8 +201,14 @@ export default {
         Back(){
             this.$store.dispatch('getSaleList', {sale: this.aucInfo.sale})
         },
-     
-        ...mapActions(['SaleDelete', 'SelectOffer', 'Delay'])
+        delay(payload){
+            var date = new Date(payload.enddate)
+            this.$store.dispatch('Delay', {a_num: payload.a_num, day:payload.day, enddate: payload.enddate}).then(()=>{
+            this.day = ''
+            })
+
+        },
+        ...mapActions(['SaleDelete', 'SelectOffer'])
     },
     components: {
         Edit

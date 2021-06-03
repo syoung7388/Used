@@ -69,7 +69,7 @@
                                 <v-list-item-title style="font-weight: bold" class="mt-3">{{item.topprice|comma}} 원</v-list-item-title>
                             </v-list-item-content>
                             </v-col>
-                            <v-col cols="3" v-if="item.sale === 1" class="pa-0"> 
+                            <v-col cols="3" v-show="item.sale === 1" class="pa-0"> 
                                 <v-card class="mr-2 primary--text" height="80" style="border: solid grey;">
                                     <v-card-text class="mb-3">
                                         <h1 style="font-size: 10px; text-align:center">대기시간</h1>
@@ -77,7 +77,7 @@
                                     </v-card-text>
                                 </v-card>
                             </v-col>  
-                            <v-col cols="3" align-self="start" class="mt-8" v-else>
+                            <v-col cols="3" align-self="start" class="mt-8" v-show="sale === 0">
                                 <v-list-item-title  style="text-align: center; font-size: 15px" class="primary--text ml-2" v-show="item.d_day === 0">D-day</v-list-item-title >
                                 <v-list-item-title  style="text-align: center; font-size: 15px" class="primary--text ml-2" v-show="item.d_day < 0">D{{item.d_day}}</v-list-item-title >
                                 <v-list-item-title  style="text-align: center; font-size: 15px" class="primary--text ml-2" v-show="item.d_day > 0">경매종료</v-list-item-title >                   

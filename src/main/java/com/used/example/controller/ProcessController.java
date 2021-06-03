@@ -1,8 +1,7 @@
 package com.used.example.controller;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.used.example.config.JwtUtils;
 import com.used.example.domain.Auction;
 import com.used.example.domain.Offer;
-import com.used.example.domain.Offer_req;
 import com.used.example.service.OfferService;
 import com.used.example.service.ProcessService;
 

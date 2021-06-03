@@ -259,12 +259,10 @@ export default new Vuex.Store({
     logout(state){
      
       state.userInfo = null
-      state.Storage.removeItem("Roles")
-      state.Storage.removeItem("role")
       state.role_choose = false
       state.auth_show = 0
-      state.Storage.removeItem("access_token")
-      router.push({name: 'Home'}) 
+      state.Storage.clear()
+      router.push({name: 'App'}) 
     },
     Edit_s(state, payload){
       state.userInfo= {
@@ -343,13 +341,14 @@ export default new Vuex.Store({
       state.removeBar = false
      
       state.topList = payload.toplist
-      state.toppagination = payload.pagination      
+      state.toppagination = payload.pagination
 
-     if(router.currentRoute.name !== 'Home'){
-        router.push({name: 'Home'})
-  
-        
-     }
+      if(router.currentRoute.name !== 'Home'){
+          router.push({name: 'Home'})
+      }
+
+   
+
   
         
       
@@ -446,7 +445,7 @@ export default new Vuex.Store({
     },
 
     Room_s(state, payload){
-      state.Storage.setItem("back", "detail")
+      state.backType = "detail"
       router.push({name: 'Chat', params: {ch_num: payload.ch_num, seller: payload.seller, buyer: payload.buyer}})
 
     },

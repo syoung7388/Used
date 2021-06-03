@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.used.example.date.DateForm;
 import com.used.example.domain.Address;
 import com.used.example.domain.Auc_Pro;
 import com.used.example.domain.Auction;
 import com.used.example.domain.Count;
+import com.used.example.domain.DelayDate;
 import com.used.example.domain.Product;
 import com.used.example.domain.MonthSum;
 import com.used.example.domain.Pagination;
@@ -32,6 +34,9 @@ public class AuctionServiceImpl implements AuctionService {
 	@Autowired
 	PaymentMapper paymentMapper;
 	
+	@Autowired
+	DateForm dateForm;
+	
 
 	@Override
 	public void CreateAuction(Auction auction) {
@@ -39,10 +44,7 @@ public class AuctionServiceImpl implements AuctionService {
 		
 	}
 
-//	@Override
-//	public List<Product> AuctionList(Product product) {
-//		return auctionMapper.AuctionList(product);
-//	}
+
 
 
 	@Override
@@ -105,10 +107,6 @@ public class AuctionServiceImpl implements AuctionService {
 	}
 
 
-//	@Override
-//	public int TotalCount(Map<String, Object> map) {
-//		return auctionMapper.TotalCount(map);
-//	}
 
 	@Override
 	public Map<String, Object> TopList(Map<String, Object> map) {
@@ -169,16 +167,6 @@ public class AuctionServiceImpl implements AuctionService {
 		return kindmap;
 	}
 
-//	@Override
-//	public Count SaleCount(String username) {
-//		return auctionMapper.SaleCount(username);
-//	}
-
-//	@Override
-//	public List<MonthSum> SaleSum(String username) {
-//		return auctionMapper.SaleSum(username);
-//	}
-	
 
 	@Override
 	public Map<String, Object> SaleStatistic(String username) {
@@ -208,11 +196,15 @@ public class AuctionServiceImpl implements AuctionService {
 	
 	@Async
 	@Override
-	public Auction AucDelay(Auction auction) {
+	public Auction AucDelay(DelayDate delaydate) {
 		
-		auctionMapper.AucDelay(auction);
+		String d_date = dateForm.getDelayDate(delaydate.getDay(), delaydate.getEnddate());
 		
-		return auctionMapper.AucDetail(auction.getA_num());
+		delaydate.setEnd_date(d_date);
+		
+		auctionMapper.AucDelay(delaydate);
+		
+		return auctionMapper.AucDetail(delaydate.getA_num());
 		
 		
 	}

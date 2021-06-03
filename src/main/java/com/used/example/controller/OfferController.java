@@ -1,11 +1,6 @@
 package com.used.example.controller;
 
-import java.io.File;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 //import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,39 +15,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
+
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 
 import com.used.example.config.JwtUtils;
 import com.used.example.domain.Auction;
 
-import com.used.example.domain.Count;
-import com.used.example.domain.KindRate;
-import com.used.example.domain.Like;
+
 import com.used.example.domain.Offer;
 import com.used.example.domain.Offer_req;
-import com.used.example.domain.Picture;
-import com.used.example.domain.Product;
+
 import com.used.example.service.AuctionService;
 import com.used.example.service.OfferService;
 import com.used.example.service.PaymentService;
-import com.used.example.service.ProductService;
-import com.used.example.utility.MakeThumbnail;
+
 
 
 @CrossOrigin(origins="*", maxAge =3600)

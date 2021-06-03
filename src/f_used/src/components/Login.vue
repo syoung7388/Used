@@ -80,9 +80,14 @@ export default {
    methods: {
       ...mapActions(['Login','nowLatLon']),
       Choose(payload){
-         localStorage.setItem('role', payload)
+         this.$store.state.Storage.setItem('role', payload)
          this.$store.state.role_choose = false
-         this.nowLatLon()
+         console.log( this.$store.state.Storage.getItem('role'))
+         if( this.$store.state.Storage.getItem('role') === 'ROLE_ADMIN'){
+            this.$router.push({name: 'App'})
+         }else{
+            this.nowLatLon()   
+         }     
       }
 
 

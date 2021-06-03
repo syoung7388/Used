@@ -1,24 +1,8 @@
 package com.used.example.controller;
 
-import java.io.BufferedReader;
 
-
-
-
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,38 +14,33 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.StringUtils;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.used.example.config.JwtUtils;
+
 import com.used.example.domain.Amount;
-import com.used.example.domain.Auction;
+
 import com.used.example.domain.Card;
-import com.used.example.domain.Chat;
 import com.used.example.domain.KakaoReady_R;
-import com.used.example.domain.Offer;
+
 import com.used.example.domain.Payment;
 import com.used.example.domain.KaKaoReady;
-import com.used.example.domain.KakaoAmount;
+
 import com.used.example.domain.KakaoApproval;
-import com.used.example.domain.KakaoCardInfo;
-import com.used.example.domain.Product;
+
 import com.used.example.service.AuctionService;
 import com.used.example.service.ChatService;
 import com.used.example.service.PaymentService;

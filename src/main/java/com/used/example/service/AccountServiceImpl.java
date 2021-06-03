@@ -28,12 +28,10 @@ public class AccountServiceImpl implements AccountService {
 	@Async
 	@Override
 	public void FinancialData(AccountList accountlist) {
-		//accountMapper.SaveAccount(accountlist);
-		System.out.print("=======================================");
-		
+	
 		
 		accountMapper.SaveAccountRate();
-		System.out.print("=======================================");
+	
 		
 		
 	}

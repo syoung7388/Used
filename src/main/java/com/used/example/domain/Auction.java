@@ -1,9 +1,5 @@
 package com.used.example.domain;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +38,21 @@ public class Auction {
 	private int limit;
 	
 	
+	
+	
+	public String getEnddate() {
+		return enddate;
+	}
+	public void setEnddate(String enddate) {
+		this.enddate = enddate;
+	}
+	
 	public int getDay() {
 		return day;
 	}
 	public void setDay(int day) {
-	
-		this.day = day; 
-		String e_date = DateForm.getEndDate(day);
+		this.day = day;
+		String e_date = dateForm.getEndDate(day);
 		this.enddate = e_date;
 	}
 	
@@ -61,6 +65,7 @@ public class Auction {
 		this.enddate = d_day;	
 		Long diffDays =dateForm.getD_day(this.enddate);
 		this.d_day = diffDays;
+		System.out.println("===================================="+this.d_day);
 
 	}
 	
@@ -83,12 +88,7 @@ public class Auction {
 	public void setStartdate(String startdate) {
 		this.startdate = startdate;
 	}
-	public String getEnddate() {
-		return enddate;
-	}
-	public void setEnddate(String enddate) {
-		this.enddate = enddate;
-	}
+
 	public long getStartprice() {
 		return startprice;
 	}
@@ -185,6 +185,9 @@ public class Auction {
 				+ payment + ", pro=" + pro + ", topprice=" + topprice + ", count=" + count + ", limit=" + limit + "]";
 	}
 	
+	
+	
+
 	
 	
 	

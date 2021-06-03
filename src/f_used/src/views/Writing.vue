@@ -169,7 +169,7 @@
                 <v-col cols="7"  class="py-0">
                     <v-select
                     :items="item"
-                    label="최대 10일"
+                    label="기간"
                     v-model="day"
                     dense
                      class="mt-0"

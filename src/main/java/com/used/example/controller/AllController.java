@@ -1,14 +1,13 @@
 package com.used.example.controller;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,8 +34,6 @@ import com.used.example.response.JwtResponse;
 import com.used.example.service.AuctionService;
 import com.used.example.service.UserService;
 
-import net.nurigo.java_sdk.api.Message;
-import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -162,6 +156,7 @@ public class AllController {
 	@GetMapping("/top")
 	public ResponseEntity<?> TopList(@RequestParam("lat") String lat, @RequestParam("lon") String lon, @RequestParam("page") int page, HttpServletRequest request){
 		
+		logger.info("=============================================================");
 		Map<String, Object> map = new HashMap<>();
 		Pagination pagination = new Pagination();
 		

@@ -34,6 +34,7 @@ public class DateForm{
 		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
+		System.out.println("new Date(): " +new Date());
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		System.out.println("current: " + df.format(cal.getTime()));
 		cal.add(Calendar.DATE, +day);
@@ -42,6 +43,19 @@ public class DateForm{
 		
 		return e_date;
 		
+	}
+	
+	public static String getDelayDate(int day, Date enddate) {
+		Calendar cal = Calendar.getInstance();
+
+		cal.setTime(enddate);
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		System.out.println("current: " + df.format(cal.getTime()));
+		cal.add(Calendar.DATE, +day);
+		System.out.println("after: " + df.format(cal.getTime()));
+		String e_date = df.format(cal.getTime());
+		return e_date;
+
 	}
 	
 	public static Long getD_day(String enddate) throws ParseException {

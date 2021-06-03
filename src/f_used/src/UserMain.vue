@@ -15,24 +15,15 @@
                 <span style="opacity:0.5 font-weight:500; font-size: 15px">홈</span>
                 <i class="fas fa-home mb-2"  style="font-size: x-large;"></i>
             </v-btn>
-
             <v-btn @click="Main_Writing">
             <span  style="opacity:0.5 font-weight:500; font-size: 15px"> 글쓰기</span>
             <i class="far fa-edit mb-2" style="font-size: x-large;"></i>
             </v-btn>
-                <v-btn v-if="role === 'ROLE_ADMIN'" @click="getTurnOverInfo">
-                    <span style="opacity:0.5 font-weight:500; font-size: 15px">매출액</span>
-                    <i class="fas fa-chart-line mb-2" style="font-size: x-large;" ></i>
-                </v-btn>
-                <v-btn @click="Sale" v-else>
+                <v-btn @click="Sale">
                 <span style="opacity:0.5 font-weight:500; font-size: 15px">판매 리스트</span>
                 <i class="fas fa-file-invoice-dollar mb-2" style="font-size: x-large;" ></i>
                 </v-btn>
-                <v-btn  v-if="role === 'ROLE_ADMIN'" @click="getAccountInfo" >
-                    <span style="opacity:0.5 font-weight:500; font-size: 15px">재무비율</span>
-                   <i class="fas fa-file-invoice mb-2" style="font-size: x-large;"></i>
-                </v-btn>
-                <v-btn @click="Bid" v-else>
+                <v-btn @click="Bid" >
                     <span style="opacity:0.5 font-weight:500; font-size: 15px">내경매</span>
                     <i class="fas fa-hand-holding-usd mb-2" style="font-size: x-large;"></i>
                 </v-btn>
@@ -46,16 +37,10 @@ import { mapActions, mapState } from 'vuex'
   export default {
     data() {
         return{
-            value: 1,
-            Roles: [],
-            role: null
+            value: 1
         }
     },
-    mounted(){
-        this.role = localStorage.getItem("role")
-    
 
-    },
     beforeCreate(){
         this.$store.dispatch('nowLatLon')
     },
@@ -96,7 +81,7 @@ import { mapActions, mapState } from 'vuex'
                }
             })
         },
-        ...mapActions(['getAccountInfo', 'getTurnOverInfo', 'getTopList'])
+        ...mapActions([ 'getTopList'])
 
     },
  

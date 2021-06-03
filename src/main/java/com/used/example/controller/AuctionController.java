@@ -1,13 +1,7 @@
 package com.used.example.controller;
 
 
-import java.io.File;
-
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import java.util.List;
 import java.util.Map;
@@ -18,42 +12,35 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Producer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
+
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.used.example.config.JwtUtils;
 import com.used.example.domain.Address;
 import com.used.example.domain.Auc_Pro;
 import com.used.example.domain.Auction;
-
-import com.used.example.domain.Count;
-import com.used.example.domain.Pagination;
+import com.used.example.domain.DelayDate;
 import com.used.example.domain.Picture;
 import com.used.example.domain.Product;
-import com.used.example.domain.MonthSum;
-import com.used.example.domain.Offer_req;
-import com.used.example.domain.UserInfo;
 import com.used.example.service.AuctionService;
 import com.used.example.service.OfferService;
 import com.used.example.service.ProductService;
 import com.used.example.service.UserService;
-import com.used.example.utility.MakeThumbnail;
+
 
 @CrossOrigin(origins="*", maxAge= 5000)
 @RestController
@@ -213,9 +200,10 @@ public class AuctionController {
 	
 	@Secured({"ROLE_USER"})
 	@PutMapping("/delay")
-	public ResponseEntity<?> AucDelay(@RequestBody Auction auction){
+	public ResponseEntity<?> AucDelay(@RequestBody DelayDate delaydate){
 		
-		Auction detail = auctionService.AucDelay(auction);
+	
+		Auction detail = auctionService.AucDelay(delaydate);
 		
 		return new ResponseEntity<>(detail,HttpStatus.OK );
 	}

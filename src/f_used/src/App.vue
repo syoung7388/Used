@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <div v-if="Kshow === true"> 
-      <router-view></router-view>
+    <div v-if="role ==='ROLE_ADMIN'">
+      <AdminMain></AdminMain>
     </div>
     <div v-else>
-      <Main></Main>
+      <UserMain></UserMain>
     </div>
     
  <ErrorHanding></ErrorHanding>
@@ -13,32 +13,35 @@
 
 <script>
 
-import Login from "@/components/Login.vue"
-import Phone from "@/components/Phone.vue"
 import ErrorHanding from '@/components/ErrorHanding.vue'
-import Main from "@/Main.vue"
+import UserMain from "@/UserMain.vue"
+import AdminMain from "@/AdminMain.vue"
 import {mapActions, mapState} from 'vuex'
 
 
 export default {
   data(){
     return{
+ 
     
     }
   },
 
+  beforeCreate(){
+    this.$store.state.role = localStorage.getItem('role')
+  },
+
   components: {
-    Login,
-    Phone,
-    Main,
-    ErrorHanding
+    UserMain,
+    ErrorHanding,
+    AdminMain
   },
 
   methods: {
     ...mapActions(['Alogin', 'Asignup'])
   },
   computed: {
-    ...mapState(['Ashow', 'Kshow'])
+    ...mapState(['Ashow', 'role'])
   },
 
   

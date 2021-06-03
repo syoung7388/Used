@@ -1,10 +1,6 @@
 package com.used.example.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -17,8 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.used.example.date.DateForm;
-import com.used.example.domain.TurnOver;
+
 import com.used.example.service.TurnOverService;
 
 @CrossOrigin(origins="*" , maxAge=3600)

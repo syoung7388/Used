@@ -11,6 +11,7 @@ import com.used.example.domain.Address;
 import com.used.example.domain.Auc_Pro;
 import com.used.example.domain.Auction;
 import com.used.example.domain.Count;
+import com.used.example.domain.DelayDate;
 import com.used.example.domain.Product;
 import com.used.example.domain.MonthSum;
 
@@ -59,7 +60,7 @@ public interface AuctionMapper {
 
 	public List<MonthSum> SaleSum(String username);
 
-	public void AucDelay(Auction auction);
+	public void AucDelay(DelayDate delaydate);
 
 
 

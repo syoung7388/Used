@@ -2,6 +2,7 @@ package com.used.example.controller;
 
 import java.util.List;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -23,10 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.used.example.config.JwtUtils;
 import com.used.example.domain.Auction;
 import com.used.example.domain.Like;
-import com.used.example.domain.Product;
+
 import com.used.example.service.AuctionService;
 import com.used.example.service.LikeService;
-import com.used.example.service.ProductService;
+
 
 
 

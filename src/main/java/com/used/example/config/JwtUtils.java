@@ -1,11 +1,8 @@
 package com.used.example.config;
 
-import static org.hamcrest.CoreMatchers.containsStringIgnoringCase;
 
-import java.io.UnsupportedEncodingException;
 import java.security.Key;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,7 +18,6 @@ import org.springframework.stereotype.Component;
 import com.used.example.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Header;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

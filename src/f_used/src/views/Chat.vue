@@ -97,10 +97,10 @@ export default {
             })
         }, 
         Back(){
-            if(this.$store.state.Storage.getItem("back") === "detail"){
+            if(this.backType === "detail"){
                 this.$store.dispatch('getPayDetail',{a_num: this.aucInfo.a_num})
                 .then(()=>{
-                    state.Storage.removeItem("back")
+                    this.$store.state.backType = null
                 })                
             }else{
                 this.$store.state.removeBar = true
@@ -139,7 +139,7 @@ export default {
    
     },
     computed: {
-        ...mapState(['userInfo', 'message', 'chatInfo', 'overlay' ,'aucInfo']),
+        ...mapState(['userInfo', 'message', 'chatInfo', 'overlay' ,'aucInfo','backType']),
         // GetMessage(){
         //     this.$socket.on('getMsg', (data)=>{
         //         console.log(data)
