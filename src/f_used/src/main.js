@@ -13,7 +13,7 @@ import io  from 'socket.io-client';
 
 export const eventBus  = new Vue()
 
-const socket = io('http://localhost:2100',  { transports: ['websocket'] })
+const socket = io('http://192.168.1.46:2100',  { transports: ['websocket'] })
 
 
 Vue.prototype.$socket = socket

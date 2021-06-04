@@ -37,7 +37,8 @@ import {mapActions, mapMutations, mapState} from 'vuex'
 
 export default {
     beforeCreate(){
-        this.$store.state.removeBar = true    
+        this.$store.state.removeBar = true   
+        this.$store.state.auth_show= 0
     },
 
   components: {

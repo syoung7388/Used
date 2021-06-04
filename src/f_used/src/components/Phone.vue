@@ -56,6 +56,11 @@ import { mapActions, mapMutations, mapState } from 'vuex'
 import Signup from './Signup.vue'
 export default{
   components: { Signup },
+
+    beforeCreate(){
+        this.$store.state.Pshow = false  
+        this.$store.state.Sshow = false
+    },
     
   
     data() {

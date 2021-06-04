@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.used.example.domain.Check;
 import com.used.example.domain.User;
 import com.used.example.domain.UserInfo;
 
@@ -33,7 +34,7 @@ public interface UserMapper {
 
 	public void UserDelete(String username);
 
-	public Map<String, Integer> Check(User user);
+	public Check CheckDup(User user);
 
 	
 	
