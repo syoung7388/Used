@@ -74,8 +74,7 @@ public class AuctionController {
 	
 	@Secured({"ROLE_USER"})
 	@PostMapping
-	public ResponseEntity<?> CreateAuction(Auction auction, Product product, Picture picture, Address address, 
-							HttpServletRequest request) throws IOException{
+	public ResponseEntity<?> CreateAuction(Auction auction, Product product, Picture picture, Address address, HttpServletRequest request) throws IOException{
 	
 		token = request.getHeader("access_token");
 		

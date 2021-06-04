@@ -26,7 +26,6 @@
                class="mt-5 mb-10"
                label="password"
                v-model="password"
-               type="Password"
                required
                ></v-text-field>
                <v-btn @click="Login({

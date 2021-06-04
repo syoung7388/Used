@@ -11,8 +11,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    http: 'http://192.168.1.46:9200',
-    //http:'http://localhost:9200',
+
+    http:'http://localhost:9200',
     Storage: localStorage,
     Mshow: true,
     Kshow:false, 
@@ -221,19 +221,15 @@ export default new Vuex.Store({
       state.auth_show = 1
     },
     Duplication(state, payload){
-      console.log(payload)
-
-      if(payload.check_username === 1){
+      if(payload.check_username = '1'){
         state.username_dup = true
+        if(payload.check_name = '1'){
+          state.name_dup = true
+        }else{
+          state.username_dup = false 
+        }
       }else{
-        state.username_dup = false
-      }
-
-      if(payload.check_name === 1){
-          
-        state.name_dup = true
-      }else{
-        state.name_dup = false 
+        state.name_dup = false
       }
 
     },
@@ -724,6 +720,8 @@ export default new Vuex.Store({
 
 
     Writing({state, commit}, payload){
+      
+
 
 
       let token = state.Storage.getItem("access_token")
@@ -734,7 +732,9 @@ export default new Vuex.Store({
           'Access-Control-Allow-Origin': '*'
         }
       }
-      
+
+
+
       let lat = state.Storage.getItem('lat')
       let lon = state.Storage.getItem('lon')
       let formData = new FormData()

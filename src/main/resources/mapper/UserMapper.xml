@@ -5,17 +5,14 @@
 	
 
 
-	<select id="CheckDup" parameterType="User" resultType="Check">
-		SELECT 
-				(SELECT COUNT(*) 
-				from user
-				WHERE u_name = #{name})check_name,
-				td.check_username AS check_username
-		
-		FROM (SELECT  
-				COUNT(*) AS check_username
-				FROM user
-				WHERE u_username = #{username})td
+	<select id="Check" parameterType="User" resultType="hashmap">
+		SELECT  
+		COUNT(*) AS check_username, 
+		(SELECT COUNT(*) 
+		from user
+		WHERE u_name = #{name})check_name
+		FROM user
+		WHERE u_username = #{username}
 	</select>
 
 	<insert id= "createUser" parameterType= "com.used.example.domain.User">

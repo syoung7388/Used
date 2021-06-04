@@ -5,8 +5,6 @@ import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
-import com.used.example.domain.Check;
 import com.used.example.domain.User;
 import com.used.example.domain.UserInfo;
 
@@ -26,11 +24,9 @@ public interface UserService extends UserDetailsService {
 
 	public void UserDelete(String username);
 
+	public Map<String, Integer> Check(User user);
 
 	public void SignUp(User user);
-
-
-	public Check CheckDup(User user);
 
 
 

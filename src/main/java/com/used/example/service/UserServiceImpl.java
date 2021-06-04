@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.used.example.domain.Check;
 import com.used.example.domain.User;
 import com.used.example.domain.UserInfo;
 import com.used.example.mapper.UserMapper;
@@ -115,6 +114,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 
+	@Override
+	public Map<String, Integer> Check(User user) {
+		return userMapper.Check(user);
+	}
 
 
 
@@ -135,15 +138,6 @@ public class UserServiceImpl implements UserService {
 	    userMapper.createUser(user);
 	    userMapper.createAuthority(user);
 
-	}
-
-
-
-	@Override
-	public Check CheckDup(User user) {
-		
-		return userMapper.CheckDup(user);
-		
 	}
 
 

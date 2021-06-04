@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.used.example.config.JwtUtils;
 import com.used.example.domain.Auction;
-import com.used.example.domain.Check;
 import com.used.example.domain.Pagination;
 import com.used.example.domain.User;
 import com.used.example.response.JwtResponse;
@@ -106,12 +105,11 @@ public class AllController {
 	@PostMapping("/signup")
 	public ResponseEntity<?> Signup(@RequestBody User user){
 		
-	
-		Check check = userService.CheckDup(user);
-		int check_name = check.getCheck_name();
-		int check_username = check.getCheck_username();
+		Map<String, Integer> check = new HashMap<>();
+		check = userService.Check(user);
+		int check_username = Integer.parseInt( String.valueOf(check.get("check_username")));
+		int check_name = Integer.parseInt( String.valueOf(check.get("check_name")));
 		if(check_username == 1 || check_name== 1) {
-			logger.info("check"+check);
 			
 			return new ResponseEntity<>(check, HttpStatus.OK);
 		

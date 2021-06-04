@@ -10,10 +10,10 @@
             </v-row>
             <v-row align="center" justify="center" class="mt-2">
                 <v-col cols="6"  v-show="username_dup === true">
-                    <h1 style="font-size: 11px;" class="primary--text">이미 가입된 e-mail이 있습니다</h1>
+                    <h1 style="font-size: 12px;" class="primary--text">이미 가입된 e-mail이 있습니다</h1>
                 </v-col>
                 <v-col cols="6"  v-show="name_dup === true">
-                    <h1 style="font-size: 11px;" class="primary--text">이미 가입된 닉네임이 있습니다</h1>
+                    <h1 style="font-size: 12px;" class="primary--text">이미 가입된 닉네임이 있습니다</h1>
                 </v-col>
             </v-row>
             <v-row align="center">
@@ -91,10 +91,6 @@ export default{
                 
             
         }
-    },
-    beforeCreate(){
-        this.$store.state.username_dup = false 
-        this.$store.state.name_dup = false
     },
     methods: {
         Address(){
