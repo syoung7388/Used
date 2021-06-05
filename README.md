@@ -61,7 +61,13 @@
 
 
 
+#
 
+
+### Vue 구조 
+
+
+> <img src = "https://user-images.githubusercontent.com/79610047/120886132-51015c80-c627-11eb-8aae-4443dc5810f9.png" width="90%" height="40%">
 
 
 
