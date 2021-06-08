@@ -6,8 +6,8 @@ module.exports = {
   indexPath: "../static/index.html",
 
   devServer: { 
-    port: 8080,
-    proxy: 'http://localhost:9200'
+    port: 80,
+    proxy: 'http://15.164.78.95:9200'
 
   },
 

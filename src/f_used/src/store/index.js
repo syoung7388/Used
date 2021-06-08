@@ -12,7 +12,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
 
-    http:'http://localhost:9200',
+    http:'http://15.164.78.95/:9200',
     Storage: localStorage,
     Mshow: true,
     Kshow:false, 
@@ -221,15 +221,15 @@ export default new Vuex.Store({
       state.auth_show = 1
     },
     Duplication(state, payload){
-      if(payload.check_username = '1'){
+      if(payload.check_username === 1){
         state.username_dup = true
-        if(payload.check_name = '1'){
-          state.name_dup = true
-        }else{
-          state.username_dup = false 
-        }
       }else{
         state.name_dup = false
+      }
+      if(payload.check_name === 1){
+        state.name_dup = true
+      }else{
+        state.username_dup = false 
       }
 
     },

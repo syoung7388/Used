@@ -108,17 +108,6 @@ export default {
 
     },
 
-    mounted(){
-
-
-
-
-
-
-        
-    },
-
-
     
 }
 </script>

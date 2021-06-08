@@ -13,7 +13,7 @@
                     @click="getDetail({a_num: item.a_num})"
                     >
                         <v-img
-                        :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
+                        :src="require('../../../../asset/'+item.product[0].picture[0].pictureName)"
                         max-width="170"
                         height="100" 
                         aspect-ratio="2"

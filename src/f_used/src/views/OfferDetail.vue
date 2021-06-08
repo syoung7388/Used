@@ -7,7 +7,7 @@
                 <v-carousel-item
                 v-for="(item, i) in beforeImage"
                 :key="i"
-                :src="require('@/assets/'+item.pictureName)"
+                :src="require('../../../asset/'+item.pictureName)"
                 reverse-transition="fade-transition"
                 transition="fade-transition"
                 max-height= "300"

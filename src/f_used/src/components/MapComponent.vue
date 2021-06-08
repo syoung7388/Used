@@ -39,9 +39,9 @@ export default {
                     map: this.$store.state.map
                 })
 
-                setTimeout( function() {
-                    window.dispatchEvent(new Event('resize'));
-                }, 600);
+                // setTimeout( function() {
+                //     window.dispatchEvent(new Event('resize'));
+                // }, 600);
                 naver.maps.Event.addListener(this.$store.state.map, 'touchstart',(e)=>{
                     marker.setPosition(e.latlng)
                     var latlng = e.latlng

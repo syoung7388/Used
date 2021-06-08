@@ -64,6 +64,10 @@ export default{
             certinum: null
         }
     },
+    beforeCreate(){
+        this.$store.state.Pshow = false  
+        this.$store.state.Sshow = false
+    },
     computed: {
         ...mapState (["Pshow", "certi", "Sshow", "certi_err"])
     },

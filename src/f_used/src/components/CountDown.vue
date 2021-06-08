@@ -51,13 +51,12 @@ export default {
 
     created(){
         if(this.sale === 1){
-            console.log(this.sale)
-            console.log(this.endtime)
+        
             this.end = new Date(this.endtime).getTime()
             var nowtime = new Date().getTime()
             var remainnum = this.end - nowtime
             this.TimerFilter(remainnum)
-            console.log(remainnum)
+     
             if(remainnum> 0){
                 this.interval = setInterval(()=>{
                     var nowtime = new Date().getTime()
@@ -66,6 +65,8 @@ export default {
                     this.TimerFilter(remainnum)
                 
                 }, 1000)
+            }else{
+                clearInterval(this.interval)
             }
 
         }

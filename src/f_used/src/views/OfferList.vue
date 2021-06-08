@@ -23,7 +23,7 @@
                                         width="90"
                                         >
                                             <v-img 
-                                            :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
+                                            :src="require('../../../asset/'+item.product[0].picture[0].pictureName)"
                                             max-width="90"
                                             height="90" 
                                             >                                         
@@ -58,7 +58,7 @@
                                 width="90"
                                 >
                                     <v-img 
-                                    :src="require('@/assets/'+item.product[0].picture[0].pictureName)"
+                                    :src="require('../../../asset/'+item.product[0].picture[0].pictureName)"
                                     max-width="90"
                                     height="90" 
                                     ></v-img>

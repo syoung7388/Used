@@ -40,7 +40,7 @@ export default {
             this.c_pr = payload.c_price
             this.pr = payload.price         
             this.offer_overlay = true
-            console.log(payload.price)
+            //console.log(payload.price)
             if(payload.price > this.aucInfo.topprice && payload.price > this.aucInfo.startprice){
                 this.over_err = false
             }else{
