@@ -205,7 +205,7 @@
                     flat
                     >             
                         <v-img 
-                         :src="getImg(item.product[0].picture[0].pictureName)"
+                         :src="getImg(list.pictureName)"
                         max-height="60"
                         max-width="60"
                         >

@@ -8,7 +8,7 @@ module.exports = {
   devServer: {
     port: 80,
     proxy:'http://15.164.78.95:9200',
-    
+    //proxy:'http://localhost:9200',
 
   },
 
