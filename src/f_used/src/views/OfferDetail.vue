@@ -7,7 +7,7 @@
                 <v-carousel-item
                 v-for="(item, i) in beforeImage"
                 :key="i"
-                :src="require('../../../asset/'+item.pictureName)"
+                 :src="getImg(item.pictureName)"
                 reverse-transition="fade-transition"
                 transition="fade-transition"
                 max-height= "300"
@@ -186,9 +186,11 @@
 <script>
 import {mapState, mapActions , mapMutations} from 'vuex'
 import OfferOverlay from '@/components/OfferOverlay.vue'
+import {checkImg} from '@/mixins/checkImg.js'
 
 
 export default {
+    mixins: [checkImg],
     beforeCreate(){
         this.$store.state.removeBar =true
     },

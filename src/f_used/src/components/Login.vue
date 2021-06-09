@@ -26,7 +26,7 @@
                class="mt-5 mb-10"
                label="password"
                v-model="password"
-               type="Password"
+               :type="p"
                required
                ></v-text-field>
                <v-btn @click="Login({
@@ -75,7 +75,8 @@ export default {
       return{
          username: null,
          password: null,
-         multiline: true
+         multiline: true,
+         p: 'Password'
       }
    },
    methods: {

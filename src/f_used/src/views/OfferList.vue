@@ -23,7 +23,7 @@
                                         width="90"
                                         >
                                             <v-img 
-                                            :src="require('../../../asset/'+item.product[0].picture[0].pictureName)"
+                                            :src="getImg(item.product[0].picture[0].pictureName)"
                                             max-width="90"
                                             height="90" 
                                             >                                         
@@ -58,7 +58,7 @@
                                 width="90"
                                 >
                                     <v-img 
-                                    :src="require('../../../asset/'+item.product[0].picture[0].pictureName)"
+                                    :src="getImg(item.product[0].picture[0].pictureName)"
                                     max-width="90"
                                     height="90" 
                                     ></v-img>
@@ -100,7 +100,9 @@
 import CountDown from '@/components/CountDown.vue'
 import {mapActions, mapState} from 'vuex'
 import NullError from '@/components/NullError.vue'
+import {checkImg} from '@/mixins/checkImg.js'
 export default {
+    mixins: [checkImg],
     beforeCreate(){
         this.$store.state.removeBar =true
     

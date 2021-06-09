@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.used.example.date.DateForm;
 import com.used.example.domain.Auction;
 import com.used.example.domain.Picture;
 import com.used.example.domain.Product;
@@ -31,6 +33,8 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	MakeThumbnail makeThumbnail;
+	@Autowired
+	DateForm dateForm;
 	
 	private final Logger logger= (Logger) LoggerFactory.getLogger(this.getClass());
 	
@@ -50,11 +54,11 @@ public class ProductServiceImpl implements ProductService {
 		List<String> pictureNames= new ArrayList<String>();
 		
 		
-		
-	       // String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\f_used\\src\\assets\\";
-			String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\f_used\\src\\assets\\";
+		//String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\asset\\";
+	      // String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\f_used\\src\\assets\\";
+			//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\f_used\\src\\assets\\";
 			//String path = "C:\\Users\\l3\\Desktop\\eee\\";
-			
+			String path = "/home/ec2-user/project/asset/";
 			for(int i=0; i<imgList.size(); i++) {
 				
 				String filename= imgList.get(i).getOriginalFilename();
@@ -75,7 +79,9 @@ public class ProductServiceImpl implements ProductService {
 				}
 				
 
-				String final_name = filename.substring(0, index+1)+ output_ext;
+				//String final_name = filename.substring(0, index+1)+ output_ext;
+				UUID uuid = UUID.randomUUID();
+				String final_name = uuid.toString()+dateForm.getAllDate()+"."+output_ext ;
 				
 		
 				

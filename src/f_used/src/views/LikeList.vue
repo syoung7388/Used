@@ -25,7 +25,7 @@
                                     width="80"
                                     >
                                         <v-img
-                                        :src="require('../../../asset/'+item.product[0].picture[0].pictureName)"
+                                         :src="getImg(item.product[0].picture[0].pictureName)"
                                         max-width="80"
                                          height="90" 
                                         ></v-img>
@@ -58,7 +58,9 @@
 </template>
 <script>
 import {mapActions, mapState} from 'vuex'
+import {checkImg} from '@/mixins/checkImg.js'
 export default {
+    mixins: [checkImg],
     beforeCreate(){
         this.$store.state.removeBar =true
     },

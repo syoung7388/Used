@@ -8,7 +8,7 @@
 	</appender>
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>C:\sts-logs\logback-%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+			<fileNamePattern>/home/ec2-user/project/sts-logs/logback-%d{yyyy-MM-dd}.log.zip</fileNamePattern>
 			<maxHistory>7</maxHistory>
 		</rollingPolicy>
 		<encoder>

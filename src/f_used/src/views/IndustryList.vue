@@ -27,7 +27,7 @@
                     @click="getDetail({a_num: item.a_num})"
                     >
                         <v-img
-                        :src="require('../../../asset/'+item.product[0].picture[0].pictureName)"
+                        :src="getImg(item.product[0].picture[0].pictureName)"
                         max-width="170"
                         height="100" 
                         aspect-ratio="2"
@@ -61,7 +61,9 @@
 import InfiniteLoading from 'vue-infinite-loading';
 import {mapActions, mapState} from 'vuex'
 import axios from 'axios'
+import {checkImg} from '@/mixins/checkImg.js'
 export default {
+     mixins: [checkImg],
 
     data(){
         return{

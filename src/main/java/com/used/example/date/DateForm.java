@@ -17,6 +17,19 @@ public class DateForm{
 	}
 	
 	
+	
+	public static String getAllDate(){
+		
+		Date date = new Date();
+		SimpleDateFormat allFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		String allDate = allFormat.format(date);
+		
+		return allDate;
+		
+	}
+	
+	
+	
 
 	
 	

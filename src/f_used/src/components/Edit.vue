@@ -205,7 +205,7 @@
                     flat
                     >             
                         <v-img 
-                        :src="require('@/assets/'+list.pictureName)"
+                         :src="getImg(item.product[0].picture[0].pictureName)"
                         max-height="60"
                         max-width="60"
                         >
@@ -282,11 +282,14 @@
 import { mapActions, mapState } from 'vuex';
 // import EditAddress from './EditComponents/EditAddress.vue';
 import Address from '@/components/Address.vue'
+import {checkImg} from '@/mixins/checkImg.js'
 
 
 export default{
-  components: { Address },
+    mixins: [checkImg],
+    components: { Address },
     data() {
+        
         
         return {
             town: null,

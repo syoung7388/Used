@@ -11,7 +11,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+    //http: 'http://172.30.1.38:9200',
     http:'http://15.164.78.95/:9200',
     Storage: localStorage,
     Mshow: true,
@@ -1540,7 +1540,15 @@ export default new Vuex.Store({
       })
 
 
-    }
+    },
+  //   CheckImg: function (state, link){
+  //     console.log(link)
+  //     try{
+  //         return require("../../../asset/"+link)
+  //     }catch{
+  //         return require("../../../asset/no.png")
+  //     }
+  //  }
 
   
   },
