@@ -7,7 +7,7 @@ const loader = require('sass-loader');
 
 module.exports = {
     mode: 'production',
-    devtool: 'eval',
+    devtool: '#source-map',
     resolve: {
         extensions: ['.js', '.vue', '.json'],
         alias:{

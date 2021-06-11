@@ -106,9 +106,9 @@ public class PaymentController {
         params.add("quantity", "1");
         params.add("total_amount", Long.toString(kakao.getPrice()));
         params.add("tax_free_amount", "0");
-		params.add("approval_url", "http://15.164.78.95:8080");
-		params.add("cancel_url", "http://15.164.78.95:8080");
-		params.add("fail_url", "http://15.164.78.95:8080");
+		params.add("approval_url", "http://3.34.22.100:80");
+		params.add("cancel_url", "http://3.34.22.100:80");
+		params.add("fail_url", "http://3.34.22.100:80");
 
   
         

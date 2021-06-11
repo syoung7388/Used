@@ -11,7 +11,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    http: 'http://localhost:9200',
+    http: 'http://3.34.22.100:9200',
     //http:'http://15.164.78.95:9200',
     Storage: localStorage,
     img_err: false,
