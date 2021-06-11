@@ -13,14 +13,14 @@
                     @click="getDetail({a_num: item.a_num})"
                     >
                         <v-img
-                         :src="getImg(item.product[0].picture[0].pictureName)"
+                        :src="getImg(item.product[0].picture[0].pictureName)"
                         max-width="170"
                         height="100" 
                         aspect-ratio="2"
                         >
-                        <p style="text-align: right" class="white--text mr-3" v-show="item.d_day === 0">D-day</p>
-                        <p style="text-align: right" class="white--text mr-3" v-show="item.d_day < 0">D{{item.d_day}}</p>
-                        <p style="text-align: right" class="white--text mr-3" v-show="item.d_day > 0">D+{{item.d_day}}</p>
+                            <p style="text-align: right" class="white--text mr-3" v-show="item.d_day === 0">D-day</p>
+                            <p style="text-align: right" class="white--text mr-3" v-show="item.d_day < 0">D{{item.d_day}}</p>
+                            <p style="text-align: right" class="white--text mr-3" v-show="item.d_day > 0">D+{{item.d_day}}</p>
                         </v-img>
                         <v-card-text style="font-weight: bold ; text-align: left"  class="pa-1 black--text" >{{item.product[0].kind}}</v-card-text>
                         <v-card-text  class="pa-1" >
@@ -53,8 +53,7 @@ export default {
     data(){
         return{
             selecteditem: 1,
-            heart: false
-          
+            heart: false,
             
             
         }
