@@ -22,7 +22,6 @@ CREATE TABLE IF NOT EXISTS `account` (
 ) ENGINE=InnoDB AUTO_INCREMENT=480 DEFAULT CHARSET=latin1;
 
 -- 테이블 데이터 used.account:~134 rows (대략적) 내보내기
-DELETE FROM `account`;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
 INSERT INTO `account` (`ac_num`, `account_nm`, `thstrm_nm`, `thstrm_amount`) VALUES
 	(346, '유동자산', '제 52 기', 73798549000000),
@@ -174,7 +173,6 @@ CREATE TABLE IF NOT EXISTS `account_rate` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- 테이블 데이터 used.account_rate:~0 rows (대략적) 내보내기
-DELETE FROM `account_rate`;
 /*!40000 ALTER TABLE `account_rate` DISABLE KEYS */;
 INSERT INTO `account_rate` (`ac_times`, `current_rate`, `debt_rate`, `capital_turnover`, `store_turnover`, `credit_turnover`, `sale_income_rate`) VALUES
 	('제 52 기', 166, 25, 1, 12, 7, 9);
@@ -193,7 +191,6 @@ CREATE TABLE IF NOT EXISTS `address` (
 ) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=latin1;
 
 -- 테이블 데이터 used.address:~49 rows (대략적) 내보내기
-DELETE FROM `address`;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
 INSERT INTO `address` (`ad_num`, `a_num`, `ad_lat`, `ad_lon`, `ad_addr`, `ad_town`) VALUES
 	(2, 20, '37.4849665053325', '127.034757121285', '서울 강남구 강남대로 238 (도곡동, 스카이쏠라빌딩)', '도곡동'),
@@ -265,7 +262,6 @@ CREATE TABLE IF NOT EXISTS `amount` (
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 used.amount:~22 rows (대략적) 내보내기
-DELETE FROM `amount`;
 /*!40000 ALTER TABLE `amount` DISABLE KEYS */;
 INSERT INTO `amount` (`am_num`, `am_tax_free`, `am_vat`, `am_point`, `am_discount`, `am_total`, `pa_num`) VALUES
 	(18, '0', '14', '0', '0', '150', 20),
@@ -300,7 +296,7 @@ INSERT INTO `amount` (`am_num`, `am_tax_free`, `am_vat`, `am_point`, `am_discoun
 -- 테이블 used.auction 구조 내보내기
 CREATE TABLE IF NOT EXISTS `auction` (
   `a_num` int(11) NOT NULL AUTO_INCREMENT,
-  `a_username` varchar(50) NOT NULL DEFAULT '',
+  `a_username` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `a_startdate` date NOT NULL DEFAULT current_timestamp(),
   `a_enddate` varchar(50) CHARACTER SET utf8 NOT NULL,
   `a_startprice` bigint(100) NOT NULL DEFAULT 0,
@@ -311,8 +307,7 @@ CREATE TABLE IF NOT EXISTS `auction` (
   PRIMARY KEY (`a_num`)
 ) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=latin1;
 
--- 테이블 데이터 used.auction:~42 rows (대략적) 내보내기
-DELETE FROM `auction`;
+-- 테이블 데이터 used.auction:~7 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `auction` DISABLE KEYS */;
 INSERT INTO `auction` (`a_num`, `a_username`, `a_startdate`, `a_enddate`, `a_startprice`, `a_sale`, `a_hits`, `a_title`, `a_content`) VALUES
 	(20, 'kk@kk', '2021-04-29', '2021-05-30', 100, 3, 40, '안녕하세용갈', 'ㅇ'),
@@ -372,7 +367,6 @@ CREATE TABLE IF NOT EXISTS `auc_and_pro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- 테이블 데이터 used.auc_and_pro:~50 rows (대략적) 내보내기
-DELETE FROM `auc_and_pro`;
 /*!40000 ALTER TABLE `auc_and_pro` DISABLE KEYS */;
 INSERT INTO `auc_and_pro` (`a_num`, `p_num`) VALUES
 	(18, 96),
@@ -433,13 +427,12 @@ INSERT INTO `auc_and_pro` (`a_num`, `p_num`) VALUES
 
 -- 테이블 used.auth 구조 내보내기
 CREATE TABLE IF NOT EXISTS `auth` (
-  `u_username` varchar(50) NOT NULL,
-  `u_auth` varchar(50) NOT NULL,
+  `u_username` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `u_auth` varchar(50) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`u_username`,`u_auth`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 테이블 데이터 used.auth:~17 rows (대략적) 내보내기
-DELETE FROM `auth`;
+-- 테이블 데이터 used.auth:~22 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `auth` DISABLE KEYS */;
 INSERT INTO `auth` (`u_username`, `u_auth`) VALUES
 	(' a@a', 'ROLE_USER'),
@@ -481,7 +474,6 @@ CREATE TABLE IF NOT EXISTS `card` (
 ) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 used.card:~22 rows (대략적) 내보내기
-DELETE FROM `card`;
 /*!40000 ALTER TABLE `card` DISABLE KEYS */;
 INSERT INTO `card` (`c_num`, `c_bin`, `c_type`, `c_install_month`, `c_approved_id`, `c_mid`, `c_interest_free_install`, `pa_num`) VALUES
 	(15, 123456, '신용', '00', 11111111, 'mid', 'N', 20),
@@ -516,13 +508,12 @@ INSERT INTO `card` (`c_num`, `c_bin`, `c_type`, `c_install_month`, `c_approved_i
 -- 테이블 used.chat 구조 내보내기
 CREATE TABLE IF NOT EXISTS `chat` (
   `ch_num` int(11) NOT NULL AUTO_INCREMENT,
-  `ch_seller` varchar(50) NOT NULL,
-  `ch_buyer` varchar(50) NOT NULL,
+  `ch_seller` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `ch_buyer` varchar(50) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`ch_num`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
 
--- 테이블 데이터 used.chat:~4 rows (대략적) 내보내기
-DELETE FROM `chat`;
+-- 테이블 데이터 used.chat:~5 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `chat` DISABLE KEYS */;
 INSERT INTO `chat` (`ch_num`, `ch_seller`, `ch_buyer`) VALUES
 	(71, 'e@e', 'kk@kk'),
@@ -541,7 +532,6 @@ CREATE TABLE IF NOT EXISTS `like` (
 ) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 used.like:~18 rows (대략적) 내보내기
-DELETE FROM `like`;
 /*!40000 ALTER TABLE `like` DISABLE KEYS */;
 INSERT INTO `like` (`a_num`, `l_username`, `l_num`) VALUES
 	(27, 'c@c', 3),
@@ -577,7 +567,6 @@ CREATE TABLE IF NOT EXISTS `message` (
 ) ENGINE=InnoDB AUTO_INCREMENT=328 DEFAULT CHARSET=latin1;
 
 -- 테이블 데이터 used.message:~4 rows (대략적) 내보내기
-DELETE FROM `message`;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
 INSERT INTO `message` (`m_num`, `ch_num`, `m_username`, `m_content`, `m_time`) VALUES
 	(323, 72, 'c@c', '안녕하세요 김수영입니다', '2021-06-03 18:54:10'),
@@ -603,7 +592,6 @@ CREATE TABLE IF NOT EXISTS `offer` (
 ) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 used.offer:~38 rows (대략적) 내보내기
-DELETE FROM `offer`;
 /*!40000 ALTER TABLE `offer` DISABLE KEYS */;
 INSERT INTO `offer` (`o_num`, `a_num`, `o_username`, `o_price`, `o_time`, `o_select`, `o_skip`, `o_endtime`) VALUES
 	(103, 36, 'e@e', 110, '2021-05-26 10:01:41', 1, 0, '2021-05-29 12:08:36'),
@@ -662,7 +650,6 @@ CREATE TABLE IF NOT EXISTS `payment` (
 ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 used.payment:~22 rows (대략적) 내보내기
-DELETE FROM `payment`;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
 INSERT INTO `payment` (`pa_num`, `pa_username`, `pa_method`, `pa_kind`, `pa_quantity`, `pa_time`, `a_num`, `p_num`, `pa_cop`) VALUES
 	(20, 'e@e', 'CARD', '그릴기', '1', '2021-05-26 10:06:05', 34, 112, 'KAKAOPAY'),
@@ -703,7 +690,6 @@ CREATE TABLE IF NOT EXISTS `picture` (
 ) ENGINE=InnoDB AUTO_INCREMENT=293 DEFAULT CHARSET=latin1;
 
 -- 테이블 데이터 used.picture:~65 rows (대략적) 내보내기
-DELETE FROM `picture`;
 /*!40000 ALTER TABLE `picture` DISABLE KEYS */;
 INSERT INTO `picture` (`p_num`, `pi_num`, `pi_name`) VALUES
 	(100, 151, 'aaddfffrrss.jpeg'),
@@ -773,7 +759,7 @@ INSERT INTO `picture` (`p_num`, `pi_num`, `pi_name`) VALUES
 	(191, 289, 'aaddfffrrss.jpeg'),
 	(192, 290, 'aaddfffrrss.jpeg'),
 	(193, 291, 'aaddfffrrss.jpeg'),
-	(194, 292, 'kkkkkk.jpg');
+	(194, 292, 'aaddfffrrss.jpeg');
 /*!40000 ALTER TABLE `picture` ENABLE KEYS */;
 
 -- 테이블 used.product 구조 내보내기
@@ -787,7 +773,6 @@ CREATE TABLE IF NOT EXISTS `product` (
 ) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 used.product:~49 rows (대략적) 내보내기
-DELETE FROM `product`;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
 INSERT INTO `product` (`p_num`, `p_brand`, `p_kind`, `p_industry`, `p_year`) VALUES
 	(98, 'ㅇ', '냉동 절육기', '카페/베이커리', '1986'),
@@ -861,7 +846,6 @@ CREATE TABLE IF NOT EXISTS `spring_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- 테이블 데이터 used.spring_session:~0 rows (대략적) 내보내기
-DELETE FROM `spring_session`;
 /*!40000 ALTER TABLE `spring_session` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spring_session` ENABLE KEYS */;
 
@@ -875,7 +859,6 @@ CREATE TABLE IF NOT EXISTS `spring_session_attributes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- 테이블 데이터 used.spring_session_attributes:~0 rows (대략적) 내보내기
-DELETE FROM `spring_session_attributes`;
 /*!40000 ALTER TABLE `spring_session_attributes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spring_session_attributes` ENABLE KEYS */;
 
@@ -889,7 +872,6 @@ CREATE TABLE IF NOT EXISTS `turnover` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- 테이블 데이터 used.turnover:~5 rows (대략적) 내보내기
-DELETE FROM `turnover`;
 /*!40000 ALTER TABLE `turnover` DISABLE KEYS */;
 INSERT INTO `turnover` (`t_num`, `t_year`, `t_month`, `t_amount`) VALUES
 	(1, '2021', 1, 100000000),
@@ -915,7 +897,6 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 used.user:~25 rows (대략적) 내보내기
-DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`u_num`, `u_password`, `u_name`, `u_username`, `u_address`, `u_phone`, `u_isAccountNonLocked`, `u_isAccountNonExpired`, `u_isCredentialsNonExpired`, `u_isEnabled`) VALUES
 	(10, '$2a$10$r6q5gnGARo6ocgu3Cs02KuzQRlG7KiWhSPbG/icWWi/wre0jAuHSG', '3', '33@33', '대구 북구 3공단로 5 (노원동3가)', '3', 1, 1, 1, 1),

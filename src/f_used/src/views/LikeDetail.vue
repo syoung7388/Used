@@ -146,7 +146,7 @@
                             <v-btn 
                             icon
                             class="mt-2 mr-1" 
-                            @click="Like({a_num: aucInfo.a_num, l_username: userInfo.username})"
+                            @click="Like({a_num: aucInfo.a_num})"
                             v-show="heart === false" 
                             >
                                 <i class="far fa-heart" style="font-size:26px"></i>

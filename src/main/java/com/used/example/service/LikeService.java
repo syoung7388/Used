@@ -10,7 +10,7 @@ public interface LikeService {
 
 	public Auction CreateLike(Like like);
 
-	public Auction DeleteLike(int a_num);
+	public Auction DeleteLike(String l_username, int a_num);
 
 	public List<Auction> LikeList(String l_username);
 

@@ -3,7 +3,8 @@ const path = require('path')
 const { webpack } = require('webpack')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require('vue-html-webpack-plugin');
-const loader = require('sass-loader');
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+
 
 module.exports = {
     mode: 'production',
@@ -42,7 +43,7 @@ module.exports = {
             },
 
             {
-                test: /\.(jp(e*)g)$/,
+                test: /\.(jpeg)$/,
                 loader: 'url-loader',
                 options: { 
                     name: 'vue_picture/[name].[ext]'
@@ -93,7 +94,14 @@ module.exports = {
         new BundleAnalyzerPlugin(),
         new HtmlWebpackPlugin({
             vue:true
-        })
+        }),
+        new VuetifyLoaderPlugin({
+			match (originalTag, { kebabTag, camelTag, path, component }) {
+				if (kebabTag.startsWith('core-')) {
+				  return [camelTag, `import ${camelTag} from '@/components/core/${camelTag.substring(4)}.vue'`]
+				}
+			}
+		}),
 
         
     ],
@@ -108,9 +116,7 @@ module.exports = {
         overlay: true
     },
     performance: {
-        hints: false,
-        maxEntrypointSize: 512000,
-        maxAssetSize: 512000
+        hints: false
     }
 
 }

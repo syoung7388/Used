@@ -13,7 +13,7 @@ public interface LikeMapper {
 
 	public void CreateLike(Like like);
 
-	public void DeleteLike(int a_num);
+	public void DeleteLike(String l_username);
 
 	public List<Auction> LikeList(String l_username);
 

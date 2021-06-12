@@ -35,6 +35,9 @@ public class AuthTokenFilter extends  OncePerRequestFilter{
 	
 	@Autowired
 	private UserService userService;
+
+
+
 	
 	
 	
@@ -47,9 +50,9 @@ public class AuthTokenFilter extends  OncePerRequestFilter{
 		if(StringUtils.hasText(token) && token.startsWith("Bearer") ) {
 			token= token.substring(6, token.length());
 			return token;
+		}else {
+			return null;
 		}
-
-		return null;
 	}
 	
 	

@@ -12,7 +12,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     http: 'http://3.34.22.100:9200',
-    //http:'http://15.164.78.95:9200',
+    //http:'http://172.30.1.33:9200',
     Storage: localStorage,
     img_err: false,
     Mshow: true,
@@ -163,6 +163,7 @@ export default new Vuex.Store({
       state.overlay = false
       state.aucInfo = payload
       state.likeInfo = payload.like
+      console.log(state.likeInfo)
       for(var i in payload.product){
         state.proInfo = payload.product[i]
       }
@@ -559,7 +560,6 @@ export default new Vuex.Store({
     AuthCheck({state,dispatch}){
       if(state.Storage.getItem("role") !== null && state.Storage.getItem("access_token") !== null){
         dispatch("isEmpty", state.userInfo).then((value)=>{
-
           if(value === true){
             dispatch('getUserInfo')
           }
@@ -569,8 +569,8 @@ export default new Vuex.Store({
         return true
       }
     },
-    ReDetail({state, dispatch, commit}, payload){
 
+    ReDetail({state, dispatch, commit}, payload){
       let token= state.Storage.getItem("access_token")
       let config= {
         headers: {
@@ -699,7 +699,6 @@ export default new Vuex.Store({
       
     },
     deleteOK({state,commit}){ 
-      let username= state.userInfo.username
 
       let token= state.Storage.getItem("access_token")
       let config= {
@@ -708,7 +707,7 @@ export default new Vuex.Store({
         }
       }
       axios
-      .delete(state.http+`/api/user/${username}`, config)
+      .delete(state.http+'/api/user/', config)
       .then(Res =>{
         (Res.data === "success")? commit('Delete_s'): commit('Err')
       })
@@ -966,6 +965,7 @@ export default new Vuex.Store({
 
       //    })
       // }
+      dispatch('AuthCheck')
       dispatch('getTopList')
     },
 
@@ -1224,6 +1224,7 @@ export default new Vuex.Store({
           access_token: token
         }
       }
+      console.log(payload)
       axios
       .delete(state.http+`/api/like/${payload.a_num}`, config)
       .then(Res =>{

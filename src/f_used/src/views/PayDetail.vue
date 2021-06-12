@@ -109,8 +109,7 @@
                             <v-row justify="center" class="mt-5" v-show="chatInfo === null">
                                 <v-col cols="8">
                                     <v-btn larges class="primary" @click="Room({
-                                        seller: aucInfo.a_username,
-                                        buyer: userInfo.username
+                                        seller: aucInfo.a_username
                                     })">판매자님과 대화 연결하기</v-btn>
                                 </v-col>
                             </v-row>

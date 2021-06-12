@@ -54,13 +54,11 @@ public class ProductServiceImpl implements ProductService {
 		List<String> pictureNames= new ArrayList<String>();
 		
 		
-		//String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\asset\\";
-	      // String path="C:\\Users\\User\\Desktop\\workspace\\Used\\src\\f_used\\src\\assets\\";
-			//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\f_used\\public\\picture\\";
+	
 			
-			//String path = "C:\\Users\\l3\\Desktop\\eee\\";
 			String path = "/home/ec2-user/project/public/picture/";
 			//String path = "C:\\Users\\User\\Desktop\\workspace\\Used\\src\\f_used\\public\\picture\\";
+			//String path="C:\\Users\\l3\\Documents\\work2\\Used\\src\\f_used\\public\\picture\\";
 			
 			for(int i=0; i<imgList.size(); i++) {
 				

@@ -47,13 +47,4 @@ export default {
   
 }
 </script>
-<style>
-.C{
-  width: 100%;
-  height: 100%;
-}
-.Arow{
-  height: 100%;
-}
-</style>
 

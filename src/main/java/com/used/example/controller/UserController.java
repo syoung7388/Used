@@ -83,8 +83,14 @@ public class UserController{
 	
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@ResponseBody
-	@DeleteMapping("/{username}")
-	public ResponseEntity<?> UserDelete(@PathVariable("username") String username, HttpServletRequest request){
+	@DeleteMapping
+	public ResponseEntity<?> UserDelete( HttpServletRequest request){
+		token= request.getHeader("access_token");
+		if(StringUtils.hasText(token)&& token.startsWith("Bearer")) {
+			token= token.substring(6, token.length());
+			logger.info(token);
+		}
+		String username= JwtUtils.getUserEmailFromToken(token);
 		
 		
 		userService.UserDelete(username);

@@ -61,6 +61,8 @@ public class AuctionController {
 	@Autowired
 	UserService userService;
 	
+	
+
 	private final Logger logger= LoggerFactory.getLogger(this.getClass());
 	
 
@@ -77,7 +79,7 @@ public class AuctionController {
 	public ResponseEntity<?> CreateAuction(Auction auction, Product product, Picture picture, Address address, HttpServletRequest request) throws IOException{
 	
 		token = request.getHeader("access_token");
-		
+
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
 			token = token.substring(6, token.length());
 		}
@@ -103,6 +105,10 @@ public class AuctionController {
 
 		
 		return new ResponseEntity<>( "success", HttpStatus.OK);
+		
+		
+		
+
 
 	}
 	
@@ -111,6 +117,8 @@ public class AuctionController {
 	@GetMapping("/statistic")
 	public ResponseEntity<?> SaleStatistic(HttpServletRequest request){
 		String token= request.getHeader("access_token");
+		
+		
 		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
 			token= token.substring(6, token.length());
 		}
@@ -150,13 +158,7 @@ public class AuctionController {
 	@PutMapping
 	public ResponseEntity<?> AucEdit(Auction auction, Picture picture,Address address, Product product, HttpServletRequest request) throws IOException{
 		
-		
-		String token= request.getHeader("access_token");
-		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
-			token= token.substring(6, token.length());
-		}
-		String username= JwtUtils.getUserEmailFromToken(token);
-		
+
 
 		auction.setAddress(address);
 		auction.setPro(product);

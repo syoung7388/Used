@@ -52,7 +52,14 @@ public class LikeController {
 	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	@PostMapping
 	public ResponseEntity<?> CreateLike(@RequestBody Like like, HttpServletRequest request){
-
+		
+		token = request.getHeader("access_token");
+		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
+			token = token.substring(6, token.length());
+		}
+		String l_username = JwtUtils.getUserEmailFromToken(token);
+		like.setL_username(l_username);
+		
 		Auction auction=likeService.CreateLike(like);
 
 		return new ResponseEntity<>( auction, HttpStatus.OK);
@@ -60,9 +67,15 @@ public class LikeController {
 	
 	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@DeleteMapping("/{a_num}")
-	public ResponseEntity<?> DeleteLike(@PathVariable("a_num") int a_num , HttpServletRequest request){
+	public ResponseEntity<?> DeleteLike( @PathVariable("a_num") int a_num ,HttpServletRequest request){
 		
-		Auction auction = likeService.DeleteLike(a_num);
+		token = request.getHeader("access_token");
+		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
+			token = token.substring(6, token.length());
+		}
+		String l_username = JwtUtils.getUserEmailFromToken(token);
+		
+		Auction auction = likeService.DeleteLike(l_username, a_num);
 	
 		
 		

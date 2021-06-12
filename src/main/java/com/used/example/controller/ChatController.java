@@ -42,8 +42,16 @@ public class ChatController {
 	
 	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@PostMapping
-	public ResponseEntity<?> CreateChat(@RequestBody Chat chat){
+	public ResponseEntity<?> CreateChat(HttpServletRequest request, @RequestBody Chat chat){
 		
+		token = request.getHeader("access_token");
+		
+		if(StringUtils.hasText(token) && token.startsWith("Bearer")) {
+			token = token.substring(6, token.length());
+		}
+		String username = JwtUtils.getUserEmailFromToken(token);
+		chat.setBuyer(username);
+
 		chatService.CreateChat(chat);
 
 		return new ResponseEntity<>(chat, HttpStatus.OK);
