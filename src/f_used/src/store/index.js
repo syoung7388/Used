@@ -225,14 +225,14 @@ export default new Vuex.Store({
     Duplication(state, payload){
 
 
-      if(payload.check_username === '1'){
+      if(payload.check_username === 1){
         state.username_dup = true
       }else{
         state.username_dup = false
       }
 
 
-      if(payload.check_name === '1'){
+      if(payload.check_name === 1){
         state.name_dup = true
       }else{
         state.name_dup = false 
