@@ -154,10 +154,6 @@ export default{
             if(this.$store.state.map.length === 0){
                 this.$refs.getmap.initmap()
             }
-
-            
-     
-           
         },
         MapOK(){
             console.log(this.$route.name)

@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-container class="ss">
+        <v-container style="height: 100%; width: 100%;">
             <v-card color="#FAF5EB">
                 <h1 style="font-size: 13px; text-align:center;" class="pa-2">좌표 클릭 후 아래의 확인 버튼을 눌러주세요!</h1>
             </v-card>
@@ -33,15 +33,18 @@ export default {
                 center: new naver.maps.LatLng(localStorage.getItem("lat"), localStorage.getItem("lon")),
                 zoom: 10
                 }
+
                 this.$store.state.map = new naver.maps.Map('map', mapOption)
+                
                 var marker = new naver.maps.Marker({
                     position: new naver.maps.LatLng(localStorage.getItem("lat"), localStorage.getItem("lon")),
                     map: this.$store.state.map
                 })
 
-                // setTimeout( function() {
-                //     window.dispatchEvent(new Event('resize'));
-                // }, 600);
+                setTimeout( function() {
+                    window.dispatchEvent(new Event('resize'));
+                }, 600);
+
                 naver.maps.Event.addListener(this.$store.state.map, 'touchstart',(e)=>{
                     marker.setPosition(e.latlng)
                     var latlng = e.latlng
@@ -62,8 +65,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-.ss{
-    height: 100%;
-}
-</style>

@@ -1,10 +1,10 @@
 <template>
-<v-app class="pl-1">
-    <div id="daum_postcode"  style="position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;"></div>
-    <div id ="A_map" style="dispaly: none"></div>
-    
+    <v-app class="pl-1">
+        <div id="daum_postcode"  style="position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;"></div>
+        <div id ="A_map" style="dispaly: none"></div>
+        
 
-</v-app>
+    </v-app>
 </template>
 
 

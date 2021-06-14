@@ -75,22 +75,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 				.disable()
 			.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 			
-			
-		
-		
-//		          .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//		          .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//		          .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-//		          .antMatchers("/api/test/**").permitAll()
-//		          .antMatchers("/api/user/**").permitAll()
-//		          .antMatchers("/api/offer/**").permitAll()
-//		          .antMatchers("/api/image/**").permitAll()
-//		          .antMatchers("/api/auction/**").access("hasRole('ROLE_USER')")
-//		          .antMatchers("/api/like/**").permitAll()
-//		          .antMatchers("/api/payment/**").permitAll()
-//		          .antMatchers("/api/chat/**").permitAll()
-//		          .anyRequest().authenticated();
-//		
 		          
 		          
 		  

@@ -331,7 +331,7 @@
 	<select id="IndustryList" parameterType="map" resultMap="ListMap">
 	
 	
-			SELECT	*,
+		SELECT	*,
 						
 			  	(
 			      	6371 * acos (
@@ -356,7 +356,7 @@
 	<select id="KindList" parameterType="map" resultMap="ListMap">
 	
 	
-			SELECT	*,
+		SELECT	*,
 						
 			  	(
 			      	6371 * acos (

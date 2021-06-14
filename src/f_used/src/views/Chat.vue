@@ -62,10 +62,6 @@ import dayjs from 'dayjs'
 import { mapState } from 'vuex'
 import NullError from '@/components/NullError.vue'
 export default {
-    beforeCreate(){
-        this.$store.state.removeBar = true    
-    },
-
     data(){
         return{
             readyOK: null,
@@ -78,6 +74,8 @@ export default {
         }
     },
     beforeCreate(){
+
+        this.$store.state.removeBar = true  
         this.$socket.emit('createRoom', {
             seller: this.$route.params.seller,
             buyer: this.$route.params.buyer,
@@ -139,22 +137,8 @@ export default {
    
     },
     computed: {
-        ...mapState(['userInfo', 'message', 'chatInfo', 'overlay' ,'aucInfo','backType']),
-        // GetMessage(){
-        //     this.$socket.on('getMsg', (data)=>{
-        //         console.log(data)
-        //         this.message.push(data)
-        //         this.sendmsg = ''
-        //         // this.AA(data)
+        ...mapState(['userInfo', 'message', 'chatInfo', 'overlay' ,'aucInfo','backType'])
 
-        //         // this.nowmsg.push(data)
-        //         // this.$socket.emit('MsgEnd', "end")
-        //     })
-        //     return this.message
-        // },
-
-        
-        
     },  
     beforeDestroy() {
         this.$socket.off('getMsg')

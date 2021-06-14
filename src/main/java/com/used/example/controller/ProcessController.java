@@ -45,7 +45,6 @@ public class ProcessController {//숫자의 기준은 어떻게 a_sale이 변할
 	@PutMapping("/0")
 	public ResponseEntity<?> SkipOffer(@RequestBody Offer offer,  HttpServletRequest request){		
 		List<Auction> list = processService.SkipOffer(offer);
-		
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	

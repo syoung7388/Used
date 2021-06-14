@@ -223,16 +223,22 @@ export default new Vuex.Store({
       state.auth_show = 1
     },
     Duplication(state, payload){
-      if(payload.check_username === 1){
+
+
+      if(payload.check_username === '1'){
         state.username_dup = true
       }else{
-        state.name_dup = false
+        state.username_dup = false
       }
-      if(payload.check_name === 1){
+
+
+      if(payload.check_name === '1'){
         state.name_dup = true
       }else{
-        state.username_dup = false 
+        state.name_dup = false 
       }
+
+      console.log(state.name_dup)
 
     },
     setPhone(state, payload){

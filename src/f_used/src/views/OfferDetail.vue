@@ -203,7 +203,7 @@ export default {
         }
     },
     filters:{
-            comma(pri){
+        comma(pri){
             var num = new Number(pri)
             return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g,"$1,")
         }

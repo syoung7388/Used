@@ -129,8 +129,6 @@
 			
 			</otherwise>
 		</choose>
-
-			
 	</insert>
 	
 	<select id="OfferCount" parameterType="String" resultType="Count">
@@ -172,8 +170,7 @@
 		FROM payment 
 		WHERE pa_username = #{o_username}
 		GROUP BY pa_kind
-	
-	
+
 	</select>
 	
 	

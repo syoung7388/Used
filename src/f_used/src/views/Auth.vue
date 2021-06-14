@@ -1,6 +1,6 @@
 <template>
   <v-app>
-      <v-container id="C" v-show="auth_show === 0">
+      <v-container style="width: 100%; height: 100%;" v-show="auth_show === 0">
         <v-btn 
         style="font-size: large;" 
         icon  
@@ -8,8 +8,8 @@
         >
             <i class="fas fa-arrow-left" style="font-size: large;"></i>
         </v-btn>
-        <v-row align="center" class="Arow">
-          <v-col>
+        <v-row align="center" style="height: 90%;">
+          <v-col cols="12">
             <div class="text-center">                   
               <h1 style="font-size: 20px" class="mb-10">고객님 로그인이 필요한 페이지 입니다.</h1>
               <v-spacer></v-spacer>
@@ -36,10 +36,10 @@ import {mapActions, mapMutations, mapState} from 'vuex'
 
 
 export default {
-    beforeCreate(){
-        this.$store.state.removeBar = true       
-        this.$store.state.auth_show= 0
-    },
+  beforeCreate(){
+      this.$store.state.removeBar = true       
+      this.$store.state.auth_show= 0
+  },
   components: {
     Login,
     Phone
@@ -54,13 +54,4 @@ export default {
   
 }
 </script>
-<style>
-.C{
-  width: 100%;
-  height: 100%;
-}
-.Arow{
-  height: 90%;
-}
-</style>
 

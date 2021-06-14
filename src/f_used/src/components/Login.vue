@@ -1,8 +1,8 @@
   
 <template>
    <v-app>
-      <v-container  id="container">
-         <v-row  align="center" class="lrow">
+      <v-container  id="container" style="width: 100%; height: 100%;">
+         <v-row  align="center" style="height: 100%;">
             <v-col>
                <div v-show="isLoginError === true">
                   <v-alert
@@ -100,15 +100,3 @@ export default {
 
 }
 </script>
-
-
-
-<style>
-.container{
-   width: 100%;
-   height: 100%;
-}
-.lrow{
-   height: 100%;
-}
-</style>

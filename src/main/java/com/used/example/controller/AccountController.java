@@ -2,6 +2,7 @@ package com.used.example.controller;
 
 
 import java.nio.charset.Charset;
+
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,10 +53,9 @@ public class AccountController {
 				.queryParam("fs_div", "OFS")
 				.build(false);
 		
-		ResponseEntity<AccountList> account = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, new HttpEntity<String>(headers), new ParameterizedTypeReference<AccountList>() {});
+		ResponseEntity<AccountList> account = 
+				restTemplate.exchange(builder.toUriString(), HttpMethod.GET, new HttpEntity<String>(headers), new ParameterizedTypeReference<AccountList>() {});
 		AccountList accountlist = account.getBody();
-		
-		
 		accountService.FinancialData(accountlist);
 		
 		return new ResponseEntity<>(HttpStatus.OK);	
