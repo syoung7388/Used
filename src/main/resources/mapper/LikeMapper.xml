@@ -27,7 +27,6 @@
 		FROM `like` a
 		LEFT JOIN auction b ON  a.a_num = b.a_num
 		LEFT JOIN address c ON  b.a_num = c.a_num
-		LEFT JOIN offer d ON b.a_num = d.a_num
 		LEFT JOIN auc_and_pro e ON b.a_num = e.a_num
 		LEFT JOIN product f ON e.p_num= f.p_num
 		LEFT JOIN picture g ON e.p_num = g.p_num
@@ -49,17 +48,6 @@
 		<result property="year" column="p_year"/>
 		<collection property="picture" resultMap="ListPi"/>
 	</resultMap>
-	
-	<resultMap type="Offer" id="ListOffer">
-	
-		<result property="o_num" column="o_num"/>
-		<result property="a_num" column="a_num"/>
-		<result property="o_username" column="o_username"/>
-		<result property="price" column="o_price"/>
-		<result property="time" column="o_time"/>
-	
-	</resultMap>
-	
 	<resultMap type="Like" id="ListLike">
 		<result property="a_num" column="a_num"/>
 		<result property="l_username" column="l_username"/>
@@ -85,7 +73,6 @@
 			<result property="town" column="ad_town"/>
 		</association>
 		<collection property="like"  resultMap="ListLike"/>
-		<collection property="offer" resultMap="ListOffer"/>
 		<collection property="product" resultMap="ListPro"/>
 	</resultMap>
 	

@@ -170,6 +170,7 @@ export default new Vuex.Store({
       state.offerInfo= payload.offer
       state.addrInfo = payload.address
       state.beforeImage= payload.product[0].picture
+
       for(var i in payload.like){
         if(state.userInfo.username === state.likeInfo[i].l_username){
           state.heart =true
@@ -178,7 +179,6 @@ export default new Vuex.Store({
           state.heart = false
           continue
         }  
-      
       }
     },
 
