@@ -87,41 +87,9 @@
         
                 >
                     <v-tabs-slider></v-tabs-slider>
-                    <v-tab class="ml-0" style="font-size: 15px;" v-show="aucInfo.sale=== 0">경매순위</v-tab>
                     <v-tab class="ml-0" style="font-size: 15px;">게시물</v-tab>
                     <v-tab class="ml-0" style="font-size: 15px;">제품정보</v-tab>
-                    <v-tab-item  v-if="aucInfo.sale === 0">
-                        <v-card flat class="pa-5"> 
-                            <div  v-for="(item, int) in offerInfo" :key="int">
-                                <v-row v-if="item.o_username !== null" align="center" justify="center">
-                                    <v-col cols="2" >
-                                        <h1 style="font-size: 15px;" >{{int+1}}등</h1>
-                                    </v-col>
-                                    <v-col cols="4" >
-                                        <h1 style="font-size: 15px;" >{{item.price}}원</h1>
-                                    </v-col>
-                                    <v-col cols="3">
-                                        <p style="font-size: 15px;" class="mt-3">{{item.o_username}}</p>
-                                    </v-col>
-                                    <v-col cols="3">
-                                        <v-btn v-show="item.skip === 1" color="red" text>스킵</v-btn>
-                                         <v-btn text color="primary"
-                                         @click="SelectOffer({
-                                            a_num: item.a_num,
-                                            o_num: item.o_num
-                                         })"
-                                         v-show="item.skip === 0"
-                                         >낙찰</v-btn>
-                                    </v-col>
-                                </v-row>
-                                <v-row v-else>
-                                    <v-col>
-                                        <h1 style="font-size: 15px; text-align: center" class="grey--text">현재 요청 대기중입니다.</h1>
-                                    </v-col>
-                                </v-row>
-                            </div>
-                        </v-card>
-                    </v-tab-item>                      
+                    <v-tab class="ml-0" style="font-size: 15px;" v-show="aucInfo.sale === 0">경매순위</v-tab>                      
                     <v-tab-item>
                          <v-card class="px-4 py-5" flat>
                             <v-simple-table>
@@ -162,6 +130,38 @@
                                     </tbody>
                                 </template>
                             </v-simple-table>
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item  v-if="aucInfo.sale === 0">
+                        <v-card flat class="pa-5"> 
+                            <div  v-for="(item, int) in offerInfo" :key="int">
+                                <v-row v-if="item.o_username !== null" align="center" justify="center">
+                                    <v-col cols="2" >
+                                        <h1 style="font-size: 15px;" >{{int+1}}등</h1>
+                                    </v-col>
+                                    <v-col cols="4" >
+                                        <h1 style="font-size: 15px;" >{{item.price}}원</h1>
+                                    </v-col>
+                                    <v-col cols="3">
+                                        <p style="font-size: 15px;" class="mt-3">{{item.o_username}}</p>
+                                    </v-col>
+                                    <v-col cols="3">
+                                        <v-btn v-show="item.skip === 1" color="red" text>스킵</v-btn>
+                                         <v-btn text color="primary"
+                                         @click="SelectOffer({
+                                            a_num: item.a_num,
+                                            o_num: item.o_num
+                                         })"
+                                         v-show="item.skip === 0"
+                                         >낙찰</v-btn>
+                                    </v-col>
+                                </v-row>
+                                <v-row v-else>
+                                    <v-col>
+                                        <h1 style="font-size: 15px; text-align: center" class="grey--text">현재 요청 대기중입니다.</h1>
+                                    </v-col>
+                                </v-row>
+                            </div>
                         </v-card>
                     </v-tab-item>                
                 </v-tabs>

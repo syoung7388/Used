@@ -12,7 +12,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     http: 'http://3.34.22.100:9200',
-    //http:'http://172.30.1.33:9200',
+    //http:'http://localhost:9200',
     Storage: localStorage,
     img_err: false,
     Mshow: true,
@@ -261,8 +261,14 @@ export default new Vuex.Store({
       }
 
     },
-    ChooseRole(state){
-      state.role_choose = true
+    ChooseRole(state, payload){
+      if( payload === 1){
+        router.push({name:'App'})
+
+      }else{
+        state.role_choose = true
+      } 
+    
     },
     logout(state){
       state.Storage.clear() 
@@ -421,7 +427,8 @@ export default new Vuex.Store({
    
 
     LikeList_s(state, payload){
-
+      console.log("LikeListTest")
+      console.log(payload)
       state.likeList = payload
       router.push({name: 'LikeList'})
 
@@ -533,6 +540,7 @@ export default new Vuex.Store({
       state.offerList = []
       state.chatList= []
       state.message=[]
+      state.likeList = []
       
 
       state.nullerr =true
@@ -635,7 +643,6 @@ export default new Vuex.Store({
         dispatch('isEmpty', Res.data).then((value)=>{
           if(value === false){
             let token = Res.data.token
-  
             state.Storage.setItem("access_token", token)
             dispatch('getUserInfo')
           }else{
@@ -660,15 +667,15 @@ export default new Vuex.Store({
       axios
       .get(state.http+'/api/user/unpackToken', config)
       .then(Res =>{
-
-
         dispatch('isEmpty', Res.data).then((value)=>{
           if(value === false){
             commit('Login_s', Res.data)
-            if(Res.data.authorities.length === 1){
-              dispatch('nowLatLon')
+            if(router.currentRoute.name === 'Auth'){
+              commit('ChooseRole', Res.data.authorities.length)
+
             }else{
-              commit('ChooseRole')
+              dispatch('getTopList')
+
             }
           }else{
             commit('InsertErr')
@@ -680,6 +687,7 @@ export default new Vuex.Store({
       })
 
     },
+
     Logout({commit}){
       commit('logout')
     },
@@ -1243,8 +1251,8 @@ export default new Vuex.Store({
       })
     },
     getLikeList({commit,state ,dispatch}){
-      
 
+      console.log("get")
       let token = state.Storage.getItem("access_token")
       let config = {
         headers:{
@@ -1256,7 +1264,7 @@ export default new Vuex.Store({
       .then(Res => {
 
         dispatch('isEmpty', Res.data).then((value)=>{
-          (value === false)? commit('LikeList_s',Res.data ):  commit('NullErr', {router:"LikeList"})
+          (value === false)? commit('LikeList_s', Res.data ):  commit('NullErr', {router:"LikeList"})
         })
       })
       .catch(()=>{

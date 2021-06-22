@@ -9,7 +9,7 @@
                     icon 
                     @click="Back"    
                     >
-                        <i class="fas fa-arrow-left grey--text" style="font-size: large;"></i>
+                        <i class="fas fa-arrow-left" style="font-size: large;"></i>
                     </v-btn>
                 </v-col>
             </v-row>

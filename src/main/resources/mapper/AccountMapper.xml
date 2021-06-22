@@ -10,7 +10,6 @@
 			</foreach>
 	</insert>
 	<insert id="SaveAccountRate">
-	
 	INSERT INTO account_rate(current_rate, debt_rate, capital_turnover, store_turnover, credit_turnover, sale_income_rate, ac_times)
 	SELECT	TRUNCATE(currentassets/currentdebt*100, 0)current_rate,
 			TRUNCATE(debt/capital*100, 0)debt_rate,

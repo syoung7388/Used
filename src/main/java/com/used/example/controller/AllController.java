@@ -147,6 +147,8 @@ public class AllController {
 								.map(item -> item.getAuthority())
 								.collect(Collectors.toList());
 	    jwt="Bearer"+jwt;
+	    
+	    logger.info("-------------------"+roles);
 
 		return ResponseEntity.ok(new JwtResponse(jwt,
 													user.getUsername(),

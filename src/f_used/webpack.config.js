@@ -28,8 +28,8 @@ module.exports = {
                 test: /\.(png|jpg|gif|svg)$/,
                 loader: 'file-loader',
                 options: {
-                    name: 'vue_picture/[name].[ext]'
-
+                    name: 'vue_picture/[name].[ext]',
+                    esModule: false
                 }
  
             },

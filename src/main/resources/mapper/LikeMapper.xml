@@ -15,10 +15,10 @@
 		)
 		
 	</insert>
-	<delete id="DeleteLike" parameterType="String">
+	<delete id="DeleteLike" parameterType="Like">
 		delete 
 		from `like`
-		where l_username=#{l_username}
+		where l_username=#{l_username} and a_num = #{a_num}
 	
 	</delete>
 	

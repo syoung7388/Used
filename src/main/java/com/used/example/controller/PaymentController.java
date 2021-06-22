@@ -84,17 +84,11 @@ public class PaymentController {
 	@PostMapping("/kready")
 	@ResponseBody
 	public ResponseEntity<?> KaKaoReady(@RequestBody KaKaoReady kakao, HttpServletRequest request){
-
-
-        RestTemplate restTemplate = new RestTemplate();
- 
-        
+        RestTemplate restTemplate = new RestTemplate(); 
         HttpHeaders headers = new HttpHeaders();
-        //headers.add("Authorization", "KakaoAK " + "7824d85f0892e82e54e73144138aba0a");
         headers.add("Authorization", "KakaoAK " + "0a8b37524752c3a783b36257cfe92e4d");
         headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
-      
         
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
@@ -106,15 +100,9 @@ public class PaymentController {
         params.add("quantity", "1");
         params.add("total_amount", Long.toString(kakao.getPrice()));
         params.add("tax_free_amount", "0");
-		params.add("approval_url", "http://3.34.22.100:80");
-		params.add("cancel_url", "http://3.34.22.100:80");
-		params.add("fail_url", "http://3.34.22.100:80");
-
-  
-        
-        
-        
-        
+		params.add("approval_url", "http://3.34.22.100");
+		params.add("cancel_url", "http://3.34.22.100");
+		params.add("fail_url", "http://3.34.22.100");
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
         
         try {
@@ -129,8 +117,6 @@ public class PaymentController {
         }
 
 		return new ResponseEntity<>( HttpStatus.OK);
-		
-		
 		
 	}
 	
@@ -158,8 +144,7 @@ public class PaymentController {
         try {
       
             approval = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoApproval.class);
-            logger.info("" + approval);
-   
+ 
             Payment payment = new Payment();
             payment.setA_num(approval.getPartner_order_id());
             payment.setCop("KAKAOPAY");

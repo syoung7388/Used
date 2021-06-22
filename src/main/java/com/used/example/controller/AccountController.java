@@ -36,15 +36,11 @@ public class AccountController {
 	AccountService accountService;
 	
 	private static final String Host ="https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json";
-	
 	@Scheduled(cron="0 0 0 18 5 ?")
 	public  ResponseEntity<?> getFinancialData() throws IOException {
-		
-		
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders  headers = new HttpHeaders();
-		headers.setContentType(new MediaType("application","json",Charset.forName("UTF-8")));
-		
+		headers.setContentType(new MediaType("application","json",Charset.forName("UTF-8")));	
 		UriComponents  builder = UriComponentsBuilder.fromHttpUrl(Host)
 				.queryParam("crtfc_key", "e389c515c006192713568d140ad80d7ccba2086a")
 				.queryParam("corp_code", "00126380")
@@ -52,12 +48,10 @@ public class AccountController {
 				.queryParam("reprt_code", "11011")
 				.queryParam("fs_div", "OFS")
 				.build(false);
-		
 		ResponseEntity<AccountList> account = 
 				restTemplate.exchange(builder.toUriString(), HttpMethod.GET, new HttpEntity<String>(headers), new ParameterizedTypeReference<AccountList>() {});
 		AccountList accountlist = account.getBody();
 		accountService.FinancialData(accountlist);
-		
 		return new ResponseEntity<>(HttpStatus.OK);	
 	}
 	

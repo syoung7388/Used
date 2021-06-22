@@ -35,7 +35,10 @@ public class LikeServiceImpl implements LikeService {
 
 	@Override
 	public Auction DeleteLike(String l_username, int a_num) {
-		likeMapper.DeleteLike(l_username);
+		Like like = new Like();
+		like.setA_num(a_num);
+		like.setL_username(l_username);
+		likeMapper.DeleteLike(like);
 		Auction auction= auctionMapper.AucDetail(a_num);
 		return auction;
 	}
