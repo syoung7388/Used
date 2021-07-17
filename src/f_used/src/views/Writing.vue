@@ -15,8 +15,6 @@
                 </v-col>
                 <v-col 
                 cols="5"
-
-         
                 >
                     <v-select
                         v-model="industry"
@@ -27,9 +25,6 @@
                 </v-col>
                 <v-col
                 cols="5"
-            
-              
-            
                 >
                     <v-select
                         v-model="kind"
@@ -39,13 +34,11 @@
                     ></v-select>
                 </v-col>
             </v-row>
-            <v-row>
+            <v-row >
                 <v-col
                 class="py-0"
-                
                 cols="3">
                     <h1 style="font-size: 15px">제목</h1>
-                
                 </v-col>
                 <v-col
                 cols="9"
@@ -73,8 +66,7 @@
                     <v-textarea
                     v-model="content"
                     outlined
-                    rows="2"
-                        
+                    rows="10"         
                     >
                     </v-textarea>
                 </v-col>          
@@ -159,13 +151,12 @@
                 </v-col>
             </v-row>
             <v-row>
-                 <v-col
+                <v-col
                 cols="3"
                 class="py-0" 
                 >
                     <h1 style="font-size: 15px">마감기한</h1>               
-                </v-col>
-                
+                </v-col>       
                 <v-col cols="7"  class="py-0">
                     <v-select
                     :items="item"
@@ -173,16 +164,14 @@
                     v-model="day"
                     dense
                      class="mt-0"
-                    ></v-select>
-                
+                    ></v-select> 
                 </v-col> 
-
             </v-row >
-
-            <h1 class="primary--text my-5" style="font-size: 16px;" >사진 등록은 필수입니다!</h1>
-            <v-row align="center">
+            <h1 class="primary--text my-5  pt-3" style="font-size: 16px;" >사진 등록은 필수입니다!</h1>
+            <v-row align="center" class="pt-3 pb-4">
                 <v-col
                 cols="3"
+                
                 >
                     <input ref="imageInput" type="file"  @change="ChangeImages" hidden >
                     <v-btn

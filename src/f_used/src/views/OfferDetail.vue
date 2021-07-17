@@ -80,21 +80,7 @@
                     <v-tab class="ml-0" style="font-size: 15px;">제품 정보</v-tab>
 
                     <v-tab-item>
-                        <v-card flat class="pa-3"> 
-                            <div  v-for="(item, int) in offerInfo" :key="int">
-                                <v-row v-if="item.o_username !== null" align="center" justify="center">
-                                    <v-col cols="3" >
-                                        <h1 style="font-size: 18px; text-align:center" >{{int+1}}등</h1>
-                                    </v-col>
-                                    <v-col cols="5" >
-                                        <h1 style="font-size: 18px; text-align:center" >{{item.price}}원</h1>
-                                    </v-col>
-                                    <v-col cols="4">
-                                        <p style="font-size: 18px; text-align:center" class="mt-3">{{item.o_username}}님</p>
-                                    </v-col>
-                                </v-row>
-                            </div>
-                        </v-card>
+                        <OfferInfo></OfferInfo>
                     </v-tab-item>
                     <v-tab-item>
                         <v-card flat class="pt-3"> 
@@ -112,30 +98,7 @@
                         </v-card>
                     </v-tab-item>
                     <v-tab-item>
-                        <v-card flat class="pa-5">
-                            <v-simple-table>
-                                <template>
-                                    <tbody>
-                                        <tr class="text-center">
-                                            <td>종류</td>
-                                            <td>{{proInfo.kind}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td>업종</td>
-                                            <td>{{proInfo.industry}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td>브랜드</td>
-                                            <td>{{proInfo.brand}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td>연식</td>
-                                            <td>{{proInfo.year}}</td>
-                                        </tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
-                        </v-card>
+                        <ProductInfo></ProductInfo>
                     </v-tab-item>
                 </v-tabs>
                 <v-bottom-navigation
@@ -187,6 +150,8 @@
 import {mapState, mapActions , mapMutations} from 'vuex'
 import OfferOverlay from '@/components/OfferOverlay.vue'
 import {checkImg} from '@/mixins/checkImg.js'
+import ProductInfo from '@/components/DetailComponents/ProductInfo'
+import OfferInfo from '@/components/DetailComponents/OfferInfo'
 
 
 export default {
@@ -241,7 +206,9 @@ export default {
         ...mapActions(['OfferCancle', 'RemainDelete', 'Like', 'RemoveLike'])
     },
     components:{
-        OfferOverlay
+        OfferOverlay,
+        ProductInfo,
+        OfferInfo
 
     }
  

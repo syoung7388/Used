@@ -59,8 +59,7 @@
                     <v-list-item-title style="font-size: 11px; text-align: right">조회수: &nbsp;{{aucInfo.hits}}</v-list-item-title>
                     <v-list-item-title v-if="aucInfo.d_day < 0" style="font-size: 11px; text-align: right">d-day: &nbsp;D{{aucInfo.d_day}}</v-list-item-title>
                     <v-list-item-title v-else style="font-size: 11px; text-align: right">d-day: &nbsp;거래완료</v-list-item-title>
-                </v-col>
-                   
+                </v-col>          
             </v-row>
             <v-divider></v-divider>
                 <v-tabs
@@ -75,69 +74,13 @@
                     <v-tab class="ml-0" style="font-size: 15px;">게시물</v-tab>
                     <v-tab class="ml-0" style="font-size: 15px;">경매순위</v-tab>
                     <v-tab-item>
-                        <v-card flat class="px-3 py-5">
-                            <v-simple-table>
-                                <template>
-                                    <tbody>
-                                        <tr class="text-center">
-                                            <td style="font-size: 17px">종류</td>
-                                            <td style="font-size: 17px">{{proInfo.kind}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td style="font-size: 17px">업종</td>
-                                            <td style="font-size: 17px">{{proInfo.industry}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td style="font-size: 17px">브랜드</td>
-                                            <td style="font-size: 17px">{{proInfo.brand}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td style="font-size: 17px">연식</td>
-                                            <td style="font-size: 17px">{{proInfo.year}}</td>
-                                        </tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
-                        </v-card>
-            
+                        <ProductInfo></ProductInfo>
                     </v-tab-item>
                     <v-tab-item>
-                         <v-card class="px-4 py-5" flat>
-                            <v-simple-table>
-                                <template>
-                                    <tbody>
-                                        <tr>
-                                            <td style="font-weight: bold; font-size: 16px">{{aucInfo.title}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td  class="pt-5">{{aucInfo.content}}</td>
-                                        </tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
-                        </v-card>          
+                        <Board></Board>       
                     </v-tab-item>
                     <v-tab-item>
-                        <v-card flat class="py-1"> 
-                            <div  v-for="(item, int) in offerInfo" :key="int">
-                                <v-row v-if="item.o_username !== null" align="center" justify="center">
-                                    <v-col cols="3" >
-                                        <h1 style="font-size: 18px; text-align:center" >{{int+1}}등</h1>
-                                    </v-col>
-                                    <v-col cols="5" >
-                                        <h1 style="font-size: 18px; text-align:center" >{{item.price}}원</h1>
-                                    </v-col>
-                                    <v-col cols="4">
-                                        <p style="font-size: 18px; text-align:center" class="mt-3">{{item.o_username}}님</p>
-                                    </v-col>
-                                </v-row>
-                                <v-row v-else justify="center" align="center">
-                                    <v-col cols="10">
-                                        <h1 style="font-size: 15px; text-align: center" class="grey--text mt-5">현재 요청 대기중입니다</h1>
-                                    </v-col>
-                                </v-row>
-                            </div>
-                        </v-card>
+                        <OfferInfo></OfferInfo>
                     </v-tab-item>
                 </v-tabs> 
                 <v-bottom-navigation
@@ -201,10 +144,13 @@ import {mapActions, mapState} from 'vuex'
 import Edit from '@/components/Edit.vue'
 import OfferOverlay from '@/components/OfferOverlay.vue'
 import {checkImg} from '@/mixins/checkImg.js'
+import ProductInfo from '@/components/DetailComponents/ProductInfo'
+import Board from '@/components/DetailComponents/Board'
+import OfferInfo from '@/components/DetailComponents/OfferInfo'
+
 export default {
     mixins: [checkImg],
     beforeCreate(){
-        console.log(this.$store.state.offerInfo)
         this.$store.state.removeBar = true    
     },
     data(){
@@ -260,13 +206,16 @@ export default {
     },
     computed: { 
     
-        ...mapState(['edit_show', 'overlay', 'userInfo', 'heart','aucInfo','likeInfo','proInfo', 'offerInfo','addrInfo','beforeImage'])
+        ...mapState(['edit_show', 'overlay', 'userInfo', 'heart','aucInfo','likeInfo', 'offerInfo','addrInfo','beforeImage'])
       
 
     },
     components: {
         Edit,
-        OfferOverlay
+        OfferOverlay,
+        ProductInfo,
+        Board,
+        OfferInfo
     },
   
     

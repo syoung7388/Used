@@ -62,20 +62,18 @@
             </v-list-item>
             <v-divider class="mb-5"></v-divider>
         </v-list>
-         <v-row justify="center">
-                <v-col cols="4">
-                    <v-btn outlined small color="grey" @click="Logout"> 
-                        <span class="black--text">로그아웃</span>
-                    </v-btn>
-                </v-col>
-            </v-row>
-            <v-row justify="center">
-                <v-col cols="8">
-                    <v-btn text @click="Edit" router :to="{name: 'UserDelete'}">
-                        <p style="font-size:10px;" class="grey--text" >계정삭제를 원하시면 클릭해주세요</p>
-                    </v-btn>
-                </v-col>
-            </v-row>
+        <div  class="text-center">
+                <v-btn outlined small color="grey" @click="Logout" class="ml-3"> 
+                    <h1 class="black--text ml-1" style="font-size:15px; text-align:center">로그아웃</h1>
+                </v-btn>
+        </div>
+        <div class="text-center pt-5">
+            <v-btn text @click="Edit" router :to="{name: 'UserDelete'}"  >
+                <p style="font-size:10px;" class="grey--text" >계정삭제를 원하시면 클릭해주세요</p>
+            </v-btn>
+        </div>
+     
+
         </v-container>
         <v-container v-show="Eshow === true">
             <router-view></router-view>

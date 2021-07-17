@@ -127,45 +127,23 @@
                             </v-col>
                         </v-row>
                         <v-card color="secondary" height="25" id="sale" flat tile class="my-4"></v-card>
-                        <v-card flat>
-                            <v-simple-table >
-                                <template>
-                                    <tbody>
-                                        <tr class="text-center" >
-                                            <td style="font-size: 18px" >종류</td>
-                                            <td style="font-size: 18px">{{proInfo.kind}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td style="font-size: 18px">업종</td>
-                                            <td style="font-size: 18px">{{proInfo.industry}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td style="font-size: 18px">브랜드</td>
-                                            <td style="font-size: 18px">{{proInfo.brand}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td style="font-size: 18px">연식</td>
-                                            <td style="font-size: 18px">{{proInfo.year}}</td>
-                                        </tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
-                        </v-card>
-               
+                        <ProductInfo></ProductInfo>
                     </v-tab-item>
                 </v-tabs>
         </v-container>
-
     </v-app>
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex'
-
+import ProductInfo from '@/components/DetailComponents/ProductInfo'
 import {checkImg} from '@/mixins/checkImg.js'
 
 export default {
     mixins: [checkImg],
+    components:{
+        ProductInfo
+    },
     beforeCreate(){
         this.$store.state.removeBar =true
     },

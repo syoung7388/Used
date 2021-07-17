@@ -32,8 +32,7 @@ dependencies {
 	compile group: 'net.nurigo', name: 'javaSDK', version: '2.2'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'	
-	    
- 
+
 	
 	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
 	compile('javax.servlet:jstl:1.2')

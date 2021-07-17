@@ -1,10 +1,8 @@
 
-
 <script>
 import { mapState } from 'vuex'
 import {Bar} from 'vue-chartjs'
 export default {
-
     extends: Bar,
     data(){
         return{
@@ -44,23 +42,12 @@ export default {
             }
         }
     },
-    
-
-
     computed: {
         ...mapState(['total', 'month'])
-
     },
     mounted(){
         this.renderChart(this.datacollection, this.options)
     },
-
-
- 
-
-
-
-
 
 }
 </script>

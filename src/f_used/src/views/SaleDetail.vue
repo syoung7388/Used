@@ -91,46 +91,10 @@
                     <v-tab class="ml-0" style="font-size: 15px;">제품정보</v-tab>
                     <v-tab class="ml-0" style="font-size: 15px;" v-show="aucInfo.sale === 0">경매순위</v-tab>                      
                     <v-tab-item>
-                         <v-card class="px-4 py-5" flat>
-                            <v-simple-table>
-                                <template>
-                                    <tbody>
-                                        <tr>
-                                            <td style="font-weight: bold; font-size: 16px">{{aucInfo.title}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td  class="pt-5">{{aucInfo.content}}</td>
-                                        </tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
-                        </v-card>          
+                        <Board></Board>         
                     </v-tab-item>
                     <v-tab-item>
-                        <v-card flat class="px-5 py-5" >
-                            <v-simple-table>
-                                <template  >
-                                    <tbody>
-                                        <tr class="text-center">
-                                            <td style="font-size: 17px">종류</td>
-                                            <td style="font-size: 17px">{{proInfo.kind}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td style="font-size: 17px">업종</td>
-                                            <td style="font-size: 17px">{{proInfo.industry}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td style="font-size: 17px">브랜드</td>
-                                            <td style="font-size: 17px">{{proInfo.brand}}</td>
-                                        </tr>
-                                        <tr class="text-center">
-                                            <td style="font-size: 17px">연식</td>
-                                            <td style="font-size: 17px">{{proInfo.year}}</td>
-                                        </tr>
-                                    </tbody>
-                                </template>
-                            </v-simple-table>
-                        </v-card>
+                        <ProductInfo></ProductInfo>
                     </v-tab-item>
                     <v-tab-item  v-if="aucInfo.sale === 0">
                         <v-card flat class="pa-5"> 
@@ -177,7 +141,8 @@
 import {mapState, mapActions , mapMutations} from 'vuex'
 import Edit from '@/components/Edit.vue'
 import {checkImg} from '@/mixins/checkImg.js'
-
+import ProductInfo from '@/components/DetailComponents/ProductInfo'
+import Board from '@/components/DetailComponents/Board'
 export default {
     mixins: [checkImg],
     beforeCreate(){
@@ -213,7 +178,9 @@ export default {
         ...mapActions(['SaleDelete', 'SelectOffer'])
     },
     components: {
-        Edit
+        Edit,
+        ProductInfo,
+        Board
     }
     
 }
